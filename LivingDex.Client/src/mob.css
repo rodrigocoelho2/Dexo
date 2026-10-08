@@ -124,6 +124,11 @@
   .mob-sheet{position:absolute;left:0;right:0;bottom:0;max-height:90dvh;overflow:auto;border-radius:26px 26px 0 0;background:var(--panel);
     box-shadow:0 -1px 0 #2f3d68,0 -20px 40px rgba(0,0,0,.5);padding:8px 16px calc(24px + env(safe-area-inset-bottom));animation:mobup .25s cubic-bezier(.2,.8,.2,1);overscroll-behavior:contain}
   .mob-handle{width:40px;height:5px;border-radius:3px;background:#3a4870;margin:2px auto 10px}
+  .mob-sheet{transition:transform .26s cubic-bezier(.2,.8,.2,1)}
+  .mob-sheet.drag{transition:none}
+  .mob-scrim{transition:opacity .26s}
+  .mob-sheetwrap.closing .mob-sheet{transition:transform .24s cubic-bezier(.4,0,1,1)}
+  .mob-sheetwrap.closing{pointer-events:none}
   .mob-sbody{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
   @keyframes mobup{from{transform:translateY(40%);opacity:.4}} @keyframes mobfade{from{opacity:0}}
   .mob-sh{margin:0;font-weight:400;font-family:var(--tiny);font-size:.6rem;letter-spacing:.14em;color:var(--muted);display:flex;justify-content:space-between}

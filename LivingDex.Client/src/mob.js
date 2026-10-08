@@ -49,10 +49,22 @@ function mobBuild(){
   // one sheet, reused
   const sh=document.createElement('div'); sh.id='mobSheet'; sh.className='mob-sheetwrap'; sh.hidden=true;
   sh.innerHTML='<div class="mob-scrim"></div><div class="mob-sheet" role="dialog" aria-modal="true"><div class="mob-handle"></div><div class="mob-sbody"></div></div>';
-  document.body.appendChild(sh); sh.querySelector('.mob-scrim').onclick=mobCloseSheet;
-  let ty=0; const shEl=sh.querySelector('.mob-sheet');
-  shEl.addEventListener('touchstart',e=>{ ty=shEl.scrollTop<=0?e.touches[0].clientY:-1; },{passive:true});
-  shEl.addEventListener('touchend',e=>{ if(ty>=0&&e.changedTouches[0].clientY-ty>90) mobCloseSheet(); },{passive:true});
+  document.body.appendChild(sh); sh.querySelector('.mob-scrim').onclick=mobDismissSheet;
+  // pull the sheet down with a finger: it follows, then closes (past a third, or with a quick flick) or springs back
+  const shEl=sh.querySelector('.mob-sheet'), scrim=sh.querySelector('.mob-scrim');
+  let d=null;
+  shEl.addEventListener('touchstart',e=>{ const t=e.touches[0]; d=shEl.scrollTop<=0?{x:t.clientX,y:t.clientY,t:Date.now(),dy:0,on:false}:null; },{passive:true});
+  shEl.addEventListener('touchmove',e=>{
+    if(!d) return; const t=e.touches[0], dx=t.clientX-d.x, dy=t.clientY-d.y;
+    if(!d.on){ if(dy<6||Math.abs(dx)>dy||shEl.scrollTop>0){ if(dy<0||Math.abs(dx)>Math.abs(dy)) d=null; return; } d.on=true; d.y=t.clientY; d.t=Date.now(); shEl.classList.add('drag'); }
+    e.preventDefault(); d.dy=Math.max(0,t.clientY-d.y);
+    shEl.style.transform=`translateY(${d.dy}px)`; scrim.style.opacity=String(Math.max(0,1-d.dy/shEl.offsetHeight));
+  },{passive:false});
+  const release=()=>{ if(!d||!d.on){ d=null; return; }
+    const v=d.dy/Math.max(1,Date.now()-d.t), far=d.dy>shEl.offsetHeight*.3; shEl.classList.remove('drag');
+    if(far||(v>.5&&d.dy>40)) mobDismissSheet(); else { shEl.style.transform=''; scrim.style.opacity=''; }
+    d=null; };
+  shEl.addEventListener('touchend',release,{passive:true}); shEl.addEventListener('touchcancel',release,{passive:true});
   // swipe the box sideways to change boxes
   let sx=0,sy=0; const box=$('box');
   box.addEventListener('touchstart',e=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
@@ -133,12 +145,20 @@ function mobSheet(kind){
   w.querySelector('.mob-sheet').scrollTop=0;
   if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body); else if(kind==='bbadge') mobBattleBadgeSheet(body);
 }
+// closes the sheet by sliding it down (tap outside, pull down, Esc); mobCloseSheet closes it at once
+function mobDismissSheet(){
+  const w=$('mobSheet'); if(!w||w.hidden||w.classList.contains('closing')) return;
+  const sheet=w.querySelector('.mob-sheet'), done=()=>{ clearTimeout(timer); sheet.removeEventListener('transitionend',done); mobCloseSheet(); };
+  w.classList.add('closing'); sheet.style.transform='translateY(100%)'; w.querySelector('.mob-scrim').style.opacity='0';
+  sheet.addEventListener('transitionend',done); const timer=setTimeout(done,320);
+}
 function mobCloseSheet(){
   const w=$('mobSheet'); if(!w||w.hidden) return;
+  w.classList.remove('closing'); const sheet=w.querySelector('.mob-sheet'); sheet.style.transform=''; sheet.classList.remove('drag'); w.querySelector('.mob-scrim').style.opacity='';
   if(MOBS.sheet==='mon') mobLowerHome();
   w.hidden=true; MOBS.sheet=null; MOBS.monKey=''; document.body.classList.remove('mob-locked');
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&MOBS.sheet) mobCloseSheet(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&MOBS.sheet) mobDismissSheet(); });
 
 function mobMonSheet(){
   const body=$('mobSheet').querySelector('.mob-sbody');
