@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.Build.Sql/1.0.0">
+<Project Sdk="Microsoft.Build.Sql/2.1.0">
 
   <!-- SQL Server database of LivingDex: tables and stored procedures. Builds to LivingDex.Database.dacpac,
        which the db-deploy container publishes on every deploy (creates the database or brings it up to date). -->
