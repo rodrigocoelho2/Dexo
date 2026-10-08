@@ -6,6 +6,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+# contents: write lets each job push its logs and screenshots to a ci-output-* branch for review.
+permissions:
+  contents: write
+
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -35,15 +39,16 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore
-        run: dotnet restore LivingDex.slnx
+        run: mkdir -p ci-output && dotnet restore LivingDex.slnx 2>&1 | tee ci-output/1-restore.log
 
       - name: Build (Library, WebApi, UnitTest and the LivingDex.Database dacpac)
-        run: dotnet build LivingDex.slnx -c Release --no-restore
+        run: dotnet build LivingDex.slnx -c Release --no-restore 2>&1 | tee ci-output/2-build.log
 
       - name: Publish the dacpac to SQL Server
         env:
           DOTNET_ROLL_FORWARD: Major
         run: |
+          exec > >(tee ci-output/3-dacpac.log) 2>&1
           dotnet tool install --global microsoft.sqlpackage
           dacpac=$(find LivingDex.Database/bin -name 'LivingDex.Database.dacpac' | head -n 1)
           sqlpackage /Action:Publish /SourceFile:"$dacpac" \
@@ -62,28 +67,29 @@ jobs:
         run: >-
           dotnet test LivingDex.UnitTest/LivingDex.UnitTest.csproj -c Release --no-build
           --logger "trx;LogFileName=tests.trx" --logger "console;verbosity=normal" --results-directory TestResults
+          2>&1 | tee ci-output/4-test.log
 
-      - name: Upload test results
+      - name: Push the logs to the ci-output-build branch
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: TestResults/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: .github/scripts/push-output.sh ci-output-build
 
   compose:
     name: Docker Compose end to end
     runs-on: ubuntu-latest
-    needs: build-test
     steps:
       - uses: actions/checkout@v4
 
       - name: Start SQL Server, deploy the database and start the app
         run: |
+          mkdir -p ci-output
           echo "SQL_SA_PASSWORD=$SA_PASSWORD" > .env
-          docker compose up -d --build --wait livingdex || (docker compose ps -a; docker compose logs; exit 1)
+          docker compose up -d --build --wait livingdex 2>&1 | tee ci-output/1-compose-up.log
 
       - name: Smoke test
         run: |
+          exec > >(tee ci-output/2-smoke.log) 2>&1
           set -e
           for i in $(seq 1 60); do curl -fs http://localhost:8085/api/health && break; sleep 2; done
           echo
@@ -110,15 +116,13 @@ jobs:
         run: |
           pip install --quiet playwright==1.55.0
           python -m playwright install --with-deps chromium > /dev/null
-          python .github/scripts/screenshots.py http://localhost:8085 screenshots
+          python .github/scripts/screenshots.py http://localhost:8085 ci-output/screenshots 2>&1 | tee ci-output/3-screenshots.log
 
-      - name: Upload screenshots
+      - name: Push the logs and screenshots to the ci-output-compose branch
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshots
-          path: screenshots/
-
-      - name: Logs
-        if: always()
-        run: docker compose logs --no-color | tail -n 300
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker compose ps -a > ci-output/9-compose-ps.log 2>&1 || true
+          docker compose logs --no-color > ci-output/9-compose-logs.log 2>&1 || true
+          .github/scripts/push-output.sh ci-output-compose
