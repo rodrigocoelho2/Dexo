@@ -1146,7 +1146,9 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .pf-x{margin-left:auto;border:0;background:none;width:30px;height:30px;border-radius:50%;color:hsl(calc(var(--h) + 1) calc(20% * var(--sat)) 44%);font-size:1rem;display:grid;place-items:center}
 .pf-x:hover{background:rgba(0,0,0,.08)}
 .pf-b{display:grid;grid-template-columns:440px minmax(0,1fr);gap:16px;padding:16px 18px 10px}
-.pf-col{display:grid;gap:14px;align-content:start;min-width:0}
+.pf-col{display:flex;flex-direction:column;gap:14px;min-width:0}
+/* both columns end at the same line: the last widget of each takes the spare height */
+.pf-col>.pf-box:last-child{flex:1}
 .pf-box{border-radius:12px;background:hsl(calc(var(--h) + 3) calc(52% * var(--sat)) 12%);box-shadow:inset 0 0 0 1.5px var(--line);padding:12px 14px}
 .pf-bh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;font-family:var(--tiny);font-size:.52rem;letter-spacing:.16em;color:var(--muted)}
 .pf-bh b{color:var(--ink);font-weight:400}
@@ -1157,6 +1159,7 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .pf-btn:hover{filter:brightness(1.1)}
 .pf-card{--edge1:#a99be0;--edge2:#5d4fa0;--plate:hsl(calc(var(--h) + 4) calc(32% * var(--sat)) 13%);--gold:#ffd23f}
 .pf-card .s-tcard{min-height:0}
+.pf-card .s-bcase{display:none}   /* the battle badges have their own widget on the right */
 .pf-st4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .pf-st4 div{border-radius:10px;background:hsl(calc(var(--h) + 2) calc(55% * var(--sat)) 10%);box-shadow:inset 0 0 0 1px hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);padding:8px 4px;text-align:center;font-size:1.15rem}
 .pf-st4 small{display:block;font-family:var(--tiny);font-size:.42rem;letter-spacing:.12em;color:var(--muted);margin-top:3px}
@@ -1167,6 +1170,8 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .pf-wl i{display:block;height:100%}
 .pf-wl i.w{background:#5fd38a}.pf-wl i.l{background:#d9545e}
 .pf-gl em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:hsl(calc(var(--h) + 7) calc(100% * var(--sat)) 89%);font-size:.82rem}
+.pf-col>.pf-box:last-child:has(.pf-last){display:flex;flex-direction:column}
+.pf-col>.pf-box:last-child .pf-last{margin-top:auto}
 .pf-last{display:flex;gap:10px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px dashed hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);font-size:.85rem;color:hsl(calc(var(--h) + 7) calc(100% * var(--sat)) 89%)}
 .pf-res{font-family:var(--tiny);font-size:.46rem;letter-spacing:.1em;padding:3px 6px;border-radius:4px;background:#1f3d2c;color:#5fd38a}
 .pf-res.loss{background:#3d1f26;color:#ff8a8a}.pf-res.draw{background:hsl(calc(var(--h) + 6) calc(26% * var(--sat)) 22%);color:var(--muted)}
@@ -1208,6 +1213,15 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .pf-ct small{font-family:var(--tiny);font-size:.4rem;letter-spacing:.08em;color:var(--muted)}
 .pf-ct.sh b::before{content:"★ ";color:#ffd23f}
 @media (max-width:1100px){.pf-b{grid-template-columns:minmax(0,1fr)}}
+.pf-bbs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.pf-bb{border:0;background:none;color:inherit;padding:4px 2px;border-radius:8px;display:grid;justify-items:center;gap:6px;cursor:pointer;min-width:0}
+.pf-bb:hover{background:hsl(calc(var(--h) + 3) calc(49% * var(--sat)) 16%)}
+.pf-bb.sel{outline:2px solid #ffd23f;outline-offset:1px}
+.pf-bb small{font-family:var(--tiny);font-size:.4rem;letter-spacing:.06em;line-height:1.3;text-align:center;color:var(--ink)}
+.pf-bb.off small{color:hsl(calc(var(--h) + 5) calc(23% * var(--sat)) 44%)}
+.pf-bgens{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.pf-bgens i{font-style:normal;font-family:var(--tiny);font-size:.4rem;letter-spacing:.08em;padding:3px 5px;border-radius:4px;background:hsl(calc(var(--h) + 3) calc(52% * var(--sat)) 12%);color:hsl(calc(var(--h) + 5) calc(23% * var(--sat)) 44%)}
+.pf-bgens i.on{background:color-mix(in srgb,var(--c) 30%,hsl(calc(var(--h) + 3) calc(52% * var(--sat)) 12%));color:var(--ink)}
 
 /* ====================== PHONE LAYOUT (≤ 700 px). Nothing here applies on a PC. ====================== */
 .mobonly,.mob-sheetwrap{display:none}
@@ -1513,6 +1527,10 @@ button.b2-fbadge:active{transform:translateY(.12em)}
   .mob-dsheet p{margin:0;font-size:.88rem;line-height:1.5;color:hsl(calc(var(--h) + 5) calc(47% * var(--sat)) 77%)}
   .mob-dsheet .br{width:70%;height:6px}
   .mob-dsheet small{font-family:var(--tiny);font-size:.46rem;letter-spacing:.12em;color:var(--muted)}
+  .mob-dsheet small.got{color:color-mix(in srgb,var(--c) 70%,#fff)}
+  .mob-bgens{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .mob-bgens i{font-style:normal;font-family:var(--tiny);font-size:.44rem;letter-spacing:.08em;padding:3px 6px;border-radius:5px;background:hsl(calc(var(--h) + 4) calc(42% * var(--sat)) 20%);color:hsl(calc(var(--h) + 5) calc(23% * var(--sat)) 44%)}
+  .mob-bgens i.on{background:color-mix(in srgb,var(--c) 30%,hsl(calc(var(--h) + 3) calc(52% * var(--sat)) 12%));color:var(--ink)}
   .dexb-get-wrap{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;background:hsl(calc(var(--h) + 2) calc(58% * var(--sat)) 4% / .62);animation:dexbfade .2s ease-out}
   .dexb-get{position:relative;width:min(100%,340px);border-radius:22px;background:linear-gradient(hsl(calc(var(--h) + 3) calc(45% * var(--sat)) 19%),hsl(calc(var(--h) + 3) calc(48% * var(--sat)) 14%));box-shadow:0 0 0 2px hsl(calc(var(--h) + 4) calc(39% * var(--sat)) 37%),0 30px 60px rgba(0,0,0,.6);padding:22px 18px 20px;display:grid;justify-items:center;gap:10px;text-align:center;overflow:hidden}
   .dexb-get::before{content:"";position:absolute;inset:-40% -10% auto;height:230px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 45%,transparent),transparent);pointer-events:none}
@@ -2743,6 +2761,20 @@ function meCard(){ const t=trainer(sdMe())||{id:sdMe(),name:SYNC.user.username,w
   return {...t,livingDex:(st.caught['home|normal']||[]).length}; }
 const CPU_CARD={id:0,name:'CPU',cpu:true,partner:137,partnerShiny:false};
 const BADGES=[['first-win','First Win','Win your first battle against another trainer','#f2c40c'],['ten-wins','Ten Wins','Win 10 battles','#5fd38a'],['on-fire','On Fire','Win 5 battles in a row','#f08030'],['last-stand','Last Stand','Win with only 1 Pokémon left','#ef3d4f'],['sweeper','Sweeper','Knock out 3 Pokémon with the same one','#7038f8'],['flawless','Flawless','Win without losing a single Pokémon','#78c8c8'],['veteran','Veteran','Play 50 battles','#a0a0c0'],['time-traveller','Time Traveller','Win in all five generations (Gen 1 to Gen 5)','#f85888']];
+// Progress towards one battle badge, for the badge pop-ups (PC profile, phone Trainer tab).
+// t is a trainer card, stats the /api/showdown/me/stats rows. Null for one-off feats with nothing to count.
+function bbProgress(id,t,stats){
+  const wins=t.wins||0, played=t.played!=null?t.played:wins+(t.losses||0);
+  switch(id){
+    case 'first-win': return {have:Math.min(wins,1),need:1,unit:'WINS'};
+    case 'ten-wins': return {have:Math.min(wins,10),need:10,unit:'WINS'};
+    case 'on-fire': return {have:Math.min(t.streak||0,5),need:5,unit:'CURRENT STREAK'};
+    case 'veteran': return {have:Math.min(played,50),need:50,unit:'BATTLES'};
+    case 'time-traveller': { if(!stats) return null; const g=new Set(stats.filter(r=>r.wins>0).map(r=>sdGenOf(r.format)));
+      return {have:g.size,need:5,unit:'GENERATIONS',gens:[1,2,3,4,5].map(x=>({g:x,on:g.has(x)}))}; }
+  }
+  return null;
+}
 function badgeCase(have){ const h=new Set(have);
   return `<div class="s-bcase"><span class="s-lbl">BADGES · ${BADGES.filter(b=>h.has(b[0])).length}/8</span>${BADGES.map(b=>`<span class="s-badge${h.has(b[0])?'':' off'}" style="--c:${b[3]}" title="${esc(b[1])}: ${esc(b[2])}${h.has(b[0])?'':' (not yet)'}" role="img" aria-label="${esc(b[1])}: ${esc(b[2])}, ${h.has(b[0])?'earned':'not earned yet'}"></span>`).join('')}</div>`; }
 function cardEl(t,o={}){
@@ -3578,6 +3610,12 @@ function pfCatch(l){
   e.shiny=shiny; const g=GAMES.find(x=>x.k===gk);
   return {e,name:String(l.n||SP.get(e.sid).en).replace(/^★\s*/,''),game:g?g.s:gk.toUpperCase(),ts:l.ts};
 }
+function pfKeptLog(){
+  const sets=new Map(), seen=new Set();
+  const marked=k=>{ const p=String(k||'').split('|'), slot=p[0]+'|'+p[1];
+    if(!sets.has(slot)) sets.set(slot,new Set((st.caught||{})[slot]||[])); return sets.get(slot).has(p.slice(2).join('|')); };
+  return (st.log||[]).filter(l=>{ if(seen.has(l.k)||!marked(l.k)) return false; seen.add(l.k); return true; });
+}
 function pfDexStats(){
   const H=DEXB_HOME(), n=cset(H,'normal'), pct=(v)=>{ const L=entries(H,'all',v), c=cset(H,v); return L.length?Math.round(L.filter(e=>c.has(e.key)).length*100/L.length):0; };
   const total=ALL_IDS.filter(id=>n.has('s:'+id)).length;
@@ -3586,19 +3624,32 @@ function pfDexStats(){
   return {total,shiny:cset(H,'shiny').size,forms:pct('forms'),gender:pct('gender'),origin,done,games:games.length};
 }
 function pfClosePop(){ if(PF.pop){ PF.pop.remove(); PF.pop=null; } if(PF.sel){ PF.sel.classList.remove('sel'); PF.sel=null; } }
-function pfBadgePop(btn){
+// a small pop-up under a badge with what it is for and how far you are
+function pfPop(btn,color,label,html){
   if(PF.sel===btn){ pfClosePop(); return; } pfClosePop();
-  const p=dexbProgress().find(x=>x.b.id===btn.dataset.db); if(!p) return;
-  const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need), box=btn.closest('.pf-box');
-  const pop=document.createElement('div'); pop.className='pf-pop'; pop.style.setProperty('--c',p.b.c); pop.setAttribute('role','dialog'); pop.setAttribute('aria-label',p.b.name);
-  pop.innerHTML=`${dexbGem(p.b,on,52)}<h4>${esc(p.b.name)}</h4><p>${esc(p.b.how)}.</p>`+
-    (on?`<small class="got">EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`
-       :`<span class="pf-bar"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`);
+  const box=btn.closest('.pf-box');
+  const pop=document.createElement('div'); pop.className='pf-pop'; pop.style.setProperty('--c',color); pop.setAttribute('role','dialog'); pop.setAttribute('aria-label',label);
+  pop.innerHTML=html;
   box.style.position='relative'; box.appendChild(pop);
   const br=btn.getBoundingClientRect(), xr=box.getBoundingClientRect(), w=250;
   let left=br.left-xr.left+br.width/2-w/2; left=Math.max(8,Math.min(left,xr.width-w-8));
   pop.style.left=left+'px'; pop.style.top=(br.bottom-xr.top+12)+'px'; pop.style.setProperty('--ax',(br.left-xr.left+br.width/2-left)+'px');
   btn.classList.add('sel'); PF.sel=btn; PF.pop=pop;
+}
+function pfBadgePop(btn){
+  const p=dexbProgress().find(x=>x.b.id===btn.dataset.db); if(!p) return;
+  const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need);
+  pfPop(btn,p.b.c,p.b.name,`${dexbGem(p.b,on,52)}<h4>${esc(p.b.name)}</h4><p>${esc(p.b.how)}.</p>`+
+    (on?`<small class="got">EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`
+       :`<span class="pf-bar"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`));
+}
+function pfBattlePop(btn){
+  const b=BADGES.find(x=>x[0]===btn.dataset.bb); if(!b) return;
+  const t=meCard(), on=(t.badges||[]).includes(b[0]), p=bbProgress(b[0],t,PF.stats);
+  pfPop(btn,b[3],b[1],`<span class="dexb-gem${on?'':' off'}" style="--c:${b[3]};--s:52px"></span><h4>${esc(b[1])}</h4><p>${esc(b[2])}.</p>`+
+    (on?`<small class="got">EARNED · BATTLE BADGE</small>`
+       :p?`<span class="pf-bar"><i style="width:${Math.round(p.have*100/p.need)}%"></i></span>${p.gens?`<span class="pf-bgens">${p.gens.map(x=>`<i class="${x.on?'on':''}">GEN ${x.g}</i>`).join('')}</span>`:''}<small>${p.have} / ${p.need} ${esc(p.unit)} · ${p.need-p.have} TO GO</small>`
+       :`<small>NOT EARNED YET · VS TRAINERS ONLY</small>`));
 }
 function pfRender(){
   const u=SYNC.user||{username:'?'}, L=$('pfLeft'), R=$('pfRight');
@@ -3628,17 +3679,22 @@ function pfRender(){
   let gems='', grp='';
   DEXB.forEach(b=>{ if(grp&&b.grp!==grp) gems+='<span class="pf-gsep" aria-hidden="true"></span>'; grp=b.grp;
     const on=!!(st.dexb&&st.dexb[b.id]); gems+=`<button type="button" class="dexb-gem${on?'':' off'}" style="--c:${b.c};--s:32px" data-db="${b.id}" aria-label="${esc(b.name)}${on?', earned':''}"><b class="${b.gl.length>3?'sm':''}">${esc(b.gl)}</b></button>`; });
-  const log=(st.log||[]).map(pfCatch).filter(Boolean), week=(st.log||[]).filter(l=>Date.now()-l.ts<7*864e5).length;
+  // only catches still in the boxes (unmarking keeps the log entry), newest first, each Pokémon once
+  const kept=pfKeptLog(), log=kept.map(pfCatch).filter(Boolean), week=kept.filter(l=>Date.now()-l.ts<7*864e5).length;
   R.innerHTML=`<div class="pf-box"><div class="pf-bh"><span>LIVING DEX · POKÉMON HOME</span><b>NATIONAL · NORMAL</b></div>
       <div class="pf-dexhead"><div class="pf-ring" style="--p:${p}"><div>${p}%<small>DONE</small></div></div>
         <div><div class="pf-big">${d.total} <small>/ 1025</small></div>
         <div class="pf-chips"><span class="pf-chip">Shiny <b>${d.shiny}</b></span><span class="pf-chip">Forms <b>${d.forms}%</b></span><span class="pf-chip">Genders <b>${d.gender}%</b></span><span class="pf-chip">Origin <b>${d.origin}</b></span><span class="pf-chip">Games done <b>${d.done} / ${d.games}</b></span></div></div></div>
       <div class="pf-regions">${regs}</div></div>
+    ${SD.on?(()=>{ const have=new Set(meCard().badges||[]);
+      return `<div class="pf-box"><div class="pf-bh"><span>BATTLE BADGES</span><b>${BADGES.filter(b=>have.has(b[0])).length} / ${BADGES.length}</b></div>
+      <div class="pf-bbs">${BADGES.map(b=>`<button type="button" class="pf-bb${have.has(b[0])?'':' off'}" data-bb="${b[0]}" aria-label="${esc(b[1])}${have.has(b[0])?', earned':''}"><span class="dexb-gem${have.has(b[0])?'':' off'}" style="--c:${b[3]};--s:32px"></span><small>${esc(b[1].toUpperCase())}</small></button>`).join('')}</div></div>`; })():''}
     <div class="pf-box"><div class="pf-bh"><span>DEX BADGES</span><b>${dexbCount()} / ${DEXB.length}</b></div><div class="pf-gems">${gems}</div><div class="pf-tip">Click a badge to see what it's for.</div></div>
     <div class="pf-box"><div class="pf-bh"><span>RECENT CATCHES</span><b>LAST 7 DAYS · ${week}</b></div>
       ${log.length?`<div class="pf-catches">${log.slice(0,6).map((c,i)=>`<div class="pf-ct${c.e.shiny?' sh':''}"><span class="pf-spr" data-i="${i}"></span><b>${esc(c.name)}</b><small>${esc(c.game)} · ${pfAgo(c.ts)}</small></div>`).join('')}</div>`:'<p class="pf-empty">Mark a Pokémon in your boxes and it shows up here.</p>'}</div>`;
   log.slice(0,6).forEach((c,i)=>{ const slot=R.querySelector(`.pf-spr[data-i="${i}"]`); if(slot) slot.appendChild(imgEl(spriteChain(c.e,false),c.name)); });
   R.querySelectorAll('.pf-gems [data-db]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); SFX.tab(); pfBadgePop(b); });
+  R.querySelectorAll('.pf-bbs [data-bb]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); SFX.tab(); pfBattlePop(b); });
 }
 async function pfOpen(){
   closeAccount(); dexbUpdate();
@@ -3652,7 +3708,7 @@ function pfClose(){ pfClosePop(); PF.open=false; $('pfWrap').hidden=true; }
 $('acctProfile').onclick=()=>{ SFX.tab(); pfOpen(); };
 $('pfX').onclick=pfClose; $('pfClose').onclick=pfClose; $('pfScrim').onclick=pfClose;
 $('pfPartner').onclick=()=>{ const b=$('pfLeft').querySelector('.s-partner button'); if(b) b.click(); };
-$('pfWin').addEventListener('click',e=>{ if(PF.pop&&!PF.pop.contains(e.target)&&!e.target.closest('[data-db]')) pfClosePop(); });
+$('pfWin').addEventListener('click',e=>{ if(PF.pop&&!PF.pop.contains(e.target)&&!e.target.closest('[data-db],[data-bb]')) pfClosePop(); });
 document.addEventListener('keydown',e=>{ if(e.key!=='Escape'||!PF.open) return; if(PF.pop) pfClosePop(); else pfClose(); });
 
 /* ====================================================================================
@@ -3788,7 +3844,7 @@ function mobSheet(kind){
   if(MOBS.sheet==='mon'&&kind!=='mon') mobLowerHome();
   MOBS.sheet=kind; w.hidden=false; document.body.classList.add('mob-locked');
   w.querySelector('.mob-sheet').scrollTop=0;
-  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body);
+  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body); else if(kind==='bbadge') mobBattleBadgeSheet(body);
 }
 function mobCloseSheet(){
   const w=$('mobSheet'); if(!w||w.hidden) return;
@@ -3850,18 +3906,20 @@ async function mobTrainer(){
   const el=$('mobCard');
   if(!SD.on){ el.innerHTML='<p class="mob-empty">Battles are turned off on this server.</p>'; return; }
   if(!el.childElementCount) el.innerHTML='<p class="mob-empty">Loading…</p>';
-  await sdLoadLobbyData(); if(MOBS.tab!=='card') return;
+  await Promise.all([sdLoadLobbyData(),api('GET','/api/showdown/me/stats').then(r=>r.ok?r.json():null).then(j=>{ if(j) MOBS.bstats=j; }).catch(()=>{})]);
+  if(MOBS.tab!=='card') return;
   const dx=dexbUpdate();
   const t=meCard(), played=t.played!=null?t.played:(t.wins||0)+(t.losses||0), wl=(t.wins||0)+(t.losses||0), have=new Set(t.badges||[]);
   el.innerHTML=`<div class="mob-cardslot"></div>
     <div class="mob-stats"><div><b>${played}</b><span>BATTLES</span></div><div><b>${wl?Math.round((t.wins||0)*100/wl)+'%':'—'}</b><span>WIN RATE</span></div><div><b>${t.streak||0}</b><span>STREAK</span></div></div>
     <div class="mob-lbl"><span>BADGES</span><span>${BADGES.filter(b=>have.has(b[0])).length} / ${BADGES.length}</span></div>
-    <div class="mob-badges">${BADGES.map(b=>`<div class="mob-bdg${have.has(b[0])?'':' off'}" style="--c:${b[3]}" title="${esc(b[1])}: ${esc(b[2])}"><i></i><span>${esc(b[1].toUpperCase())}</span></div>`).join('')}</div>
+    <div class="mob-badges mob-dexb">${BADGES.map(b=>`<button type="button" class="mob-bdg${have.has(b[0])?'':' off'}" style="--c:${b[3]}" data-bb="${b[0]}" aria-label="${esc(b[1])}"><i></i><span>${esc(b[1].toUpperCase())}</span></button>`).join('')}</div>
     <div class="mob-lbl"><span>DEX BADGES</span><span>${dexbCount()} / ${DEXB.length}</span></div>
     <div class="mob-badges mob-dexb">${DEXB.map(b=>{ const on=!!(st.dexb&&st.dexb[b.id]); return `<button type="button" class="mob-bdg${on?'':' off'}" style="--c:${b.c}" data-db="${b.id}" aria-label="${esc(b.name)}">${dexbGem(b,on,30)}<span>${esc(b.name.toUpperCase())}</span></button>`; }).join('')}</div>
 `;
   el.querySelector('.mob-cardslot').appendChild(cardEl(t,{label:'TRAINER CARD',editable:true}));
   el.querySelectorAll('[data-db]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.badge=b.dataset.db; mobSheet('badge'); });
+  el.querySelectorAll('[data-bb]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.bbadge=b.dataset.bb; mobSheet('bbadge'); });
   if(dx.first&&dx.count) flash(`You already have ${dx.count} dex badge${dx.count>1?'s':''}`);
 }
 
@@ -3871,6 +3929,18 @@ function mobBadgeSheet(body){
   const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need);
   body.innerHTML=`<div class="mob-dsheet" style="--c:${p.b.c}">${dexbGem(p.b,on,72)}<h3>${esc(p.b.name)}</h3><p>${esc(p.b.how)}.</p>
     ${on?`<small>EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`:`<span class="br"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`}</div>`;
+}
+
+/* ---------- battle badges (Trainer tab) ---------- */
+function mobBattleBadgeSheet(body){
+  const b=BADGES.find(x=>x[0]===MOBS.bbadge); if(!b){ mobCloseSheet(); return; }
+  const t=meCard(), on=(t.badges||[]).includes(b[0]), p=bbProgress(b[0],t,MOBS.bstats);
+  const gens=p&&p.gens?`<span class="mob-bgens">${p.gens.map(x=>`<i class="${x.on?'on':''}">GEN ${x.g}</i>`).join('')}</span>`:'';
+  body.innerHTML=`<div class="mob-dsheet" style="--c:${b[3]}"><span class="dexb-gem${on?'':' off'}" style="--c:${b[3]};--s:72px"></span><h3>${esc(b[1])}</h3><p>${esc(b[2])}.</p>
+    ${on?`<small class="got">EARNED · BATTLE BADGE</small>`
+      :p?`<span class="br"><i style="width:${Math.round(p.have*100/p.need)}%"></i></span>${gens}<small>${p.have} / ${p.need} ${esc(p.unit)} · ${p.need-p.have} TO GO</small>`
+      :`<small>NOT EARNED YET</small>`}
+    <small>ONLY BATTLES AGAINST OTHER TRAINERS COUNT</small></div>`;
 }
 
 /* ---------- MORE ---------- */

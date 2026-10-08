@@ -131,7 +131,7 @@ function mobSheet(kind){
   if(MOBS.sheet==='mon'&&kind!=='mon') mobLowerHome();
   MOBS.sheet=kind; w.hidden=false; document.body.classList.add('mob-locked');
   w.querySelector('.mob-sheet').scrollTop=0;
-  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body);
+  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body); else if(kind==='bbadge') mobBattleBadgeSheet(body);
 }
 function mobCloseSheet(){
   const w=$('mobSheet'); if(!w||w.hidden) return;
@@ -193,18 +193,20 @@ async function mobTrainer(){
   const el=$('mobCard');
   if(!SD.on){ el.innerHTML='<p class="mob-empty">Battles are turned off on this server.</p>'; return; }
   if(!el.childElementCount) el.innerHTML='<p class="mob-empty">Loading…</p>';
-  await sdLoadLobbyData(); if(MOBS.tab!=='card') return;
+  await Promise.all([sdLoadLobbyData(),api('GET','/api/showdown/me/stats').then(r=>r.ok?r.json():null).then(j=>{ if(j) MOBS.bstats=j; }).catch(()=>{})]);
+  if(MOBS.tab!=='card') return;
   const dx=dexbUpdate();
   const t=meCard(), played=t.played!=null?t.played:(t.wins||0)+(t.losses||0), wl=(t.wins||0)+(t.losses||0), have=new Set(t.badges||[]);
   el.innerHTML=`<div class="mob-cardslot"></div>
     <div class="mob-stats"><div><b>${played}</b><span>BATTLES</span></div><div><b>${wl?Math.round((t.wins||0)*100/wl)+'%':'—'}</b><span>WIN RATE</span></div><div><b>${t.streak||0}</b><span>STREAK</span></div></div>
     <div class="mob-lbl"><span>BADGES</span><span>${BADGES.filter(b=>have.has(b[0])).length} / ${BADGES.length}</span></div>
-    <div class="mob-badges">${BADGES.map(b=>`<div class="mob-bdg${have.has(b[0])?'':' off'}" style="--c:${b[3]}" title="${esc(b[1])}: ${esc(b[2])}"><i></i><span>${esc(b[1].toUpperCase())}</span></div>`).join('')}</div>
+    <div class="mob-badges mob-dexb">${BADGES.map(b=>`<button type="button" class="mob-bdg${have.has(b[0])?'':' off'}" style="--c:${b[3]}" data-bb="${b[0]}" aria-label="${esc(b[1])}"><i></i><span>${esc(b[1].toUpperCase())}</span></button>`).join('')}</div>
     <div class="mob-lbl"><span>DEX BADGES</span><span>${dexbCount()} / ${DEXB.length}</span></div>
     <div class="mob-badges mob-dexb">${DEXB.map(b=>{ const on=!!(st.dexb&&st.dexb[b.id]); return `<button type="button" class="mob-bdg${on?'':' off'}" style="--c:${b.c}" data-db="${b.id}" aria-label="${esc(b.name)}">${dexbGem(b,on,30)}<span>${esc(b.name.toUpperCase())}</span></button>`; }).join('')}</div>
 `;
   el.querySelector('.mob-cardslot').appendChild(cardEl(t,{label:'TRAINER CARD',editable:true}));
   el.querySelectorAll('[data-db]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.badge=b.dataset.db; mobSheet('badge'); });
+  el.querySelectorAll('[data-bb]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.bbadge=b.dataset.bb; mobSheet('bbadge'); });
   if(dx.first&&dx.count) flash(`You already have ${dx.count} dex badge${dx.count>1?'s':''}`);
 }
 
@@ -214,6 +216,18 @@ function mobBadgeSheet(body){
   const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need);
   body.innerHTML=`<div class="mob-dsheet" style="--c:${p.b.c}">${dexbGem(p.b,on,72)}<h3>${esc(p.b.name)}</h3><p>${esc(p.b.how)}.</p>
     ${on?`<small>EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`:`<span class="br"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`}</div>`;
+}
+
+/* ---------- battle badges (Trainer tab) ---------- */
+function mobBattleBadgeSheet(body){
+  const b=BADGES.find(x=>x[0]===MOBS.bbadge); if(!b){ mobCloseSheet(); return; }
+  const t=meCard(), on=(t.badges||[]).includes(b[0]), p=bbProgress(b[0],t,MOBS.bstats);
+  const gens=p&&p.gens?`<span class="mob-bgens">${p.gens.map(x=>`<i class="${x.on?'on':''}">GEN ${x.g}</i>`).join('')}</span>`:'';
+  body.innerHTML=`<div class="mob-dsheet" style="--c:${b[3]}"><span class="dexb-gem${on?'':' off'}" style="--c:${b[3]};--s:72px"></span><h3>${esc(b[1])}</h3><p>${esc(b[2])}.</p>
+    ${on?`<small class="got">EARNED · BATTLE BADGE</small>`
+      :p?`<span class="br"><i style="width:${Math.round(p.have*100/p.need)}%"></i></span>${gens}<small>${p.have} / ${p.need} ${esc(p.unit)} · ${p.need-p.have} TO GO</small>`
+      :`<small>NOT EARNED YET</small>`}
+    <small>ONLY BATTLES AGAINST OTHER TRAINERS COUNT</small></div>`;
 }
 
 /* ---------- MORE ---------- */

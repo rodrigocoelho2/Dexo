@@ -247,6 +247,20 @@ function meCard(){ const t=trainer(sdMe())||{id:sdMe(),name:SYNC.user.username,w
   return {...t,livingDex:(st.caught['home|normal']||[]).length}; }
 const CPU_CARD={id:0,name:'CPU',cpu:true,partner:137,partnerShiny:false};
 const BADGES=[['first-win','First Win','Win your first battle against another trainer','#f2c40c'],['ten-wins','Ten Wins','Win 10 battles','#5fd38a'],['on-fire','On Fire','Win 5 battles in a row','#f08030'],['last-stand','Last Stand','Win with only 1 Pokémon left','#ef3d4f'],['sweeper','Sweeper','Knock out 3 Pokémon with the same one','#7038f8'],['flawless','Flawless','Win without losing a single Pokémon','#78c8c8'],['veteran','Veteran','Play 50 battles','#a0a0c0'],['time-traveller','Time Traveller','Win in all five generations (Gen 1 to Gen 5)','#f85888']];
+// Progress towards one battle badge, for the badge pop-ups (PC profile, phone Trainer tab).
+// t is a trainer card, stats the /api/showdown/me/stats rows. Null for one-off feats with nothing to count.
+function bbProgress(id,t,stats){
+  const wins=t.wins||0, played=t.played!=null?t.played:wins+(t.losses||0);
+  switch(id){
+    case 'first-win': return {have:Math.min(wins,1),need:1,unit:'WINS'};
+    case 'ten-wins': return {have:Math.min(wins,10),need:10,unit:'WINS'};
+    case 'on-fire': return {have:Math.min(t.streak||0,5),need:5,unit:'CURRENT STREAK'};
+    case 'veteran': return {have:Math.min(played,50),need:50,unit:'BATTLES'};
+    case 'time-traveller': { if(!stats) return null; const g=new Set(stats.filter(r=>r.wins>0).map(r=>sdGenOf(r.format)));
+      return {have:g.size,need:5,unit:'GENERATIONS',gens:[1,2,3,4,5].map(x=>({g:x,on:g.has(x)}))}; }
+  }
+  return null;
+}
 function badgeCase(have){ const h=new Set(have);
   return `<div class="s-bcase"><span class="s-lbl">BADGES · ${BADGES.filter(b=>h.has(b[0])).length}/8</span>${BADGES.map(b=>`<span class="s-badge${h.has(b[0])?'':' off'}" style="--c:${b[3]}" title="${esc(b[1])}: ${esc(b[2])}${h.has(b[0])?'':' (not yet)'}" role="img" aria-label="${esc(b[1])}: ${esc(b[2])}, ${h.has(b[0])?'earned':'not earned yet'}"></span>`).join('')}</div>`; }
 function cardEl(t,o={}){

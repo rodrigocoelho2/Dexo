@@ -302,6 +302,10 @@
   .mob-dsheet p{margin:0;font-size:.88rem;line-height:1.5;color:#aab6e0}
   .mob-dsheet .br{width:70%;height:6px}
   .mob-dsheet small{font-family:var(--tiny);font-size:.46rem;letter-spacing:.12em;color:var(--muted)}
+  .mob-dsheet small.got{color:color-mix(in srgb,var(--c) 70%,#fff)}
+  .mob-bgens{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .mob-bgens i{font-style:normal;font-family:var(--tiny);font-size:.44rem;letter-spacing:.08em;padding:3px 6px;border-radius:5px;background:#1d2747;color:#56618a}
+  .mob-bgens i.on{background:color-mix(in srgb,var(--c) 30%,#0f1730);color:var(--ink)}
   .dexb-get-wrap{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;background:rgba(4,7,15,.62);animation:dexbfade .2s ease-out}
   .dexb-get{position:relative;width:min(100%,340px);border-radius:22px;background:linear-gradient(#1b2648,#121a33);box-shadow:0 0 0 2px #3a4b85,0 30px 60px rgba(0,0,0,.6);padding:22px 18px 20px;display:grid;justify-items:center;gap:10px;text-align:center;overflow:hidden}
   .dexb-get::before{content:"";position:absolute;inset:-40% -10% auto;height:230px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 45%,transparent),transparent);pointer-events:none}
