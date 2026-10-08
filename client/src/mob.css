@@ -292,4 +292,25 @@
   .mob-hint li b{font-weight:400;color:#fff}
   .mh-sh{display:inline-flex;align-items:center;gap:4px;color:#6ea2ff}
   .mh-or{color:var(--muted);font-size:.78rem}
+  /* ---------- dex badges (Trainer tab) ---------- */
+  .mob-dexb .mob-bdg{border:0;color:inherit;font:inherit;min-width:0}
+  .mob-dexb .mob-bdg:active{transform:scale(.97)}
+  .mob-dsheet .br{width:78%;height:4px;border-radius:2px;background:#1d2747;overflow:hidden}
+  .mob-dsheet .br i{display:block;height:100%;background:var(--c);border-radius:2px}
+  .mob-dsheet{display:grid;justify-items:center;gap:9px;text-align:center;padding:6px 6px 10px}
+  .mob-dsheet h3{margin:4px 0 0;font-weight:400;font-size:1.3rem}
+  .mob-dsheet p{margin:0;font-size:.88rem;line-height:1.5;color:#aab6e0}
+  .mob-dsheet .br{width:70%;height:6px}
+  .mob-dsheet small{font-family:var(--tiny);font-size:.46rem;letter-spacing:.12em;color:var(--muted)}
+  .dexb-get-wrap{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;background:rgba(4,7,15,.62);animation:dexbfade .2s ease-out}
+  .dexb-get{position:relative;width:min(100%,340px);border-radius:22px;background:linear-gradient(#1b2648,#121a33);box-shadow:0 0 0 2px #3a4b85,0 30px 60px rgba(0,0,0,.6);padding:22px 18px 20px;display:grid;justify-items:center;gap:10px;text-align:center;overflow:hidden}
+  .dexb-get::before{content:"";position:absolute;inset:-40% -10% auto;height:230px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 45%,transparent),transparent);pointer-events:none}
+  .dexb-get .k{position:relative;font-family:var(--gb);font-size:.62rem;letter-spacing:.14em;color:#ffd23f}
+  .dexb-get .dexb-gem{margin:6px 0 2px;animation:dexbpop .7s cubic-bezier(.2,1.6,.4,1)}
+  .dexb-get h3{position:relative;margin:0;font-weight:400;font-size:1.4rem;letter-spacing:.04em}
+  .dexb-get p{position:relative;margin:0;font-size:.86rem;line-height:1.5;color:#c3cdf2}
+  .dexb-get small{position:relative;font-family:var(--tiny);font-size:.46rem;letter-spacing:.14em;color:var(--muted)}
+  .dexb-ok{position:relative;margin-top:6px;border:0;font-family:var(--gb);font-size:.62rem;letter-spacing:.14em;color:#fff;padding:13px 30px;clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 50%,calc(100% - 11px) 100%,11px 100%,0 50%);background:linear-gradient(#e64a4e,#b81f24)}
+  @keyframes dexbpop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes dexbfade{from{opacity:0}}
 }

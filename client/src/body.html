@@ -35,6 +35,13 @@
   </div>
 </div>
 <div class="boot" id="boot" role="status" aria-live="polite"><span class="ball spin" aria-hidden="true"></span><span class="boot-l">LOADING…</span><b class="mobonly boot-t">HOME LIVING DEX</b><small class="mobonly boot-s">BOX TRACKER · B2 STYLE</small><span class="mobonly boot-bar" aria-hidden="true"><i></i></span><small class="mobonly boot-m">LOADING YOUR BOXES</small></div>
+<div class="pf-wrap" id="pfWrap" hidden><div class="pf-scrim" id="pfScrim"></div>
+  <section class="pf-win" id="pfWin" role="dialog" aria-modal="true" aria-labelledby="pfTitle" tabindex="-1">
+    <div class="pf-h"><b id="pfTitle">TRAINER PROFILE</b><small id="pfSub"></small><button class="pf-x" type="button" id="pfX" aria-label="Close">✕</button></div>
+    <div class="pf-b"><div class="pf-col" id="pfLeft"></div><div class="pf-col" id="pfRight"></div></div>
+    <div class="pf-f"><span>ESC OR CLICK OUTSIDE TO CLOSE</span><span class="pf-sp"></span><button class="pf-btn" type="button" id="pfPartner">Change partner</button><button class="pf-btn y" type="button" id="pfClose">Close</button></div>
+  </section>
+</div>
 <div class="wrap" id="app" hidden>
   <header class="top">
     <div class="brand"><span class="ball" aria-hidden="true"></span><div><h1 id="brandTitle">HOME LIVING DEX</h1><small><span id="brandSub">BOX TRACKER · B2 STYLE</span><span id="syncSt" class="syncst" aria-live="polite"></span></small></div></div>
@@ -51,6 +58,7 @@
         <div class="acctpop" id="acctPop" hidden>
           <div class="who"><span class="ball" aria-hidden="true"></span><div><b id="acctName"></b><small id="acctRole"></small></div></div>
           <div class="mtheme"><span>THEME</span><div class="throw" id="themesAcct" role="group" aria-label="Theme"></div></div>
+          <button type="button" class="mi" id="acctProfile">View profile</button>
           <button type="button" class="mi" id="acctPass">Change password</button>
           <button type="button" class="mi" id="acctUsers" hidden>Manage users</button>
           <button type="button" class="mi" id="acctAssets" hidden>Download all assets</button>

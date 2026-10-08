@@ -1129,6 +1129,88 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .abar{height:10px;border-radius:5px;background:hsl(calc(var(--h) + 2) calc(51% * var(--sat)) 9%);box-shadow:inset 0 0 0 1px hsl(calc(var(--h) + 1) calc(41% * var(--sat)) 28%);overflow:hidden}
 .abar i{display:block;height:100%;background:linear-gradient(#78e08c 0 50%,#3fb85a 50%);transition:width .6s}
 
+/* ====================== DEX BADGE GEMS + TRAINER PROFILE (PC, from the account menu) ====================== */
+.dexb-gem{--c:#888;--s:22px;position:relative;width:var(--s);height:var(--s);flex:none;display:grid;place-items:center}
+.dexb-gem::before{content:"";position:absolute;inset:0;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);background:linear-gradient(135deg,#fff8 0 20%,transparent 20%),linear-gradient(color-mix(in srgb,var(--c) 70%,#fff),var(--c) 55%,color-mix(in srgb,var(--c) 60%,#000))}
+.dexb-gem::after{content:"";position:absolute;inset:24%;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:0 0 0 2px rgba(0,0,0,.25)}
+.dexb-gem:not(.off){filter:drop-shadow(0 0 4px color-mix(in srgb,var(--c) 70%,transparent))}
+.dexb-gem.off::before{background:hsl(calc(var(--h) + 6) calc(26% * var(--sat)) 22%)} .dexb-gem.off::after{background:hsl(calc(var(--h) + 6) calc(32% * var(--sat)) 16%);box-shadow:inset 0 0 0 2px hsl(calc(var(--h) + 5) calc(27% * var(--sat)) 27%)}
+.dexb-gem b{position:relative;z-index:1;font-family:var(--gb);font-weight:400;font-size:calc(var(--s)*.26);line-height:1;color:color-mix(in srgb,var(--c) 45%,#000)}
+.dexb-gem b.sm{font-size:calc(var(--s)*.17)}
+.dexb-gem.off b{color:hsl(calc(var(--h) + 5) calc(23% * var(--sat)) 44%)}
+.pf-wrap{position:fixed;inset:0;z-index:45;display:grid;place-items:center;padding:20px}
+.pf-scrim{position:absolute;inset:0;background:hsl(calc(var(--h) + 2) calc(58% * var(--sat)) 4% / .62)}
+.pf-win{position:relative;width:min(1060px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:14px;background:var(--panel);box-shadow:0 0 0 2px hsl(calc(var(--h) + 5) calc(41% * var(--sat)) 34%),0 40px 90px rgba(0,0,0,.65);outline:none;animation:pfin .18s ease-out}
+@keyframes pfin{from{opacity:0;transform:translateY(8px) scale(.99)}}
+.pf-h{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:14px;padding:12px 18px;background:linear-gradient(90deg,hsl(calc(var(--h) + 0) calc(42% * var(--sat)) 94%),hsl(calc(var(--h) - 4) calc(33% * var(--sat)) 85%));color:hsl(calc(var(--h) + 4) calc(33% * var(--sat)) 20%)}
+.pf-h b{font-weight:400;font-size:1.1rem;letter-spacing:.04em}
+.pf-h small{font-family:var(--tiny);font-size:.56rem;letter-spacing:.12em;color:hsl(calc(var(--h) + 1) calc(20% * var(--sat)) 44%)}
+.pf-x{margin-left:auto;border:0;background:none;width:30px;height:30px;border-radius:50%;color:hsl(calc(var(--h) + 1) calc(20% * var(--sat)) 44%);font-size:1rem;display:grid;place-items:center}
+.pf-x:hover{background:rgba(0,0,0,.08)}
+.pf-b{display:grid;grid-template-columns:440px minmax(0,1fr);gap:16px;padding:16px 18px 10px}
+.pf-col{display:grid;gap:14px;align-content:start;min-width:0}
+.pf-box{border-radius:12px;background:hsl(calc(var(--h) + 3) calc(52% * var(--sat)) 12%);box-shadow:inset 0 0 0 1.5px var(--line);padding:12px 14px}
+.pf-bh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;font-family:var(--tiny);font-size:.52rem;letter-spacing:.16em;color:var(--muted)}
+.pf-bh b{color:var(--ink);font-weight:400}
+.pf-f{display:flex;align-items:center;gap:12px;padding:10px 18px 16px;font-family:var(--tiny);font-size:.5rem;letter-spacing:.14em;color:hsl(calc(var(--h) + 5) calc(23% * var(--sat)) 44%)}
+.pf-sp{flex:1}
+.pf-btn{border:0;font-family:var(--pixel);font-size:.95rem;letter-spacing:normal;text-transform:none;padding:7px 14px;border-radius:7px;background:hsl(calc(var(--h) + 4) calc(41% * var(--sat)) 25%);color:var(--ink);box-shadow:inset 0 0 0 1px hsl(calc(var(--h) + 4) calc(39% * var(--sat)) 37%)}
+.pf-btn.y{background:#ffd23f;color:#2b2200;box-shadow:none}
+.pf-btn:hover{filter:brightness(1.1)}
+.pf-card{--edge1:#a99be0;--edge2:#5d4fa0;--plate:hsl(calc(var(--h) + 4) calc(32% * var(--sat)) 13%);--gold:#ffd23f}
+.pf-card .s-tcard{min-height:0}
+.pf-st4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pf-st4 div{border-radius:10px;background:hsl(calc(var(--h) + 2) calc(55% * var(--sat)) 10%);box-shadow:inset 0 0 0 1px hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);padding:8px 4px;text-align:center;font-size:1.15rem}
+.pf-st4 small{display:block;font-family:var(--tiny);font-size:.42rem;letter-spacing:.12em;color:var(--muted);margin-top:3px}
+.pf-gens{display:grid;gap:7px;margin-top:12px}
+.pf-gl{display:grid;grid-template-columns:52px minmax(0,1fr) 70px;align-items:center;gap:10px;font-size:.85rem}
+.pf-gl>span:first-child{font-family:var(--tiny);font-size:.5rem;letter-spacing:.1em;color:var(--muted)}
+.pf-wl{display:flex;height:9px;border-radius:5px;overflow:hidden;background:hsl(calc(var(--h) + 4) calc(44% * var(--sat)) 19%)}
+.pf-wl i{display:block;height:100%}
+.pf-wl i.w{background:#5fd38a}.pf-wl i.l{background:#d9545e}
+.pf-gl em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:hsl(calc(var(--h) + 7) calc(100% * var(--sat)) 89%);font-size:.82rem}
+.pf-last{display:flex;gap:10px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px dashed hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);font-size:.85rem;color:hsl(calc(var(--h) + 7) calc(100% * var(--sat)) 89%)}
+.pf-res{font-family:var(--tiny);font-size:.46rem;letter-spacing:.1em;padding:3px 6px;border-radius:4px;background:#1f3d2c;color:#5fd38a}
+.pf-res.loss{background:#3d1f26;color:#ff8a8a}.pf-res.draw{background:hsl(calc(var(--h) + 6) calc(26% * var(--sat)) 22%);color:var(--muted)}
+.pf-rp{margin-left:auto;border:0;background:none;font-family:var(--tiny);font-size:.48rem;letter-spacing:.12em;color:#ffd23f}
+.pf-empty{font-size:.85rem;color:var(--muted)}
+.pf-dexhead{display:flex;align-items:center;gap:16px}
+.pf-ring{width:86px;height:86px;border-radius:50%;flex:none;background:conic-gradient(#36c6a8 calc(var(--p)*1%),hsl(calc(var(--h) + 4) calc(44% * var(--sat)) 19%) 0);display:grid;place-items:center}
+.pf-ring div{width:66px;height:66px;border-radius:50%;background:hsl(calc(var(--h) + 3) calc(52% * var(--sat)) 12%);display:grid;place-items:center;text-align:center;font-size:1.05rem;line-height:1.1}
+.pf-ring small{display:block;font-family:var(--tiny);font-size:.4rem;letter-spacing:.1em;color:var(--muted)}
+.pf-big{font-size:1.9rem;letter-spacing:.03em}
+.pf-big small{font-size:.95rem;color:var(--muted)}
+.pf-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pf-chip{font-size:.78rem;padding:3px 8px;border-radius:6px;background:hsl(calc(var(--h) + 2) calc(55% * var(--sat)) 10%);box-shadow:inset 0 0 0 1px hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);color:hsl(calc(var(--h) + 7) calc(100% * var(--sat)) 89%)}
+.pf-chip b{font-weight:400;color:var(--ink)}
+.pf-regions{display:grid;grid-template-columns:1fr 1fr;gap:7px 18px;margin-top:14px}
+.pf-rg{display:grid;grid-template-columns:60px minmax(0,1fr) 70px;align-items:center;gap:8px;font-size:.84rem}
+.pf-rg>span:first-child{font-family:var(--tiny);font-size:.48rem;letter-spacing:.08em;color:var(--muted)}
+.pf-bar{height:8px;border-radius:4px;background:hsl(calc(var(--h) + 4) calc(44% * var(--sat)) 19%);overflow:hidden}
+.pf-bar i{display:block;height:100%;background:var(--c);border-radius:4px}
+.pf-rg em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:hsl(calc(var(--h) + 7) calc(100% * var(--sat)) 89%);font-size:.8rem}
+.pf-rg.done em{color:#ffd23f}
+.pf-gems{display:flex;flex-wrap:wrap;gap:8px;position:relative}
+.pf-gems .dexb-gem{cursor:pointer;border:0;padding:0;background:none}
+.pf-gems .dexb-gem.sel{outline:2px solid #ffd23f;outline-offset:3px;border-radius:6px}
+.pf-gsep{width:1px;align-self:stretch;background:hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);margin:0 4px}
+.pf-tip{margin-top:10px;font-size:.84rem;color:hsl(calc(var(--h) + 5) calc(47% * var(--sat)) 77%)}
+.pf-pop{position:absolute;z-index:4;width:250px;border-radius:12px;background:hsl(calc(var(--h) + 4) calc(46% * var(--sat)) 19%);box-shadow:0 0 0 1.5px hsl(calc(var(--h) + 4) calc(39% * var(--sat)) 37%),0 18px 40px rgba(0,0,0,.6);padding:14px 14px 12px;display:grid;justify-items:center;gap:7px;text-align:center}
+.pf-pop::after{content:"";position:absolute;top:-7px;left:var(--ax,50%);width:12px;height:12px;background:hsl(calc(var(--h) + 4) calc(46% * var(--sat)) 19%);border-left:1.5px solid hsl(calc(var(--h) + 4) calc(39% * var(--sat)) 37%);border-top:1.5px solid hsl(calc(var(--h) + 4) calc(39% * var(--sat)) 37%);transform:translateX(-50%) rotate(45deg)}
+.pf-pop h4{margin:2px 0 0;font-weight:400;font-size:1.05rem}
+.pf-pop p{margin:0;font-size:.82rem;line-height:1.45;color:hsl(calc(var(--h) + 5) calc(47% * var(--sat)) 77%)}
+.pf-pop .pf-bar{width:80%;height:6px}
+.pf-pop small{font-family:var(--tiny);font-size:.44rem;letter-spacing:.12em;color:var(--muted)}
+.pf-pop small.got{color:color-mix(in srgb,var(--c) 70%,#fff)}
+.pf-catches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.pf-ct{border-radius:10px;background:hsl(calc(var(--h) + 2) calc(55% * var(--sat)) 10%);box-shadow:inset 0 0 0 1px hsl(calc(var(--h) + 4) calc(43% * var(--sat)) 25%);padding:6px 4px 7px;text-align:center;display:grid;justify-items:center;gap:2px;min-width:0}
+.pf-ct .pf-spr{width:56px;height:56px;display:grid;place-items:center}
+.pf-ct .pf-spr img,.pf-ct .pf-spr canvas{max-width:56px;max-height:56px;image-rendering:pixelated}
+.pf-ct b{font-weight:400;font-size:.78rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-ct small{font-family:var(--tiny);font-size:.4rem;letter-spacing:.08em;color:var(--muted)}
+.pf-ct.sh b::before{content:"★ ";color:#ffd23f}
+@media (max-width:1100px){.pf-b{grid-template-columns:minmax(0,1fr)}}
+
 /* ====================== PHONE LAYOUT (≤ 700 px). Nothing here applies on a PC. ====================== */
 .mobonly,.mob-sheetwrap{display:none}
 @media (max-width:700px){
@@ -1423,6 +1505,27 @@ button.b2-fbadge:active{transform:translateY(.12em)}
   .mob-hint li b{font-weight:400;color:#fff}
   .mh-sh{display:inline-flex;align-items:center;gap:4px;color:hsl(calc(var(--h) - 4) calc(100% * var(--sat)) 72%)}
   .mh-or{color:var(--muted);font-size:.78rem}
+  /* ---------- dex badges (Trainer tab) ---------- */
+  .mob-dexb .mob-bdg{border:0;color:inherit;font:inherit;min-width:0}
+  .mob-dexb .mob-bdg:active{transform:scale(.97)}
+  .mob-dsheet .br{width:78%;height:4px;border-radius:2px;background:hsl(calc(var(--h) + 4) calc(42% * var(--sat)) 20%);overflow:hidden}
+  .mob-dsheet .br i{display:block;height:100%;background:var(--c);border-radius:2px}
+  .mob-dsheet{display:grid;justify-items:center;gap:9px;text-align:center;padding:6px 6px 10px}
+  .mob-dsheet h3{margin:4px 0 0;font-weight:400;font-size:1.3rem}
+  .mob-dsheet p{margin:0;font-size:.88rem;line-height:1.5;color:hsl(calc(var(--h) + 5) calc(47% * var(--sat)) 77%)}
+  .mob-dsheet .br{width:70%;height:6px}
+  .mob-dsheet small{font-family:var(--tiny);font-size:.46rem;letter-spacing:.12em;color:var(--muted)}
+  .dexb-get-wrap{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;background:hsl(calc(var(--h) + 2) calc(58% * var(--sat)) 4% / .62);animation:dexbfade .2s ease-out}
+  .dexb-get{position:relative;width:min(100%,340px);border-radius:22px;background:linear-gradient(hsl(calc(var(--h) + 3) calc(45% * var(--sat)) 19%),hsl(calc(var(--h) + 3) calc(48% * var(--sat)) 14%));box-shadow:0 0 0 2px hsl(calc(var(--h) + 4) calc(39% * var(--sat)) 37%),0 30px 60px rgba(0,0,0,.6);padding:22px 18px 20px;display:grid;justify-items:center;gap:10px;text-align:center;overflow:hidden}
+  .dexb-get::before{content:"";position:absolute;inset:-40% -10% auto;height:230px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 45%,transparent),transparent);pointer-events:none}
+  .dexb-get .k{position:relative;font-family:var(--gb);font-size:.62rem;letter-spacing:.14em;color:#ffd23f}
+  .dexb-get .dexb-gem{margin:6px 0 2px;animation:dexbpop .7s cubic-bezier(.2,1.6,.4,1)}
+  .dexb-get h3{position:relative;margin:0;font-weight:400;font-size:1.4rem;letter-spacing:.04em}
+  .dexb-get p{position:relative;margin:0;font-size:.86rem;line-height:1.5;color:hsl(calc(var(--h) + 5) calc(64% * var(--sat)) 86%)}
+  .dexb-get small{position:relative;font-family:var(--tiny);font-size:.46rem;letter-spacing:.14em;color:var(--muted)}
+  .dexb-ok{position:relative;margin-top:6px;border:0;font-family:var(--gb);font-size:.62rem;letter-spacing:.14em;color:#fff;padding:13px 30px;clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 50%,calc(100% - 11px) 100%,11px 100%,0 50%);background:linear-gradient(#e64a4e,#b81f24)}
+  @keyframes dexbpop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes dexbfade{from{opacity:0}}
 }
 </style>
 </head>
@@ -1464,6 +1567,13 @@ button.b2-fbadge:active{transform:translateY(.12em)}
   </div>
 </div>
 <div class="boot" id="boot" role="status" aria-live="polite"><span class="ball spin" aria-hidden="true"></span><span class="boot-l">LOADING…</span><b class="mobonly boot-t">HOME LIVING DEX</b><small class="mobonly boot-s">BOX TRACKER · B2 STYLE</small><span class="mobonly boot-bar" aria-hidden="true"><i></i></span><small class="mobonly boot-m">LOADING YOUR BOXES</small></div>
+<div class="pf-wrap" id="pfWrap" hidden><div class="pf-scrim" id="pfScrim"></div>
+  <section class="pf-win" id="pfWin" role="dialog" aria-modal="true" aria-labelledby="pfTitle" tabindex="-1">
+    <div class="pf-h"><b id="pfTitle">TRAINER PROFILE</b><small id="pfSub"></small><button class="pf-x" type="button" id="pfX" aria-label="Close">✕</button></div>
+    <div class="pf-b"><div class="pf-col" id="pfLeft"></div><div class="pf-col" id="pfRight"></div></div>
+    <div class="pf-f"><span>ESC OR CLICK OUTSIDE TO CLOSE</span><span class="pf-sp"></span><button class="pf-btn" type="button" id="pfPartner">Change partner</button><button class="pf-btn y" type="button" id="pfClose">Close</button></div>
+  </section>
+</div>
 <div class="wrap" id="app" hidden>
   <header class="top">
     <div class="brand"><span class="ball" aria-hidden="true"></span><div><h1 id="brandTitle">HOME LIVING DEX</h1><small><span id="brandSub">BOX TRACKER · B2 STYLE</span><span id="syncSt" class="syncst" aria-live="polite"></span></small></div></div>
@@ -1480,6 +1590,7 @@ button.b2-fbadge:active{transform:translateY(.12em)}
         <div class="acctpop" id="acctPop" hidden>
           <div class="who"><span class="ball" aria-hidden="true"></span><div><b id="acctName"></b><small id="acctRole"></small></div></div>
           <div class="mtheme"><span>THEME</span><div class="throw" id="themesAcct" role="group" aria-label="Theme"></div></div>
+          <button type="button" class="mi" id="acctProfile">View profile</button>
           <button type="button" class="mi" id="acctPass">Change password</button>
           <button type="button" class="mi" id="acctUsers" hidden>Manage users</button>
           <button type="button" class="mi" id="acctAssets" hidden>Download all assets</button>
@@ -1688,7 +1799,7 @@ function setCaught(g,v,e,on){
   const arr=caughtArr(g,v), i=arr.indexOf(e.key);
   if(on&&i<0){ arr.push(e.key); const dk=detKey(g,v,e); const d=st.det[dk]||{}; if(!d.ts) d.ts=Date.now(); d.mt=Date.now(); if(!d.game && ORIG[g.k]) d.game=g.k; st.det[dk]=d; st.log.unshift({k:dk,ts:Date.now(),n:(e.shiny?'★ ':'')+SP.get(e.sid).en+(e.label?' ('+shortLabel(e.label)+')':'')}); if(st.log.length>300) st.log.length=300; }
   if(!on&&i>=0) arr.splice(i,1);
-  save();
+  save(); dexbAfterMark(on);
 }
 function originState(e,d){ if(!d.game) return 'unset'; const o=ORIG[d.game]; const gen=SP.get(e.sid).gen; if(!o) return 'bad'; return (o.gen===gen || (d.game==='lgpe'&&gen===1)) ? 'ok' : 'bad'; }
 function isDone(g,v,e,c){ if(!c.has(e.key)) return false; if(v!=='origin') return true; return originState(e,detOf(g,v,e))==='ok'; }
@@ -2087,7 +2198,7 @@ $('importBk').onclick=()=>{ try{ const d=JSON.parse($('backupText').value); if(!
 
 /* ---------- server sync + accounts (only when served by the LivingDex server) ---------- */
 const SYNC={on:false,user:null,health:null,rev:0,lastHash:null,timer:0,busy:false,again:false,listeners:false};
-const syncPayload=()=>({caught:st.caught,det:st.det,log:st.log});
+const syncPayload=()=>({caught:st.caught,det:st.det,log:st.log,dexb:st.dexb});
 function hashStr(s){ let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return (h>>>0).toString(36)+':'+s.length; }
 const hasData=()=>Object.values(st.caught||{}).some(a=>Array.isArray(a)&&a.length)||Object.keys(st.det||{}).length>0;
 const device=()=>(/iPhone|iPad|Android/.exec(navigator.userAgent)||['Desktop'])[0];
@@ -2104,14 +2215,15 @@ async function problemText(r,fallback){
   try{ const j=await r.json(); return j.detail||j.title||fallback; }catch(_){ return fallback; }
 }
 function markSynced(){ SYNC.lastHash=hashStr(JSON.stringify(syncPayload())); st.syncRev=SYNC.rev; st.syncHash=SYNC.lastHash; localSave(); }
-function adopt(data){ const d=data||{}; st.caught=d.caught&&typeof d.caught==='object'?d.caught:{}; st.det=d.det&&typeof d.det==='object'?d.det:{}; st.log=Array.isArray(d.log)?d.log:[]; }
-function clearLocalProgress(){ st.caught={}; st.det={}; st.log=[]; st.sel={}; st.syncRev=0; st.syncHash=null; Object.keys(lookup).forEach(k=>delete lookup[k]); }
+function adopt(data){ const d=data||{}; st.caught=d.caught&&typeof d.caught==='object'?d.caught:{}; st.det=d.det&&typeof d.det==='object'?d.det:{}; st.log=Array.isArray(d.log)?d.log:[]; st.dexb=d.dexb&&typeof d.dexb==='object'?d.dexb:st.dexb; }
+function clearLocalProgress(){ st.caught={}; st.det={}; st.log=[]; delete st.dexb; st.sel={}; st.syncRev=0; st.syncHash=null; Object.keys(lookup).forEach(k=>delete lookup[k]); }
 function mergeData(a,b){
   a=a||{}; b=b||{};
   const caught={}; new Set([...Object.keys(a.caught||{}),...Object.keys(b.caught||{})]).forEach(k=>{ caught[k]=[...new Set([...((a.caught||{})[k]||[]),...((b.caught||{})[k]||[])])]; });
   const det={...(a.det||{})}; Object.entries(b.det||{}).forEach(([k,v])=>{ const o=det[k]; if(!o||(v.mt||v.ts||0)>=(o.mt||o.ts||0)) det[k]=v; });
   const seen=new Set(), log=[...(a.log||[]),...(b.log||[])].filter(l=>{ const id=l.k+'@'+l.ts; if(seen.has(id)) return false; seen.add(id); return true; }).sort((x,y)=>y.ts-x.ts).slice(0,300);
-  return {caught,det,log};
+  const dexb={...(a.dexb||{})}; Object.entries(b.dexb||{}).forEach(([k,v])=>{ if(!dexb[k]||v<dexb[k]) dexb[k]=v; });   // a badge keeps its first date
+  return {caught,det,log,dexb};
 }
 function syncTouch(){ if(!SYNC.on||!SYNC.user) return; clearTimeout(SYNC.timer); SYNC.timer=setTimeout(push,700); }
 async function push(){
@@ -2789,7 +2901,7 @@ function sdPickPartner(){
   $('sdPshiny').onchange=e=>{ shiny=e.target.checked; };
   $('sdPsave').onclick=async()=>{
     try{ const r=await api('PUT','/api/showdown/me/partner',{partner:sel,shiny}); if(!r.ok) throw 0;
-      const t=trainer(sdMe()); if(t){ t.partner=sel; t.partnerShiny=shiny; } $('modal').hidden=true; SFX.mark(); cry(sel); sdRenderLobbyIfOpen(); flash(`${spName(sel)} is your partner now`); }
+      const t=trainer(sdMe()); if(t){ t.partner=sel; t.partnerShiny=shiny; } $('modal').hidden=true; SFX.mark(); cry(sel); sdRenderLobbyIfOpen(); if(PF.open) pfRender(); flash(`${spName(sel)} is your partner now`); }
     catch(_){ SFX.err(); flash('Could not save the partner'); }
   };
 }
@@ -3375,6 +3487,176 @@ async function sdReplay(id){
   B.queue.push(...String(row.log||'').split('\n')); B.shownResult=false; sdPump();
 }
 
+/* ---------- DEX BADGES: earned by filling the boxes ----------
+   Worked out from the progress (Pokémon HOME), so existing boxes count straight away.
+   st.dexb = { _init: when badges were first worked out, badgeId: first-earned timestamp } travels with the synced progress; a badge stays once earned. */
+const DEXB_HOME=()=>GAMES.find(g=>g.k==='home');
+const dexbKeys=(v,keys)=>{ const H=DEXB_HOME(), c=cset(H,v); return keys.filter(k=>c.has(k)).map(k=>slotKey(H,v)+'|'+k); };
+const dexbIds=(a,b)=>ALL_IDS.filter(id=>id>=a&&id<=b).map(id=>'s:'+id);
+const dexbForm=sid=>['s:'+sid,...(FORMS.get(sid)||[]).map(f=>'f:'+f.key)];
+// each badge: id, group, name, glyph, colour, what it asks, basis, need, got() → det keys that count
+const DEXB=[
+  ...[['kanto','Kanto',1,151,'I','#ef3d4f'],['johto','Johto',152,251,'II','#f2c40c'],['hoenn','Hoenn',252,386,'III','#2fbfa5'],['sinnoh','Sinnoh',387,493,'IV','#9d7ff0'],
+      ['unova','Unova',494,649,'V','#b8c0d4'],['kalos','Kalos',650,721,'VI','#4a8cf0'],['alola','Alola',722,809,'VII','#f59e3b'],['galar','Galar',810,898,'VIII','#e0569a'],
+      ['hisui','Hisui',899,905,'H','#b98a5c'],['paldea','Paldea',906,1025,'IX','#c0396b']]
+    .map(([id,n,a,b,gl,c])=>({id,grp:'REGIONS',name:n+' Complete',gl,c,how:`Catch all ${b-a+1} ${n} Pokémon (#${String(a).padStart(3,'0')}–${b})`,basis:'HOME · Normal',need:b-a+1,all:true,got:()=>dexbKeys('normal',dexbIds(a,b))})),
+  ...[[100,'#7ad3ff'],[250,'#5fb8ff'],[500,'#4a8cf0']].map(([n,c])=>({id:'m'+n,grp:'MILESTONES',name:n+' Caught',gl:String(n),c,how:`Mark ${n} Pokémon`,basis:'HOME · Normal',need:n,got:()=>dexbKeys('normal',dexbIds(1,1025))})),
+  {id:'m1025',grp:'MILESTONES',name:'Living Dex',gl:'1025',c:'#ffd23f',how:'Complete the National Living Dex: all 1025',basis:'HOME · Normal',need:1025,all:true,got:()=>dexbKeys('normal',dexbIds(1,1025))},
+  ...[[1,'First Shiny','#ffe066'],[25,'25 Shinies','#ffc94a'],[100,'100 Shinies','#ff9f43']].map(([n,name,c])=>({id:'s'+n,grp:'SHINY',name,gl:'★',c,how:n===1?'Mark your first shiny':`Mark ${n} shinies`,basis:'HOME · Shiny',need:n,got:()=>dexbKeys('shiny',dexbIds(1,1025))})),
+  ...[[201,'unown','All Unown','U','#5fd38a','All 28 Unown: every letter, ! and ?'],[666,'vivillon','All Vivillon','V','#3fc7a0','All 20 Vivillon patterns'],
+      [869,'alcremie','All Alcremie','A','#f59ac2','All 63 Alcremie (9 creams × 7 sweets)'],[676,'furfrou','All Furfrou','F','#78c8c8','Furfrou in all 10 looks (natural + 9 trims)']]
+    .map(([sid,id,name,gl,c,how])=>({id,grp:'FORMS',name,gl,c,how,basis:'HOME · Forms',need:dexbForm(sid).length,all:true,got:()=>dexbKeys('forms',dexbForm(sid))})),
+  {id:'gender',grp:'SPECIAL',name:'Gender Gap',gl:'♂♀',c:'#f08030',how:'Both versions of every Pokémon with a visible gender difference',basis:'HOME · Genders',need:GDIFF.size,all:true,
+    got:()=>{ const H=DEXB_HOME(), c=cset(H,'gender'); return [...GDIFF].filter(id=>c.has('s:'+id)&&c.has('g:'+id)).map(id=>slotKey(H,'gender')+'|g:'+id); }},
+  {id:'game',grp:'SPECIAL',name:'Game Clear',gl:'✓',c:'#e64a4e',how:'Complete any game’s Pokédex (Normal)',basis:'Any game',need:1,
+    got:()=>PLAY.filter(g=>g.k!=='home').filter(g=>{ const c=cset(g,'normal'), L=entries(g,'all','normal'); return L.length&&L.every(e=>c.has(e.key)); }).map(g=>slotKey(g,'normal'))},
+  {id:'roots',grp:'SPECIAL',name:'Back to the Roots',gl:'⌂',c:'#a0a0c0',how:'50 Pokémon with an OT game from their own generation',basis:'HOME · Origin',need:50,
+    got:()=>{ const H=DEXB_HOME(), c=cset(H,'origin'); return ALL_IDS.filter(id=>c.has('s:'+id)&&originState({sid:id},st.det[slotKey(H,'origin')+'|s:'+id]||{})==='ok').map(id=>slotKey(H,'origin')+'|s:'+id); }}
+];
+const DEXB_GROUPS=['REGIONS','MILESTONES','SHINY','FORMS','SPECIAL'];
+
+// progress of every badge: {b, have, keys, done, ts}
+function dexbProgress(){
+  return DEXB.map(b=>{ const keys=b.got(), have=Math.min(keys.length,b.need); return {b,have,keys,done:keys.length>=b.need,ts:st.dexb&&st.dexb[b.id]||0}; });
+}
+// when it was earned, from the capture dates: the last one needed ("all of"), or the Nth one ("N of")
+function dexbWhen(p){
+  const ts=p.keys.map(k=>(st.det[k]||{}).ts||0).filter(Boolean).sort((a,b)=>a-b);
+  if(!ts.length) return Date.now();
+  return p.b.all?ts[ts.length-1]:(ts[p.b.need-1]||ts[ts.length-1]);
+}
+// records newly earned badges; returns the new ones (none on the very first run, which only catches up)
+function dexbUpdate(){
+  if(!st.dexb||typeof st.dexb!=='object') st.dexb={};
+  const first=!st.dexb._init; if(first) st.dexb._init=Date.now();
+  const fresh=[]; let changed=false;
+  dexbProgress().forEach(p=>{ if(p.done&&!st.dexb[p.b.id]){ st.dexb[p.b.id]=first?dexbWhen(p):Date.now(); changed=true; if(!first) fresh.push(p.b); } });
+  if(changed||first) save();
+  return {first,fresh,count:dexbCount()};
+}
+// after a mark on this device: celebrate on phones (PC records the badge quietly)
+let dexbTimer=0;
+function dexbAfterMark(on){
+  if(!on) return; clearTimeout(dexbTimer);
+  dexbTimer=setTimeout(()=>{ const r=dexbUpdate(); if(r.fresh.length&&typeof isMob==='function'&&isMob()) dexbCelebrate(r.fresh); },250);
+}
+const dexbCount=()=>DEXB.filter(b=>st.dexb&&st.dexb[b.id]).length;
+const dexbDate=ts=>new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short'}).toUpperCase();
+const dexbGem=(b,on,s)=>`<span class="dexb-gem${on?'':' off'}" style="--c:${b.c};--s:${s}px"><b class="${b.gl.length>3?'sm':''}">${esc(b.gl)}</b></span>`;
+function dexbFanfare(){ if(!st.sound) return; try{ blip(1047,.09,0,'square',.05); blip(1319,.09,.1,'square',.05); blip(1568,.09,.2,'square',.05); blip(2093,.3,.32,'square',.05); }catch(_){} }
+function dexbCelebrate(list){
+  const queue=[...list];
+  const next=()=>{
+    const b=queue.shift(); if(!b) return;
+    const total=dexbCount();
+    const w=document.createElement('div'); w.className='dexb-get-wrap'; w.setAttribute('role','dialog'); w.setAttribute('aria-label','Badge earned: '+b.name);
+    w.innerHTML=`<div class="dexb-get" style="--c:${b.c}"><span class="k">BADGE GET!</span>${dexbGem(b,true,86)}<h3>${esc(b.name.toUpperCase())}</h3><p>${esc(b.how)}.</p><small>DEX BADGES · ${total} / ${DEXB.length}</small><button type="button" class="dexb-ok">NICE!</button></div>`;
+    document.body.appendChild(w); dexbFanfare();
+    const close=()=>{ w.remove(); next(); };
+    w.querySelector('.dexb-ok').onclick=close; w.onclick=e=>{ if(e.target===w) close(); };
+    setTimeout(()=>w.querySelector('.dexb-ok').focus(),50);
+  };
+  next();
+}
+
+/* ---------- TRAINER PROFILE (PC): account menu → View profile ---------- */
+const PF={open:false,stats:null,pop:null,sel:null};
+const PF_REGIONS=DEXB.filter(b=>b.grp==='REGIONS');
+const pfFormKey=(()=>{ const m=new Map(); FORMS.forEach(L=>L.forEach(f=>m.set(f.key,f))); return m; })();
+function pfAgo(ts){
+  const m=Math.round((Date.now()-ts)/60000);
+  if(m<1) return 'NOW'; if(m<60) return m+' MIN AGO'; const h=Math.round(m/60); if(h<24) return h+' H AGO';
+  const d=Math.round(h/24); return d===1?'YESTERDAY':d<30?d+' D AGO':new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short'}).toUpperCase();
+}
+// a catch-log entry → what to draw
+function pfCatch(l){
+  const parts=String(l.k||'').split('|'), gk=parts[0], v=parts[1]; let key=parts.slice(2).join('|'); let shiny=v==='shiny';
+  if(key.startsWith('x:')){ shiny=true; key=key.slice(2); }
+  let e=null;
+  if(key.startsWith('s:')){ const sid=+key.slice(2); e={sid,sk:String(sid)}; }
+  else if(key.startsWith('g:')){ const sid=+key.slice(2); e={sid,sk:String(sid),gfemale:true}; }
+  else if(key.startsWith('f:')){ const f=pfFormKey.get(key.slice(2)); if(f) e={sid:f.sid,sk:f.sk}; }
+  if(!e||!SP.has(e.sid)) return null;
+  e.shiny=shiny; const g=GAMES.find(x=>x.k===gk);
+  return {e,name:String(l.n||SP.get(e.sid).en).replace(/^★\s*/,''),game:g?g.s:gk.toUpperCase(),ts:l.ts};
+}
+function pfDexStats(){
+  const H=DEXB_HOME(), n=cset(H,'normal'), pct=(v)=>{ const L=entries(H,'all',v), c=cset(H,v); return L.length?Math.round(L.filter(e=>c.has(e.key)).length*100/L.length):0; };
+  const total=ALL_IDS.filter(id=>n.has('s:'+id)).length;
+  const games=PLAY.filter(g=>g.k!=='home'), done=games.filter(g=>{ const c=cset(g,'normal'), L=entries(g,'all','normal'); return L.length&&L.every(e=>c.has(e.key)); }).length;
+  const origin=DEXB.find(b=>b.id==='roots').got().length;
+  return {total,shiny:cset(H,'shiny').size,forms:pct('forms'),gender:pct('gender'),origin,done,games:games.length};
+}
+function pfClosePop(){ if(PF.pop){ PF.pop.remove(); PF.pop=null; } if(PF.sel){ PF.sel.classList.remove('sel'); PF.sel=null; } }
+function pfBadgePop(btn){
+  if(PF.sel===btn){ pfClosePop(); return; } pfClosePop();
+  const p=dexbProgress().find(x=>x.b.id===btn.dataset.db); if(!p) return;
+  const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need), box=btn.closest('.pf-box');
+  const pop=document.createElement('div'); pop.className='pf-pop'; pop.style.setProperty('--c',p.b.c); pop.setAttribute('role','dialog'); pop.setAttribute('aria-label',p.b.name);
+  pop.innerHTML=`${dexbGem(p.b,on,52)}<h4>${esc(p.b.name)}</h4><p>${esc(p.b.how)}.</p>`+
+    (on?`<small class="got">EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`
+       :`<span class="pf-bar"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`);
+  box.style.position='relative'; box.appendChild(pop);
+  const br=btn.getBoundingClientRect(), xr=box.getBoundingClientRect(), w=250;
+  let left=br.left-xr.left+br.width/2-w/2; left=Math.max(8,Math.min(left,xr.width-w-8));
+  pop.style.left=left+'px'; pop.style.top=(br.bottom-xr.top+12)+'px'; pop.style.setProperty('--ax',(br.left-xr.left+br.width/2-left)+'px');
+  btn.classList.add('sel'); PF.sel=btn; PF.pop=pop;
+}
+function pfRender(){
+  const u=SYNC.user||{username:'?'}, L=$('pfLeft'), R=$('pfRight');
+  $('pfSub').textContent=`${String(u.username).toUpperCase()}${u.isAdmin?' · ADMIN':''} · ${dexbCount()} / ${DEXB.length} DEX BADGES`;
+  // left: trainer card + battle record
+  L.innerHTML='';
+  $('pfPartner').hidden=!SD.on;
+  if(SD.on){
+    const t=meCard(), wrap=document.createElement('div'); wrap.className='pf-card';
+    wrap.appendChild(cardEl(t,{label:'TRAINER CARD · YOU',editable:true,foot:'YOUR PROFILE',acts:[]})); L.appendChild(wrap);
+    const wl=(t.wins||0)+(t.losses||0), gens=[1,2,3,4,5].map(g=>({g,w:0,l:0}));
+    (PF.stats||[]).forEach(r=>{ const g=sdGenOf(r.format); const x=gens[g-1]; if(x){ x.w+=r.wins; x.l+=r.losses; } });
+    const last=(SD.hist||[])[0];
+    const box=document.createElement('div'); box.className='pf-box';
+    box.innerHTML=`<div class="pf-bh"><span>BATTLE RECORD</span><b>${t.played!=null?t.played:wl} BATTLES</b></div>
+      <div class="pf-st4"><div>${t.wins||0}<small>WINS</small></div><div>${t.losses||0}<small>LOSSES</small></div><div>${wl?Math.round((t.wins||0)*100/wl)+'%':'—'}<small>WIN RATE</small></div><div>${t.streak||0}<small>STREAK</small></div></div>
+      <div class="pf-gens">${gens.map(x=>{ const n=x.w+x.l; return `<div class="pf-gl"><span>GEN ${x.g}</span><span class="pf-wl">${n?`<i class="w" style="width:${x.w*100/n}%"></i><i class="l" style="width:${x.l*100/n}%"></i>`:''}</span><em>${x.w} W · ${x.l} L</em></div>`; }).join('')}</div>
+      ${last?`<div class="pf-last"><span class="pf-res ${esc(last.result)}">${esc(String(last.result).toUpperCase())}</span><span>Last: ${esc(sdShortFmt(last.format))} vs ${esc(last.opponent)} · ${esc(pfAgo(Date.parse(last.endedAt)).toLowerCase())}</span><button type="button" class="pf-rp" data-rp="${esc(last.id)}">REPLAY ▸</button></div>`:'<div class="pf-last pf-empty">No battles yet.</div>'}`;
+    L.appendChild(box);
+    const rp=box.querySelector('[data-rp]'); if(rp) rp.onclick=()=>{ SFX.tab(); pfClose(); sdReplay(rp.dataset.rp); };
+  } else {
+    L.innerHTML='<div class="pf-box"><div class="pf-bh"><span>TRAINER</span></div><p class="pf-empty">Battles are turned off on this server, so there is no trainer card.</p></div>';
+  }
+  // right: living dex, dex badges, recent catches
+  const d=pfDexStats(), H=DEXB_HOME(), n=cset(H,'normal'), p=Math.round(d.total*100/1025);
+  const regs=PF_REGIONS.map(b=>{ const have=b.got().length; return `<div class="pf-rg${have>=b.need?' done':''}"><span>${esc(b.name.replace(' Complete','').toUpperCase())}</span><span class="pf-bar" style="--c:${b.c}"><i style="width:${Math.round(have*100/b.need)}%"></i></span><em>${have} / ${b.need}</em></div>`; }).join('');
+  let gems='', grp='';
+  DEXB.forEach(b=>{ if(grp&&b.grp!==grp) gems+='<span class="pf-gsep" aria-hidden="true"></span>'; grp=b.grp;
+    const on=!!(st.dexb&&st.dexb[b.id]); gems+=`<button type="button" class="dexb-gem${on?'':' off'}" style="--c:${b.c};--s:32px" data-db="${b.id}" aria-label="${esc(b.name)}${on?', earned':''}"><b class="${b.gl.length>3?'sm':''}">${esc(b.gl)}</b></button>`; });
+  const log=(st.log||[]).map(pfCatch).filter(Boolean), week=(st.log||[]).filter(l=>Date.now()-l.ts<7*864e5).length;
+  R.innerHTML=`<div class="pf-box"><div class="pf-bh"><span>LIVING DEX · POKÉMON HOME</span><b>NATIONAL · NORMAL</b></div>
+      <div class="pf-dexhead"><div class="pf-ring" style="--p:${p}"><div>${p}%<small>DONE</small></div></div>
+        <div><div class="pf-big">${d.total} <small>/ 1025</small></div>
+        <div class="pf-chips"><span class="pf-chip">Shiny <b>${d.shiny}</b></span><span class="pf-chip">Forms <b>${d.forms}%</b></span><span class="pf-chip">Genders <b>${d.gender}%</b></span><span class="pf-chip">Origin <b>${d.origin}</b></span><span class="pf-chip">Games done <b>${d.done} / ${d.games}</b></span></div></div></div>
+      <div class="pf-regions">${regs}</div></div>
+    <div class="pf-box"><div class="pf-bh"><span>DEX BADGES</span><b>${dexbCount()} / ${DEXB.length}</b></div><div class="pf-gems">${gems}</div><div class="pf-tip">Click a badge to see what it's for.</div></div>
+    <div class="pf-box"><div class="pf-bh"><span>RECENT CATCHES</span><b>LAST 7 DAYS · ${week}</b></div>
+      ${log.length?`<div class="pf-catches">${log.slice(0,6).map((c,i)=>`<div class="pf-ct${c.e.shiny?' sh':''}"><span class="pf-spr" data-i="${i}"></span><b>${esc(c.name)}</b><small>${esc(c.game)} · ${pfAgo(c.ts)}</small></div>`).join('')}</div>`:'<p class="pf-empty">Mark a Pokémon in your boxes and it shows up here.</p>'}</div>`;
+  log.slice(0,6).forEach((c,i)=>{ const slot=R.querySelector(`.pf-spr[data-i="${i}"]`); if(slot) slot.appendChild(imgEl(spriteChain(c.e,false),c.name)); });
+  R.querySelectorAll('.pf-gems [data-db]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); SFX.tab(); pfBadgePop(b); });
+}
+async function pfOpen(){
+  closeAccount(); dexbUpdate();
+  PF.open=true; $('pfWrap').hidden=false; pfRender(); $('pfWin').focus();
+  if(SD.on){
+    try{ const [r]=await Promise.all([api('GET','/api/showdown/me/stats'),sdLoadLobbyData()]); if(r.ok) PF.stats=await r.json(); }catch(_){}
+    if(PF.open) pfRender();
+  }
+}
+function pfClose(){ pfClosePop(); PF.open=false; $('pfWrap').hidden=true; }
+$('acctProfile').onclick=()=>{ SFX.tab(); pfOpen(); };
+$('pfX').onclick=pfClose; $('pfClose').onclick=pfClose; $('pfScrim').onclick=pfClose;
+$('pfPartner').onclick=()=>{ const b=$('pfLeft').querySelector('.s-partner button'); if(b) b.click(); };
+$('pfWin').addEventListener('click',e=>{ if(PF.pop&&!PF.pop.contains(e.target)&&!e.target.closest('[data-db]')) pfClosePop(); });
+document.addEventListener('keydown',e=>{ if(e.key!=='Escape'||!PF.open) return; if(PF.pop) pfClosePop(); else pfClose(); });
+
 /* ====================================================================================
    PHONE LAYOUT · only on screens up to 700 px wide. The PC layout is untouched: every
    element below is hidden there, and the bits of the page that move into sheets go back
@@ -3508,7 +3790,7 @@ function mobSheet(kind){
   if(MOBS.sheet==='mon'&&kind!=='mon') mobLowerHome();
   MOBS.sheet=kind; w.hidden=false; document.body.classList.add('mob-locked');
   w.querySelector('.mob-sheet').scrollTop=0;
-  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body);
+  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body);
 }
 function mobCloseSheet(){
   const w=$('mobSheet'); if(!w||w.hidden) return;
@@ -3571,15 +3853,26 @@ async function mobTrainer(){
   if(!SD.on){ el.innerHTML='<p class="mob-empty">Battles are turned off on this server.</p>'; return; }
   if(!el.childElementCount) el.innerHTML='<p class="mob-empty">Loading…</p>';
   await sdLoadLobbyData(); if(MOBS.tab!=='card') return;
+  const dx=dexbUpdate();
   const t=meCard(), played=t.played!=null?t.played:(t.wins||0)+(t.losses||0), wl=(t.wins||0)+(t.losses||0), have=new Set(t.badges||[]);
   el.innerHTML=`<div class="mob-cardslot"></div>
     <div class="mob-stats"><div><b>${played}</b><span>BATTLES</span></div><div><b>${wl?Math.round((t.wins||0)*100/wl)+'%':'—'}</b><span>WIN RATE</span></div><div><b>${t.streak||0}</b><span>STREAK</span></div></div>
     <div class="mob-lbl"><span>BADGES</span><span>${BADGES.filter(b=>have.has(b[0])).length} / ${BADGES.length}</span></div>
     <div class="mob-badges">${BADGES.map(b=>`<div class="mob-bdg${have.has(b[0])?'':' off'}" style="--c:${b[3]}" title="${esc(b[1])}: ${esc(b[2])}"><i></i><span>${esc(b[1].toUpperCase())}</span></div>`).join('')}</div>
-    <div class="mob-lbl"><span>RECENT BATTLES</span><span>TAP ▶ FOR THE REPLAY</span></div>
-    <div class="mob-hist">${(SD.hist||[]).map(b=>`<div class="mob-hrow"><span class="res ${esc(b.result)}">${esc(String(b.result).toUpperCase())}</span><span class="w2"><span>vs ${esc(b.opponent)}</span><small>${esc(sdShortFmt(b.format))} · ${b.left} left · ${b.turns} turns</small></span><button type="button" data-rp="${esc(b.id)}" aria-label="Watch the replay">▶</button></div>`).join('')||'<p class="mob-empty">No battles yet.</p>'}</div>`;
+    <div class="mob-lbl"><span>DEX BADGES</span><span>${dexbCount()} / ${DEXB.length}</span></div>
+    <div class="mob-badges mob-dexb">${DEXB.map(b=>{ const on=!!(st.dexb&&st.dexb[b.id]); return `<button type="button" class="mob-bdg${on?'':' off'}" style="--c:${b.c}" data-db="${b.id}" aria-label="${esc(b.name)}">${dexbGem(b,on,30)}<span>${esc(b.name.toUpperCase())}</span></button>`; }).join('')}</div>
+`;
   el.querySelector('.mob-cardslot').appendChild(cardEl(t,{label:'TRAINER CARD',editable:true}));
-  el.querySelectorAll('[data-rp]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.tab='battle'; $('mobCard').hidden=true; sdReplay(b.dataset.rp); });
+  el.querySelectorAll('[data-db]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.badge=b.dataset.db; mobSheet('badge'); });
+  if(dx.first&&dx.count) flash(`You already have ${dx.count} dex badge${dx.count>1?'s':''}`);
+}
+
+/* ---------- dex badges (Trainer tab) ---------- */
+function mobBadgeSheet(body){
+  const p=dexbProgress().find(x=>x.b.id===MOBS.badge); if(!p){ mobCloseSheet(); return; }
+  const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need);
+  body.innerHTML=`<div class="mob-dsheet" style="--c:${p.b.c}">${dexbGem(p.b,on,72)}<h3>${esc(p.b.name)}</h3><p>${esc(p.b.how)}.</p>
+    ${on?`<small>EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`:`<span class="br"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`}</div>`;
 }
 
 /* ---------- MORE ---------- */

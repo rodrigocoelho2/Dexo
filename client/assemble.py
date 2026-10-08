@@ -10,7 +10,7 @@ HERE=os.path.dirname(os.path.abspath(__file__)); SRC=os.path.join(HERE,'src')
 OUT=os.path.join(HERE,'..','src','LivingDex','wwwroot','index.html')
 def rd(n): return open(os.path.join(SRC,n),encoding='utf-8').read()
 t2=rd('base.html'); css_end=t2.index('</style>')
-css=rd('extra.css')+'\n'+rd('sd_base.css')+'\n'+rd('sd_extra.css')+'\n'+rd('sd_b2.css')+'\n'+rd('sd_fx.css')+'\n'+rd('sd_gen.css')+'\n'+rd('sd_draft.css')+'\n'+rd('tb.css')+'\n'+rd('mob.css'); a=css.index('/* stats */'); b=css.index('/* game groups */'); css=css[:a]+'.tg.dlc{background:#d6e8ff}\n'+css[b:]
+css=rd('extra.css')+'\n'+rd('sd_base.css')+'\n'+rd('sd_extra.css')+'\n'+rd('sd_b2.css')+'\n'+rd('sd_fx.css')+'\n'+rd('sd_gen.css')+'\n'+rd('sd_draft.css')+'\n'+rd('tb.css')+'\n'+rd('profile.css')+'\n'+rd('mob.css'); a=css.index('/* stats */'); b=css.index('/* game groups */'); css=css[:a]+'.tg.dlc{background:#d6e8ff}\n'+css[b:]
 css=css.replace('.stagecol{display:grid;gap:.35em;align-content:center}','.stagecol{display:grid;gap:.35em;align-content:start}').replace('.arrowcol{display:grid;place-items:center;','.arrowcol{display:grid;place-items:start center;padding-top:1.4em;').replace('.cart .n{white-space:normal;line-height:1.15;min-height:2.3em}','.cart{display:flex;flex-direction:column}\n.cart .n{white-space:normal;line-height:1.15;min-height:3.45em;flex:1}')
 import colorsys
 def _hsl(r,g,b,a=None):
@@ -32,7 +32,7 @@ d=rd('data2.json').replace('</','<\\/')
 exec(rd('icons.py'))
 headpart=themeify(t2[:css_end]+css)+'</style>\n'
 headpart=headpart.replace('<title>HOME Living Dex</title>','<title>HOME Living Dex</title>\n'+FAV_LINK,1)
-bodypart=rd('body.html')+'\n<script id="pkdata" type="application/json">'+d+'</script>\n<script>\n'+rd('app.js').replace('\nrender();\nsyncInit();\n})();','\n'+rd('sd.js')+'\n'+rd('mob.js')+'\nrender();\nsyncInit();\n})();')+'</script>\n'
+bodypart=rd('body.html')+'\n<script id="pkdata" type="application/json">'+d+'</script>\n<script>\n'+rd('app.js').replace('\nrender();\nsyncInit();\n})();','\n'+rd('sd.js')+'\n'+rd('dexbadges.js')+'\n'+rd('profile.js')+'\n'+rd('mob.js')+'\nrender();\nsyncInit();\n})();')+'</script>\n'
 # Installed as an app on a phone: manifest, iOS web-app tags and launch images (wwwroot/splash, made by client/splash.py).
 SPLASH=[(430,932,3),(440,956,3),(393,852,3),(402,874,3),(390,844,3),(428,926,3),(375,812,3),(414,896,3),(414,896,2),(375,667,2),(320,568,2)]
 APP_HEAD=('<link rel="manifest" href="/manifest.json">\n'

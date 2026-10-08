@@ -76,6 +76,9 @@ public static class ShowdownEndpoints
             }));
         });
 
+        group.MapGet("/me/stats", async (ClaimsPrincipal user, BattleRepository repo, CancellationToken ct) =>
+            Results.Ok(await repo.FormatRecordsAsync(user.RequiredUserId(), ct)));
+
         // Replays are visible to every signed-in trainer on this server, like watching live.
         group.MapGet("/battles/{id}", async (string id, BattleRepository repo, CancellationToken ct) =>
         {

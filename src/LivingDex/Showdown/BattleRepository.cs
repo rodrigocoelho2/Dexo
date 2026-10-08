@@ -40,6 +40,8 @@ public sealed class ProfileRow
 /// Numbers for a trainer card. Only battles against other people count for the record and badges;
 /// CPU practice is counted separately.
 /// </summary>
+public sealed record FormatRecord(string Format, long Wins, long Losses);
+
 public sealed record TrainerRecord(int Wins, int Losses, int Streak, int CpuWins, int CpuLosses, int Played, string[] Badges);
 
 public static class Badges
@@ -81,6 +83,21 @@ public sealed class BattleRepository(SqliteConnectionFactory db, DbWriteLock wri
         var rows = await connection.QueryAsync<BattleRow>(new CommandDefinition(
             SelectBattle + " WHERE p1_user_id = @userId OR p2_user_id = @userId ORDER BY ended_at DESC LIMIT @limit",
             new { userId, limit }, cancellationToken: ct));
+        return rows.AsList();
+    }
+
+    /// <summary>Wins and losses per format against other trainers (CPU battles and draws left out), for the profile.</summary>
+    public async Task<IReadOnlyList<FormatRecord>> FormatRecordsAsync(long userId, CancellationToken ct = default)
+    {
+        await using var connection = await db.OpenAsync(ct);
+        var rows = await connection.QueryAsync<FormatRecord>(new CommandDefinition("""
+            SELECT format AS Format,
+                   SUM(CASE WHEN (p1_user_id = @userId AND winner = 1) OR (p2_user_id = @userId AND winner = 2) THEN 1 ELSE 0 END) AS Wins,
+                   SUM(CASE WHEN (p1_user_id = @userId AND winner = 2) OR (p2_user_id = @userId AND winner = 1) THEN 1 ELSE 0 END) AS Losses
+            FROM battles
+            WHERE (p1_user_id = @userId OR p2_user_id = @userId) AND cpu = 0
+            GROUP BY format
+            """, new { userId }, cancellationToken: ct));
         return rows.AsList();
     }
 

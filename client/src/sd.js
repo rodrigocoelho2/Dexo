@@ -403,7 +403,7 @@ function sdPickPartner(){
   $('sdPshiny').onchange=e=>{ shiny=e.target.checked; };
   $('sdPsave').onclick=async()=>{
     try{ const r=await api('PUT','/api/showdown/me/partner',{partner:sel,shiny}); if(!r.ok) throw 0;
-      const t=trainer(sdMe()); if(t){ t.partner=sel; t.partnerShiny=shiny; } $('modal').hidden=true; SFX.mark(); cry(sel); sdRenderLobbyIfOpen(); flash(`${spName(sel)} is your partner now`); }
+      const t=trainer(sdMe()); if(t){ t.partner=sel; t.partnerShiny=shiny; } $('modal').hidden=true; SFX.mark(); cry(sel); sdRenderLobbyIfOpen(); if(PF.open) pfRender(); flash(`${spName(sel)} is your partner now`); }
     catch(_){ SFX.err(); flash('Could not save the partner'); }
   };
 }

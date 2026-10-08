@@ -131,7 +131,7 @@ function mobSheet(kind){
   if(MOBS.sheet==='mon'&&kind!=='mon') mobLowerHome();
   MOBS.sheet=kind; w.hidden=false; document.body.classList.add('mob-locked');
   w.querySelector('.mob-sheet').scrollTop=0;
-  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body);
+  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body);
 }
 function mobCloseSheet(){
   const w=$('mobSheet'); if(!w||w.hidden) return;
@@ -194,15 +194,26 @@ async function mobTrainer(){
   if(!SD.on){ el.innerHTML='<p class="mob-empty">Battles are turned off on this server.</p>'; return; }
   if(!el.childElementCount) el.innerHTML='<p class="mob-empty">Loading…</p>';
   await sdLoadLobbyData(); if(MOBS.tab!=='card') return;
+  const dx=dexbUpdate();
   const t=meCard(), played=t.played!=null?t.played:(t.wins||0)+(t.losses||0), wl=(t.wins||0)+(t.losses||0), have=new Set(t.badges||[]);
   el.innerHTML=`<div class="mob-cardslot"></div>
     <div class="mob-stats"><div><b>${played}</b><span>BATTLES</span></div><div><b>${wl?Math.round((t.wins||0)*100/wl)+'%':'—'}</b><span>WIN RATE</span></div><div><b>${t.streak||0}</b><span>STREAK</span></div></div>
     <div class="mob-lbl"><span>BADGES</span><span>${BADGES.filter(b=>have.has(b[0])).length} / ${BADGES.length}</span></div>
     <div class="mob-badges">${BADGES.map(b=>`<div class="mob-bdg${have.has(b[0])?'':' off'}" style="--c:${b[3]}" title="${esc(b[1])}: ${esc(b[2])}"><i></i><span>${esc(b[1].toUpperCase())}</span></div>`).join('')}</div>
-    <div class="mob-lbl"><span>RECENT BATTLES</span><span>TAP ▶ FOR THE REPLAY</span></div>
-    <div class="mob-hist">${(SD.hist||[]).map(b=>`<div class="mob-hrow"><span class="res ${esc(b.result)}">${esc(String(b.result).toUpperCase())}</span><span class="w2"><span>vs ${esc(b.opponent)}</span><small>${esc(sdShortFmt(b.format))} · ${b.left} left · ${b.turns} turns</small></span><button type="button" data-rp="${esc(b.id)}" aria-label="Watch the replay">▶</button></div>`).join('')||'<p class="mob-empty">No battles yet.</p>'}</div>`;
+    <div class="mob-lbl"><span>DEX BADGES</span><span>${dexbCount()} / ${DEXB.length}</span></div>
+    <div class="mob-badges mob-dexb">${DEXB.map(b=>{ const on=!!(st.dexb&&st.dexb[b.id]); return `<button type="button" class="mob-bdg${on?'':' off'}" style="--c:${b.c}" data-db="${b.id}" aria-label="${esc(b.name)}">${dexbGem(b,on,30)}<span>${esc(b.name.toUpperCase())}</span></button>`; }).join('')}</div>
+`;
   el.querySelector('.mob-cardslot').appendChild(cardEl(t,{label:'TRAINER CARD',editable:true}));
-  el.querySelectorAll('[data-rp]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.tab='battle'; $('mobCard').hidden=true; sdReplay(b.dataset.rp); });
+  el.querySelectorAll('[data-db]').forEach(b=>b.onclick=()=>{ SFX.tab(); MOBS.badge=b.dataset.db; mobSheet('badge'); });
+  if(dx.first&&dx.count) flash(`You already have ${dx.count} dex badge${dx.count>1?'s':''}`);
+}
+
+/* ---------- dex badges (Trainer tab) ---------- */
+function mobBadgeSheet(body){
+  const p=dexbProgress().find(x=>x.b.id===MOBS.badge); if(!p){ mobCloseSheet(); return; }
+  const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need);
+  body.innerHTML=`<div class="mob-dsheet" style="--c:${p.b.c}">${dexbGem(p.b,on,72)}<h3>${esc(p.b.name)}</h3><p>${esc(p.b.how)}.</p>
+    ${on?`<small>EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`:`<span class="br"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`}</div>`;
 }
 
 /* ---------- MORE ---------- */

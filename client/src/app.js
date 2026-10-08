@@ -76,7 +76,7 @@ function setCaught(g,v,e,on){
   const arr=caughtArr(g,v), i=arr.indexOf(e.key);
   if(on&&i<0){ arr.push(e.key); const dk=detKey(g,v,e); const d=st.det[dk]||{}; if(!d.ts) d.ts=Date.now(); d.mt=Date.now(); if(!d.game && ORIG[g.k]) d.game=g.k; st.det[dk]=d; st.log.unshift({k:dk,ts:Date.now(),n:(e.shiny?'★ ':'')+SP.get(e.sid).en+(e.label?' ('+shortLabel(e.label)+')':'')}); if(st.log.length>300) st.log.length=300; }
   if(!on&&i>=0) arr.splice(i,1);
-  save();
+  save(); dexbAfterMark(on);
 }
 function originState(e,d){ if(!d.game) return 'unset'; const o=ORIG[d.game]; const gen=SP.get(e.sid).gen; if(!o) return 'bad'; return (o.gen===gen || (d.game==='lgpe'&&gen===1)) ? 'ok' : 'bad'; }
 function isDone(g,v,e,c){ if(!c.has(e.key)) return false; if(v!=='origin') return true; return originState(e,detOf(g,v,e))==='ok'; }
@@ -475,7 +475,7 @@ $('importBk').onclick=()=>{ try{ const d=JSON.parse($('backupText').value); if(!
 
 /* ---------- server sync + accounts (only when served by the LivingDex server) ---------- */
 const SYNC={on:false,user:null,health:null,rev:0,lastHash:null,timer:0,busy:false,again:false,listeners:false};
-const syncPayload=()=>({caught:st.caught,det:st.det,log:st.log});
+const syncPayload=()=>({caught:st.caught,det:st.det,log:st.log,dexb:st.dexb});
 function hashStr(s){ let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return (h>>>0).toString(36)+':'+s.length; }
 const hasData=()=>Object.values(st.caught||{}).some(a=>Array.isArray(a)&&a.length)||Object.keys(st.det||{}).length>0;
 const device=()=>(/iPhone|iPad|Android/.exec(navigator.userAgent)||['Desktop'])[0];
@@ -492,14 +492,15 @@ async function problemText(r,fallback){
   try{ const j=await r.json(); return j.detail||j.title||fallback; }catch(_){ return fallback; }
 }
 function markSynced(){ SYNC.lastHash=hashStr(JSON.stringify(syncPayload())); st.syncRev=SYNC.rev; st.syncHash=SYNC.lastHash; localSave(); }
-function adopt(data){ const d=data||{}; st.caught=d.caught&&typeof d.caught==='object'?d.caught:{}; st.det=d.det&&typeof d.det==='object'?d.det:{}; st.log=Array.isArray(d.log)?d.log:[]; }
-function clearLocalProgress(){ st.caught={}; st.det={}; st.log=[]; st.sel={}; st.syncRev=0; st.syncHash=null; Object.keys(lookup).forEach(k=>delete lookup[k]); }
+function adopt(data){ const d=data||{}; st.caught=d.caught&&typeof d.caught==='object'?d.caught:{}; st.det=d.det&&typeof d.det==='object'?d.det:{}; st.log=Array.isArray(d.log)?d.log:[]; st.dexb=d.dexb&&typeof d.dexb==='object'?d.dexb:st.dexb; }
+function clearLocalProgress(){ st.caught={}; st.det={}; st.log=[]; delete st.dexb; st.sel={}; st.syncRev=0; st.syncHash=null; Object.keys(lookup).forEach(k=>delete lookup[k]); }
 function mergeData(a,b){
   a=a||{}; b=b||{};
   const caught={}; new Set([...Object.keys(a.caught||{}),...Object.keys(b.caught||{})]).forEach(k=>{ caught[k]=[...new Set([...((a.caught||{})[k]||[]),...((b.caught||{})[k]||[])])]; });
   const det={...(a.det||{})}; Object.entries(b.det||{}).forEach(([k,v])=>{ const o=det[k]; if(!o||(v.mt||v.ts||0)>=(o.mt||o.ts||0)) det[k]=v; });
   const seen=new Set(), log=[...(a.log||[]),...(b.log||[])].filter(l=>{ const id=l.k+'@'+l.ts; if(seen.has(id)) return false; seen.add(id); return true; }).sort((x,y)=>y.ts-x.ts).slice(0,300);
-  return {caught,det,log};
+  const dexb={...(a.dexb||{})}; Object.entries(b.dexb||{}).forEach(([k,v])=>{ if(!dexb[k]||v<dexb[k]) dexb[k]=v; });   // a badge keeps its first date
+  return {caught,det,log,dexb};
 }
 function syncTouch(){ if(!SYNC.on||!SYNC.user) return; clearTimeout(SYNC.timer); SYNC.timer=setTimeout(push,700); }
 async function push(){

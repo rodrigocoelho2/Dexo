@@ -37,6 +37,8 @@
 - **Overview** shows every Pokémon in colour; **Highlight missing** makes the gaps stand out; search by name or number from anywhere.
 - **Accounts and sync** – everyone has their own dex, saved in SQLite and synced across devices, with a 200-revision history you can restore.
 - **Themes** – eight colours for the boxes and panels, sound effects and cries.
+- **Dex badges** – 24 badges for filling your boxes: every region, 100/250/500/1025 caught, shinies, full Unown/Vivillon/Alcremie/Furfrou sets and a few specials, with a "Badge get!" moment on the phone.
+- **Trainer profile** – on the PC, *View profile* in the account menu shows your card, the living dex by region, the dex badges, your battle record by generation and your latest catches.
 
 **Showdown arena**
 
@@ -129,6 +131,20 @@ The app shows a launch screen while your boxes load, keeps you signed in like th
 
 That offline page needs a service worker, which browsers only allow over **HTTPS** (or on `localhost`). Over plain `http://<nas-ip>:8085` the app still installs and opens full screen; you just get the browser's own error page when the NAS is unreachable. To use it from outside your home, put it behind a reverse proxy with a certificate (and set `LIVINGDEX_BEHIND_PROXY=true`) or use a VPN such as Tailscale.
 
+## Dex badges and the trainer profile
+
+Dex badges are earned by filling your boxes, not by battling. They're worked out from your Pokémon HOME progress, so everything you've already marked counts the first time you open the app:
+
+| Group | Badges | Counts |
+|---|---|---|
+| Regions | Kanto, Johto, Hoenn, Sinnoh, Unova, Kalos, Alola, Galar, Hisui, Paldea complete | HOME · Normal |
+| Milestones | 100, 250, 500 caught, and the full Living Dex (1025) | HOME · Normal |
+| Shiny | First shiny, 25 and 100 shinies | HOME · Shiny |
+| Forms | All Unown (28), Vivillon (20), Alcremie (63), Furfrou (10) | HOME · Forms |
+| Special | Gender Gap (both versions of every gender difference), Game Clear (any game's Pokédex at 100%), Back to the Roots (50 with an OT game from their own generation) | |
+
+On the phone they sit under the battle badges in the **Trainer** tab; tap one for what it asks and how far you are, and marking the last Pokémon a badge needs shows a **Badge get!** card. On the PC, **View profile** in the account menu opens your profile: trainer card, battle record by generation with the last replay, the living dex by region, the dex badges (click one for its details) and your latest catches. Badges keep the date you first earned them, sync across devices, and stay if you later unmark something.
+
 ## Download all assets
 
 Sprites, cries, battle backgrounds and music are fetched the first time someone needs them and kept in `data/cache`. To get everything in one go, open the account menu as the admin and choose **Download all assets**: the server downloads every sprite (box, animated, shiny, female, back, icons and the Gen 1–4 battle sprites), every cry, the battle effects and backgrounds and the battle music, about 16,000 files and a few hundred MB, in the background with a progress bar. You can close the page while it runs. Files already cached are skipped, so running it again later only fetches what is new.
@@ -175,7 +191,8 @@ client/
   assemble.py               builds wwwroot/index.html from client/src
   splash.py                 renders the iPhone launch images into wwwroot/splash
   src/                      base.html (base styles), body.html, app.js (tracker), sd.js (Showdown),
-                            mob.js (phone layer), *.css, icons.py, data2.json (generated Pokédex data)
+                            dexbadges.js (dex badges), profile.js (PC profile), mob.js (phone layer),
+                            *.css, icons.py, data2.json (generated Pokédex data)
   psfx/                     move-animation sources + build.sh (esbuild bundle → wwwroot/lib)
 tools/data/                 build_data.py: PokeAPI CSVs + Showdown data → client/src/data2.json
 docs/                       README images and the HTML design mocks
@@ -286,6 +303,7 @@ Every request that changes something must send the header `X-LivingDex: 1` (CSRF
 | GET | `/api/showdown/trainers` | Every trainer card: record, streak, living dex count, partner, last seen |
 | PUT | `/api/showdown/me/partner` | `{ partner, shiny }` (national dex number 1–1025) |
 | GET | `/api/showdown/battles` | Your 12 most recent battles |
+| GET | `/api/showdown/me/stats` | Your wins and losses per format against other trainers (for the profile) |
 | GET | `/api/showdown/battles/{id}` | One battle with teams and the full log, for replays |
 | WS | `/hubs/showdown` | SignalR hub: presence, challenges, battle messages and choices |
 | GET | `/assets/sprites/{path}` · `/assets/cries/{path}` | Cached PokeAPI files (`.png`, `.gif`, `.ogg` only) |
