@@ -74,6 +74,8 @@ services:
     volumes:
       # Login keys, the download cache and (until it is imported) the old livingdex.db.
       - livingdex-data:/data
+      # Sprites, cries and battle backgrounds from the repository, read-only (not copied into the image).
+      - ./LivingDex.Assets:/app/assets:ro
 
 networks:
   default:      # private network of this stack (SQL Server is not on nas-net)

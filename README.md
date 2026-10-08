@@ -154,7 +154,7 @@ On the phone they sit under the battle badges in the **Trainer** tab; tap one fo
 
 ## Download all assets
 
-Sprites, cries and battle backgrounds ship with the app in `LivingDex.Assets` (copied into the image), so a new server has them from the start. Anything not in that folder (battle music, new forms) is fetched the first time someone needs it and kept in `/data/cache`. To get everything in one go, open the account menu as the admin and choose **Download all assets**: the server downloads every sprite (box, animated, shiny, female, back, icons and the Gen 1–4 battle sprites), every cry, the battle effects and backgrounds and the battle music, about 16,000 files and a few hundred MB, in the background with a progress bar. You can close the page while it runs. Files already cached are skipped, so running it again later only fetches what is new.
+Sprites, cries and battle backgrounds ship with the app in `LivingDex.Assets`, which `docker-compose.yml` mounts into the container read-only (they are not copied into the image, so builds stay fast), so a new server has them from the start. Anything not in that folder (battle music, new forms) is fetched the first time someone needs it and kept in `/data/cache`. To get everything in one go, open the account menu as the admin and choose **Download all assets**: the server downloads every sprite (box, animated, shiny, female, back, icons and the Gen 1–4 battle sprites), every cry, the battle effects and backgrounds and the battle music, about 16,000 files and a few hundred MB, in the background with a progress bar. You can close the page while it runs. Files already cached are skipped, so running it again later only fetches what is new.
 
 ## Showdown in detail
 
@@ -325,7 +325,7 @@ All settings are under `LivingDex` (env vars use `LivingDex__Name`):
 |---|---|---|
 | `ConnectionStrings:LivingDex` | – | SQL Server connection string (env `ConnectionStrings__LivingDex`; set by `docker-compose.yml`) |
 | `DataDirectory` | `data` | Login keys, the asset download cache and (until imported) the old SQLite database |
-| `AssetsDirectory` | `assets` | Bundled sprites, cries, backgrounds and music (`/app/assets` in the image) |
+| `AssetsDirectory` | `assets` | Bundled sprites, cries, backgrounds and music (`/app/assets` in the container, mounted from `LivingDex.Assets`) |
 | `AllowRegistration` | `true` | Let people create their own account (the first account is always allowed) |
 | `BehindProxy` | `false` | Trust `X-Forwarded-For` / `X-Forwarded-Proto` from a reverse proxy |
 | `AuthAttemptsPerMinute` | `10` | Sign-in / sign-up / password attempts per minute from one address |

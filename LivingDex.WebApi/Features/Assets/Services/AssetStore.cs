@@ -46,6 +46,7 @@ internal sealed partial class AssetStore(
     private readonly IOptions<LivingDexOptions> _options = options;
     private readonly ILogger<AssetStore> _logger = logger;
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _locks = new();
+    private readonly ConcurrentDictionary<string, bool> _unreadableLogged = new();
 
     /// <inheritdoc />
     public bool CacheEnabled => _options.Value.CacheAssets;
@@ -74,7 +75,7 @@ internal sealed partial class AssetStore(
             return new AssetLookup(AssetState.Rejected);
         }
 
-        if (BundledFile(kind, path) is { } bundled && File.Exists(bundled))
+        if (BundledFile(kind, path) is { } bundled && Readable(bundled))
         {
             return Found(AssetState.Cached, bundled, path);
         }
@@ -98,7 +99,7 @@ internal sealed partial class AssetStore(
             return (AssetState.Rejected, 0);
         }
 
-        if (BundledFile(kind, path) is { } bundled && File.Exists(bundled))
+        if (BundledFile(kind, path) is { } bundled && Readable(bundled))
         {
             return (AssetState.Cached, new FileInfo(bundled).Length);
         }
@@ -129,6 +130,33 @@ internal sealed partial class AssetStore(
             AssetKind.Music => isMp3 && MusicTrack().IsMatch(path),
             _ => !isMp3,
         };
+    }
+
+    /// <summary>
+    /// The bundled folder is mounted from the NAS; a file the app user may not read is treated as missing
+    /// (served from the cache or downloaded instead) rather than failing the request.
+    /// </summary>
+    private bool Readable(string file)
+    {
+        if (!File.Exists(file))
+        {
+            return false;
+        }
+
+        try
+        {
+            using var handle = File.OpenHandle(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return true;
+        }
+        catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
+        {
+            if (_unreadableLogged.TryAdd(file, true))
+            {
+                _logger.LogWarning("Bundled asset {File} can't be read by the app; serving it from the cache instead. Fix with: chmod -R a+rX LivingDex.Assets", file);
+            }
+
+            return false;
+        }
     }
 
     private static AssetLookup Found(AssetState state, string file, string path) =>

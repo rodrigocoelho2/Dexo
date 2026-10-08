@@ -7,6 +7,8 @@
 .github/
 docs/
 LivingDex.Client/
+# Mounted into the container by docker-compose.yml, never part of an image.
+LivingDex.Assets/
 LivingDex.UnitTest/
 *.md
 .env

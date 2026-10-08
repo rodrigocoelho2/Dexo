@@ -57,6 +57,37 @@ public sealed class AssetStoreTests : IDisposable
     }
 
     [Fact]
+    public async Task UnreadableBundledFile_IsDownloadedInstead()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var file = Path.Combine(_bundle.Path, "cries", "latest", "25.ogg");
+        Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+        await File.WriteAllTextAsync(file, "bundled");
+        File.SetUnixFileMode(file, UnixFileMode.None);
+        try
+        {
+            using (File.OpenHandle(file, FileMode.Open, FileAccess.Read))
+            {
+                return;   // running as root: every file is readable, nothing to test
+            }
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
+
+        var handler = new FakeHttpMessageHandler(HttpStatusCode.OK, "downloaded");
+        var lookup = await Store(handler).ResolveAsync(AssetKind.Cries, "latest/25.ogg");
+
+        Assert.Equal(AssetState.Downloaded, lookup.State);
+        Assert.Single(handler.Requests);
+        File.SetUnixFileMode(file, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+    }
+
+    [Fact]
     public async Task CachingOff_RedirectsUpstream()
     {
         var lookup = await Store(new FakeHttpMessageHandler(HttpStatusCode.OK), cacheAssets: false).ResolveAsync(AssetKind.Cries, "latest/25.ogg");

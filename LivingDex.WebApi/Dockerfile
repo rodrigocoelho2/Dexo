@@ -1,4 +1,6 @@
 # Build from the repository root:  docker build -f LivingDex.WebApi/Dockerfile -t livingdex .
+# The sprites, cries and battle backgrounds are not in the image: docker-compose.yml mounts LivingDex.Assets
+# at /app/assets (read-only), so builds stay small and fast on a NAS.
 
 # ---- build ----
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
@@ -9,7 +11,9 @@ COPY LivingDex.WebApi/LivingDex.WebApi.csproj LivingDex.WebApi/
 RUN dotnet restore LivingDex.WebApi/LivingDex.WebApi.csproj
 COPY LivingDex.Library/ LivingDex.Library/
 COPY LivingDex.WebApi/ LivingDex.WebApi/
-RUN dotnet publish LivingDex.WebApi/LivingDex.WebApi.csproj -c Release -o /app --no-restore
+# Files copied from a NAS share can keep owner-only permissions; the app runs as the non-root "app" user.
+RUN dotnet publish LivingDex.WebApi/LivingDex.WebApi.csproj -c Release -o /app --no-restore \
+    && chmod -R a+rX /app
 
 # ---- battle simulator (Pokémon Showdown on Node.js) ----
 FROM node:22-bookworm-slim AS sim
@@ -18,27 +22,26 @@ COPY LivingDex.WebApi/Simulator/package.json LivingDex.WebApi/Simulator/package-
 # Only the simulator code is needed: skip optional database drivers and install scripts.
 RUN npm ci --omit=dev --omit=optional --ignore-scripts --no-audit --no-fund && npm cache clean --force
 COPY LivingDex.WebApi/Simulator/bridge.js ./
+RUN chmod -R a+rX /sim && node --version
 
 # ---- runtime ----
+# Rarely-changing layers first (Node.js, the simulator), the app last: a code change only rebuilds the last layer.
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
-COPY --from=build /app .
 # Node.js runs the simulator as a child process of the app, inside this same container.
 COPY --from=sim /usr/local/bin/node /usr/local/bin/node
 COPY --from=sim /sim ./Simulator
-# Sprites, cries, battle backgrounds and music shipped with the app (served before anything is downloaded).
-COPY LivingDex.Assets/ ./assets/
-# Files extracted on a NAS can keep owner-only permissions; the app runs as the non-root "app" user.
-RUN rm -f ./assets/README.md && chmod -R a+rX /app && node --version
 
 ENV ASPNETCORE_HTTP_PORTS=8080 \
     LivingDex__DataDirectory=/data \
     LivingDex__AssetsDirectory=/app/assets
 
 # The aspnet image runs as the non-root "app" user (UID in $APP_UID); give it the data folder.
-RUN mkdir -p /data && chown -R $APP_UID /data
+RUN mkdir -p /data /app/assets && chown -R $APP_UID /data
 VOLUME /data
-USER $APP_UID
 
+COPY --from=build /app .
+
+USER $APP_UID
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "LivingDex.WebApi.dll"]

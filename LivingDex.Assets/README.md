@@ -1,8 +1,11 @@
 # LivingDex.Assets
 
 Sprites, cries and battle backgrounds shipped with the app, so a new server needs nothing from the internet.
-The Dockerfile copies this folder to `/app/assets`; the app serves a file from here first, then from the
-download cache (`/data/cache`), and only then fetches it once from upstream.
+`docker-compose.yml` mounts this folder at `/app/assets` (read-only; it is not copied into the image, so builds
+stay fast). The app serves a file from here first, then from the
+download cache (`/data/cache`), and only then fetches it once from upstream. A `git pull` that adds files here
+makes them available at once, without a rebuild. Files must be readable by everyone (`chmod -R a+rX LivingDex.Assets`);
+an unreadable file is served from the cache instead.
 
 | Folder | Served at | Source |
 |---|---|---|
