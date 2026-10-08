@@ -33,7 +33,7 @@ internal interface IGlobalizationHelper
 /// </summary>
 internal sealed class GlobalizationHelper : IGlobalizationHelper
 {
-    // The app runs with InvariantGlobalization (no ICU in the image); the invariant culture formats numbers the English way.
+    // Numbers in messages are formatted the same way whatever culture the server runs in.
     private static readonly CultureInfo English = CultureInfo.InvariantCulture;
 
     private static readonly Dictionary<string, string> Translations = new(StringComparer.OrdinalIgnoreCase)
