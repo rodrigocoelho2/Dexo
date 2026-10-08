@@ -9,6 +9,7 @@ internal sealed class TestApp : WebApplicationFactory<Program>
 {
     private readonly bool _allowRegistration;
     private readonly TempFolder _data;
+    private bool _disposed;
 
     public TestApp(bool allowRegistration = true, TempFolder? data = null)
     {
@@ -42,8 +43,11 @@ internal sealed class TestApp : WebApplicationFactory<Program>
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
-        if (disposing)
+
+        // WebApplicationFactory calls this from both Dispose and DisposeAsync.
+        if (disposing && !_disposed)
         {
+            _disposed = true;
             Database.Dispose();
             _data.Dispose();
         }

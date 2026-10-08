@@ -45,12 +45,20 @@ internal sealed partial class TestDatabase : IDisposable
     /// <summary>Gets the connection string of the new database.</summary>
     public string ConnectionString { get; }
 
+    private bool _disposed;
+
     public void Dispose()
     {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
         SqlConnection.ClearAllPools();
         using var master = new SqlConnection(ServerConnectionString);
         master.Open();
-        Execute(master, $"ALTER DATABASE [{Name}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{Name}];");
+        Execute(master, $"IF DB_ID(N'{Name}') IS NOT NULL BEGIN ALTER DATABASE [{Name}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{Name}]; END");
     }
 
     /// <summary>Runs one statement against the database (for test setup and checks).</summary>
