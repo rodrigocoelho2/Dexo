@@ -1,0 +1,22 @@
+services:
+  livingdex:
+    build: .
+    image: livingdex:latest
+    container_name: livingdex
+    restart: unless-stopped
+    ports:
+      - "8085:8080"
+    environment:
+      # Set to "false" once everyone who needs an account has one (the first account can always be created).
+      LivingDex__AllowRegistration: ${LIVINGDEX_ALLOW_REGISTRATION:-true}
+      # Set to "true" if a reverse proxy (Synology, nginx, Traefik…) sits in front of the app.
+      LivingDex__BehindProxy: ${LIVINGDEX_BEHIND_PROXY:-false}
+      # Showdown battles: seconds per turn, or "false" on the second line to turn battles off.
+      LivingDex__TurnSeconds: ${LIVINGDEX_TURN_SECONDS:-60}
+      LivingDex__ShowdownEnabled: ${LIVINGDEX_SHOWDOWN:-true}
+      TZ: Europe/Lisbon
+    volumes:
+      - livingdex-data:/data
+
+volumes:
+  livingdex-data:

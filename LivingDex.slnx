@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LivingDex/LivingDex.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LivingDex.Tests/LivingDex.Tests.csproj" />
+  </Folder>
+</Solution>

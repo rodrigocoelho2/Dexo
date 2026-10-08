@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+.idea/
+*.user
+src/LivingDex/data/
+TestResults/
+node_modules/
+__pycache__/
+*.pyc
+*.zip
+.DS_Store

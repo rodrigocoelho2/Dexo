@@ -1,0 +1,11 @@
+{
+  "name": "livingdex-sim",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pokémon Showdown battle bridge for Living Dex",
+  "main": "bridge.js",
+  "license": "MIT",
+  "dependencies": {
+    "pokemon-showdown": "0.11.11"
+  }
+}

@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/data/
+tests/
+.git/
+*.md
+**/node_modules/
+docs/
+client/
+tools/

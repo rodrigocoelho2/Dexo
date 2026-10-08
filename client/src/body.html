@@ -1,0 +1,180 @@
+<div class="login" id="login" hidden>
+  <div class="lwrap">
+    <div class="lbrand"><span class="ball" aria-hidden="true"></span><h1>HOME LIVING DEX</h1></div>
+    <div class="lframe">
+      <form class="lscreen" id="lgForm" novalidate>
+        <div class="formcol">
+          <div class="tabs" role="tablist" aria-label="Account">
+            <button class="tab" type="button" role="tab" id="lgTabIn" aria-selected="true">SIGN IN</button>
+            <button class="tab" type="button" role="tab" id="lgTabNew" aria-selected="false">CREATE ACCOUNT</button>
+          </div>
+          <label class="hex"><span class="in"><span class="chip">USERNAME</span><input id="lgUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="e.g. Hilda" maxlength="24"></span></label>
+          <label class="hex"><span class="in"><span class="chip">PASSWORD</span><input id="lgPass" name="password" type="password" autocomplete="current-password" placeholder="At least 8 characters" maxlength="128"><button class="eye" type="button" id="lgEye" aria-label="Show password">SHOW</button></span></label>
+          <label class="hex" id="lgConfirmRow" hidden><span class="in"><span class="chip">CONFIRM</span><input id="lgPass2" type="password" autocomplete="new-password" placeholder="Type it again" maxlength="128"></span></label>
+          <label class="remember" id="lgRememberRow"><input type="checkbox" id="lgRemember" checked> Keep me signed in on this device</label>
+          <p class="hint" id="lgFirst" hidden>No accounts yet. The first account becomes the admin and keeps the progress already saved on this server.</p>
+          <p class="hint" id="lgNewHint" hidden>3–24 letters, numbers, dots, dashes or underscores. Each account has its own boxes, details and history.</p>
+          <div class="msg" id="lgMsg" aria-live="polite"></div>
+        </div>
+        <div class="side" aria-hidden="true">
+          <div class="lstage" id="lgStage"></div>
+          <div>
+            <div class="lstrip" id="lgStrip">TRAINER CARD</div>
+            <div class="linfo">
+              <div><small>Trainer</small><span id="lgName">—</span></div>
+              <div><small>Living dex</small><span id="lgDex">Saved on server</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="lbar">
+          <button class="bt go" type="submit" id="lgGo">▶ SIGN IN</button>
+          <button class="bt alt" type="button" id="lgSwap">NEW HERE? CREATE ACCOUNT</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="boot" id="boot" role="status" aria-live="polite"><span class="ball spin" aria-hidden="true"></span><span>LOADING…</span></div>
+<div class="wrap" id="app" hidden>
+  <header class="top">
+    <div class="brand"><span class="ball" aria-hidden="true"></span><div><h1 id="brandTitle">HOME LIVING DEX</h1><small><span id="brandSub">BOX TRACKER · B2 STYLE</span><span id="syncSt" class="syncst" aria-live="polite"></span></small></div></div>
+    <div class="hright">
+      <div class="overall" id="overall"></div>
+      <div class="themepick" id="localSettings">
+        <button class="gear" type="button" id="themeBtn" aria-haspopup="true" aria-expanded="false" aria-controls="themes" aria-label="Theme" title="Theme">⚙</button>
+        <div class="thpop" id="themes" role="group" aria-label="Theme" hidden></div>
+      </div>
+      <button class="backbtn" type="button" id="sdBack" hidden>◀ HOME</button>
+      <button class="sdbtn" type="button" id="sdBtn" title="Showdown" aria-label="Showdown" hidden><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke-linecap="round"><g stroke="#fff" stroke-width="2.1"><line x1="3" y1="3" x2="13" y2="13"/><line x1="17" y1="3" x2="7" y2="13"/></g><g stroke="#ffd23f" stroke-width="2"><line x1="11.2" y1="14.8" x2="14.8" y2="11.2"/><line x1="5.2" y1="11.2" x2="8.8" y2="14.8"/></g><g stroke="#4a2a0c" stroke-width="2"><line x1="14.2" y1="14.2" x2="16" y2="16"/><line x1="5.8" y1="14.2" x2="4" y2="16"/></g><g fill="#ffd23f"><circle cx="16.7" cy="16.7" r="1.2"/><circle cx="3.3" cy="16.7" r="1.2"/></g></svg><span class="s-dot" id="sdDot" hidden></span></button>
+      <div class="acct" id="acct" hidden>
+        <button class="acctbtn" type="button" id="acctBtn" aria-haspopup="true" aria-expanded="false" aria-controls="acctPop">?</button>
+        <div class="acctpop" id="acctPop" hidden>
+          <div class="who"><span class="ball" aria-hidden="true"></span><div><b id="acctName"></b><small id="acctRole"></small></div></div>
+          <div class="mtheme"><span>THEME</span><div class="throw" id="themesAcct" role="group" aria-label="Theme"></div></div>
+          <button type="button" class="mi" id="acctPass">Change password</button>
+          <button type="button" class="mi" id="acctUsers" hidden>Manage users</button>
+          <button type="button" class="mi" id="acctAssets" hidden>Download all assets</button>
+          <button type="button" class="mi" id="acctOut">Sign out</button>
+          <button type="button" class="mi danger" id="acctDelete">Delete account</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div id="dexView" class="dexview">
+  <section class="gbar" aria-label="Games">
+    <nav class="carts" id="carts" aria-label="Games"></nav>
+    <button class="tb-all" type="button" id="allBtn" aria-expanded="false" aria-controls="carts">ALL GAMES <span id="allArrow" aria-hidden="true">▾</span></button>
+  </section>
+  <div class="notice" id="notice" hidden><p id="noticeText"></p><button type="button" id="noticeX" aria-label="Dismiss notice">✕</button></div>
+  <section class="controls tbar" aria-label="Living dex options">
+    <div class="tb-dd">
+      <button class="tb-ddbtn" type="button" id="dexBtn" aria-haspopup="true" aria-expanded="false" aria-controls="dexPop"><small>POKÉDEX</small><span id="dexLbl"></span><span class="tb-n" id="dexN"></span><span class="tb-car" id="dexCar" aria-hidden="true">▾</span></button>
+      <div class="tb-pop tb-dex" id="dexPop" role="menu" hidden></div>
+    </div>
+    <div class="grp tb-seg" id="variants" role="group" aria-label="Variant"></div>
+    <form class="search tb-search" id="searchForm"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 4 4"/></svg><input id="q" type="search" placeholder="Name or no. (e.g. crobat, 169)" autocomplete="off" aria-label="Search Pokémon"><button type="submit" hidden>GO</button></form>
+    <label class="toggle"><input type="checkbox" id="ovw"> Overview</label>
+    <label class="toggle"><input type="checkbox" id="hl"> Highlight missing</label>
+    <div class="tb-icons">
+      <button class="tb-ib" type="button" id="quickBtn" aria-pressed="false" title="Tap to mark" aria-label="Tap to mark"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 10V3.5a1.5 1.5 0 0 1 3 0V9m0-1.5a1.5 1.5 0 0 1 3 0V10m0-1a1.5 1.5 0 0 1 3 0v3.5c0 3-2 5.5-5 5.5H9.5c-2 0-3-1-4-2.5L3 12a1.4 1.4 0 0 1 2.2-1.7L7 12"/></svg></button>
+      <button class="tb-ib" type="button" id="sndBtn" aria-pressed="true" title="Sound" aria-label="Sound"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h3l4-3.5v11L6 12H3z" fill="currentColor"/><path class="w" d="M13 7.5a3.5 3.5 0 0 1 0 5M15.5 5a7 7 0 0 1 0 10"/><path class="x" d="m13 7.5 5 5m0-5-5 5"/></svg></button>
+    </div>
+  </section>
+
+  <div class="main">
+    <div>
+      <div class="dsframe">
+        <div class="screen" id="screen" aria-live="polite"></div>
+        <button class="hinge" type="button" id="lowerToggle" aria-expanded="false" aria-controls="lower"><span id="lowerLbl">▼ EVOLUTION · WHERE TO GET · DETAILS</span></button>
+        <div class="lower" id="lower" hidden>
+          <div class="ltabs" role="tablist" aria-label="Pokémon pages">
+            <button class="ltab" type="button" role="tab" id="tab-evo" data-t="evo">EVOLUTION</button>
+            <button class="ltab" type="button" role="tab" id="tab-where" data-t="where">WHERE TO GET</button>
+            <button class="ltab" type="button" role="tab" id="tab-det" data-t="det">DETAILS</button>
+          </div>
+          <div class="lbody" id="lbody" role="tabpanel"></div>
+        </div>
+      </div>
+    </div>
+    <div class="boxwrap">
+      <div class="boxhead">
+        <button class="arrow" type="button" id="prevBox" aria-label="Previous box">◀</button>
+        <div class="boxname" id="boxname"></div>
+        <button class="arrow" type="button" id="nextBox" aria-label="Next box">▶</button>
+      </div>
+      <div class="box" id="box"><div class="slots" id="slots"></div></div>
+      <div class="boxacts">
+        <span class="legend">Click to inspect · double-click or Space to mark · arrow keys to move</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn" type="button" id="fillBox">Mark box</button>
+          <button class="btn warn" type="button" id="clearBox">Clear box</button>
+        </div>
+      </div>
+      <section class="overview"><h2><span>ALL BOXES</span><span id="ovCount"></span></h2><div class="minis" id="minis"></div></section>
+      <details class="backup">
+        <summary>BACKUP</summary>
+        <p class="note">Progress and details are saved in this browser. Copy the text below to keep it somewhere else, or paste a backup and import it.</p>
+        <textarea id="backupText" aria-label="Backup data" spellcheck="false"></textarea>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" type="button" id="copyBk">Copy backup</button>
+          <button class="btn" type="button" id="importBk">Import pasted text</button>
+        </div>
+        <div id="srvHist" hidden><p class="note" style="margin-top:12px">SERVER HISTORY · every save is a version you can go back to</p><ul class="hist" id="histList"></ul></div>
+      </details>
+    </div>
+  </div>
+  </div>
+  <div id="sdView" class="sdv" hidden>
+    <section id="sdLobby" class="s-screen" aria-label="Showdown lobby">
+      <div class="s-lobby">
+        <div class="s-frame" id="sdMyCard"></div>
+        <div class="s-vs" aria-hidden="true">VS<small id="sdVsState">WAITING</small></div>
+        <div class="s-frame" id="sdOppCard"></div>
+      </div>
+      <div class="s-lpanels">
+        <div class="s-panel">
+          <h2><span>TRAINERS</span><span id="sdOnlineCount"></span></h2>
+          <div class="s-fmt" id="sdFormats" role="group" aria-label="Format"></div>
+          <div class="s-fmt" id="sdModes" role="group" aria-label="Mode"></div>
+          <div class="s-fmt s-info" id="sdRules"></div>
+          <div id="sdTrainers"></div>
+        </div>
+        <div class="s-panel">
+          <h2><span>RECENT BATTLES</span><span>YOU</span></h2>
+          <div class="s-hist" id="sdHist"></div>
+        </div>
+      </div>
+      <p class="s-off" id="sdProblem" hidden></p>
+    </section>
+    <section id="sdBattle" class="s-screen" aria-label="Battle" hidden>
+      <div class="s-ds">
+        <div class="s-frame s-ftop">
+          <div class="s-bscr" id="sdScr">
+            <div class="s-mon s-foe" id="sdFoeMon"></div>
+            <div class="s-mon s-me" id="sdMeMon"></div>
+            <div class="s-hp s-foe" id="sdFoeHp" hidden></div>
+            <div class="s-party s-foe" id="sdFoeBalls"></div>
+            <div class="s-hp s-me" id="sdMeHp" hidden></div>
+            <div class="s-party s-me" id="sdMeBalls"></div>
+            <div class="s-wx" id="sdWx"></div><span class="s-wxtag" id="sdWxTag" hidden></span>
+            <div class="s-fxl" id="sdFxl"></div><div class="s-flash" id="sdFlash"></div>
+            <div class="s-msg"><span id="sdMsg" aria-live="polite"></span><span class="s-tmr" id="sdTmr"></span></div>
+          </div>
+        </div>
+        <div class="s-hinge" aria-hidden="true"></div>
+        <div class="s-frame s-fbot">
+          <div class="s-bot s-grid-bg" id="sdBot"></div>
+        </div>
+      </div>
+    </section>
+    <section id="sdResult" class="s-screen" aria-label="Battle result" hidden></section>
+  </div>
+</div>
+<div class="modal" id="modal" hidden>
+  <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="mhead"><h2 id="modalTitle"></h2><button type="button" class="mx" id="modalX" aria-label="Close">✕</button></div>
+    <div class="mbody" id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+<div class="s-chal" id="sdChal" role="alertdialog" aria-live="assertive" hidden></div>
