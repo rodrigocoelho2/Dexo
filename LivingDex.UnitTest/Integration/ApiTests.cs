@@ -169,7 +169,7 @@ public sealed class ApiTests
 
         var history = await client.GetFromJsonAsync<List<HistoryItemDTO>>("/api/history");
         Assert.Equal([5L, 4L, 3L], history!.Select(entry => entry.Revision));
-        Assert.Equal(5, history[0].Caught);
+        Assert.Equal(5, history![0].Caught);
         Assert.Equal("test", history[0].Client);
 
         var restored = await client.PostAsync("/api/history/3/restore", null);

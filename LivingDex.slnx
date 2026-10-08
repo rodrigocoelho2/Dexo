@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="LivingDex.Database/LivingDex.Database.sqlproj" />
+  <Project Path="LivingDex.Database/LivingDex.Database.sqlproj" Type="42ea0dbd-9cf1-443e-919e-be9c484e4577" />
   <Project Path="LivingDex.Library/LivingDex.Library.csproj" />
   <Project Path="LivingDex.UnitTest/LivingDex.UnitTest.csproj" />
   <Project Path="LivingDex.WebApi/LivingDex.WebApi.csproj" />

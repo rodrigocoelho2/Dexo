@@ -80,7 +80,7 @@ public sealed class SqliteImporterTests
         Assert.Equal(3, state.Data.GetProperty("caught").GetProperty("home|normal").GetArrayLength());
         var history = await rodas.GetFromJsonAsync<List<HistoryItemDTO>>("/api/history");
         Assert.Equal([7L, 6L], history!.Select(entry => entry.Revision));
-        Assert.Equal("iPhone", history[1].Client);
+        Assert.Equal("iPhone", history![1].Client);
 
         var card = await rodas.GetFromJsonAsync<JsonElement>("/api/showdown/trainers/1");
         Assert.Equal(6, card.GetProperty("partner").GetInt32());

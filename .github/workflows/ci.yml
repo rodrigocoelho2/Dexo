@@ -42,7 +42,9 @@ jobs:
         run: mkdir -p ci-output && dotnet restore LivingDex.slnx 2>&1 | tee ci-output/1-restore.log
 
       - name: Build (Library, WebApi, UnitTest and the LivingDex.Database dacpac)
-        run: dotnet build LivingDex.slnx -c Release --no-restore 2>&1 | tee ci-output/2-build.log
+        run: |
+          dotnet build LivingDex.slnx -c Release --no-restore 2>&1 | tee ci-output/2-build.log
+          dotnet build LivingDex.Database/LivingDex.Database.sqlproj -c Release 2>&1 | tee -a ci-output/2-build.log
 
       - name: Publish the dacpac to SQL Server
         env:

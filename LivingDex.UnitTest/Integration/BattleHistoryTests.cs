@@ -49,7 +49,7 @@ public sealed class BattleHistoryTests
 
         var recent = await rodas.GetFromJsonAsync<List<JsonElement>>("/api/showdown/battles");
         Assert.Equal(["aaaaaaaaaaaaaaa3", "aaaaaaaaaaaaaaa2", "aaaaaaaaaaaaaaa1"], recent!.Select(battle => battle.GetProperty("id").GetString()));
-        Assert.Equal("win", recent[0].GetProperty("result").GetString());
+        Assert.Equal("win", recent![0].GetProperty("result").GetString());
         Assert.True(recent[0].GetProperty("cpu").GetBoolean());
         Assert.Equal("loss", recent[1].GetProperty("result").GetString());
         Assert.Equal("Ana", recent[1].GetProperty("opponent").GetString());
