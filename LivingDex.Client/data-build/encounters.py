@@ -2,26 +2,37 @@
 Reads PokeAPI's encounter CSVs and returns a compact table for data2.json:
   {"L": [[location id, name], ...], "A": [area labels], "N": [notes], "M": [methods],
    "g": {game: {species: [[loc, area, method, min lv, max lv, rate %, times, versions, note], ...]}}}
-times: 1 morning, 2 day, 4 night (7 = any time). versions: one bit per version of the game, in GAMES order."""
+times: 1 morning, 2 day, 4 night (7 = any time). versions: one bit per version of the game, in GAMES order.
+rate 0 = unknown (Let's Go overworld spawns)."""
 import csv, re
 from collections import defaultdict
 
 # app game → PokeAPI versions (bit order = the order shown in the app)
-GAMES = {"gsc": [("4", "G"), ("5", "S"), ("6", "C")], "hgss": [("15", "HG"), ("16", "SS")]}
+GAMES = {"rby": [("1", "R"), ("45", "G"), ("2", "B"), ("3", "Y")],          # 45 = Japanese Green
+         "gsc": [("4", "G"), ("5", "S"), ("6", "C")],
+         "frlg": [("10", "FR"), ("11", "LG")],
+         "hgss": [("15", "HG"), ("16", "SS")],
+         "lgpe": [("31", "P"), ("32", "E")]}
 METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "good-rod", "super-rod": "super-rod",
           "headbutt": "headbutt", "headbutt-low": "headbutt", "headbutt-normal": "headbutt", "headbutt-high": "headbutt",
           "rock-smash": "rock-smash", "gift": "gift", "gift-egg": "egg", "npc-trade": "trade", "static": "static",
-          "roaming-grass": "roaming", "pokeflute": "special", "squirt-bottle": "special", "pokemon-ranger": "special"}
+          "roaming-grass": "roaming", "pokeflute": "special", "squirt-bottle": "special", "pokemon-ranger": "special",
+          # Let's Go: Pokémon walk around in the overworld (PokeAPI gives every spawn the same weight, so no rate)
+          "overworld": "wild", "overworld-water": "water", "overworld-flying": "flying",
+          "overworld-special": "rare", "overworld-flying-special": "rare-flying", "overworld-water-special": "rare"}
+NO_RATE = {"wild", "water", "flying", "rare", "rare-flying"}
 SKIP_LOC = {"unknown-all-bugs", "unknown-all-poliwag", "unknown-all-rattata"}   # PokeAPI placeholder areas
 TIME = {"time-morning": 1, "time-day": 2, "time-night": 4}
 IGNORE = {"swarm-no", "radio-off", "bug-catching-contest-no", "johto-safari-blocks-inactive", "headbutt-tree-common"}
 STORY = {"national-dex": "After the National Dex", "before-national-dex": "Before the National Dex", "beat-red": "After beating Red",
          "awakened-beasts": "After the legendary beasts awaken", "zephyr-badge": "After the Zephyr Badge",
          "returned-machine-part": "After returning the Machine Part", "vermilion-copycat": "After helping Copycat",
-         "receive-tm-from-claire": "After Clair's TM"}
+         "receive-tm-from-claire": "After Clair's TM",
+         "beat-elite-four-round-two": "After the Elite Four rematch"}
 OTHER = {"correct-password": "With the correct password", "received-kanto-starter": "After receiving a Kanto starter",
          "event-arceus-in-party": "With an event Arceus in the party", "snorlax-11-beat-league": "After the League",
          "virtual-console": "Virtual Console only"}
+FIRST = {"first-party-pokemon-high-friendship": "Lead Pokémon must be very friendly"}
 FOSSIL = {"helix": "Helix", "dome": "Dome", "old-amber": "Old Amber", "root": "Root", "claw": "Claw", "skull": "Skull", "armor": "Armor"}
 
 
@@ -29,7 +40,12 @@ def note_of(cond):
     """A short note for one non-default encounter condition, or None."""
     if cond in IGNORE or cond in TIME:
         return None
+    if cond in FIRST: return FIRST[cond]
     if cond == "swarm-yes": return "Swarm"
+    m = re.match(r"starter-(\w+)", cond)
+    if m: return f"If you chose {m.group(1).capitalize()}"
+    m = re.match(r"other-caught-(\w+)", cond)
+    if m: return f"After catching {m.group(1).capitalize()}"
     if cond == "radio-hoenn": return "Hoenn Sound on the radio"
     if cond == "radio-sinnoh": return "Sinnoh Sound on the radio"
     if cond == "bug-catching-contest-yes": return "Bug-Catching Contest"
@@ -97,7 +113,8 @@ def build(rows, species_of_pokemon):
             continue
         game, vbit = version_game[r["version_id"]]
         sid = species_of_pokemon[int(r["pokemon_id"])]
-        name = loc_name.get(lid) or {"johto-pokemart": "Poké Mart", "roaming-johto": "Roaming Johto"}.get(ident, ident)
+        name = loc_name.get(lid) or {"johto-pokemart": "Poké Mart", "roaming-johto": "Roaming Johto",
+                                     "roaming-kanto": "Roaming Kanto"}.get(ident, ident)
         li = idx(L, Li, ident, [ident, name])
         ai = idx(A, Ai, area_label(area_prose.get(area["id"], ""), name, area["identifier"]))
         cs = conds.get(r["id"], [])
@@ -112,15 +129,16 @@ def build(rows, species_of_pokemon):
                 # per version, time and original table (the three GSC headbutt tables are separate trees)
                 g["rate"][(vbit, t, raw)] += int(slots[r["encounter_slot_id"]]["rarity"])
 
-    M = ["grass", "surf", "old-rod", "good-rod", "super-rod", "headbutt", "rock-smash", "gift", "egg", "trade", "static", "roaming", "special"]
+    M = ["grass", "surf", "old-rod", "good-rod", "super-rod", "headbutt", "rock-smash", "gift", "egg", "trade", "static", "roaming", "special",
+         "wild", "water", "flying", "rare", "rare-flying"]
     out = {g: {} for g in GAMES}
     for (game, sid, li, ai, meth, ni), g in groups.items():
         times = 0
         for (v, t, _), n in g["rate"].items():
             if n: times |= t
-        rate = min(100, max(g["rate"].values() or [0]))
+        rate = 0 if meth in NO_RATE else min(100, max(g["rate"].values() or [0]))
         out[game].setdefault(sid, []).append([li, ai, M.index(meth), g["min"], g["max"], rate, times or 7, g["ver"], ni])
     for game in out:
         for sid in out[game]:
-            out[game][sid].sort(key=lambda e: (M.index("static") if False else 0, e[2], -e[5], e[0]))
+            out[game][sid].sort(key=lambda e: (e[2], -e[5], e[0]))
     return {"L": L, "A": A, "N": N, "M": M, "v": {g: [s for _, s in vs] for g, vs in GAMES.items()}, "g": out}
