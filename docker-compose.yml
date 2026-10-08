@@ -12,6 +12,8 @@ services:
       # Keeps SQL Server from taking most of the NAS memory.
       MSSQL_MEMORY_LIMIT_MB: ${SQL_MEMORY_LIMIT_MB:-1024}
       TZ: Europe/Lisbon
+    networks:
+      - default
     ports:
       # For SSMS / Azure Data Studio / VS Code on the LAN (server: <nas-ip>,1433 · user: sa).
       - "${SQL_PORT:-1433}:1433"
@@ -36,6 +38,8 @@ services:
     depends_on:
       sqlserver:
         condition: service_healthy
+    networks:
+      - default
     environment:
       SQL_SERVER: sqlserver
       SQL_DATABASE: LivingDex
@@ -54,6 +58,9 @@ services:
         condition: service_completed_successfully
     ports:
       - "8085:8080"
+    networks:
+      - default   # to reach SQL Server
+      - nas-net   # the NAS's shared network (reverse proxy…)
     environment:
       ConnectionStrings__LivingDex: "Server=sqlserver,1433;Database=LivingDex;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True"
       # Set to "false" once everyone who needs an account has one (the first account can always be created).
@@ -67,6 +74,12 @@ services:
     volumes:
       # Login keys, the download cache and (until it is imported) the old livingdex.db.
       - livingdex-data:/data
+
+networks:
+  default:      # private network of this stack (SQL Server is not on nas-net)
+  # Shared network on the NAS; create it once with:  docker network create nas-net
+  nas-net:
+    external: true
 
 volumes:
   livingdex-data:

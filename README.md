@@ -84,6 +84,8 @@ docker compose up -d --build
 # open http://<server>:8085
 ```
 
+The app also joins `nas-net`, the NAS's shared Docker network (for the reverse proxy); create it once with `docker network create nas-net` if it doesn't exist.
+
 `docker compose up` starts three things in order: **SQL Server** (`livingdex-sql`), the **database deploy** (`livingdex-db-deploy`, which creates the `LivingDex` database or brings its tables and stored procedures up to date, then exits) and the **app** (`livingdex`). Run the same command after every `git pull`.
 
 Open the page and create the first account: it becomes the **admin**. Everyone else creates their own account, then you close sign-up.
