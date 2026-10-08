@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.Build.Sql/1.0.0">
+
+  <!-- SQL Server database of LivingDex: tables and stored procedures. Builds to LivingDex.Database.dacpac,
+       which the db-deploy container publishes on every deploy (creates the database or brings it up to date). -->
+  <PropertyGroup>
+    <Name>LivingDex.Database</Name>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+  </ItemGroup>
+
+</Project>

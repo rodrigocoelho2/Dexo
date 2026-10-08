@@ -11,7 +11,7 @@
 
 <p align="center">
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white">
-  <img alt="SQLite" src="https://img.shields.io/badge/SQLite-Dapper-003B57?logo=sqlite&logoColor=white">
+  <img alt="SQL Server" src="https://img.shields.io/badge/SQL%20Server-Dapper%20%2B%20stored%20procedures-CC2927?logo=microsoftsqlserver&logoColor=white">
   <img alt="SignalR" src="https://img.shields.io/badge/SignalR-live%20battles-5C2D91">
   <img alt="Pokémon Showdown" src="https://img.shields.io/badge/Pok%C3%A9mon%20Showdown-0.11-e3363a">
   <img alt="Docker" src="https://img.shields.io/badge/Docker-UGREEN%20NAS-2496ED?logo=docker&logoColor=white">
@@ -22,6 +22,7 @@
   <a href="#screenshots">Screenshots</a> ·
   <a href="#quick-start-docker">Quick start</a> ·
   <a href="#development">Development</a> ·
+  <a href="#database">Database</a> ·
   <a href="#design-mocks">Design mocks</a> ·
   <a href="#api">API</a>
 </p>
@@ -35,7 +36,7 @@
 - All **1025** Pokémon in boxes of 30, with every form, gender difference, shiny and origin-mark variant, for **Pokémon HOME and every game from Red/Blue to Legends: Z-A** (plus the upcoming Gen X, marked *soon*).
 - Click to inspect, double-click (or Space) to mark, arrow keys to move. Record the **OT game, ball and date** for each catch; the evolution line, where to get it and the details sit under the summary.
 - **Overview** shows every Pokémon in colour; **Highlight missing** makes the gaps stand out; search by name or number from anywhere.
-- **Accounts and sync** – everyone has their own dex, saved in SQLite and synced across devices, with a 200-revision history you can restore.
+- **Accounts and sync** – everyone has their own dex, saved in SQL Server and synced across devices, with a 200-revision history you can restore.
 - **Themes** – eight colours for the boxes and panels, sound effects and cries.
 - **Dex badges** – 24 badges for filling your boxes: every region, 100/250/500/1025 caught, shinies, full Unown/Vivillon/Alcremie/Furfrou sets and a few specials, with a "Badge get!" moment on the phone.
 - **Trainer profile** – on the PC, *View profile* in the account menu shows your card, the living dex by region, the dex badges, your battle record by generation and your latest catches.
@@ -50,8 +51,8 @@
 
 **Built to self-host**
 
-- One container (ASP.NET Core + Node.js for the simulator), one volume, made for a UGREEN NAS.
-- Sprites, cries, backgrounds and music are cached on first use; the admin can **download all assets** in one go.
+- Three containers from one `docker-compose.yml`, made for a UGREEN NAS: **SQL Server 2022 Express**, a one-shot **database deploy** (tables and stored procedures from `LivingDex.Database`) and the **app** (ASP.NET Core + Node.js for the simulator).
+- **Nothing to fetch at runtime**: about 16,000 sprites, cries and battle backgrounds ship in the repository (`LivingDex.Assets`) and the fonts are self-hosted. Anything missing is downloaded once and cached; the admin can **download all assets** in one go.
 - **Phone layout** – an app-style design under 700 px (tab bar, swipeable boxes, sheets, full-screen battles); the desktop design is untouched.
 - **Installs as an app** on iPhone and Android: home-screen icon, full screen, launch screen and an offline page.
 
@@ -78,43 +79,47 @@
 
 ```bash
 git clone <this repo> livingdex && cd livingdex
+cp .env.example .env          # then set SQL_SA_PASSWORD
 docker compose up -d --build
 # open http://<server>:8085
 ```
 
+`docker compose up` starts three things in order: **SQL Server** (`livingdex-sql`), the **database deploy** (`livingdex-db-deploy`, which creates the `LivingDex` database or brings its tables and stored procedures up to date, then exits) and the **app** (`livingdex`). Run the same command after every `git pull`.
+
 Open the page and create the first account: it becomes the **admin**. Everyone else creates their own account, then you close sign-up.
 
-Data lives in the `livingdex-data` volume (`/data` in the container): `livingdex.db`, `keys/` (the keys that sign login cookies) and `cache/`. Never run `docker compose down -v`, which deletes that volume.
+Data lives in two volumes. Never run `docker compose down -v`, which deletes them.
 
-Settings go in a `.env` file next to `docker-compose.yml`:
+| Volume | In the container | Holds |
+|---|---|---|
+| `livingdex-sql` | `/var/opt/mssql` | the SQL Server database (accounts, progress, history, trainer cards, battles) |
+| `livingdex-data` | `/data` | `keys/` (the keys that sign login cookies), `cache/` (assets downloaded on demand) |
+
+Settings go in the `.env` file next to `docker-compose.yml` (see [`.env.example`](.env.example)):
 
 ```
+SQL_SA_PASSWORD=...                  # required; 8+ characters with upper, lower, digits or symbols (no ; or quotes)
 LIVINGDEX_ALLOW_REGISTRATION=false   # after everyone has an account
 LIVINGDEX_BEHIND_PROXY=true          # if a reverse proxy (nginx, Traefik…) is in front
 LIVINGDEX_TURN_SECONDS=60            # time per battle turn
 LIVINGDEX_SHOWDOWN=true              # false turns the battle room off
+SQL_PORT=1433                        # where SQL Server listens on the NAS (for SSMS / Azure Data Studio)
+SQL_MEMORY_LIMIT_MB=1024             # memory cap for SQL Server
 ```
 
 With sign-up closed, the admin can still help people from **Manage users** (reset a forgotten password, delete an account).
 
-**UGREEN NAS:** in the *Docker* app, create a *Project* from this folder (it picks up `docker-compose.yml`). If a reverse proxy sits in front (Nginx Proxy Manager, Traefik…), turn on WebSocket support for it so battles use WebSockets (they fall back to long polling otherwise), and set `LIVINGDEX_BEHIND_PROXY=true`. In Nginx Proxy Manager, that is **Websockets Support** on the proxy host.
+**UGREEN NAS:** in the *Docker* app, create a *Project* from this folder (it picks up `docker-compose.yml` and `.env`). SQL Server needs an **Intel/AMD (x86-64) NAS** and about **2 GB of free memory**; the ARM models can't run it. If a reverse proxy sits in front (Nginx Proxy Manager, Traefik…), turn on WebSocket support for it so battles use WebSockets (they fall back to long polling otherwise), and set `LIVINGDEX_BEHIND_PROXY=true`. In Nginx Proxy Manager, that is **Websockets Support** on the proxy host.
 
-If you bind-mount a host folder instead of the named volume, make it writable by UID 1654 (the `app` user of the .NET images):
-
-```bash
-mkdir -p ./data && sudo chown 1654 ./data
-```
-
-### Upgrading from the single-user version
-
-- `LIVINGDEX_API_KEY` is no longer used; accounts replace it. You can remove it from `.env`.
-- Nothing is lost: the old progress and history stay in the database until the first account is created, which then receives them.
-
-If you bind-mount a host folder instead of the named volume, make it writable by UID 1654 (the `app` user of the .NET images):
+If you bind-mount a host folder instead of the `livingdex-data` volume, make it writable by UID 1654 (the `app` user of the .NET images):
 
 ```bash
 mkdir -p ./data && sudo chown 1654 ./data
 ```
+
+### Upgrading from the SQLite version
+
+Keep the same folder and the same `livingdex-data` volume, add `SQL_SA_PASSWORD` to `.env`, and run `docker compose up -d --build`. On its first start the app finds the old `/data/livingdex.db` and copies every account (with the same identifiers and passwords), progress document, history entry, trainer card and battle into SQL Server, then renames the file to `livingdex.db.imported` and keeps it as a backup. Everyone stays signed in. The import only runs while SQL Server has no accounts, so it can't happen twice.
 
 ## On a phone
 
@@ -147,7 +152,7 @@ On the phone they sit under the battle badges in the **Trainer** tab; tap one fo
 
 ## Download all assets
 
-Sprites, cries, battle backgrounds and music are fetched the first time someone needs them and kept in `data/cache`. To get everything in one go, open the account menu as the admin and choose **Download all assets**: the server downloads every sprite (box, animated, shiny, female, back, icons and the Gen 1–4 battle sprites), every cry, the battle effects and backgrounds and the battle music, about 16,000 files and a few hundred MB, in the background with a progress bar. You can close the page while it runs. Files already cached are skipped, so running it again later only fetches what is new.
+Sprites, cries and battle backgrounds ship with the app in `LivingDex.Assets` (copied into the image), so a new server has them from the start. Anything not in that folder (battle music, new forms) is fetched the first time someone needs it and kept in `/data/cache`. To get everything in one go, open the account menu as the admin and choose **Download all assets**: the server downloads every sprite (box, animated, shiny, female, back, icons and the Gen 1–4 battle sprites), every cry, the battle effects and backgrounds and the battle music, about 16,000 files and a few hundred MB, in the background with a progress bar. You can close the page while it runs. Files already cached are skipped, so running it again later only fetches what is new.
 
 ## Showdown in detail
 
@@ -165,55 +170,90 @@ The crossed-swords button in the header opens the battle room. Each battle gives
 - **Battle music** – each battle plays a track from its generation, picked at random and looped: the HGSS Kanto and Johto trainer themes for Gen 1 and 2, Ruby/Sapphire (ORAS), Colosseum and XD for Gen 3, Diamond/Pearl for Gen 4 and Black/White and B2W2 for Gen 5. The ♪ button on the bottom screen turns it off (remembered on that device).
 - **Badges** – eight badges on the trainer card, earned in battles against other trainers: First Win, Ten Wins, On Fire (5 in a row), Last Stand (win with 1 Pokémon left), Sweeper (3 KOs with one Pokémon), Flawless (win without losing one), Veteran (50 battles) and Time Traveller (win in Gen 1 to Gen 5).
 
-How it runs: `sim/bridge.js` loads the `pokemon-showdown` npm package and hosts all battles in one Node.js process, which the app starts and supervises (it is restarted if it crashes; battles that were running end as "stopped"). The page talks to the server over SignalR (`/hubs/showdown`): WebSockets if your reverse proxy allows them, long polling otherwise. In Nginx Proxy Manager, tick **Websockets Support** on the proxy host.
+How it runs: `LivingDex.WebApi/Simulator/bridge.js` loads the `pokemon-showdown` npm package and hosts all battles in one Node.js process, which the app starts and supervises (it is restarted if it crashes; battles that were running end as "stopped"). The page talks to the server over SignalR (`/hubs/showdown`): WebSockets if your reverse proxy allows them, long polling otherwise. In Nginx Proxy Manager, tick **Websockets Support** on the proxy host.
 
-Battle backgrounds and move-animation sprites are downloaded once from the [Pokémon Showdown client](https://github.com/smogon/pokemon-showdown-client) repository and cached like the sprites.
+Battle backgrounds and move-animation sprites come from the [Pokémon Showdown client](https://github.com/smogon/pokemon-showdown-client) repository and ship in `LivingDex.Assets` like the sprites.
 
 ## Development
 
-### Repository layout
+### Solution layout
+
+The solution (`LivingDex.slnx`) follows a feature-folder layout: every feature has its controllers, services, repositories, models (DTOs and entities) and `.http` request files side by side, and every database access goes through a stored procedure.
 
 ```
-src/LivingDex/              ASP.NET Core app (.NET 10)
-  Program.cs                composition root, static files, endpoint mapping
-  LivingDexOptions.cs       settings
-  Auth/                     accounts: password hashing, cookie login, admin endpoints, CSRF header check
-  Data/                     SQLite connection, schema, write lock
-  State/                    progress repository (Dapper) and endpoints
-  Assets/                   sprite/cry/background/music cache and the "download all" prefetcher
-  Showdown/                 battles: simulator process, live state, draft, SignalR hub, history, trainer cards
-  sim/                      bridge.js + package.json for the Pokémon Showdown simulator (Node.js)
-  wwwroot/index.html        the whole web client, built from client/ (do not edit by hand)
-  wwwroot/lib/              SignalR client, jQuery, move animations (psanims.js, psfx.js)
-  wwwroot/manifest.json     web app: manifest, sw.js (offline page), offline.html, icons/, splash/
-tests/LivingDex.Tests/      WebApplicationFactory API tests
-client/
-  assemble.py               builds wwwroot/index.html from client/src
-  splash.py                 renders the iPhone launch images into wwwroot/splash
-  src/                      base.html (base styles), body.html, app.js (tracker), sd.js (Showdown),
-                            dexbadges.js (dex badges), profile.js (PC profile), mob.js (phone layer),
-                            *.css, icons.py, data2.json (generated Pokédex data)
-  psfx/                     move-animation sources + build.sh (esbuild bundle → wwwroot/lib)
-tools/data/                 build_data.py: PokeAPI CSVs + Showdown data → client/src/data2.json
-docs/                       README images and the HTML design mocks
+LivingDex.slnx
+Directory.Build.props         shared settings (.NET 10, nullable, implicit usings)
+Directory.Packages.props      central package versions
+docker-compose.yml            SQL Server + database deploy + app
+LivingDex.Library/            shared contracts: ServiceApiResponse, validation problems, TranslationKeys, enums
+LivingDex.Database/           SQL Server database project (SDK-style .sqlproj → LivingDex.Database.dacpac)
+  Tables/                     dbo.User, dbo.UserState, dbo.UserStateHistory, dbo.TrainerProfile, dbo.Battle
+  StoredProcedures/           Users/, States/, Trainers/, Battles/ (one dbo.{Name}.sql per procedure)
+  Scripts/                    post-deployment script, deploy.sh (sqlpackage publish)
+  Dockerfile                  the db-deploy container
+LivingDex.WebApi/             ASP.NET Core app
+  Program.cs                  → LivingDexStartup.cs (service registration and pipeline)
+  Extensions/
+    Authentication/           cookie login, admin policy, rate limit, X-LivingDex header filter, password hashing
+    Data/                     SQL connection factory, RepositoryBase (stored procedure calls), one-time SQLite import
+    Globalization/            GlobalizationHelper: every user-facing message, by TranslationKeys
+    Json/                     camelCase, enums as strings, UTC timestamps
+    Mvc/                      InternalControllerBase + feature provider (controllers are internal)
+    Services/                 ServiceApiResponse → HTTP result
+  Features/
+    Accounts/                 sign-up, sign-in, password, delete; Manage users (admin)
+    States/                   progress documents, history and restore
+    Trainers/                 trainer cards, partner, record and battle badges
+    Battles/                  Showdown: SignalR hub, live battle state, simulator process, history and replays
+    Assets/                   sprite/cry/background/music store and the "download all" job
+    Health/                   /api/health
+  Simulator/                  bridge.js + package.json for the Pokémon Showdown simulator (Node.js)
+  wwwroot/                    index.html (built from LivingDex.Client — do not edit by hand), fonts/, lib/,
+                              manifest.json, sw.js, offline.html, icons/, splash/
+  Dockerfile                  the app container
+LivingDex.UnitTest/           xunit: services with in-memory fakes, and API integration tests on SQL Server
+LivingDex.Assets/             sprites/, cries/, battlebg/, music/ shipped with the app
+LivingDex.Client/             the web page sources
+  src/                        base.html, body.html, app.js, sd.js, dexbadges.js, profile.js, mob.js, *.css,
+                              icons.py, data2.json (generated Pokédex data)
+  assemble.py                 builds LivingDex.WebApi/wwwroot/index.html from src/
+  splash.py                   renders the iPhone launch images into wwwroot/splash
+  psfx/                       move-animation sources + build.sh (esbuild bundle → wwwroot/lib)
+  data-build/                 build_data.py: PokeAPI CSVs + Showdown data → src/data2.json
+docs/                         README images and the HTML design mocks
 ```
+
+Conventions: services return `ServiceApiResponse<T>` (never HTTP codes), controllers call `ToActionResult()`, actions are named `{Feature}{Operation}Async` with a matching `SwaggerOperation`, classes are `internal sealed` with primary constructors, and repositories only call `[dbo].[...]` procedures.
 
 ### Run locally
 
 ```bash
-(cd src/LivingDex/sim && npm ci --omit=optional --ignore-scripts)   # battle simulator (Node.js 18+)
-dotnet run --project src/LivingDex        # http://localhost:5080
-dotnet test                               # API tests
+docker compose up -d sqlserver db-deploy                          # SQL Server on localhost:1433 with the schema
+(cd LivingDex.WebApi/Simulator && npm ci --omit=optional --ignore-scripts)   # battle simulator (Node.js 18+)
+dotnet user-secrets set "ConnectionStrings:LivingDex" \
+  "Server=localhost,1433;Database=LivingDex;User Id=sa;Password=<SQL_SA_PASSWORD>;TrustServerCertificate=True" \
+  --project LivingDex.WebApi
+dotnet run --project LivingDex.WebApi                             # http://localhost:5080, Swagger at /swagger
 ```
 
-Requires the .NET 10 SDK. Without Node.js the tracker works as usual and the battle button stays hidden.
+Requires the .NET 10 SDK. Without Node.js the tracker works as usual and the battle button stays hidden. Each feature has `.http` files under `Features/<Feature>/Http` for Visual Studio / Rider / VS Code.
+
+### Tests
+
+```bash
+dotnet test LivingDex.UnitTest                                       # unit tests
+LIVINGDEX_TEST_SQL="Server=localhost,1433;User Id=sa;Password=<SQL_SA_PASSWORD>;TrustServerCertificate=True" \
+  dotnet test LivingDex.UnitTest                                     # + integration tests on SQL Server
+```
+
+The integration tests create a throw-away database per test from the scripts in `LivingDex.Database` and drop it afterwards. GitHub Actions runs everything on every push: build (including the dacpac), a publish of the dacpac to SQL Server, the tests, and a `docker compose up` of the whole stack with a smoke test and screenshots.
 
 ### Change the web client
 
-The page is a single self-contained HTML file. Edit the pieces in `client/src`, then rebuild it:
+The page is a single self-contained HTML file. Edit the pieces in `LivingDex.Client/src`, then rebuild it:
 
 ```bash
-python3 client/assemble.py      # → src/LivingDex/wwwroot/index.html
+python3 LivingDex.Client/assemble.py      # → LivingDex.WebApi/wwwroot/index.html
 ```
 
 `assemble.py` concatenates the stylesheets in a fixed order (base → tracker → Showdown → generations → draft → toolbar → phone), recolours the blue hues into `hsl(var(--h) …)` so the theme picker can tint them, and inlines `data2.json`, `app.js`, `sd.js` and `mob.js`. Everything for phones lives in `mob.css` (inside `@media (max-width:700px)`) and `mob.js`, so desktop changes and phone changes stay apart.
@@ -221,15 +261,15 @@ python3 client/assemble.py      # → src/LivingDex/wwwroot/index.html
 ### Rebuild the Pokédex data
 
 ```bash
-python3 tools/data/build_data.py   # → client/src/data2.json, then run client/assemble.py
+python3 LivingDex.Client/data-build/build_data.py   # → LivingDex.Client/src/data2.json, then run assemble.py
 ```
 
-It reads the [PokeAPI](https://github.com/PokeAPI/pokeapi) CSV exports in `tools/data/csv` and Pokémon Showdown's `formats-data`/`pokedex` files in `tools/data/sd` (which decide what exists in each game). Drop in newer copies of those files to update.
+It reads the [PokeAPI](https://github.com/PokeAPI/pokeapi) CSV exports in `LivingDex.Client/data-build/csv` and Pokémon Showdown's `formats-data`/`pokedex` files in `LivingDex.Client/data-build/sd` (which decide what exists in each game). Drop in newer copies of those files to update.
 
 ### Rebuild the iPhone launch images
 
 ```bash
-python3 client/splash.py           # needs Playwright + Chromium; → wwwroot/splash/*.png
+python3 LivingDex.Client/splash.py           # needs Playwright + Chromium; → wwwroot/splash/*.png
 ```
 
 They are screenshots of the phone loading screen at each iPhone size, so run it after changing that screen. The app icons are `wwwroot/apple-touch-icon.png` and `wwwroot/icons/`; `wwwroot/manifest.json`, `sw.js` and `offline.html` make up the rest of the web app.
@@ -237,8 +277,22 @@ They are screenshots of the phone loading screen at each iPhone size, so run it 
 ### Rebuild the move animations
 
 ```bash
-client/psfx/build.sh               # needs Node.js; → wwwroot/lib/psanims.js and psfx.js
+LivingDex.Client/psfx/build.sh               # needs Node.js; → wwwroot/lib/psanims.js and psfx.js
 ```
+
+## Database
+
+`LivingDex.Database` is an SDK-style SQL Server database project: open it in Visual Studio (SQL Server Data Tools), Azure Data Studio or VS Code (SQL Database Projects) to browse the tables and stored procedures. It builds to `LivingDex.Database.dacpac`, which the `db-deploy` container publishes with `sqlpackage` on every `docker compose up`, so a change to a table or procedure reaches the NAS with the next deploy (changes that would lose data are refused).
+
+| Table | Holds |
+|---|---|
+| `dbo.User` | accounts: `UserID` (identity), `UserUniqueID` (GUID), username (unique, case-insensitive), password hash, admin flag, security stamp |
+| `dbo.UserState` | each trainer's current progress document (JSON) and its revision |
+| `dbo.UserStateHistory` | past revisions for restore (the newest 200 per trainer) |
+| `dbo.TrainerProfile` | partner Pokémon and last time online in Showdown |
+| `dbo.Battle` | finished battles: players, result, teams and the full log for replays |
+
+Stored procedures are named `{Entity}{Operation}` (`UserCreate`, `UserStateSave`, `TrainerProfileList`, `BattleListRecent`…); each sets `NOCOUNT`, its transaction isolation level and, for writes, `XACT_ABORT`. To look at the data, connect SSMS or Azure Data Studio to `<nas-ip>,1433` with user `sa` and the password from `.env`.
 
 ## Design mocks
 
@@ -267,21 +321,23 @@ All settings are under `LivingDex` (env vars use `LivingDex__Name`):
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `DataDirectory` | `data` | SQLite database and asset cache folder |
+| `ConnectionStrings:LivingDex` | – | SQL Server connection string (env `ConnectionStrings__LivingDex`; set by `docker-compose.yml`) |
+| `DataDirectory` | `data` | Login keys, the asset download cache and (until imported) the old SQLite database |
+| `AssetsDirectory` | `assets` | Bundled sprites, cries, backgrounds and music (`/app/assets` in the image) |
 | `AllowRegistration` | `true` | Let people create their own account (the first account is always allowed) |
 | `BehindProxy` | `false` | Trust `X-Forwarded-For` / `X-Forwarded-Proto` from a reverse proxy |
 | `AuthAttemptsPerMinute` | `10` | Sign-in / sign-up / password attempts per minute from one address |
 | `HistoryLimit` | `200` | Saved revisions kept for restore |
-| `CacheAssets` | `true` | Cache sprites/cries on disk; `false` redirects to GitHub |
+| `CacheAssets` | `true` | Download assets missing from the bundle once and cache them; `false` redirects to GitHub |
 | `MaxStateBytes` | `8388608` | Largest accepted progress document |
 | `ShowdownEnabled` | `true` | Turn the battle room on or off |
 | `TurnSeconds` | `60` | Time per turn in battles (15–600) |
 | `NodePath` | `node` | Node.js executable for the simulator |
-| `SimDirectory` | `sim` | Folder with `bridge.js` and its `node_modules` |
+| `SimDirectory` | `Simulator` | Folder with `bridge.js` and its `node_modules` |
 
 ## API
 
-Every request that changes something must send the header `X-LivingDex: 1` (CSRF protection for the cookie login).
+Every request that changes something must send the header `X-LivingDex: 1` (CSRF protection for the cookie login). Failed requests answer with `{ title, detail, status, errors: [{ field, message }] }`; `detail` is the message to show. In Development, Swagger is at `/swagger`.
 
 | Method | Path | Notes |
 |---|---|---|
@@ -306,9 +362,9 @@ Every request that changes something must send the header `X-LivingDex: 1` (CSRF
 | GET | `/api/showdown/me/stats` | Your wins and losses per format against other trainers (for the profile) |
 | GET | `/api/showdown/battles/{id}` | One battle with teams and the full log, for replays |
 | WS | `/hubs/showdown` | SignalR hub: presence, challenges, battle messages and choices |
-| GET | `/assets/sprites/{path}` · `/assets/cries/{path}` | Cached PokeAPI files (`.png`, `.gif`, `.ogg` only) |
-| GET | `/assets/battle/fx/{file}` | Cached battle backgrounds and move-effect sprites |
-| GET | `/assets/music/{file}.mp3` | Cached battle music |
+| GET | `/assets/sprites/{path}` · `/assets/cries/{path}` | PokeAPI files (`.png`, `.gif`, `.ogg` only): bundled, then cached, then downloaded once |
+| GET | `/assets/battle/fx/{file}` | Battle backgrounds and move-effect sprites |
+| GET | `/assets/music/{file}.mp3` | Battle music |
 | POST | `/api/admin/assets/download` | Admin: download a list of assets into the cache in the background |
 | GET | `/api/admin/assets/status` | Admin: progress of that download |
 | POST | `/api/admin/assets/cancel` | Admin: stop it |
@@ -331,7 +387,7 @@ Every request that changes something must send the header `X-LivingDex: 1` (CSRF
 
 ## Credits
 
-Pokédex data: [PokeAPI](https://github.com/PokeAPI/pokeapi). Form availability and the battle simulator: [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) (MIT). Battle backgrounds and move animations: [Pokémon Showdown client](https://github.com/smogon/pokemon-showdown-client). Battle music is fetched once from play.pokemonshowdown.com/audio and cached on the server. Sprites and cries: [PokeAPI/sprites](https://github.com/PokeAPI/sprites) and [PokeAPI/cries](https://github.com/PokeAPI/cries), fetched at runtime.
+Pokédex data: [PokeAPI](https://github.com/PokeAPI/pokeapi). Form availability and the battle simulator: [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) (MIT). Battle backgrounds and move animations: [Pokémon Showdown client](https://github.com/smogon/pokemon-showdown-client). Battle music is fetched once from play.pokemonshowdown.com/audio and cached on the server (copy `/data/cache/music` into `LivingDex.Assets/music` to ship it too). Sprites and cries: [PokeAPI/sprites](https://github.com/PokeAPI/sprites) and [PokeAPI/cries](https://github.com/PokeAPI/cries), copied into `LivingDex.Assets`. Fonts: DotGothic16, Silkscreen and Press Start 2P (SIL Open Font License 1.1), self-hosted in `wwwroot/fonts` from the [Fontsource](https://fontsource.org) packages.
 
 `wwwroot/lib/psanims.js` bundles Showdown's move animations: the animation engine pieces are MIT, the per-move animations and most effect images are CC0. Of the effect images, `icicle.png` and `lightning.png` (Clint Bellanger) are GPLv2/GPLv3/CC-BY-SA-3.0 and `rocks.png`/`rock1.png`/`rock2.png` (PO user "Gilad") are GPLv3. `wwwroot/lib/psfx.js` is the small adapter that runs them on this app's battle screen; jQuery (MIT) drives the animation queues.
 

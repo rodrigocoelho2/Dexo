@@ -1,8 +1,6 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="src/LivingDex/LivingDex.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/LivingDex.Tests/LivingDex.Tests.csproj" />
-  </Folder>
+  <Project Path="LivingDex.Database/LivingDex.Database.sqlproj" />
+  <Project Path="LivingDex.Library/LivingDex.Library.csproj" />
+  <Project Path="LivingDex.UnitTest/LivingDex.UnitTest.csproj" />
+  <Project Path="LivingDex.WebApi/LivingDex.WebApi.csproj" />
 </Solution>

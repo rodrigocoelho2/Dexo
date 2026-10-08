@@ -1,10 +1,12 @@
 **/bin/
 **/obj/
 **/data/
-tests/
-.git/
-*.md
 **/node_modules/
+**/TestResults/
+.git/
+.github/
 docs/
-client/
-tools/
+LivingDex.Client/
+LivingDex.UnitTest/
+*.md
+.env

@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [main, restructure]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  SA_PASSWORD: LivingDex-CI-2026!
+
+jobs:
+  build-test:
+    name: Build, database and tests
+    runs-on: ubuntu-latest
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_PID: Express
+          MSSQL_SA_PASSWORD: LivingDex-CI-2026!
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'LivingDex-CI-2026!' -C -Q 'SELECT 1' -b -o /dev/null"
+          --health-interval 10s --health-timeout 5s --health-retries 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore LivingDex.slnx
+
+      - name: Build (Library, WebApi, UnitTest and the LivingDex.Database dacpac)
+        run: dotnet build LivingDex.slnx -c Release --no-restore
+
+      - name: Publish the dacpac to SQL Server
+        env:
+          DOTNET_ROLL_FORWARD: Major
+        run: |
+          dotnet tool install --global microsoft.sqlpackage
+          dacpac=$(find LivingDex.Database/bin -name 'LivingDex.Database.dacpac' | head -n 1)
+          sqlpackage /Action:Publish /SourceFile:"$dacpac" \
+            /TargetServerName:localhost /TargetDatabaseName:LivingDex \
+            /TargetUser:sa /TargetPassword:"$SA_PASSWORD" /TargetTrustServerCertificate:True \
+            /p:BlockOnPossibleDataLoss=True
+          # A second publish must find nothing to change.
+          sqlpackage /Action:Publish /SourceFile:"$dacpac" \
+            /TargetServerName:localhost /TargetDatabaseName:LivingDex \
+            /TargetUser:sa /TargetPassword:"$SA_PASSWORD" /TargetTrustServerCertificate:True \
+            /p:BlockOnPossibleDataLoss=True
+
+      - name: Test (unit + SQL Server integration)
+        env:
+          LIVINGDEX_TEST_SQL: Server=localhost,1433;User Id=sa;Password=${{ env.SA_PASSWORD }};TrustServerCertificate=True
+        run: >-
+          dotnet test LivingDex.UnitTest/LivingDex.UnitTest.csproj -c Release --no-build
+          --logger "trx;LogFileName=tests.trx" --logger "console;verbosity=normal" --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/
+
+  compose:
+    name: Docker Compose end to end
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start SQL Server, deploy the database and start the app
+        run: |
+          echo "SQL_SA_PASSWORD=$SA_PASSWORD" > .env
+          docker compose up -d --build --wait livingdex || (docker compose ps -a; docker compose logs; exit 1)
+
+      - name: Smoke test
+        run: |
+          set -e
+          for i in $(seq 1 60); do curl -fs http://localhost:8085/api/health && break; sleep 2; done
+          echo
+          curl -fs http://localhost:8085/ | grep -q "HOME Living Dex"
+          curl -fs -o /dev/null http://localhost:8085/fonts/fonts.css
+          # Served from the bundled LivingDex.Assets folder (no download, no redirect).
+          code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8085/assets/sprites/versions/generation-iii/ruby-sapphire/25.png)
+          echo "bundled sprite: $code"; test "$code" = 200
+          jar=$(mktemp)
+          curl -fs -c $jar -b $jar -H 'X-LivingDex: 1' -H 'Content-Type: application/json' \
+            -d '{"username":"Rodas","password":"pikachu123"}' http://localhost:8085/api/auth/register
+          echo
+          curl -fs -c $jar -b $jar -X PUT -H 'X-LivingDex: 1' -H 'Content-Type: application/json' \
+            -d '{"revision":0,"client":"ci","data":{"caught":{"home|normal":["s:1","s:4"]}}}' http://localhost:8085/api/state
+          echo
+          curl -fs -b $jar http://localhost:8085/api/showdown/trainers
+          echo
+          # The image must run the Pokémon Showdown simulator.
+          for i in $(seq 1 30); do curl -fs -b $jar http://localhost:8085/api/showdown/status | grep -q '"available":true' && break; sleep 2; done
+          curl -fs -b $jar http://localhost:8085/api/showdown/status | grep -q '"available":true'
+          echo "Showdown simulator is running"
+
+      - name: Page screenshots
+        run: |
+          pip install --quiet playwright==1.55.0
+          python -m playwright install --with-deps chromium > /dev/null
+          python .github/scripts/screenshots.py http://localhost:8085 screenshots
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/
+
+      - name: Logs
+        if: always()
+        run: docker compose logs --no-color | tail -n 300

@@ -1,0 +1,20 @@
+@HostAddress = http://localhost:5080
+@userId = 1
+
+### Sign in first (Accounts/Http/Account.http → Login Account)
+
+### List Trainer
+GET {{HostAddress}}/api/showdown/trainers
+
+### Get Trainer
+GET {{HostAddress}}/api/showdown/trainers/{{userId}}
+
+### SetPartner Trainer
+PUT {{HostAddress}}/api/showdown/me/partner
+Content-Type: application/json
+X-LivingDex: 1
+
+{
+  "partner": 6,
+  "shiny": true
+}

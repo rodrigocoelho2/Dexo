@@ -1,0 +1,17 @@
+@HostAddress = http://localhost:5080
+@battleId = 0123456789abcdef
+
+### Sign in first (Accounts/Http/Account.http → Login Account)
+### Live battles go through the SignalR hub at /hubs/showdown, not through these endpoints.
+
+### Status Battle
+GET {{HostAddress}}/api/showdown/status
+
+### List Battle (the 12 most recent)
+GET {{HostAddress}}/api/showdown/battles
+
+### Replay Battle
+GET {{HostAddress}}/api/showdown/battles/{{battleId}}
+
+### FormatRecords Battle
+GET {{HostAddress}}/api/showdown/me/stats

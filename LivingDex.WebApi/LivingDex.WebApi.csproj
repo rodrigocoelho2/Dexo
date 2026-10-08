@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- The app: JSON API, the Showdown hub, the asset store and the page (wwwroot). Owns the SQL Server data
+       (through the stored procedures of LivingDex.Database) and the Pokémon Showdown simulator process. -->
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UserSecretsId>livingdex-webapi-4e8b2c91</UserSecretsId>
+    <!-- The simulator's node_modules are installed by npm (see the Dockerfile), never by the .NET build. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);Simulator/node_modules/**;data/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LivingDex.Library\LivingDex.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="LivingDex.UnitTest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Simulator/bridge.js" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Update="Simulator/package.json;Simulator/package-lock.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

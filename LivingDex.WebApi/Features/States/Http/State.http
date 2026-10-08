@@ -1,0 +1,27 @@
+@HostAddress = http://localhost:5080
+@revision = 0
+
+### Sign in first (Accounts/Http/Account.http → Login Account)
+
+### Get State
+GET {{HostAddress}}/api/state
+
+### Save State (revision = the one you loaded; 409 with the current state when it is stale)
+PUT {{HostAddress}}/api/state
+Content-Type: application/json
+X-LivingDex: 1
+
+{
+  "revision": {{revision}},
+  "client": "REST client",
+  "data": {
+    "caught": { "home|normal": ["1", "4", "7"] }
+  }
+}
+
+### List History State
+GET {{HostAddress}}/api/history?take=30
+
+### Restore History State (saves revision 1 again as a new revision)
+POST {{HostAddress}}/api/history/1/restore
+X-LivingDex: 1

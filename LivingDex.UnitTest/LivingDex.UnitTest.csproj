@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Unit tests (services with in-memory fakes, no database) and integration tests (the whole API against a
+       throw-away SQL Server database built from LivingDex.Database's scripts; they run only when the
+       LIVINGDEX_TEST_SQL environment variable holds a SQL Server connection string). -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LivingDex.Library\LivingDex.Library.csproj" />
+    <ProjectReference Include="..\LivingDex.WebApi\LivingDex.WebApi.csproj" />
+  </ItemGroup>
+
+</Project>

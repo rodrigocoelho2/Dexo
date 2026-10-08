@@ -1,0 +1,124 @@
+using System.Text.RegularExpressions;
+using Microsoft.Data.SqlClient;
+
+namespace LivingDex.UnitTest.Integration;
+
+/// <summary>
+/// A throw-away SQL Server database built from LivingDex.Database's table and stored procedure scripts,
+/// dropped on dispose. Needs LIVINGDEX_TEST_SQL (a connection string to the server, e.g. the CI service container).
+/// </summary>
+internal sealed partial class TestDatabase : IDisposable
+{
+    /// <summary>The environment variable with the server connection string.</summary>
+    public const string EnvironmentVariable = "LIVINGDEX_TEST_SQL";
+
+    // Tables in foreign-key order; every stored procedure after them.
+    private static readonly string[] TableOrder = ["User", "UserState", "UserStateHistory", "TrainerProfile", "Battle"];
+
+    public TestDatabase()
+    {
+        Name = $"LivingDexTest_{Guid.NewGuid():N}";
+        using (var master = new SqlConnection(ServerConnectionString))
+        {
+            master.Open();
+            Execute(master, $"CREATE DATABASE [{Name}] COLLATE SQL_Latin1_General_CP1_CI_AS;");
+        }
+
+        ConnectionString = new SqlConnectionStringBuilder(ServerConnectionString) { InitialCatalog = Name }.ConnectionString;
+        using var database = new SqlConnection(ConnectionString);
+        database.Open();
+        foreach (var file in ScriptFiles())
+        {
+            foreach (var batch in GoSeparator().Split(File.ReadAllText(file)).Where(static batch => !string.IsNullOrWhiteSpace(batch)))
+            {
+                Execute(database, batch);
+            }
+        }
+    }
+
+    /// <summary>Gets the server connection string, or null when the integration tests are off.</summary>
+    public static string? ServerConnectionString => Environment.GetEnvironmentVariable(EnvironmentVariable);
+
+    /// <summary>Gets the database name.</summary>
+    public string Name { get; }
+
+    /// <summary>Gets the connection string of the new database.</summary>
+    public string ConnectionString { get; }
+
+    public void Dispose()
+    {
+        SqlConnection.ClearAllPools();
+        using var master = new SqlConnection(ServerConnectionString);
+        master.Open();
+        Execute(master, $"ALTER DATABASE [{Name}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{Name}];");
+    }
+
+    /// <summary>Runs one statement against the database (for test setup and checks).</summary>
+    public object? Scalar(string sql)
+    {
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+        using var command = new SqlCommand(sql, connection);
+        return command.ExecuteScalar();
+    }
+
+    private static void Execute(SqlConnection connection, string sql)
+    {
+        using var command = new SqlCommand(sql, connection) { CommandTimeout = 120 };
+        command.ExecuteNonQuery();
+    }
+
+    private static IEnumerable<string> ScriptFiles()
+    {
+        var root = Path.Combine(RepositoryRoot(), "LivingDex.Database");
+        foreach (var table in TableOrder)
+        {
+            yield return Path.Combine(root, "Tables", $"dbo.{table}.sql");
+        }
+
+        foreach (var procedure in Directory.GetFiles(Path.Combine(root, "StoredProcedures"), "*.sql", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
+        {
+            yield return procedure;
+        }
+    }
+
+    private static string RepositoryRoot()
+    {
+        for (var folder = new DirectoryInfo(AppContext.BaseDirectory); folder is not null; folder = folder.Parent)
+        {
+            if (File.Exists(Path.Combine(folder.FullName, "LivingDex.slnx")))
+            {
+                return folder.FullName;
+            }
+        }
+
+        throw new InvalidOperationException("LivingDex.slnx not found above " + AppContext.BaseDirectory);
+    }
+
+    [GeneratedRegex(@"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex GoSeparator();
+}
+
+/// <summary>A fact that runs only when <see cref="TestDatabase.EnvironmentVariable"/> is set.</summary>
+public sealed class SqlFactAttribute : FactAttribute
+{
+    public SqlFactAttribute()
+    {
+        if (string.IsNullOrWhiteSpace(TestDatabase.ServerConnectionString))
+        {
+            Skip = $"Set {TestDatabase.EnvironmentVariable} to run the SQL Server integration tests.";
+        }
+    }
+}
+
+/// <summary>A theory that runs only when <see cref="TestDatabase.EnvironmentVariable"/> is set.</summary>
+public sealed class SqlTheoryAttribute : TheoryAttribute
+{
+    public SqlTheoryAttribute()
+    {
+        if (string.IsNullOrWhiteSpace(TestDatabase.ServerConnectionString))
+        {
+            Skip = $"Set {TestDatabase.EnvironmentVariable} to run the SQL Server integration tests.";
+        }
+    }
+}

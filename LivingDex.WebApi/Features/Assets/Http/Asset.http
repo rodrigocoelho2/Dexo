@@ -1,0 +1,34 @@
+@HostAddress = http://localhost:5080
+
+### Sprite Asset (bundled → cache → downloaded once)
+GET {{HostAddress}}/assets/sprites/versions/generation-iii/ruby-sapphire/25.png
+
+### Cry Asset
+GET {{HostAddress}}/assets/cries/latest/25.ogg
+
+### Battle background Asset
+GET {{HostAddress}}/assets/battle/fx/bg-forest.png
+
+### Music Asset
+GET {{HostAddress}}/assets/music/bw-trainer.mp3
+
+### Sign in as the admin first (Accounts/Http/Account.http → Login Account)
+
+### Download AssetAdmin (each item is a fallback chain)
+POST {{HostAddress}}/api/admin/assets/download
+Content-Type: application/json
+X-LivingDex: 1
+
+{
+  "items": [
+    ["sprites/other/home/10033.png", "sprites/10033.png"],
+    ["cries/latest/1.ogg"]
+  ]
+}
+
+### Status AssetAdmin
+GET {{HostAddress}}/api/admin/assets/status
+
+### Cancel AssetAdmin
+POST {{HostAddress}}/api/admin/assets/cancel
+X-LivingDex: 1
