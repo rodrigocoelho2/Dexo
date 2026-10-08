@@ -1133,6 +1133,9 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .mobonly,.mob-sheetwrap{display:none}
 @media (max-width:700px){
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  /* home-screen app (status bar over the page): iOS sizes a page that doesn't scroll without the status bar,
+     which lifts the fixed tab bar; making the page at least that much taller keeps the bar on the bottom edge */
+  html{min-height:calc(100% + env(safe-area-inset-top))}
   body{padding:max(10px,env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}
   body.mob-locked{overflow:hidden}
   #app{gap:12px}
@@ -1182,7 +1185,7 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 
   /* ---------- tab bar ---------- */
   body:has(#login:not([hidden])) .mob-nav,body:has(#app[hidden]) .mob-nav{display:none}
-  .mob-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:45;grid-template-columns:repeat(4,1fr);padding:8px 14px calc(10px + env(safe-area-inset-bottom));
+  .mob-nav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:45;grid-template-columns:repeat(4,1fr);padding:8px 14px max(10px, calc(env(safe-area-inset-bottom) - 8px));
     background:hsl(calc(var(--h) + 5) calc(47% * var(--sat)) 7% / .94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid hsl(calc(var(--h) + 3) calc(40% * var(--sat)) 20%)}
   .mob-nav button{border:0;background:none;display:grid;justify-items:center;align-content:start;gap:4px;font-family:var(--tiny);font-size:.5rem;letter-spacing:.1em;color:hsl(calc(var(--h) + 1) calc(22% * var(--sat)) 54%);padding:2px 0 0;position:relative}
   .mob-nav .mob-ti{width:54px;height:30px;border-radius:15px;display:grid;place-items:center}
