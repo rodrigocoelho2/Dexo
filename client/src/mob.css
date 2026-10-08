@@ -5,6 +5,8 @@
   /* home-screen app (status bar over the page): iOS sizes a page that doesn't scroll without the status bar,
      which lifts the fixed tab bar; making the page at least that much taller keeps the bar on the bottom edge */
   html{min-height:calc(100% + env(safe-area-inset-top))}
+  /* no double-tap zoom (pinch zoom still works) */
+  html{touch-action:manipulation}
   body{padding:max(10px,env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}
   body.mob-locked{overflow:hidden}
   #app{gap:12px}
