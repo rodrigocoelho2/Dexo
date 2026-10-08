@@ -203,6 +203,10 @@ out = {"s": S, "f": F, "g": G, "x": X, "e": EVO, "xc": EXC, "xn": NOTE}
 import csv as _csv
 _H={int(r["species_id"]):int(r["height"]) for r in _csv.DictReader(open("csv/pokemon.csv")) if r["is_default"]=="1"}
 out["ht"]=[_H.get(i,10) for i in range(1,1026)]
+# where each Pokémon is found, for the games that have a map (GSC, HGSS)
+import encounters
+_SPEC={int(r["id"]):int(r["species_id"]) for r in _csv.DictReader(open("csv/pokemon.csv"))}
+out["enc"]=encounters.build(rows,_SPEC)
 json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("wrote", os.path.normpath(OUT))
 print(len(S), len(F), len(G), len(EVO), sum(len(v) for v in EXC.values()))

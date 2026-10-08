@@ -143,7 +143,7 @@ function mobSheet(kind){
   if(MOBS.sheet==='mon'&&kind!=='mon') mobLowerHome();
   MOBS.sheet=kind; w.hidden=false; document.body.classList.add('mob-locked');
   w.querySelector('.mob-sheet').scrollTop=0;
-  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body); else if(kind==='bbadge') mobBattleBadgeSheet(body);
+  if(kind==='mon') mobMonSheet(); else if(kind==='games') mobGamesSheet(body); else if(kind==='dex') mobDexSheet(body); else if(kind==='badge') mobBadgeSheet(body); else if(kind==='bbadge') mobBattleBadgeSheet(body); else if(kind==='where') mobWhereSheet(body);
 }
 // closes the sheet by sliding it down (tap outside, pull down, Esc); mobCloseSheet closes it at once
 function mobDismissSheet(){
@@ -236,6 +236,14 @@ function mobBadgeSheet(body){
   const on=!!(st.dexb&&st.dexb[p.b.id]), pct=Math.round(p.have*100/p.b.need);
   body.innerHTML=`<div class="mob-dsheet" style="--c:${p.b.c}">${dexbGem(p.b,on,72)}<h3>${esc(p.b.name)}</h3><p>${esc(p.b.how)}.</p>
     ${on?`<small>EARNED ${dexbDate(st.dexb[p.b.id])} · ${esc(p.b.basis.toUpperCase())}</small>`:`<span class="br"><i style="width:${pct}%"></i></span><small>${p.have} / ${p.b.need} · ${p.b.need-p.have} TO GO · ${esc(p.b.basis.toUpperCase())}</small>`}</div>`;
+}
+
+/* ---------- where to find it (map, from the Pokémon sheet) ---------- */
+function mobWhereSheet(body){
+  const sp=SP.get(WM.sid);
+  body.innerHTML=`<div><button type="button" class="wm-back">◂ ${esc((sp?sp.en:'BACK').toUpperCase())}</button><div class="wm-sheet"></div></div>`;
+  body.querySelector('.wm-back').onclick=()=>{ SFX.tab(); mobSheet('mon'); };
+  wmRender(body.querySelector('.wm-sheet'),true);
 }
 
 /* ---------- battle badges (Trainer tab) ---------- */

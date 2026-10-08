@@ -363,10 +363,14 @@ function renderWhere(body,g,e){
   PLAY.forEach(x=>x.dex.forEach((d,di)=>{ const isDlc=(x.dlc||[]).includes(d);
     const n=DEXNUM[d].get(e.sid); if(n==null) return;
     const exc=RAW.xc[x.k]&&RAW.xc[x.k][e.sid], note=RAW.xn[x.k+'|'+e.sid];
-    lines.push(`<div class="wline"><span class="gm">${esc(x.s)}</span><span class="tags"><span class="tg${isDlc?' dlc':''}"><b>${esc(dexLabel(x,d))} ${pad(n)}</b></span>${isDlc?'<span class="tg">DLC</span>':''}${exc?`<span class="tg x">${esc(exc)} only</span>`:''}</span>${note&&exc?`<span class="hint">${esc(note)}</span>`:''}</div>`);
+    const mp=di===0&&wmFind(x.k,e.sid);
+    lines.push(`<div class="wline"><span class="gm">${esc(x.s)}</span><span class="tags">${mp?`<button type="button" class="tg map" data-map="${x.k}" title="Show on the map">${WM_PIN}<b>${esc(dexLabel(x,d))} ${pad(n)}</b></button>`:`<span class="tg${isDlc?' dlc':''}"><b>${esc(dexLabel(x,d))} ${pad(n)}</b></span>`}${isDlc?'<span class="tg">DLC</span>':''}${exc?`<span class="tg x">${esc(exc)} only</span>`:''}</span>${note&&exc?`<span class="hint">${esc(note)}</span>`:''}</div>`);
   }));
   PLAY.forEach(x=>{ const exc=RAW.xc[x.k]&&RAW.xc[x.k][e.sid]; if(!exc||x.dex.some(d=>DEXNUM[d].has(e.sid))) return;
     lines.push(`<div class="wline"><span class="gm">${esc(x.s)}</span><span class="tags"><span class="tg"><b>Outside regional dex</b></span><span class="tg x">${esc(exc)} only</span></span></div>`); });
+  // games with a map where it is found although it's outside their regional Pokédex (radio, Safari Zone, Kanto…)
+  wmGames().forEach(k=>{ const x=PLAY.find(y=>y.k===k); if(!x||x.dex.some(d=>DEXNUM[d].has(e.sid))||!wmHas(k,e.sid)) return;
+    lines.push(`<div class="wline"><span class="gm">${esc(x.s)}</span><span class="tags"><button type="button" class="tg map" data-map="${k}" title="Show on the map">${WM_PIN}<b>Outside regional dex</b></button></span></div>`); });
   const ev=EVO[e.sid], prev=ev?SP.get(ev[0]):null;
   const how=[];
   if(prev) how.push(`<p><span class="tg ${ev[2]?'ev':''}">${ev[2]?'TRADE':'EVOLVE'}</span> From ${esc(prev.en)} · ${esc(ev[1])}</p>`);
@@ -379,6 +383,7 @@ function renderWhere(body,g,e){
   body.innerHTML=`<div class="card"><h3>CATCH IN</h3>${lines.join('')||'<p class="hint">No Switch game has it in its regional Pokédex.</p>'}</div>
     ${how.length?`<div class="card"><h3>HOW</h3>${how.join('')}</div>`:''}
     <div class="card"><h3>CAN LIVE IN (TRANSFER FROM HOME)</h3><div class="tags"><span class="tg ok">HOME</span>${can}</div></div>`;
+  wmWire(body,e);
 }
 function renderDetails(body,g,v,list,i,e){
   const c=cset(g,v), have=c.has(e.key), dk=detKey(g,v,e), d=st.det[dk]||{};
