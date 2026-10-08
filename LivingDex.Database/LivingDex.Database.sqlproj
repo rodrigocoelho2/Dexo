@@ -1,17 +1,61 @@
 <Project Sdk="Microsoft.Build.Sql/2.1.0">
 
   <!-- SQL Server database of LivingDex: tables and stored procedures. Builds to LivingDex.Database.dacpac,
-       which the db-deploy container publishes on every deploy (creates the database or brings it up to date). -->
+       which the db-deploy container publishes on every deploy (creates the database or brings it up to date).
+       Every script is listed below (no wildcards), so Visual Studio shows them with either SSDT flavour;
+       adding a script through Solution Explorer adds its line here. -->
   <PropertyGroup>
     <Name>LivingDex.Database</Name>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <EnableDefaultSqlItems>false</EnableDefaultSqlItems>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Tables\" />
+    <Folder Include="StoredProcedures\" />
+    <Folder Include="StoredProcedures\Battles\" />
+    <Folder Include="StoredProcedures\States\" />
+    <Folder Include="StoredProcedures\Trainers\" />
+    <Folder Include="StoredProcedures\Users\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Build Include="Tables\dbo.Battle.sql" />
+    <Build Include="Tables\dbo.TrainerProfile.sql" />
+    <Build Include="Tables\dbo.User.sql" />
+    <Build Include="Tables\dbo.UserState.sql" />
+    <Build Include="Tables\dbo.UserStateHistory.sql" />
+    <Build Include="StoredProcedures\Battles\dbo.BattleFormatRecords.sql" />
+    <Build Include="StoredProcedures\Battles\dbo.BattleGet.sql" />
+    <Build Include="StoredProcedures\Battles\dbo.BattleListRecent.sql" />
+    <Build Include="StoredProcedures\Battles\dbo.BattleSave.sql" />
+    <Build Include="StoredProcedures\Battles\dbo.BattleTrainerRecord.sql" />
+    <Build Include="StoredProcedures\States\dbo.UserStateGet.sql" />
+    <Build Include="StoredProcedures\States\dbo.UserStateHistoryGet.sql" />
+    <Build Include="StoredProcedures\States\dbo.UserStateHistoryList.sql" />
+    <Build Include="StoredProcedures\States\dbo.UserStateSave.sql" />
+    <Build Include="StoredProcedures\Trainers\dbo.TrainerProfileGet.sql" />
+    <Build Include="StoredProcedures\Trainers\dbo.TrainerProfileList.sql" />
+    <Build Include="StoredProcedures\Trainers\dbo.TrainerProfileSetPartner.sql" />
+    <Build Include="StoredProcedures\Trainers\dbo.TrainerProfileTouch.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserCount.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserCreate.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserDelete.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserGet.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserGetByName.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserList.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserSetPassword.sql" />
+    <Build Include="StoredProcedures\Users\dbo.UserTouchLogin.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+    <None Include="Scripts\deploy.sh" />
+    <None Include="Dockerfile" />
   </ItemGroup>
 
 </Project>
