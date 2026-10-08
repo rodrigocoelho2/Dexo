@@ -315,6 +315,26 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 <td width="50%"><b>Black 2 battle menu</b> · <a href="docs/mocks/battle-menu.html">battle-menu.html</a><br><img src="docs/images/mock-battle-menu.png" alt="Mock of the Black 2 style touch menu"></td>
 <td width="50%" valign="top"><b>How the mocks became the app</b><br><br>Mocks use sample data and are drawn at their own size, so they differ in small ways from the finished screens above (for example, the Gen 3 and Gen 4 HP boxes lost their EXP bar, and the lobby's Mode row sits under Format). The <a href="#screenshots">screenshots</a> show the real app.</td>
 </tr>
+<tr>
+<td width="50%"><b>Showdown lobby</b> · <a href="docs/mocks/showdown.html">showdown.html</a><br><img src="docs/images/mock-showdown.png" alt="Mock of the Showdown header button, lobby with trainer cards, battle and result"></td>
+<td width="50%"><b>Sign in</b> · <a href="docs/mocks/login.html">login.html</a><br><img src="docs/images/mock-login.png" alt="Mock of the sign in and create account screen"></td>
+</tr>
+<tr>
+<td width="50%"><b>Filters and list view</b> · <a href="docs/mocks/filters.html">filters.html</a><br><img src="docs/images/mock-filters.png" alt="Mock of the filters panel and the list view"></td>
+<td width="50%"><b>Inspector card</b> · <a href="docs/mocks/b2-card.html">b2-card.html</a><br><img src="docs/images/mock-b2-card.png" alt="Mock of the Black 2 style Pokémon inspector card"></td>
+</tr>
+<tr>
+<td width="50%"><b>Compact header</b> · <a href="docs/mocks/compact-header.html">compact-header.html</a><br><img src="docs/images/mock-compact-header.png" alt="Mock of the compact game bar, toolbar and view options"></td>
+<td width="50%"><b>Battle plates</b> · <a href="docs/mocks/battle-plates.html">battle-plates.html</a><br><img src="docs/images/mock-battle-plates.png" alt="Mock of the battle bottom screen with inspector-style plates"></td>
+</tr>
+<tr>
+<td width="50%"><b>Battle effects, ranking and badges</b> · <a href="docs/mocks/battle-fx.html">battle-fx.html</a><br><img src="docs/images/mock-battle-fx.png" alt="Mock of the move animations, ranking, badges, MVP and battle log"></td>
+<td width="50%"><b>Dex badges</b> · <a href="docs/mocks/dex-badges.html">dex-badges.html</a><br><img src="docs/images/mock-dex-badges.png" alt="Mock of the living dex badges on the trainer card and the phone"></td>
+</tr>
+<tr>
+<td width="50%"><b>Trainer profile</b> · <a href="docs/mocks/profile.html">profile.html</a><br><img src="docs/images/mock-profile.png" alt="Mock of the trainer profile window"></td>
+<td width="50%"><b>Where to get → map</b> · <a href="docs/mocks/where-to-get-map.html">where-to-get-map.html</a><br><img src="docs/images/mock-where-to-get-map.png" alt="Mock of the region map opened from the Catch in numbers"></td>
+</tr>
 </table>
 
 ## Configuration

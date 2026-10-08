@@ -1,0 +1,136 @@
+<title>Inspector Card Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen&display=swap">
+<style>
+/* Layout: one DS-proportioned card (4:3) centred on the page; everything inside scales with the card width (cqw). Single dark look by choice. */
+:root{
+  --night:#0c1222;
+  --grid-bg:#1b2236;        /* screen base under the grid */
+  --grid-line:#2a3552;      /* moving grid lines */
+  --band:rgba(90,120,190,.22);
+  --plate:#161b2b;          /* plate fill */
+  --plate-edge:#a99be0;     /* lavender plate outline */
+  --plate-edge2:#5d4fa0;
+  --chip:#d9deea;           /* label chips */
+  --chip-ink:#2b3040;
+  --ink:#f1f3f9;
+  --muted:#8c9abb;
+  --red:#ef3d4f; --ok:#5fd38a; --exp:#4ab4ff;
+  --pixel:"DotGothic16","MS Gothic",ui-monospace,monospace;
+  --tiny:"Silkscreen","DotGothic16",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--pixel);padding-inline:16px;padding-block:24px 40px}
+.wrap{max-width:640px;margin:0 auto;display:grid;gap:14px}
+.cap{font-family:var(--tiny);font-size:.7rem;letter-spacing:.14em;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.frame{container-type:inline-size;background:#0a0d16;border-radius:14px;padding:10px;box-shadow:0 0 0 2px #1d2438,0 10px 30px rgba(0,0,0,.45)}
+
+/* ---- the card ---- */
+.card{position:relative;aspect-ratio:4/3;width:100%;overflow:hidden;border-radius:4px;font-size:3.3cqw;line-height:1;
+  background:
+    linear-gradient(118deg,transparent 0 52%,var(--band) 52% 66%,transparent 66%),
+    repeating-linear-gradient(0deg,var(--grid-line) 0 .12em,transparent .12em 2.2em),
+    repeating-linear-gradient(90deg,var(--grid-line) 0 .12em,transparent .12em 2.2em),
+    var(--grid-bg);
+  background-size:auto,2.2em 2.2em,2.2em 2.2em,auto;
+  animation:drift 6s linear infinite}
+@keyframes drift{to{background-position:0 0,2.2em 2.2em,2.2em 2.2em,0 0}}
+@media (prefers-reduced-motion:reduce){.card{animation:none}}
+
+/* hex plate: outline layer + inset fill layer, same shape */
+.hex{--cut:1.1em;position:absolute;clip-path:polygon(var(--cut) 0,calc(100% - var(--cut)) 0,100% 50%,calc(100% - var(--cut)) 100%,var(--cut) 100%,0 50%);
+  background:linear-gradient(var(--plate-edge),var(--plate-edge2))}
+.hex>.in{position:absolute;inset:.16em;clip-path:inherit;background:var(--plate);display:flex;align-items:center;gap:.5em;padding:0 1.3em 0 1.1em}
+.chip{background:var(--chip);color:var(--chip-ink);font-size:.62em;padding:.25em .45em .2em;border-radius:.2em;letter-spacing:.04em;white-space:nowrap;box-shadow:inset 0 -.12em 0 rgba(0,0,0,.18)}
+.v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:.08em .08em 0 #000}
+.v small{font-size:.62em;color:var(--muted)}
+.red{color:var(--red)}
+.type{font-size:.66em;padding:.2em .4em;border-radius:.2em;color:#fff;text-shadow:.08em .08em 0 rgba(0,0,0,.4);box-shadow:inset 0 0 0 .1em rgba(255,255,255,.3)}
+
+/* rows on the left */
+.r1{left:2.5%;top:15%;width:57%;height:10.5%}
+.r2{left:2.5%;top:27%;width:57%;height:10.5%}
+.r3{left:2.5%;top:39%;width:57%;height:10.5%}
+.r4{left:2.5%;top:51%;width:57%;height:10.5%}
+.r5{left:2.5%;top:63%;width:57%;height:10.5%}
+.r6{left:2.5%;top:75.5%;width:57%;height:10.5%}
+.r6 .in{gap:.6em}
+.track{flex:1;height:.5em;background:#26304a;border-radius:.2em;overflow:hidden;box-shadow:inset 0 0 0 .08em #0a0d16}
+.track i{display:block;height:100%;width:38%;background:linear-gradient(var(--exp) 0 55%,#2a86d6 55%)}
+
+/* name plate top-right */
+.name{position:absolute;right:2.5%;top:2.5%;width:42%;height:10.5%;background:rgba(10,13,22,.88);border-radius:.4em;box-shadow:inset 0 0 0 .12em #3a4c80;display:grid;grid-template-rows:1fr 1fr;padding:.15em .55em}
+.name .l1,.name .l2{display:flex;align-items:center;gap:.35em;white-space:nowrap}
+.name .l2{font-size:.8em;justify-content:space-between}
+.ball{width:.95em;height:.95em;border-radius:50%;flex:none;background:linear-gradient(var(--red) 0 45%,#151515 45% 55%,#f4f4f4 55%);box-shadow:0 0 0 .1em #151515}
+.f{margin-left:auto;color:#ff7a9a}
+.pill{font-size:.78em;padding:.08em .45em;border-radius:.2em;background:var(--ok);color:#0f2a1a}
+
+/* sprite stage */
+.stage{position:absolute;right:3%;top:15%;width:36%;height:44%;display:grid;place-items:end center;padding-bottom:4%}
+.stage::before{content:"";position:absolute;left:30%;right:30%;bottom:2%;height:9%;border-radius:50%;background:rgba(0,0,0,.28)}
+.stage img{position:relative;width:calc(var(--nw,64) * 100cqw / 256);image-rendering:pixelated;max-width:100%;max-height:100%}
+.ph{position:relative;width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff 0 13%,#151515 13% 18%,transparent 18%),linear-gradient(#68b848 0 46%,#151515 46% 54%,#eef0f6 54%);box-shadow:inset 0 0 0 .14em #151515}
+
+/* marks strip + info box bottom-right, like the item box */
+.marks{position:absolute;right:0;top:61%;width:38.5%;height:6.5%;background:linear-gradient(90deg,transparent,rgba(200,210,235,.9) 18%);clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);display:flex;align-items:center;justify-content:flex-end;gap:.45em;padding-right:.7em;color:#8a93ad;font-size:.7em}
+.info{position:absolute;right:0;top:68.5%;width:38.5%;height:18%;background:linear-gradient(#e9edf6,#cdd6e6);color:var(--chip-ink);border-radius:.4em 0 0 .4em;display:grid;grid-template-rows:1fr 1fr;padding:.15em .7em;text-shadow:.08em .08em 0 #aeb8c8}
+.info div{display:flex;align-items:center;justify-content:space-between;gap:.4em;white-space:nowrap}
+.info div+div{border-top:.1em solid #b3bdd0}
+.info small{font-size:.7em;color:#5a6788;text-shadow:none}
+
+/* toolbar */
+.bar{position:absolute;left:0;right:0;bottom:0;height:11%;background:#07090f;display:flex;align-items:center;gap:2%;padding:0 2%}
+.bt{height:72%;border:0;border-radius:.2em;background:#141824;color:#fff;font:inherit;display:grid;place-items:center;flex:1;box-shadow:inset 0 0 0 .12em #2c3346}
+.bt.w{flex:2.4;color:var(--ok);font-size:.82em;letter-spacing:.05em}
+.bt.x{color:var(--exp)}
+.note{font-size:.85rem;color:var(--muted);line-height:1.5;margin:0}
+</style>
+
+<div class="wrap">
+  <div class="cap"><span>MOCK · INSPECTOR CARD</span><span>NOT APPLIED YET</span></div>
+  <div class="frame">
+    <div class="card" role="img" aria-label="Mock of the new inspector card for Bulbasaur">
+      <div class="name">
+        <div class="l1"><span class="ball"></span><span>フシギダネ</span><span class="f">♀</span></div>
+        <div class="l2"><span>B1 · 1-1</span><span class="pill">IN BOX</span></div>
+      </div>
+
+      <div class="hex r1"><div class="in"><span class="chip">DEX No.</span><span class="v red">001 <small>NAT. 001</small></span></div></div>
+      <div class="hex r2"><div class="in"><span class="chip">NAME</span><span class="v">Bulbasaur</span></div></div>
+      <div class="hex r3"><div class="in"><span class="chip">TYPE</span><span class="type" style="background:#68b848">GRASS</span><span class="type" style="background:#a040a0">POISON</span></div></div>
+      <div class="hex r4"><div class="in"><span class="chip">OT GAME</span><span class="v">Black 2 / White 2</span></div></div>
+      <div class="hex r5"><div class="in"><span class="chip">BALL</span><span class="v">Love Ball</span></div></div>
+      <div class="hex r6"><div class="in"><span class="chip">LEFT</span><span class="v">636</span><span class="track"><i></i></span></div></div>
+
+      <div class="stage" id="stage"></div>
+
+      <div class="marks" aria-hidden="true"><span>●</span><span>▲</span><span>■</span><span>♥</span><span>★</span></div>
+      <div class="info">
+        <div><small>Status</small><span>Caught</span></div>
+        <div><small>Variant</small><span>Base form</span></div>
+      </div>
+
+      <div class="bar">
+        <button class="bt" type="button" aria-label="Previous">▲</button>
+        <button class="bt" type="button" aria-label="Next">▼</button>
+        <button class="bt w" type="button">✕ REMOVE</button>
+        <button class="bt x" type="button" aria-label="Next missing">⤼</button>
+      </div>
+    </div>
+  </div>
+  <p class="note">The grid scrolls diagonally in a slow loop and stops if your system asks for reduced motion. The colours follow the selected theme, as the current card does. The sprite only loads on your server; here a placeholder stands in for it.</p>
+</div>
+
+<script>
+(()=>{
+  const stage=document.getElementById('stage');
+  const im=new Image(); im.alt='Bulbasaur';
+  im.onload=()=>{ im.style.setProperty('--nw',im.naturalWidth); stage.appendChild(im); };
+  im.onerror=()=>{ stage.insertAdjacentHTML('beforeend','<span class="ph" aria-hidden="true"></span>'); };
+  im.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/1.gif';
+})();
+</script>

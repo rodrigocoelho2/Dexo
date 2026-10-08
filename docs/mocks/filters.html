@@ -1,0 +1,244 @@
+<title>Living Dex Filters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen&display=swap">
+<style>
+/* Layout: the tracker's controls bar, a collapsible filter panel under it, then the result as a list (default) or as boxes with non-matching slots dimmed. Single dark look by choice, like the app. */
+:root{
+  --night:#0c1222; --panel:#141d36; --line:#2a3a64; --chipbg:#222e52;
+  --bar:#dfe6f2; --bar-ink:#3a3f4a; --bar-shade:#aeb8c8;
+  --ink:#e8edf8; --muted:#8c9abb; --red:#ef3d4f; --ok:#5fd38a; --exp:#4ab4ff; --gold:#ffd23f;
+  --pixel:"DotGothic16","MS Gothic",ui-monospace,monospace;
+  --tiny:"Silkscreen","DotGothic16",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--pixel);font-size:15px;line-height:1.35;padding-inline:16px;padding-block:22px 40px;
+  background-image:radial-gradient(circle at 1px 1px,rgba(120,150,220,.09) 1px,transparent 0);background-size:12px 12px}
+.wrap{max-width:1000px;margin:0 auto;display:grid;gap:12px}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--exp);outline-offset:2px}
+.cap{font-family:var(--tiny);font-size:.66rem;letter-spacing:.14em;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:10px 12px}
+.row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.lbl{font-family:var(--tiny);font-size:.6rem;letter-spacing:.12em;color:var(--muted)}
+.chip{border:0;border-radius:4px;padding:5px 9px;background:var(--chipbg);font-size:.82rem;box-shadow:0 2px 0 #0a0f1e}
+.chip[aria-pressed="true"]{background:var(--bar);color:var(--bar-ink);text-shadow:1px 1px 0 var(--bar-shade)}
+.chip small{font-family:var(--tiny);font-size:.58rem;opacity:.75;margin-left:4px}
+.ctx{opacity:.55}
+
+/* filter bar */
+.fbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:#0b1122;border:2px solid var(--line);border-radius:6px;padding:2px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:4px;padding:5px 11px;font-size:.8rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--bar);color:var(--bar-ink);text-shadow:1px 1px 0 var(--bar-shade)}
+.ftoggle{border:0;border-radius:5px;padding:6px 11px;background:#26325a;box-shadow:0 3px 0 #0a0f1e;font-size:.82rem;display:inline-flex;gap:8px;align-items:center}
+.badge{font-family:var(--tiny);font-size:.58rem;background:var(--gold);color:#3a2a00;border-radius:3px;padding:1px 5px}
+.fpanel{display:grid;gap:12px;margin-top:10px;padding-top:12px;border-top:1px dashed #263256}
+.fgroup{display:grid;gap:6px}
+.types{display:flex;flex-wrap:wrap;gap:5px}
+.tp{border:0;border-radius:4px;padding:4px 8px;font-size:.72rem;color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.4);background:var(--c);opacity:.45;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.tp[aria-pressed="true"]{opacity:1;box-shadow:inset 0 0 0 2px #fff,0 2px 0 #0a0f1e}
+select{background:#0b1122;border:2px solid var(--line);border-radius:4px;padding:5px 8px}
+.summary{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.8rem;color:var(--muted)}
+.summary b{color:var(--ink);font-weight:400;font-size:1rem}
+.pill{display:inline-flex;align-items:center;gap:5px;background:#1b2546;border-radius:4px;padding:2px 4px 2px 8px;font-size:.74rem;color:var(--ink)}
+.pill button{border:0;background:transparent;color:var(--muted);padding:0 4px}
+.clear{border:0;background:transparent;color:var(--exp);font-size:.78rem;text-decoration:underline;text-underline-offset:3px}
+
+/* list view */
+.list{display:grid;gap:6px}
+.item{display:grid;grid-template-columns:44px 52px minmax(0,1fr) auto;gap:10px;align-items:center;background:#111a31;border:2px solid #1f2b4d;border-radius:8px;padding:6px 10px 6px 6px}
+.item.have{border-color:#24433a}
+.spr{width:44px;height:44px;display:grid;place-items:center;background:#0b1122;border-radius:6px;position:relative}
+.spr img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}
+.mini{width:24px;height:24px;border-radius:50%;background:linear-gradient(var(--tc) 0 45%,#111 45% 55%,#e9edf5 55%);box-shadow:0 0 0 2px #111}
+.item:not(.have) .spr img,.item:not(.have) .mini{filter:brightness(0) opacity(.5)}
+.no{font-family:var(--tiny);font-size:.7rem;color:var(--red)}
+.no small{display:block;color:var(--muted);font-size:.55rem}
+.main{min-width:0;display:grid;gap:3px}
+.nm{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.nm b{font-weight:400}
+.t{font-size:.62rem;padding:1px 5px;border-radius:3px;color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.35);background:var(--c)}
+.meta{display:flex;flex-wrap:wrap;gap:4px;font-size:.68rem;color:var(--muted)}
+.tag{background:#1b2546;border-radius:3px;padding:1px 5px}
+.tag.x{background:#3a2a12;color:#ffcf8a}
+.tag.ev{background:#2b2147;color:#cdb8ff}
+.tag.lg{background:#3b3416;color:#ffe27a}
+.mark{border:0;border-radius:5px;padding:7px 10px;background:#141824;box-shadow:inset 0 0 0 2px #2c3346;font-size:.75rem;letter-spacing:.05em;white-space:nowrap}
+.mark.ok{color:var(--ok)} .mark.x{color:#ff9aa5}
+@media (max-width:560px){.item{grid-template-columns:40px minmax(0,1fr) auto}.item .no{display:none}}
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:.85rem}
+
+/* box view */
+.box{border-radius:10px;padding:10px;border:3px solid #0a0f1e;box-shadow:inset 0 0 0 2px rgba(255,255,255,.15);
+  background:repeating-linear-gradient(135deg,#2c4f8a 0 14px,#24426f 14px 28px)}
+.boxhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.85rem}
+.slots{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.slot{position:relative;aspect-ratio:1;border:0;border-radius:6px;background:rgba(10,15,30,.35);display:grid;place-items:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
+.slot img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.slot .mini{width:50%;height:auto;aspect-ratio:1}
+.slot.miss img,.slot.miss .mini{filter:brightness(0) opacity(.45)}
+.slot.off{opacity:.18}
+.slot .sn{position:absolute;left:3px;top:2px;font-family:var(--tiny);font-size:.5rem;color:rgba(255,255,255,.75);text-shadow:1px 1px 0 #000}
+.slot .ck{position:absolute;right:3px;bottom:3px;width:10px;height:10px;border-radius:50%;background:linear-gradient(var(--red) 0 45%,#111 45% 55%,#fff 55%);box-shadow:0 0 0 1px #111}
+.note{font-size:.82rem;color:var(--muted);line-height:1.55;margin:0}
+.note b{color:var(--ink);font-weight:400}
+</style>
+
+<div class="wrap">
+  <div class="cap"><span>MOCK · FILTERS + LIST VIEW</span><span>NOT APPLIED YET · SAMPLE OF 30 POKÉMON</span></div>
+
+  <!-- existing controls, shown for context -->
+  <section class="panel row ctx" aria-label="Existing controls (context)">
+    <span class="lbl">POKÉDEX</span><button class="chip" aria-pressed="true" type="button">National<small>1025</small></button><button class="chip" type="button">Gen I<small>151</small></button>
+    <span class="lbl">VARIANT</span><button class="chip" aria-pressed="true" type="button">Normal</button><button class="chip" type="button">Forms</button><button class="chip" type="button">Shiny</button>
+  </section>
+
+  <!-- new: view + filters -->
+  <section class="panel" aria-label="View and filters">
+    <div class="fbar">
+      <div class="row">
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" id="vList" aria-pressed="true">☰ LIST</button>
+          <button type="button" id="vBox" aria-pressed="false">▦ BOXES</button>
+        </div>
+        <div class="seg" role="group" aria-label="Show">
+          <button type="button" data-show="all" aria-pressed="false">All</button>
+          <button type="button" data-show="missing" aria-pressed="true">Missing</button>
+          <button type="button" data-show="caught" aria-pressed="false">Caught</button>
+        </div>
+      </div>
+      <button class="ftoggle" type="button" id="fBtn" aria-expanded="true" aria-controls="fPanel">FILTERS <span class="badge" id="fCount">2</span> <span id="fArrow">▲</span></button>
+    </div>
+
+    <div class="fpanel" id="fPanel">
+      <div class="row">
+        <label class="fgroup"><span class="lbl">CATCHABLE IN</span>
+          <select id="game">
+            <option value="">Any game</option>
+            <option value="sv" selected>Scarlet / Violet</option>
+            <option value="za">Legends: Z-A</option>
+            <option value="swsh">Sword / Shield</option>
+            <option value="bdsp">Brilliant Diamond / Shining Pearl</option>
+            <option value="pla">Legends: Arceus</option>
+            <option value="lgpe">Let's Go Pikachu / Eevee</option>
+          </select>
+        </label>
+      </div>
+      <div class="fgroup"><span class="lbl">TYPE · pick one or more</span><div class="types" id="types"></div></div>
+      <div class="fgroup"><span class="lbl">GENERATION</span><div class="row" id="gens"></div></div>
+      <div class="fgroup"><span class="lbl">CATEGORY</span><div class="row" id="cats"></div></div>
+    </div>
+  </section>
+
+  <div class="summary" id="summary"></div>
+
+  <section id="listView" class="list" aria-label="Results"></section>
+  <section id="boxView" hidden aria-label="Box view">
+    <div class="box"><div class="boxhead"><span>Box 1 · No. 001–030</span><span class="lbl" id="boxCount"></span></div><div class="slots" id="slots"></div></div>
+  </section>
+
+  <p class="note"><b>List</b> shows only the Pokémon that match, in a column that's easy to scroll on a phone. Each row has the types, where you can catch it and a ✓ MARK button. Clicking the row opens it on the inspector card. <b>Boxes</b> keeps the HOME layout and dims the slots that don't match, so you still see where each one goes. <b>Catchable in</b> uses the same data as "Where to get": the regional dexes plus version exclusives. Filters are saved per device and the badge counts how many are active.</p>
+</div>
+
+<script>
+(()=>{
+const TYPES={normal:['Normal','#a8a878'],fire:['Fire','#f08030'],water:['Water','#5890f0'],grass:['Grass','#68b848'],electric:['Electric','#e8c018'],ice:['Ice','#78c8c8'],fighting:['Fighting','#c03028'],poison:['Poison','#a040a0'],ground:['Ground','#d4a84a'],flying:['Flying','#a890f0'],psychic:['Psychic','#f85888'],bug:['Bug','#98b020'],rock:['Rock','#b8a038'],ghost:['Ghost','#705898'],dragon:['Dragon','#7038f8'],dark:['Dark','#705848'],steel:['Steel','#a0a0c0'],fairy:['Fairy','#e890b0']};
+// [no, name, types, gen, flags (L=legendary M=mythical B=baby T=trade evo), caught, games where catchable, exclusive note]
+const D=[
+ [1,'Bulbasaur',['grass','poison'],1,'',1,['sv','za','lgpe']],[4,'Charmander',['fire'],1,'',0,['sv','za','lgpe']],[7,'Squirtle',['water'],1,'',0,['sv','za','lgpe']],
+ [25,'Pikachu',['electric'],1,'',1,['sv','za','swsh','bdsp','pla','lgpe']],[54,'Psyduck',['water'],1,'',0,['sv','swsh','bdsp','pla','lgpe']],[60,'Poliwag',['water'],1,'',0,['sv','swsh','bdsp','lgpe']],
+ [68,'Machamp',['fighting'],1,'T',0,['sv','swsh','bdsp','lgpe']],[94,'Gengar',['ghost','poison'],1,'T',1,['sv','za','swsh','bdsp','pla','lgpe']],[129,'Magikarp',['water'],1,'',1,['sv','za','swsh','bdsp','pla','lgpe']],
+ [131,'Lapras',['water','ice'],1,'',0,['sv','swsh','bdsp','lgpe']],[144,'Articuno',['ice','flying'],1,'L',0,['sv','swsh','bdsp','lgpe']],[150,'Mewtwo',['psychic'],1,'L',0,['za','swsh','bdsp','lgpe']],
+ [151,'Mew',['psychic'],1,'M',0,[]],[172,'Pichu',['electric'],2,'B',0,['sv','swsh','bdsp','pla']],[183,'Marill',['water','fairy'],2,'',1,['sv','za','swsh','bdsp']],
+ [194,'Wooper',['water','ground'],2,'',0,['sv','swsh','bdsp','pla']],[208,'Steelix',['steel','ground'],2,'T',0,['sv','za','swsh','bdsp','pla']],[245,'Suicune',['water'],2,'L',0,['sv','swsh','bdsp']],
+ [258,'Mudkip',['water'],3,'',0,['za','swsh','bdsp']],[349,'Feebas',['water'],3,'',0,['sv','za','swsh','bdsp']],[382,'Kyogre',['water'],3,'L',0,['sv','za','swsh','bdsp'],'Violet only'],
+ [393,'Piplup',['water'],4,'',1,['sv','bdsp','pla']],[418,'Buizel',['water'],4,'',0,['sv','swsh','bdsp','pla']],[489,'Phione',['water'],4,'M',0,['bdsp','pla']],
+ [501,'Oshawott',['water'],5,'',0,['sv','pla']],[656,'Froakie',['water'],6,'',0,['sv','za']],[728,'Popplio',['water'],7,'',0,['sv']],
+ [816,'Sobble',['water'],8,'',1,['sv','swsh']],[912,'Quaxly',['water'],9,'',0,['sv']],[977,'Dondozo',['water'],9,'',0,['sv','za']],
+];
+const GAME={sv:'SV',za:'Z-A',swsh:'SwSh',bdsp:'BDSP',pla:'PLA',lgpe:'LGPE'};
+const CATS=[['L','Legendary'],['M','Mythical'],['B','Baby'],['T','Evolves by trade']];
+const ROMAN=['','I','II','III','IV','V','VI','VII','VIII','IX'];
+const F={show:'missing',game:'sv',types:new Set(['water']),gens:new Set(),cats:new Set()};
+let view='list';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(3,'0');
+const SPR=n=>`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/${n}.png`;
+
+function chipsInit(){
+  Object.entries(TYPES).forEach(([k,[n,c]])=>{ const b=document.createElement('button'); b.type='button'; b.className='tp'; b.style.setProperty('--c',c); b.textContent=n.toUpperCase(); b.onclick=()=>{ F.types.has(k)?F.types.delete(k):F.types.add(k); render(); }; b.dataset.k=k; $('types').appendChild(b); });
+  for(let g=1;g<=9;g++){ const b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent='Gen '+ROMAN[g]; b.dataset.g=g; b.onclick=()=>{ F.gens.has(g)?F.gens.delete(g):F.gens.add(g); render(); }; $('gens').appendChild(b); }
+  CATS.forEach(([k,n])=>{ const b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=n; b.dataset.c=k; b.onclick=()=>{ F.cats.has(k)?F.cats.delete(k):F.cats.add(k); render(); }; $('cats').appendChild(b); });
+}
+function matches(p){
+  const [no,name,types,gen,flags,caught,games]=p;
+  if(F.show==='missing'&&caught) return false;
+  if(F.show==='caught'&&!caught) return false;
+  if(F.game&&!games.includes(F.game)) return false;
+  if(F.types.size&&!types.some(t=>F.types.has(t))) return false;
+  if(F.gens.size&&!F.gens.has(gen)) return false;
+  if(F.cats.size&&![...F.cats].some(c=>flags.includes(c))) return false;
+  return true;
+}
+function sprite(p,cls){
+  const tc=TYPES[p[2][0]][1], wrap=document.createElement('span'); wrap.className=cls;
+  const im=new Image(); im.alt=''; im.onerror=()=>{ im.replaceWith(Object.assign(document.createElement('span'),{className:'mini'})); wrap.style.setProperty('--tc',tc); }; im.src=SPR(p[0]); wrap.style.setProperty('--tc',tc); wrap.appendChild(im); return wrap;
+}
+function render(){
+  document.querySelectorAll('[data-show]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.show===F.show)));
+  document.querySelectorAll('.tp').forEach(b=>b.setAttribute('aria-pressed',String(F.types.has(b.dataset.k))));
+  document.querySelectorAll('[data-g]').forEach(b=>b.setAttribute('aria-pressed',String(F.gens.has(+b.dataset.g))));
+  document.querySelectorAll('[data-c]').forEach(b=>b.setAttribute('aria-pressed',String(F.cats.has(b.dataset.c))));
+  $('vList').setAttribute('aria-pressed',String(view==='list')); $('vBox').setAttribute('aria-pressed',String(view==='box'));
+  $('listView').hidden=view!=='list'; $('boxView').hidden=view!=='box';
+  const active=(F.game?1:0)+F.types.size+F.gens.size+F.cats.size;
+  $('fCount').textContent=active; $('fCount').hidden=!active;
+  const res=D.filter(matches);
+  // summary with removable pills
+  const pills=[];
+  if(F.show!=='all') pills.push([F.show==='missing'?'Missing':'Caught',()=>F.show='all']);
+  if(F.game) pills.push(['Catchable in '+GAME[F.game],()=>{F.game='';$('game').value='';}]);
+  F.types.forEach(t=>pills.push([TYPES[t][0],()=>F.types.delete(t)]));
+  F.gens.forEach(g=>pills.push(['Gen '+ROMAN[g],()=>F.gens.delete(g)]));
+  F.cats.forEach(c=>pills.push([CATS.find(x=>x[0]===c)[1],()=>F.cats.delete(c)]));
+  const s=$('summary'); s.innerHTML=`<span>Showing <b>${res.length}</b> of ${D.length}</span>`;
+  pills.forEach(([t,fn])=>{ const p=document.createElement('span'); p.className='pill'; p.innerHTML=`${esc(t)}<button type="button" aria-label="Remove ${esc(t)}">✕</button>`; p.querySelector('button').onclick=()=>{ fn(); render(); }; s.appendChild(p); });
+  if(pills.length){ const c=document.createElement('button'); c.type='button'; c.className='clear'; c.textContent='Clear all'; c.onclick=()=>{ F.show='all'; F.game=''; $('game').value=''; F.types.clear(); F.gens.clear(); F.cats.clear(); render(); }; s.appendChild(c); }
+  // list
+  const L=$('listView'); L.innerHTML='';
+  if(!res.length) L.innerHTML='<div class="empty">Nothing matches these filters. Remove one above to see more.</div>';
+  res.forEach(p=>{
+    const [no,name,types,gen,flags,caught,games,exc]=p, row=document.createElement('div'); row.className='item'+(caught?' have':'');
+    row.appendChild(sprite(p,'spr'));
+    row.insertAdjacentHTML('beforeend',`<span class="no">${pad(no)}<small>GEN ${ROMAN[gen]}</small></span>
+      <div class="main"><div class="nm"><b>${esc(name)}</b>${types.map(t=>`<span class="t" style="--c:${TYPES[t][1]}">${TYPES[t][0].toUpperCase()}</span>`).join('')}</div>
+      <div class="meta">${flags.includes('L')?'<span class="tag lg">LEGENDARY</span>':''}${flags.includes('M')?'<span class="tag x">EVENT ONLY</span>':''}${flags.includes('B')?'<span class="tag">BABY</span>':''}${flags.includes('T')?'<span class="tag ev">TRADE EVO</span>':''}${games.length?games.map(g=>`<span class="tag">${GAME[g]}</span>`).join(''):'<span class="tag x">NOT IN SWITCH DEXES</span>'}${exc?`<span class="tag x">${esc(exc)}</span>`:''}</div></div>
+      <button class="mark ${caught?'x':'ok'}" type="button">${caught?'✕ REMOVE':'✓ MARK'}</button>`);
+    row.querySelector('.mark').onclick=()=>{ p[5]=caught?0:1; render(); };
+    L.appendChild(row);
+  });
+  // boxes: first 30 entries keep their slots; non-matching are dimmed
+  const S=$('slots'); S.innerHTML=''; let n=0;
+  D.slice(0,30).forEach(p=>{
+    const ok=matches(p); if(ok) n++;
+    const b=document.createElement('div'); b.className='slot'+(p[5]?'':' miss')+(ok?'':' off');
+    b.appendChild(sprite(p,'')); b.firstChild.style.display='contents';
+    b.insertAdjacentHTML('beforeend',`<span class="sn">${pad(p[0])}</span>${p[5]?'<span class="ck"></span>':''}`);
+    S.appendChild(b);
+  });
+  $('boxCount').textContent=`${n} MATCH`;
+}
+chipsInit();
+document.querySelectorAll('[data-show]').forEach(b=>b.onclick=()=>{ F.show=b.dataset.show; render(); });
+$('game').onchange=e=>{ F.game=e.target.value; render(); };
+$('vList').onclick=()=>{ view='list'; render(); }; $('vBox').onclick=()=>{ view='box'; render(); };
+$('fBtn').onclick=()=>{ const open=$('fPanel').hidden; $('fPanel').hidden=!open; $('fBtn').setAttribute('aria-expanded',String(open)); $('fArrow').textContent=open?'▲':'▼'; };
+render();
+})();
+</script>

@@ -1,0 +1,165 @@
+<title>Living Dex Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen&display=swap">
+<style>
+/* Layout: one DS-style screen centred on the page (form left, trainer sprite right), stacking to one column on phones. Single dark look by choice, matching the tracker. */
+:root{
+  --night:#0c1222;
+  --grid-bg:#1b2236; --grid-line:#2a3552;
+  --band:rgba(90,120,190,.22);
+  --plate:#161b2b; --edge1:#a99be0; --edge2:#5d4fa0;
+  --chip:#d9deea; --chip-ink:#2b3040;
+  --ink:#f1f3f9; --muted:#8c9abb;
+  --red:#ef3d4f; --ok:#5fd38a; --exp:#4ab4ff;
+  --panel:#141d36; --line:#2a3a64;
+  --pixel:"DotGothic16","MS Gothic",ui-monospace,monospace;
+  --tiny:"Silkscreen","DotGothic16",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink);min-height:100%}
+body{font-family:var(--pixel);padding-inline:16px;padding-block:28px 40px;
+  background-image:radial-gradient(circle at 1px 1px,rgba(120,150,220,.09) 1px,transparent 0);background-size:12px 12px}
+.wrap{max-width:760px;margin:0 auto;display:grid;gap:16px}
+.cap{font-family:var(--tiny);font-size:.68rem;letter-spacing:.14em;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--exp);outline-offset:2px}
+
+.brand{display:flex;align-items:center;gap:12px;justify-content:center}
+.brand h1{margin:0;font-weight:400;font-size:1.6rem;letter-spacing:.06em;text-shadow:2px 2px 0 #22355e}
+.ball{--s:28px;width:var(--s);height:var(--s);border-radius:50%;flex:none;position:relative;background:linear-gradient(var(--red) 0 46%,#151515 46% 54%,#f4f4f4 54%);box-shadow:inset 0 0 0 2px #151515}
+.ball::after{content:"";position:absolute;inset:34%;border-radius:50%;background:#f4f4f4;box-shadow:0 0 0 2px #151515}
+
+.frame{container-type:inline-size;background:#0a0d16;border-radius:14px;padding:10px;box-shadow:0 0 0 2px #1d2438,0 10px 30px rgba(0,0,0,.45)}
+.screen{position:relative;border-radius:4px;overflow:hidden;font-size:clamp(14px,2.5cqw,19px);line-height:1.2;
+  background:
+    linear-gradient(118deg,transparent 0 56%,var(--band) 56% 70%,transparent 70%),
+    repeating-linear-gradient(0deg,var(--grid-line) 0 2px,transparent 2px 36px),
+    repeating-linear-gradient(90deg,var(--grid-line) 0 2px,transparent 2px 36px),
+    var(--grid-bg);
+  background-size:auto,36px 36px,36px 36px,auto;
+  animation:drift 9s linear infinite;
+  display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+@keyframes drift{to{background-position:0 0,36px 36px,36px 36px,0 0}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}}
+@media (max-width:620px){.screen{grid-template-columns:minmax(0,1fr)} .side{display:none}}
+
+.formcol{display:grid;gap:12px;padding:18px 16px 18px 18px;align-content:start}
+.tabs{display:flex;gap:8px}
+.tab{flex:1;border:0;border-radius:8px;padding:.5em .4em;background:#162447;color:#fff;letter-spacing:.04em;font-size:.86em;cursor:pointer;
+  box-shadow:inset 0 0 0 2px #6e8bc8,0 3px 0 #0b142b}
+.tab[aria-selected="true"]{background:linear-gradient(#f4f7fc,#cdd8ec);color:var(--chip-ink);text-shadow:1px 1px 0 #aeb8c8;box-shadow:inset 0 0 0 2px #fff,0 3px 0 #0b142b}
+
+/* hex plate field: outline layer + inset fill, input inside */
+.hex{--cut:16px;position:relative;height:50px;clip-path:polygon(var(--cut) 0,calc(100% - var(--cut)) 0,100% 50%,calc(100% - var(--cut)) 100%,var(--cut) 100%,0 50%);background:linear-gradient(var(--edge1),var(--edge2))}
+.hex>.in{position:absolute;inset:2px;clip-path:inherit;background:var(--plate);display:flex;align-items:center;gap:10px;padding:0 20px 0 18px}
+.hex:focus-within{background:linear-gradient(#fff,#b9c9ff)}
+.chip{flex:none;background:var(--chip);color:var(--chip-ink);font-size:.62em;padding:.3em .5em .25em;border-radius:3px;letter-spacing:.04em;min-width:7.2em;text-align:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.hex input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--ink);font-size:1em;text-shadow:1px 1px 0 #000;padding:.2em 0}
+.hex input::placeholder{color:#5f6a86;text-shadow:none}
+.eye{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:.7em;font-family:var(--tiny);letter-spacing:.08em;padding:4px}
+
+.msg{min-height:1.3em;font-size:.8em;color:#ffb3bb;padding-left:4px}
+.msg.ok{color:var(--ok)}
+.hint{font-size:.74em;color:var(--muted);padding-left:4px;line-height:1.45;margin:0}
+.remember{display:flex;align-items:center;gap:8px;font-size:.8em;color:var(--ink);padding-left:4px;cursor:pointer}
+.remember input{accent-color:var(--exp);width:16px;height:16px}
+
+/* right column: trainer sprite + info box, like the item box on the summary screen */
+.side{position:relative;display:grid;grid-template-rows:1fr auto;align-items:end;padding:18px 0 18px}
+.stage{position:relative;display:grid;place-items:end center;min-height:180px}
+.stage::before{content:"";position:absolute;left:32%;right:32%;bottom:4px;height:14px;border-radius:50%;background:rgba(0,0,0,.3)}
+.stage img{position:relative;width:96px;height:96px;image-rendering:pixelated;transform:scale(1.6);transform-origin:bottom center}
+.stage .ph{position:relative;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,#fff 0 13%,#151515 13% 18%,transparent 18%),linear-gradient(var(--red) 0 46%,#151515 46% 54%,#eef0f6 54%);box-shadow:inset 0 0 0 3px #151515}
+.strip{margin-top:14px;height:26px;background:linear-gradient(90deg,transparent,rgba(200,210,235,.9) 18%);clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);display:flex;align-items:center;justify-content:flex-end;padding-right:12px;color:#4f5b78;font-family:var(--tiny);font-size:.58em;letter-spacing:.08em}
+.info{background:linear-gradient(#e9edf6,#cdd6e6);color:var(--chip-ink);border-radius:8px 0 0 8px;padding:8px 12px;text-shadow:1px 1px 0 #aeb8c8;display:grid;gap:4px;margin-top:6px}
+.info div{display:flex;justify-content:space-between;gap:8px;font-size:.86em}
+.info div+div{border-top:2px solid #b3bdd0;padding-top:4px}
+.info small{color:#5a6788;text-shadow:none;font-size:.78em}
+
+.bar{grid-column:1/-1;background:#07090f;display:flex;gap:10px;padding:10px 12px}
+.bt{border:0;border-radius:4px;background:#141824;color:#fff;box-shadow:inset 0 0 0 2px #2c3346;padding:.65em 1em;cursor:pointer;letter-spacing:.06em}
+.bt.go{flex:1;color:var(--ok);font-size:1em}
+.bt.go:hover{background:#1b2131}
+.bt.alt{color:var(--exp);font-size:.8em}
+.note{font-size:.85rem;color:var(--muted);line-height:1.55;margin:0}
+</style>
+
+<div class="wrap">
+  <div class="cap"><span>MOCK · SIGN IN / CREATE ACCOUNT</span><span>NOT APPLIED YET</span></div>
+  <div class="brand"><span class="ball" aria-hidden="true"></span><h1>HOME LIVING DEX</h1></div>
+
+  <div class="frame">
+    <form class="screen" id="form" novalidate>
+      <div class="formcol">
+        <div class="tabs" role="tablist" aria-label="Account">
+          <button class="tab" type="button" role="tab" id="t-in" aria-selected="true">SIGN IN</button>
+          <button class="tab" type="button" role="tab" id="t-new" aria-selected="false">CREATE ACCOUNT</button>
+        </div>
+
+        <label class="hex"><span class="in"><span class="chip">USERNAME</span><input id="user" name="username" autocomplete="username" placeholder="e.g. Rodas" maxlength="24" value="Rodas"></span></label>
+        <label class="hex"><span class="in"><span class="chip">PASSWORD</span><input id="pass" name="password" type="password" autocomplete="current-password" placeholder="At least 8 characters"><button class="eye" type="button" id="eye" aria-label="Show password">SHOW</button></span></label>
+        <label class="hex" id="confirmRow" hidden><span class="in"><span class="chip">CONFIRM</span><input id="pass2" type="password" autocomplete="new-password" placeholder="Type it again"></span></label>
+
+        <label class="remember" id="rememberRow"><input type="checkbox" id="remember" checked> Keep me signed in on this device</label>
+        <p class="hint" id="newHint" hidden>3–24 letters, numbers, dots, dashes or underscores. Each account has its own boxes, details and history.</p>
+        <div class="msg" id="msg" aria-live="polite"></div>
+      </div>
+
+      <div class="side" aria-hidden="true">
+        <div class="stage" id="stage"></div>
+        <div>
+          <div class="strip" id="strip">TRAINER CARD · NEW</div>
+          <div class="info" id="info">
+            <div><small>Trainer</small><span id="iName">Rodas</span></div>
+            <div><small>Living dex</small><span id="iDex">Saved on server</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bar">
+        <button class="bt go" type="submit" id="go">▶ SIGN IN</button>
+        <button class="bt alt" type="button" id="swap">NEW HERE? CREATE ACCOUNT</button>
+      </div>
+    </form>
+  </div>
+
+  <p class="note">The grid moves like the inspector card and takes the colour of the theme you picked. The tabs switch between signing in and creating an account. On phones the trainer sprite hides and the form takes the full width. In this mock the button only shows the messages the real page would give.</p>
+</div>
+
+<script>
+(()=>{
+  const $=id=>document.getElementById(id);
+  let mode='in';
+  const starters=[1,4,7,152,155,158,252,255,258,387,390,393,495,498,501,650,653,656,722,725,728,810,813,816,906,909,912];
+  function sprite(){
+    const n=starters[Math.floor(Math.random()*starters.length)], st=$('stage'); st.innerHTML='';
+    const im=new Image(); im.alt=''; im.onload=()=>st.appendChild(im); im.onerror=()=>st.innerHTML='<span class="ph"></span>';
+    im.src=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/${n<=649?'animated/'+n+'.gif':n+'.png'}`;
+  }
+  function setMode(m){
+    mode=m; const isNew=m==='new';
+    $('t-in').setAttribute('aria-selected',String(!isNew)); $('t-new').setAttribute('aria-selected',String(isNew));
+    $('confirmRow').hidden=!isNew; $('newHint').hidden=!isNew; $('rememberRow').hidden=isNew;
+    $('pass').autocomplete=isNew?'new-password':'current-password';
+    $('go').textContent=isNew?'▶ CREATE ACCOUNT':'▶ SIGN IN';
+    $('swap').textContent=isNew?'HAVE AN ACCOUNT? SIGN IN':'NEW HERE? CREATE ACCOUNT';
+    $('strip').textContent=isNew?'TRAINER CARD · NEW':'TRAINER CARD';
+    $('iDex').textContent=isNew?'Starts empty':'Saved on server';
+    $('msg').textContent=''; $('msg').className='msg'; sprite();
+  }
+  $('t-in').onclick=()=>setMode('in'); $('t-new').onclick=()=>setMode('new');
+  $('swap').onclick=()=>setMode(mode==='in'?'new':'in');
+  $('eye').onclick=()=>{ const p=$('pass'); const show=p.type==='password'; p.type=show?'text':'password'; $('eye').textContent=show?'HIDE':'SHOW'; $('eye').setAttribute('aria-label',show?'Hide password':'Show password'); };
+  $('user').oninput=e=>{ $('iName').textContent=e.target.value.trim()||'—'; };
+  $('form').onsubmit=e=>{
+    e.preventDefault(); const u=$('user').value.trim(), p=$('pass').value, m=$('msg'); m.className='msg';
+    if(!/^[A-Za-z0-9_.-]{3,24}$/.test(u)) return m.textContent='Username must be 3–24 letters, numbers, dots, dashes or underscores.';
+    if(p.length<8) return m.textContent='Password must have at least 8 characters.';
+    if(mode==='new'&&p!==$('pass2').value) return m.textContent='The two passwords don\'t match.';
+    m.className='msg ok'; m.textContent=mode==='new'?`Account ${u} created. Opening your living dex…`:`Welcome back, ${u}! Opening your living dex…`;
+  };
+  setMode('in');
+})();
+</script>
