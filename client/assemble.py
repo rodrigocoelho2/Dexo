@@ -33,7 +33,14 @@ exec(rd('icons.py'))
 headpart=themeify(t2[:css_end]+css)+'</style>\n'
 headpart=headpart.replace('<title>HOME Living Dex</title>','<title>HOME Living Dex</title>\n'+FAV_LINK,1)
 bodypart=rd('body.html')+'\n<script id="pkdata" type="application/json">'+d+'</script>\n<script>\n'+rd('app.js').replace('\nrender();\nsyncInit();\n})();','\n'+rd('sd.js')+'\n'+rd('mob.js')+'\nrender();\nsyncInit();\n})();')+'</script>\n'
+# Installed as an app on a phone: manifest, iOS web-app tags and launch images (wwwroot/splash, made by client/splash.py).
+SPLASH=[(430,932,3),(440,956,3),(393,852,3),(402,874,3),(390,844,3),(428,926,3),(375,812,3),(414,896,3),(414,896,2),(375,667,2),(320,568,2)]
+APP_HEAD=('<link rel="manifest" href="/manifest.json">\n'
+  '<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-capable" content="yes">\n'
+  '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">\n<meta name="apple-mobile-web-app-title" content="Living Dex">\n'
+  +''.join(f'<link rel="apple-touch-startup-image" media="(device-width: {w}px) and (device-height: {h}px) and (-webkit-device-pixel-ratio: {r}) and (orientation: portrait)" href="/splash/{w*r}x{h*r}.png">\n' for w,h,r in SPLASH))
 doc=('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<meta name="theme-color" content="#0c1222">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n'
+     +APP_HEAD+
      '<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>\n'
      +headpart+'</head>\n<body>\n'+bodypart+'</body>\n</html>\n')
 os.makedirs(os.path.dirname(OUT),exist_ok=True)

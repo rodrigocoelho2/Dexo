@@ -238,5 +238,25 @@ function mobMode(){
   if(!SD.view) $('dexView').hidden=false;
   if(MOBS.tab==='card'||MOBS.tab==='more') MOBS.tab='dex';
 }
+/* ---------- installed as an app (home screen): status-bar strip, offline page, install hint ---------- */
+const MOB_STANDALONE=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const MOB_IOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+function mobApp(){
+  if(!$('mobSbar')){ const sb=document.createElement('div'); sb.id='mobSbar'; sb.className='mob-sbar mobonly'; sb.setAttribute('aria-hidden','true'); document.body.appendChild(sb); }
+  // the service worker only shows the offline page when the server can't be reached; it needs HTTPS (or localhost)
+  if('serviceWorker' in navigator && window.isSecureContext && (isMob()||MOB_STANDALONE)) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  if(MOB_IOS && !MOB_STANDALONE && isMob()) setTimeout(mobInstallHint,1500);
+}
+function mobInstallHint(){
+  let seen=false; try{ seen=localStorage.getItem('ld.installHint')==='1'; }catch(_){}
+  if(seen||$('mobHint')||!isMob()) return;
+  const share=`<svg width="15" height="17" viewBox="0 0 16 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11V1M4.5 4.5 8 1l3.5 3.5"/><path d="M5 7H2.5v9.5h11V7H11"/></svg>`;
+  const el=document.createElement('div'); el.id='mobHint'; el.className='mob-hint mobonly'; el.setAttribute('role','dialog'); el.setAttribute('aria-label','Install Living Dex');
+  el.innerHTML=`<div class="mh-hd"><img src="/apple-touch-icon.png" alt="" width="38" height="38"><div><b>Install Living Dex</b><small>OPENS FULL SCREEN, LIKE AN APP</small></div><button type="button" class="mh-x" aria-label="Close">✕</button></div>
+    <ol><li><em>1</em> Tap <span class="mh-sh">${share} Share</span> in Safari <span class="mh-or">(under ⋯ on newer iPhones)</span></li><li><em>2</em> Choose <b>Add to Home Screen</b></li></ol>`;
+  document.body.appendChild(el);
+  el.querySelector('.mh-x').onclick=()=>{ try{ localStorage.setItem('ld.installHint','1'); }catch(_){} el.remove(); };
+}
+mobApp();
 MOBQ.addEventListener('change',mobMode);
 mobBuild(); mobMode();

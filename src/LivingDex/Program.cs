@@ -66,10 +66,11 @@ app.UseResponseCompression();
 app.UseDefaultFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
-    // The page itself must never be cached, so a new deploy shows up on the next reload.
+    // The page, the service worker and the app manifest must never be cached, so a new deploy shows up on the next launch.
     OnPrepareResponse = ctx =>
     {
-        if (ctx.File.Name.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+        var name = ctx.File.Name;
+        if (name.EndsWith(".html", StringComparison.OrdinalIgnoreCase) || name is "sw.js" or "manifest.json")
             ctx.Context.Response.Headers.CacheControl = "no-cache";
     }
 });

@@ -257,4 +257,34 @@
   body.mob-fight #sdBattle .s-hinge{height:8px;margin:0 18%;flex:none}
   body.mob-fight #sdBattle .s-fbot{flex:1;display:flex;min-height:0}
   body.mob-fight #sdBattle .s-bot{aspect-ratio:auto;flex:1;height:auto;border-radius:0}
+  /* ---------- installed as an app: launch screen, status-bar strip, install hint ---------- */
+  .boot{position:fixed;inset:0;z-index:90;min-height:0;gap:14px;justify-content:center;background:
+    radial-gradient(240px 240px at 50% 46%,rgba(80,110,220,.28),transparent 70%),
+    linear-gradient(rgba(120,150,255,.06) 1px,transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg,rgba(120,150,255,.06) 1px,transparent 1px) 0 0/24px 24px,var(--night)}
+  .boot .ball{--s:72px;animation:none}
+  .boot .boot-l{display:none}
+  .boot-t{display:block;margin-top:6px;font-family:var(--pixel);font-weight:400;font-size:1.6rem;letter-spacing:.06em;color:var(--ink);text-shadow:2px 2px 0 var(--label-shade)}
+  .boot-s{font-family:var(--tiny);font-size:.52rem;letter-spacing:.2em;color:var(--muted)}
+  .boot-bar{position:absolute;left:48px;right:48px;bottom:calc(76px + env(safe-area-inset-bottom));height:8px;border-radius:4px;background:#1b2546;box-shadow:inset 0 0 0 1px #2c3a66;overflow:hidden}
+  .boot-bar i{display:block;height:100%;width:8%;border-radius:4px;background:linear-gradient(90deg,#3f6fe0,#7aa2ff);animation:bootload 2.2s ease-in-out infinite}
+  @keyframes bootload{70%,100%{width:100%}}
+  .boot-m{position:absolute;left:0;right:0;bottom:calc(52px + env(safe-area-inset-bottom));text-align:center;font-family:var(--tiny);font-size:.5rem;letter-spacing:.16em;color:var(--muted)}
+  .mob-sbar{position:fixed;inset:0 0 auto;height:env(safe-area-inset-top);background:var(--night);z-index:80;pointer-events:none}
+  body.mob-fight .mob-sbar{background:#05070d}
+  body:has(#login:not([hidden])) .mob-sbar{display:none}
+  .mob-hint{position:fixed;left:12px;right:12px;bottom:calc(96px + env(safe-area-inset-bottom));z-index:95;display:grid;gap:10px;padding:14px;border-radius:20px;background:#18223f;border:1px solid #3a4b85;box-shadow:0 18px 40px rgba(0,0,0,.55);animation:mobup .3s cubic-bezier(.2,.8,.2,1)}
+  body:has(#login:not([hidden])) .mob-hint{bottom:auto;top:calc(12px + env(safe-area-inset-top))}
+  .mh-hd{display:flex;align-items:center;gap:10px}
+  .mh-hd img{width:38px;height:38px;border-radius:9px;flex:none}
+  .mh-hd>div{min-width:0;flex:1}
+  .mh-hd b{display:block;font-weight:400;font-size:1rem}
+  .mh-hd small{display:block;margin-top:4px;font-family:var(--tiny);font-size:.46rem;letter-spacing:.1em;color:var(--muted)}
+  .mh-x{flex:none;width:30px;height:30px;border:0;border-radius:50%;background:#26325a;color:#c9d3ff;font-size:.9rem;display:grid;place-items:center}
+  .mob-hint ol{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:.88rem;color:#d5dcff}
+  .mob-hint li{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+  .mob-hint li em{font-style:normal;font-family:var(--tiny);font-size:.55rem;color:#2b2200;background:#ffd23f;border-radius:4px;padding:3px 6px}
+  .mob-hint li b{font-weight:400;color:#fff}
+  .mh-sh{display:inline-flex;align-items:center;gap:4px;color:#6ea2ff}
+  .mh-or{color:var(--muted);font-size:.78rem}
 }

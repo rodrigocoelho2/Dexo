@@ -51,6 +51,7 @@
 - One container (ASP.NET Core + Node.js for the simulator), one volume, made for a UGREEN NAS.
 - Sprites, cries, backgrounds and music are cached on first use; the admin can **download all assets** in one go.
 - **Phone layout** – an app-style design under 700 px (tab bar, swipeable boxes, sheets, full-screen battles); the desktop design is untouched.
+- **Installs as an app** on iPhone and Android: home-screen icon, full screen, launch screen and an offline page.
 
 ## Screenshots
 
@@ -117,6 +118,17 @@ mkdir -p ./data && sudo chown 1654 ./data
 
 Screens up to 700 px wide get a layout of their own (the PC one doesn't change): a tab bar at the bottom (Dex · Battle · Trainer · More), the game you track as one card (tap it for the game list), the variants as chips that scroll sideways, the box at full width (swipe to change boxes) and sheets that slide up for a Pokémon's details, the game list and the Pokédex. Battles go full screen, with the touch screen taking the rest of the height. Trainer shows your card, badges and battles with their replays; More has the theme, sound and music, your account, the admin tools and the backup. Add it to the home screen for an app icon.
 
+### Install it as an app (iPhone and Android)
+
+The page is a web app, so it can live on the home screen with its own icon and open full screen, without the browser bars:
+
+- **iPhone:** open the site in Safari, tap **Share** (under **⋯** on newer iPhones) and choose **Add to Home Screen**. The first time you open the site on an iPhone, a small card explains this; close it and it doesn't come back.
+- **Android:** Chrome offers **Install app** in its menu.
+
+The app shows a launch screen while your boxes load, keeps you signed in like the browser does (60 days with "Keep me signed in"), and updates itself: a new version on the server shows up the next time you open it. When the server can't be reached it shows a "Can't reach your server" page that retries on its own.
+
+That offline page needs a service worker, which browsers only allow over **HTTPS** (or on `localhost`). Over plain `http://<nas-ip>:8085` the app still installs and opens full screen; you just get the browser's own error page when the NAS is unreachable. To use it from outside your home, put it behind a reverse proxy with a certificate (and set `LIVINGDEX_BEHIND_PROXY=true`) or use a VPN such as Tailscale.
+
 ## Download all assets
 
 Sprites, cries, battle backgrounds and music are fetched the first time someone needs them and kept in `data/cache`. To get everything in one go, open the account menu as the admin and choose **Download all assets**: the server downloads every sprite (box, animated, shiny, female, back, icons and the Gen 1–4 battle sprites), every cry, the battle effects and backgrounds and the battle music, about 16,000 files and a few hundred MB, in the background with a progress bar. You can close the page while it runs. Files already cached are skipped, so running it again later only fetches what is new.
@@ -157,9 +169,11 @@ src/LivingDex/              ASP.NET Core app (.NET 10)
   sim/                      bridge.js + package.json for the Pokémon Showdown simulator (Node.js)
   wwwroot/index.html        the whole web client, built from client/ (do not edit by hand)
   wwwroot/lib/              SignalR client, jQuery, move animations (psanims.js, psfx.js)
+  wwwroot/manifest.json     web app: manifest, sw.js (offline page), offline.html, icons/, splash/
 tests/LivingDex.Tests/      WebApplicationFactory API tests
 client/
   assemble.py               builds wwwroot/index.html from client/src
+  splash.py                 renders the iPhone launch images into wwwroot/splash
   src/                      base.html (base styles), body.html, app.js (tracker), sd.js (Showdown),
                             mob.js (phone layer), *.css, icons.py, data2.json (generated Pokédex data)
   psfx/                     move-animation sources + build.sh (esbuild bundle → wwwroot/lib)
@@ -195,6 +209,14 @@ python3 tools/data/build_data.py   # → client/src/data2.json, then run client/
 
 It reads the [PokeAPI](https://github.com/PokeAPI/pokeapi) CSV exports in `tools/data/csv` and Pokémon Showdown's `formats-data`/`pokedex` files in `tools/data/sd` (which decide what exists in each game). Drop in newer copies of those files to update.
 
+### Rebuild the iPhone launch images
+
+```bash
+python3 client/splash.py           # needs Playwright + Chromium; → wwwroot/splash/*.png
+```
+
+They are screenshots of the phone loading screen at each iPhone size, so run it after changing that screen. The app icons are `wwwroot/apple-touch-icon.png` and `wwwroot/icons/`; `wwwroot/manifest.json`, `sw.js` and `offline.html` make up the rest of the web app.
+
 ### Rebuild the move animations
 
 ```bash
@@ -208,6 +230,9 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 <table>
 <tr>
 <td colspan="2"><b>Phone app</b> · <a href="docs/mocks/phone-app.html">phone-app.html</a><br><img src="docs/images/mock-phone-app.png" alt="Mock of the phone layout: sign in, boxes, Pokémon sheet, game list and Showdown lobby"></td>
+</tr>
+<tr>
+<td colspan="2"><b>iPhone app</b> · <a href="docs/mocks/iphone-app.html">iphone-app.html</a><br><img src="docs/images/mock-iphone-app.png" alt="Mock of the installed web app: install card, home-screen icon, launch screen, full-screen app and offline page"></td>
 </tr>
 <tr>
 <td width="50%"><b>A look per generation</b> · <a href="docs/mocks/showdown-generations.html">showdown-generations.html</a><br><img src="docs/images/mock-generations.png" alt="Mock of the Gen 1 Red/Blue battle style"></td>
