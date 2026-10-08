@@ -14,7 +14,7 @@
   <img alt="SQLite" src="https://img.shields.io/badge/SQLite-Dapper-003B57?logo=sqlite&logoColor=white">
   <img alt="SignalR" src="https://img.shields.io/badge/SignalR-live%20battles-5C2D91">
   <img alt="Pokémon Showdown" src="https://img.shields.io/badge/Pok%C3%A9mon%20Showdown-0.11-e3363a">
-  <img alt="Docker" src="https://img.shields.io/badge/Docker-Synology%20ready-2496ED?logo=docker&logoColor=white">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-UGREEN%20NAS-2496ED?logo=docker&logoColor=white">
 </p>
 
 <p align="center">
@@ -48,7 +48,7 @@
 
 **Built to self-host**
 
-- One container (ASP.NET Core + Node.js for the simulator), one volume, made for a Synology NAS.
+- One container (ASP.NET Core + Node.js for the simulator), one volume, made for a UGREEN NAS.
 - Sprites, cries, backgrounds and music are cached on first use; the admin can **download all assets** in one go.
 - **Phone layout** – an app-style design under 700 px (tab bar, swipeable boxes, sheets, full-screen battles); the desktop design is untouched.
 
@@ -87,14 +87,14 @@ Settings go in a `.env` file next to `docker-compose.yml`:
 
 ```
 LIVINGDEX_ALLOW_REGISTRATION=false   # after everyone has an account
-LIVINGDEX_BEHIND_PROXY=true          # if Synology's reverse proxy / nginx / Traefik is in front
+LIVINGDEX_BEHIND_PROXY=true          # if a reverse proxy (nginx, Traefik…) is in front
 LIVINGDEX_TURN_SECONDS=60            # time per battle turn
 LIVINGDEX_SHOWDOWN=true              # false turns the battle room off
 ```
 
 With sign-up closed, the admin can still help people from **Manage users** (reset a forgotten password, delete an account).
 
-**Synology:** in *Container Manager → Project*, create a project from this folder (it picks up `docker-compose.yml`). If you put it behind *Login Portal → Advanced → Reverse Proxy*, open the rule's *Custom Header* tab and choose *Create → WebSocket* so battles use WebSockets (they fall back to long polling otherwise), and set `LIVINGDEX_BEHIND_PROXY=true`. In Nginx Proxy Manager, tick **Websockets Support**.
+**UGREEN NAS:** in the *Docker* app, create a *Project* from this folder (it picks up `docker-compose.yml`). If a reverse proxy sits in front (Nginx Proxy Manager, Traefik…), turn on WebSocket support for it so battles use WebSockets (they fall back to long polling otherwise), and set `LIVINGDEX_BEHIND_PROXY=true`. In Nginx Proxy Manager, that is **Websockets Support** on the proxy host.
 
 If you bind-mount a host folder instead of the named volume, make it writable by UID 1654 (the `app` user of the .NET images):
 
@@ -276,7 +276,7 @@ Every request that changes something must send the header `X-LivingDex: 1` (CSRF
 - The login cookie is HttpOnly and SameSite=Lax; it lasts 60 days when "Keep me signed in" is ticked, and is renewed while you use the app.
 - Changing or resetting a password signs that account out on every other device.
 - Sign-in attempts are rate-limited per address, and a wrong username answers exactly like a wrong password.
-- If the app is reachable from the internet, put it behind HTTPS (Synology reverse proxy with a certificate) and set `LIVINGDEX_BEHIND_PROXY=true`.
+- If the app is reachable from the internet, put it behind HTTPS (a reverse proxy with a certificate) and set `LIVINGDEX_BEHIND_PROXY=true`.
 
 ### How sync behaves
 

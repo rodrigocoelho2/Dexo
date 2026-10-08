@@ -10,7 +10,7 @@ public sealed class LivingDexOptions
     /// <summary>Whether people can create their own account. The very first account can always be created, and becomes the admin.</summary>
     public bool AllowRegistration { get; set; } = true;
 
-    /// <summary>Trust X-Forwarded-For / X-Forwarded-Proto from a reverse proxy (Synology, nginx, Traefik…).</summary>
+    /// <summary>Trust X-Forwarded-For / X-Forwarded-Proto from a reverse proxy (nginx, Traefik…).</summary>
     public bool BehindProxy { get; set; }
 
     /// <summary>Sign-in, sign-up and password attempts allowed per minute from one address.</summary>

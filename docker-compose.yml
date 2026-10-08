@@ -9,7 +9,7 @@ services:
     environment:
       # Set to "false" once everyone who needs an account has one (the first account can always be created).
       LivingDex__AllowRegistration: ${LIVINGDEX_ALLOW_REGISTRATION:-true}
-      # Set to "true" if a reverse proxy (Synology, nginx, Traefik…) sits in front of the app.
+      # Set to "true" if a reverse proxy (nginx, Traefik…) sits in front of the app.
       LivingDex__BehindProxy: ${LIVINGDEX_BEHIND_PROXY:-false}
       # Showdown battles: seconds per turn, or "false" on the second line to turn battles off.
       LivingDex__TurnSeconds: ${LIVINGDEX_TURN_SECONDS:-60}
