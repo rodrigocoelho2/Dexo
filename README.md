@@ -335,6 +335,10 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 <td width="50%"><b>Trainer profile</b> · <a href="docs/mocks/profile.html">profile.html</a><br><img src="docs/images/mock-profile.png" alt="Mock of the trainer profile window"></td>
 <td width="50%"><b>Where to get → map</b> · <a href="docs/mocks/where-to-get-map.html">where-to-get-map.html</a><br><img src="docs/images/mock-where-to-get-map.png" alt="Mock of the region map opened from the Catch in numbers"></td>
 </tr>
+<tr>
+<td width="50%"><b>Hoenn map (RSE)</b> · <a href="docs/mocks/hoenn-map.html">hoenn-map.html</a><br><img src="docs/images/mock-hoenn-map.png" alt="Mock of the Hoenn map for Ruby, Sapphire and Emerald, drawn with the real map code and data"></td>
+<td width="50%"></td>
+</tr>
 </table>
 
 ## Configuration

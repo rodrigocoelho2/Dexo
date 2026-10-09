@@ -1,16 +1,17 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
    Data: RAW.enc (built from PokeAPI's encounters by data-build/encounters.py) for the games listed in ENC.g.
-   Maps: original, simplified drawings of Johto, Kanto and the Sevii Islands (not the games' town maps); each PokeAPI location
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
 const ENC=RAW.enc||{L:[],A:[''],N:[''],M:[],v:{},g:{}};
 const WM={open:false,game:null,sid:0,region:null,sel:-1};
 const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['OLD ROD','#36c6a8'],'good-rod':['GOOD ROD','#36c6a8'],'super-rod':['SUPER ROD','#36c6a8'],
   headbutt:['HEADBUTT','#d0915a'],'rock-smash':['ROCK SMASH','#a0a0c0'],gift:['GIFT','#5fd38a'],egg:['EGG','#5fd38a'],trade:['TRADE','#f08030'],
   static:['ONE-TIME','#ef3d4f'],roaming:['ROAMING','#a78bfa'],special:['SPECIAL','#f85888'],
-  wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888']};
-const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+  wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888'],
+  dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
 // the maps each game can show (tabs), in order
-const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
 const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
 
 // ---- the maps (viewBox 640×380) ----
@@ -50,6 +51,38 @@ const WM_MAPS={
       'kanto-sea-route-19':[[330,326],[330,362]],'kanto-sea-route-20':[[330,362],[176,358]],'kanto-sea-route-21':[[170,356],[170,300]],
       'kanto-route-22':[[170,210],[76,210]],'kanto-route-23':[[76,210],[76,70]],'kanto-route-28':[[76,210],[24,210],[24,160]]},
     sea:['kanto-sea-route-19','kanto-sea-route-20','kanto-sea-route-21'], edge:[[8,240,'start','◂ JOHTO','johto'],[8,372,'start','◂ SEVII ISLANDS','sevii']]},
+  // Ruby / Sapphire / Emerald: the mainland on the left, the sea routes and islands to the east and south
+  hoenn:{name:'HOENN',
+    land:['M24 40L120 28 230 36 330 26 420 38 466 66 476 128 470 170 412 182 412 252 340 254 300 300 272 340 230 336 200 342 160 338 120 334 70 322 30 302 16 240 22 160 12 100Z'],
+    water:[],
+    islands:[[80,358,34,14],[565,165,30,24],[520,250,24,18],[613,262,20,42],[390,330,13,8],[446,205,14,12],[462,366,32,11],[380,368,10,7],
+      [490,346,8,6],[420,305,10,8],[566,365,7,6],[590,365,7,6],[614,365,7,6]],
+    towns:{'littleroot-town':[150,318,'Littleroot','b'],'oldale-town':[150,282,'Oldale','r'],'petalburg-city':[90,282,'Petalburg'],'rustboro-city':[60,170,'Rustboro'],
+      'dewford-town':[80,358,'Dewford'],'slateport-city':[250,318,'Slateport'],'mauville-city':[250,220,'Mauville'],'verdanturf-town':[170,220,'Verdanturf'],
+      'fallarbor-town':[140,70,'Fallarbor'],'lavaridge-town':[190,175,'Lavaridge'],'fortree-city':[330,90,'Fortree'],'lilycove-city':[450,150,'Lilycove'],
+      'mossdeep-city':[565,165,'Mossdeep'],'sootopolis-city':[520,250,'Sootopolis'],'pacifidlog-town':[390,330,'Pacifidlog'],'ever-grande-city':[613,250,'Ever Grande']},
+    spots:{'petalburg-woods':[62,228],'rusturf-tunnel':[150,196],'meteor-falls':[80,110],'granite-cave':[108,356],'abandoned-ship':[178,346],
+      'new-mauville':[276,262],'desert-ruins':[274,124],'mirage-tower':[228,112],'fiery-path':[222,150],'jagged-pass':[180,140],'magma-hideout':[162,128],
+      'desert-underpass':[112,90],'terra-cave':[40,140],'hoenn-altering-cave':[206,236],'ancient-tomb':[420,118],'hoenn-safari-zone':[420,176],
+      'mt-pyre':[446,205],'team-aqua-hideout':[470,128],'team-magma-hideout':[470,128],'shoal-cave':[598,116],'seafloor-cavern':[586,296],
+      'cave-of-origin':[536,262],'hoenn-victory-road':[613,228],'sky-pillar':[420,305],'mirage-island':[490,346],'marine-cave':[592,326],
+      'island-cave':[24,316],'southern-island':[380,368],'hoenn-battle-frontier':[462,366],'artisan-cave':[440,366],
+      'navel-rock':[566,365],'birth-island':[590,365],'faraway-island':[614,365]},
+    routes:{'hoenn-route-101':[[150,318],[150,282]],'hoenn-route-102':[[150,282],[90,282]],'hoenn-route-103':[[150,282],[150,248],[206,248]],
+      'hoenn-route-104':[[90,282],[44,282],[44,180],[60,170]],'hoenn-route-105':[[44,282],[44,330]],'hoenn-route-106':[[44,330],[44,358],[80,358]],
+      'hoenn-route-107':[[80,358],[150,358]],'hoenn-route-108':[[150,358],[206,358]],'hoenn-route-109':[[206,358],[250,358],[250,318]],
+      'hoenn-route-110':[[250,318],[250,220]],'hoenn-route-111':[[250,220],[250,70]],'hoenn-route-112':[[250,175],[190,175]],
+      'hoenn-route-113':[[250,70],[140,70]],'hoenn-route-114':[[140,70],[80,70],[80,98]],'hoenn-route-115':[[60,170],[60,116]],
+      'hoenn-route-116':[[60,170],[130,170]],'hoenn-route-117':[[250,220],[170,220]],'hoenn-route-118':[[250,220],[330,220]],
+      'hoenn-route-119':[[330,220],[330,90]],'hoenn-route-120':[[330,90],[400,90],[400,150]],'hoenn-route-121':[[400,150],[450,150]],
+      'hoenn-route-122':[[425,150],[425,240]],'hoenn-route-123':[[425,240],[330,240],[330,220]],'hoenn-route-124':[[450,150],[510,150],[540,165]],
+      'hoenn-route-125':[[565,165],[598,128]],'hoenn-route-126':[[492,160],[492,250],[504,250]],'hoenn-route-127':[[565,165],[565,280]],
+      'hoenn-route-128':[[565,280],[613,280]],'hoenn-route-129':[[565,280],[565,330],[520,330]],'hoenn-route-130':[[520,330],[470,330]],
+      'hoenn-route-131':[[470,330],[390,330]],'hoenn-route-132':[[390,330],[350,330]],'hoenn-route-133':[[350,330],[310,330]],
+      'hoenn-route-134':[[310,330],[262,326]]},
+    sea:['hoenn-route-105','hoenn-route-106','hoenn-route-107','hoenn-route-108','hoenn-route-109','hoenn-route-122','hoenn-route-124','hoenn-route-125',
+      'hoenn-route-126','hoenn-route-127','hoenn-route-128','hoenn-route-129','hoenn-route-130','hoenn-route-131','hoenn-route-132','hoenn-route-133','hoenn-route-134'],
+    edge:[]},
   // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
   sevii:{name:'SEVII',
     land:['M150 50L214 46 232 84 222 130 230 200 214 300 160 312 136 270 150 200 136 130 140 84Z','M40 96L104 90 112 150 104 214 46 222 34 160Z',
@@ -100,7 +133,7 @@ function wmPlaces(list){
   return [...by.values()].sort((a,b)=>(WM_POS[a.id]?0:1)-(WM_POS[b.id]?0:1)||best(b)-best(a));
 }
 const wmMeth=i=>WM_METHOD[ENC.M[i]]||['?','#888'];
-const wmChance=m=>!['gift','egg','trade','static','roaming','special'].includes(ENC.M[m]);
+const wmChance=m=>!['gift','egg','trade','static','roaming','special','event'].includes(ENC.M[m]);
 
 // ---- drawing ----
 function wmSVG(region,places,sel){
@@ -112,8 +145,10 @@ function wmSVG(region,places,sel){
   Object.entries(m.routes).forEach(([k,p])=>{ const sea=m.sea.includes(k);
     s+=`<polyline points="${pl(p)}" fill="none" stroke="${sea?'#3c6fb8':'#6f84bd'}" stroke-width="${sea?3:4}" stroke-linecap="round" stroke-linejoin="round"${sea?' stroke-dasharray="2 7"':''}/>`; });
   Object.values(m.spots).forEach(([x,y])=>{ s+=`<rect x="${x-4}" y="${y-4}" width="8" height="8" rx="2" fill="#4a5f9a"/>`; });
-  Object.values(m.towns).forEach(([x,y,n])=>{ s+=`<rect x="${x-8}" y="${y-8}" width="16" height="16" rx="3" fill="#e9edf6" stroke="#0b1226" stroke-width="2"/>`;
-    s+=`<text x="${x}" y="${y>300?y-13:y+21}" text-anchor="middle" class="wm-tl">${esc(n.toUpperCase())}</text>`; });
+  // the name goes below the town (above near the bottom edge); a 4th value forces 'a'bove, 'b'elow or 'r'ight
+  Object.values(m.towns).forEach(([x,y,n,at])=>{ s+=`<rect x="${x-8}" y="${y-8}" width="16" height="16" rx="3" fill="#e9edf6" stroke="#0b1226" stroke-width="2"/>`;
+    const a=at||(y>300?'a':'b'), tx=a==='r'?x+13:x, ty=a==='a'?y-13:a==='b'?y+21:y+3;
+    s+=`<text x="${tx}" y="${ty}" text-anchor="${a==='r'?'start':'middle'}" class="wm-tl">${esc(n.toUpperCase())}</text>`; });
   m.edge.forEach(([x,y,a,t,to])=>{ if(to&&!wmRegions(WM.game).includes(to)) return; s+=`<text x="${x}" y="${y}" text-anchor="${a}" class="wm-tl dim">${t}</text>`; });
   places.forEach((p,i)=>{ const q=WM_POS[p.id]; if(!q||q.r!==region) return; const c=wmMeth(p.rows[0][2])[1];
     s+=`<g class="wm-pin${i===sel?' sel':''}" data-p="${i}" style="--pc:${c}"><circle class="halo" cx="${q.x}" cy="${q.y}" r="9"/><circle class="hit" cx="${q.x}" cy="${q.y}" r="14"/><circle class="dot" cx="${q.x}" cy="${q.y}" r="7"/></g>`; });

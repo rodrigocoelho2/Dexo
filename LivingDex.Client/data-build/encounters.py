@@ -10,6 +10,7 @@ from collections import defaultdict
 # app game → PokeAPI versions (bit order = the order shown in the app)
 GAMES = {"rby": [("1", "R"), ("45", "G"), ("2", "B"), ("3", "Y")],          # 45 = Japanese Green
          "gsc": [("4", "G"), ("5", "S"), ("6", "C")],
+         "rse": [("7", "R"), ("8", "S"), ("9", "E")],
          "frlg": [("10", "FR"), ("11", "LG")],
          "hgss": [("15", "HG"), ("16", "SS")],
          "lgpe": [("31", "P"), ("32", "E")]}
@@ -19,7 +20,17 @@ METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "go
           "roaming-grass": "roaming", "pokeflute": "special", "squirt-bottle": "special", "pokemon-ranger": "special",
           # Let's Go: Pokémon walk around in the overworld (PokeAPI gives every spawn the same weight, so no rate)
           "overworld": "wild", "overworld-water": "water", "overworld-flying": "flying",
+          # Ruby / Sapphire / Emerald
+          "seaweed": "dive", "devon-scope": "static", "wailmer-pail": "static", "feebas-tile-fishing": "any-rod",
+          "roaming-water": "roaming",
+          # event distributions (handed out at a Pokémon Center)
+          "colosseum-bonus-disc-jpn": "event", "colosseum-bonus-disc-us": "event", "pokemon-channel-pal": "event",
           "overworld-special": "rare", "overworld-flying-special": "rare-flying", "overworld-water-special": "rare"}
+# a note that comes from how the Pokémon is found, not from a condition
+METHOD_NOTE = {"devon-scope": "Invisible: needs the Devon Scope", "wailmer-pail": "Water it with the Wailmer Pail",
+               "feebas-tile-fishing": "Only on 6 random water tiles",
+               "colosseum-bonus-disc-jpn": "Pokémon Colosseum bonus disc (Japan)",
+               "colosseum-bonus-disc-us": "Pokémon Colosseum bonus disc (US)", "pokemon-channel-pal": "Pokémon Channel (Europe)"}
 NO_RATE = {"wild", "water", "flying", "rare", "rare-flying"}
 SKIP_LOC = {"unknown-all-bugs", "unknown-all-poliwag", "unknown-all-rattata"}   # PokeAPI placeholder areas
 TIME = {"time-morning": 1, "time-day": 2, "time-night": 4}
@@ -28,7 +39,7 @@ STORY = {"national-dex": "After the National Dex", "before-national-dex": "Befor
          "awakened-beasts": "After the legendary beasts awaken", "zephyr-badge": "After the Zephyr Badge",
          "returned-machine-part": "After returning the Machine Part", "vermilion-copycat": "After helping Copycat",
          "receive-tm-from-claire": "After Clair's TM",
-         "beat-elite-four-round-two": "After the Elite Four rematch"}
+         "beat-elite-four-round-two": "After the Elite Four rematch", "hall-of-fame": "After the Hall of Fame"}
 OTHER = {"correct-password": "With the correct password", "received-kanto-starter": "After receiving a Kanto starter",
          "event-arceus-in-party": "With an event Arceus in the party", "snorlax-11-beat-league": "After the League",
          "virtual-console": "Virtual Console only"}
@@ -42,6 +53,8 @@ def note_of(cond):
         return None
     if cond in FIRST: return FIRST[cond]
     if cond == "swarm-yes": return "Swarm"
+    m = re.match(r"tv-option-(\w+)", cond)
+    if m: return f"Tell Mom the Pokémon on TV was {m.group(1)}"
     m = re.match(r"starter-(\w+)", cond)
     if m: return f"If you chose {m.group(1).capitalize()}"
     m = re.match(r"other-caught-(\w+)", cond)
@@ -102,7 +115,7 @@ def build(rows, species_of_pokemon):
             index[key] = len(table); table.append(value if value is not None else key)
         return index[key]
 
-    groups = {}
+    groups, recs = {}, []
     for r in wanted:
         area = areas[r["location_area_id"]]; lid = area["location_id"]; ident = locs[lid]
         if ident in SKIP_LOC:
@@ -114,23 +127,36 @@ def build(rows, species_of_pokemon):
         game, vbit = version_game[r["version_id"]]
         sid = species_of_pokemon[int(r["pokemon_id"])]
         name = loc_name.get(lid) or {"johto-pokemart": "Poké Mart", "roaming-johto": "Roaming Johto",
-                                     "roaming-kanto": "Roaming Kanto"}.get(ident, ident)
+                                     "roaming-kanto": "Roaming Kanto", "roaming-hoenn": "Roaming Hoenn",
+                                     "kanto-pokecenter": "Pokémon Center", "hoenn-pokecenter": "Pokémon Center"}.get(ident, ident)
         li = idx(L, Li, ident, [ident, name])
         ai = idx(A, Ai, area_label(area_prose.get(area["id"], ""), name, area["identifier"]))
         cs = conds.get(r["id"], [])
         tmask = sum(TIME[c] for c in cs if c in TIME) or 7
-        notes = sorted({n for n in (note_of(c) for c in cs) if n})
-        ni = idx(N, Ni, " · ".join(notes))
+        notes = {n for n in (note_of(c) for c in cs) if n} | ({METHOD_NOTE[raw]} if raw in METHOD_NOTE else set())
+        recs.append((game, sid, li, ai, meth, notes, vbit, tmask, raw, int(r["min_level"]), int(r["max_level"]),
+                     int(slots[r["encounter_slot_id"]]["rarity"])))
+
+    # PokeAPI splits a roamer into grass and water tables with different conditions: a version's notes apply to both
+    roam = defaultdict(set)
+    for game, sid, li, ai, meth, notes, vbit, *_ in recs:
+        if meth == "roaming":
+            roam[(game, sid, li, vbit)] |= notes
+    for game, sid, li, ai, meth, notes, vbit, tmask, raw, lo, hi, rarity in recs:
+        if meth == "roaming":
+            notes = roam[(game, sid, li, vbit)]
+        ni = idx(N, Ni, " · ".join(sorted(notes)))
         g = groups.setdefault((game, sid, li, ai, meth, ni), {"min": 99, "max": 0, "rate": defaultdict(int), "ver": 0})
-        g["min"] = min(g["min"], int(r["min_level"])); g["max"] = max(g["max"], int(r["max_level"]))
+        g["min"] = min(g["min"], lo); g["max"] = max(g["max"], hi)
         g["ver"] |= 1 << vbit
         for t in (1, 2, 4):
             if tmask & t:
                 # per version, time and original table (the three GSC headbutt tables are separate trees)
-                g["rate"][(vbit, t, raw)] += int(slots[r["encounter_slot_id"]]["rarity"])
+                g["rate"][(vbit, t, raw)] += rarity
 
     M = ["grass", "surf", "old-rod", "good-rod", "super-rod", "headbutt", "rock-smash", "gift", "egg", "trade", "static", "roaming", "special",
-         "wild", "water", "flying", "rare", "rare-flying"]
+         "wild", "water", "flying", "rare", "rare-flying",
+         "dive", "any-rod", "event"]
     out = {g: {} for g in GAMES}
     for (game, sid, li, ai, meth, ni), g in groups.items():
         times = 0
