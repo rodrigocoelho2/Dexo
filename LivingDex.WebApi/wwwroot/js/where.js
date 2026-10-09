@@ -1,7 +1,7 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
    Data: /data/encounters.json (built from PokeAPI's encounters by data-build/encounters.py), fetched the first time a map
    opens; RAW.enci (in pokedex.js) says up front which Pokémon each game has, so the "Catch in" pins need no download.
-   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova and the Sevii Islands (not the games' town maps); each PokeAPI location
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova, Kalos and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
 let ENC=RAW.enc||null, ENC_LOAD=null;                       // RAW.enc: a mock page passes the data in directly
 const ENC_IDX=Object.fromEntries(Object.entries(RAW.enci||Object.fromEntries(Object.entries(ENC?ENC.g:{}).map(([g,G])=>[g,Object.keys(G)])))
@@ -17,10 +17,11 @@ const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['O
   static:['ONE-TIME','#ef3d4f'],roaming:['ROAMING','#a78bfa'],special:['SPECIAL','#f85888'],
   wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888'],
   dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838'],
-  'dark-grass':['DARK GRASS','#9ccf3a'],phenomenon:['PHENOMENON','#f0a0ff'],grotto:['HIDDEN GROTTO','#5fd38a']};
-const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+  'dark-grass':['DARK GRASS','#9ccf3a'],phenomenon:['PHENOMENON','#f0a0ff'],grotto:['HIDDEN GROTTO','#5fd38a'],
+  horde:['HORDE','#ff9f43'],flowers:['FLOWERS','#ff7eb6'],rough:['ROUGH TERRAIN','#c8a070'],berry:['BERRY TREE','#e8a838'],ambush:['AMBUSH','#a78bfa']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',xy:'X · Y',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
 // the maps each game can show (tabs), in order
-const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],xy:['kalos'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
 const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
 
 // ---- the maps (viewBox 640×380) ----
@@ -152,6 +153,31 @@ const WM_MAPS={
       'unova-route-21':[[610,160],[626,204],[610,250]],'unova-route-22':[[610,250],[540,250],[540,200]],
       'unova-route-23':[[540,200],[540,110],[500,60],[452,48]]},
     sea:['unova-route-17','unova-route-21'],
+    edge:[]},
+  // X / Y: Lumiose in the middle, the coast and caves to the west, the cold north-east, the league in the south-east
+  kalos:{name:'KALOS',
+    land:['M60 40L200 30 300 22 420 30 560 26 620 60 630 200 600 300 520 350 420 360 330 368 250 350 180 330 110 320 50 280 30 200 40 110Z'],
+    mount:['M490 300L536 292 552 318 520 336 488 326Z'],
+    water:[['ellipse',290,30,30,12],['ellipse',248,262,14,9]],
+    islands:[],
+    towns:{'vaniville-town':[320,352,'Vaniville','a'],'aquacorde-town':[320,318,'Aquacorde','r'],'santalune-city':[320,250,'Santalune','r'],
+      'lumiose-city':[320,180,'Lumiose','b'],'camphrier-town':[220,180,'Camphrier','b'],'ambrette-town':[110,262,'Ambrette','b'],
+      'cyllage-city':[80,180,'Cyllage','b'],'geosenge-town':[110,110,'Geosenge','b'],'shalour-city':[236,62,'Shalour','b'],
+      'coumarine-city':[340,62,'Coumarine','r'],'laverre-city':[430,160,'Laverre','b'],'dendemille-town':[450,80,'Dendemille','b'],
+      'anistar-city':[560,60,'Anistar','b'],'couriway-town':[570,170,'Couriway','b'],'snowbelle-city':[580,250,'Snowbelle','b'],
+      'kiloude-city':[470,226,'Kiloude','b'],'kalos-pokemon-league':[440,334,'League','a']},
+    spots:{'santalune-forest':[320,286],'parfum-palace':[220,120],'connecting-cave':[180,226],'kalos-berry-fields':[200,210],
+      'glittering-cave':[90,226],'reflection-cave':[170,84],'tower-of-mastery':[256,76],'azure-bay':[290,30],'sea-spirits-den':[310,18],
+      'lost-hotel':[446,124],'frost-cavern':[500,40],'terminus-cave':[580,116],'pokemon-village':[520,296],'unknown-dungeon':[536,320],
+      'kalos-victory-road':[480,330],'team-flare-secret-hq':[300,166],'friend-safari':[490,246]},
+    routes:{'kalos-route-2':[[320,318],[320,286]],'kalos-route-3':[[320,286],[320,250]],'kalos-route-4':[[320,250],[320,180]],
+      'kalos-route-5':[[320,180],[220,180]],'kalos-route-6':[[220,180],[220,120]],'kalos-route-7':[[220,180],[200,226],[180,226]],
+      'kalos-route-8':[[180,226],[150,262],[110,262]],'kalos-route-9':[[110,262],[90,226]],'kalos-route-10':[[80,180],[110,110]],
+      'kalos-route-11':[[110,110],[170,84],[236,62]],'kalos-route-12':[[236,62],[340,62]],'kalos-route-13':[[340,62],[340,120],[320,180]],
+      'kalos-route-14':[[320,180],[430,160]],'kalos-route-15':[[430,160],[446,124]],'kalos-route-16':[[446,124],[450,80]],
+      'kalos-route-17':[[450,80],[560,60]],'kalos-route-18':[[560,60],[580,116],[570,170]],'kalos-route-19':[[570,170],[580,250]],
+      'kalos-route-20':[[580,250],[520,296]],'kalos-route-21':[[520,296],[480,330]],'kalos-route-22':[[320,250],[248,262]]},
+    sea:[],
     edge:[]},
   // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
   sevii:{name:'SEVII',

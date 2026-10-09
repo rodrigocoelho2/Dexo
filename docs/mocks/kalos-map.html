@@ -1,0 +1,559 @@
+<title>Kalos Map Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&family=Silkscreen&display=swap">
+<style>
+/* Same look as the app and the Johto mock: night-blue panels, pixel faces, gold for what you can click.
+   Single dark theme on purpose (the app has no light theme). */
+:root{
+  color-scheme:dark;
+  --night:#0c1222; --panel:#141d36; --line:#2a3a64; --ink:#e8edf8; --muted:#8c9abb; --gold:#ffd23f; --bar-ink:#232b45;
+  --pixel:"DotGothic16","Courier New",monospace; --tiny:"Silkscreen","DotGothic16",monospace; --gb:"Press Start 2P","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--pixel);padding-block:28px 56px;padding-inline:max(16px,3vw);background:
+  radial-gradient(900px 500px at 80% 0%,rgba(80,110,220,.16),transparent 70%),
+  radial-gradient(rgba(120,150,255,.07) 1px,transparent 1.2px) 0 0/14px 14px,var(--night)}
+button{font:inherit;color:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:10px var(--gb);letter-spacing:.2em;color:var(--muted)}
+.top b{color:var(--gold);font-weight:400}
+.intro{max-width:920px;margin:18px 0 26px;font-size:16px;line-height:1.6;color:#c9d3ff}
+.intro em{font-style:normal;color:var(--gold)}
+h2{margin:48px 0 8px;font:11px var(--gb);letter-spacing:.2em;color:var(--gold);font-weight:400;line-height:1.6}
+.sub{margin:0 0 18px;color:#aab6e0;font-size:14.5px;max-width:860px;line-height:1.55}
+.sub b{color:var(--ink);font-weight:400}
+.row{display:flex;flex-wrap:wrap;gap:28px 24px;align-items:flex-start}
+.col{display:grid;gap:10px;min-width:0;max-width:100%}
+.cap{font:10px var(--gb);letter-spacing:.16em;color:var(--muted);line-height:1.6}
+.cap b{color:var(--ink);font-weight:400}
+.note{font-size:13.5px;line-height:1.5;color:#aab6e0;max-width:430px}
+
+/* example picker */
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pick button{display:flex;align-items:center;gap:6px;border:0;border-radius:8px;padding:4px 10px 4px 4px;background:#0f1730;box-shadow:inset 0 0 0 1.5px var(--line);font-size:.92rem}
+.pick button img{width:32px;height:32px;image-rendering:pixelated}
+.pick button small{font:400 .46rem var(--tiny);letter-spacing:.1em;color:var(--muted);display:block}
+.pick button.on{background:#1d2850;box-shadow:inset 0 0 0 1.5px var(--gold)}
+.pick button:focus-visible,.wm-win button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* the PC window, in the page instead of over it */
+.mock-win{position:relative;width:min(1000px,100%);border-radius:14px;overflow:hidden;background:var(--panel);box-shadow:0 0 0 2px #33427a,0 40px 90px rgba(0,0,0,.6)}
+.mock-win .wm-left{position:static}
+
+/* the dex panel's "Where to get" (light cards, like the app) */
+.lower{width:min(430px,100%);border-radius:10px;padding:10px;background:linear-gradient(#2e4a8f,#253c78);box-shadow:0 0 0 2px #2b3a66,0 18px 44px rgba(0,0,0,.45)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.tabs span{text-align:center;padding:6px 0;border-radius:5px;font-size:.92rem;background:#18244a;color:#dfe6ff;box-shadow:inset 0 0 0 1.5px #5c6fae}
+.tabs span.on{background:linear-gradient(#f3f6fc,#d7deec);color:var(--bar-ink);box-shadow:inset 0 0 0 1.5px #fff}
+.card{background:#eef2fa;color:var(--bar-ink);border-radius:8px;padding:9px 12px;box-shadow:inset 0 0 0 2px #fff,0 2px 0 rgba(10,20,45,.5)}
+.card+.card{margin-top:9px}
+.card h3{margin:0 0 6px;font:400 .62rem var(--tiny);letter-spacing:.12em;color:#5a6788}
+.wline{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:8px;padding:6px 0;border-top:1px dashed #c3ccdf;font-size:.9rem}
+.wline:first-of-type{border-top:0}
+.gm{font:400 .58rem var(--tiny);letter-spacing:.1em;color:#3d4769}
+.tags{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.tg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;background:#dde3f0;color:#2b3557;font-size:.86rem}
+.tg b{font-weight:400}
+.tg.dim{background:#e8d9b8;color:#6b5420}
+
+/* phone */
+.phone{width:min(390px,calc(100vw - 32px));height:800px;border-radius:44px;padding:12px;background:#05070e;box-shadow:0 0 0 2px #1f2a4a,0 30px 70px rgba(0,0,0,.6);flex:none}
+.screen{position:relative;height:100%;border-radius:34px;overflow:hidden;background:var(--night)}
+.ph-top{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font:600 14px system-ui,sans-serif;color:#fff}
+.scrim{position:absolute;inset:0;background:rgba(3,5,12,.62)}
+.bgdex{position:absolute;inset:44px 0 0;padding:12px;opacity:.5}
+.bgdex .hd{height:84px;border-radius:16px;background:#141d36;margin-bottom:12px;box-shadow:inset 0 0 0 1.5px #2a3a64}
+.bgdex .bx{height:200px;border-radius:14px;background:repeating-linear-gradient(135deg,#6e3a1f 0 14px,#743f22 14px 28px);box-shadow:inset 0 0 0 2px #b36a3f}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:96px;border-radius:26px 26px 0 0;background:var(--panel);box-shadow:0 -1px 0 #2f3d68,0 -20px 40px rgba(0,0,0,.5);padding:8px 14px 22px;overflow:auto}
+.handle{width:40px;height:5px;border-radius:3px;background:#3a4870;margin:2px auto 10px}
+.sheet .lower{width:100%;box-shadow:none}
+.sh-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sh-h img{width:44px;height:44px;image-rendering:pixelated}
+.sh-h b{font-weight:400;font-size:1.15rem}
+.sh-h small{display:block;font:400 .5rem var(--tiny);letter-spacing:.14em;color:var(--muted);margin-top:2px}
+.wm-back{border:0;background:#26325a;color:var(--ink);font-family:var(--tiny);font-size:.5rem;letter-spacing:.1em;padding:6px 10px;border-radius:6px;margin-bottom:10px}
+
+/* notes */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;max-width:1100px}
+.box{border-radius:12px;background:#0f1730;box-shadow:inset 0 0 0 1.5px var(--line);padding:14px 16px;font-size:14px;line-height:1.55;color:#c9d3ff;min-width:0}
+.box h4{margin:0 0 8px;font:400 .62rem var(--tiny);letter-spacing:.16em;color:var(--gold)}
+.box ul{margin:0;padding-left:18px}
+.box li{margin:3px 0}
+.box b{color:var(--ink);font-weight:400}
+.m{font:400 .44rem var(--tiny);letter-spacing:.08em;padding:3px 6px;border-radius:4px;color:#0b1226;vertical-align:1px}
+@media (prefers-reduced-motion:reduce){.wm-pin .halo{animation:none}}
+/* ---- where.css from the app, unchanged ---- */
+/* ====================== WHERE TO GET → MAP (where.js) ====================== */
+.tg.map{cursor:pointer;border:0;font:inherit;color:inherit;box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .15s,background .15s}
+.tg.map:hover{background:#fff6cf;box-shadow:inset 0 0 0 1.5px #d9a400}
+.tg.map .wm-pinic{width:.8em;height:.8em;margin-right:.3em;vertical-align:-.05em;fill:#d9a400}
+.wm-wrap{position:fixed;inset:0;z-index:46;display:grid;place-items:center;padding:20px}
+.wm-wrap[hidden]{display:none}
+.wm-scrim{position:absolute;inset:0;background:rgba(4,7,15,.62)}
+.wm-win{position:relative;width:min(1000px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:14px;background:var(--panel);box-shadow:0 0 0 2px #33427a,0 40px 90px rgba(0,0,0,.65);outline:none;animation:pfin .18s ease-out}
+.wm-h{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(90deg,#e9edf6,#cdd6e6);color:#232b45}
+.wm-h b{font-weight:400;font-size:1.08rem;letter-spacing:.03em}
+.wm-h small{display:block;font-family:var(--tiny);font-size:.52rem;letter-spacing:.14em;color:#5a6788;margin-top:2px}
+.wm-spr{width:44px;height:44px;margin:-8px 0;display:grid;place-items:center}
+.wm-spr img,.wm-spr canvas{max-width:44px;max-height:44px;image-rendering:pixelated}
+.wm-x{margin-left:auto;border:0;background:none;width:30px;height:30px;border-radius:50%;color:#5a6788;font-size:1rem}
+.wm-x:hover{background:rgba(0,0,0,.08)}
+.wm-b{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;padding:14px 16px 12px;align-items:start}
+.wm-left{position:sticky;top:64px}
+.wm-f{display:flex;justify-content:space-between;padding:0 16px 14px;font-family:var(--tiny);font-size:.46rem;letter-spacing:.12em;color:#56618a}
+.wm-games{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.wm-games button,.wm-regs button{border:0;font-family:var(--tiny);font-size:.56rem;letter-spacing:.1em;padding:6px 10px;border-radius:6px;background:#0b1226;color:#aab6e0;box-shadow:inset 0 0 0 1px #24315a}
+.wm-games button.on{background:#ffd23f;color:#2b2200;box-shadow:none}
+.wm-map{position:relative;border-radius:10px;overflow:hidden;background:#0f1a36;box-shadow:inset 0 0 0 1.5px var(--line)}
+.wm-map svg{display:block;width:100%;height:auto}
+.wm-regs{position:absolute;left:8px;top:8px;display:flex;gap:5px}
+.wm-regs button{font-size:.48rem;padding:4px 8px;background:rgba(11,18,38,.85)}
+.wm-regs button.on{background:#e9edf6;color:#232b45;box-shadow:none}
+.wm-regs button.none{opacity:.5}
+.wm-tl{font-family:var(--tiny);font-size:8px;letter-spacing:.05em;fill:#aab6e0}
+.wm-tl.dim{fill:#56618a}
+.wm-tl.tag{font-size:9px;fill:#2b2200}
+.wm-pin{cursor:pointer}
+.wm-pin .hit{fill:transparent}
+.wm-pin .halo{fill:none;stroke:var(--pc);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:wmping 1.8s ease-out infinite}
+.wm-pin .dot{fill:var(--pc);stroke:#0b1226;stroke-width:2}
+.wm-pin.sel .dot{stroke:#fff;stroke-width:2.5}
+@keyframes wmping{from{transform:scale(.6);opacity:.9}to{transform:scale(2.2);opacity:0}}
+.wm-list{display:grid;gap:8px;align-content:start}
+.wm-banner{border-radius:9px;padding:9px 11px;background:#1a2446;box-shadow:inset 0 0 0 1px #33427a;font-size:.86rem;line-height:1.45;color:#c9d3ff}
+.wm-banner b{font-weight:400;color:var(--ink)}
+.wm-place{border-radius:9px;padding:8px 10px;background:#0b1226;box-shadow:inset 0 0 0 1px #24315a;cursor:pointer;transition:box-shadow .15s,background .15s}
+.wm-place:hover,.wm-place.sel{background:#141f40;box-shadow:inset 0 0 0 1.5px #ffd23f}
+.wm-ph{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.wm-ph b{font-weight:400;font-size:.95rem}
+.wm-reg{font-family:var(--tiny);font-size:.42rem;letter-spacing:.12em;color:#56618a;white-space:nowrap}
+.wm-r{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:3px 0;font-size:.8rem;color:#aab6e0}
+.wm-r+.wm-r{border-top:1px dashed #1d2747}
+.wm-m{font-family:var(--tiny);font-size:.44rem;letter-spacing:.08em;padding:3px 6px;border-radius:4px;color:#0b1226;background:var(--c)}
+.wm-lv{font-family:var(--tiny);font-size:.5rem;letter-spacing:.08em;color:#c9d3ff}
+.wm-a{font-size:.78rem;color:#8c9abb}
+.wm-ch{display:inline-flex;gap:3px}
+.wm-ch i{font-style:normal;font-family:var(--tiny);font-size:.4rem;letter-spacing:.06em;padding:2px 4px;border-radius:3px;background:#1d2747;color:#4a5578}
+.wm-ch i.on{background:#2b2f5e;color:#e8edf8}
+.wm-ch i.v{margin-left:2px}
+.wm-ch i.v.on{background:#3d3517;color:#ffd23f}
+.wm-n{flex-basis:100%;font-size:.76rem;color:#ffd23f}
+@media (max-width:900px){.wm-b{grid-template-columns:minmax(0,1fr)}.wm-left{position:static}}
+/* in the phone sheet */
+.wm-sheet .wm-h{position:static;margin:0 -2px 10px;border-radius:12px}
+.wm-sheet .wm-back{border:0;background:#26325a;color:var(--ink);font-family:var(--tiny);font-size:.5rem;letter-spacing:.1em;padding:6px 10px;border-radius:6px;margin-bottom:10px}
+.wm-sheet .wm-map{margin-bottom:10px}
+.wm-load{padding:60px 16px;text-align:center;font-family:var(--tiny);font-size:.56rem;letter-spacing:.14em;color:#8c9abb}
+
+</style>
+
+<div class="top"><span>HOME LIVING DEX · <b>MOCK</b></span><span>WHERE TO GET · KALOS (XY)</span></div>
+<p class="intro">Próxima região: <em>Kalos</em>, para X e Y. Lumiose fica no centro, a costa e as grutas a oeste, o norte gelado a leste e a Liga a sudeste. Como nos outros, o mapa é desenhado pelo <em>código real da app</em> com os <em>dados reais</em> do XY. Escolhe um Pokémon, clica nos pontos e nas linhas.</p>
+
+<h2>1 · NO PC</h2>
+<p class="sub">A janela que abre ao clicar em <b>Central Kalos 068</b> (Flabébé). Os outros exemplos mostram o que Kalos tem de novo: hordas, flores de cores diferentes, terreno acidentado, emboscadas, árvores de bagas, a Friend Safari e os lendários.</p>
+<div class="pick" id="pick" role="group" aria-label="Exemplos"></div>
+<div class="mock-win"><div class="wm-win" id="pcWin"></div></div>
+
+<h2>2 · NO TELEMÓVEL</h2>
+<p class="sub">Igual aos outros mapas: o separador <b>Where to get</b> na ficha do Pokémon, e o mapa numa segunda ficha com <b>◂ PANCHAM</b> para voltar.</p>
+<div class="row">
+  <div class="col">
+    <div class="cap">FICHA · <b>WHERE TO GET</b> · PANCHAM</div>
+    <div class="phone"><div class="screen"><div class="ph-top"><span>01:12</span><span>●●● ▮</span></div>
+      <div class="bgdex"><div class="hd"></div><div class="bx"></div></div><div class="scrim"></div>
+      <div class="sheet" id="ph1"></div></div></div>
+  </div>
+  <div class="col">
+    <div class="cap">TOQUE EM <b>CENTRAL KALOS 091</b></div>
+    <div class="phone"><div class="screen"><div class="ph-top"><span>01:12</span><span>●●● ▮</span></div>
+      <div class="bgdex"><div class="hd"></div><div class="bx"></div></div><div class="scrim"></div>
+      <div class="sheet" id="ph2"></div></div></div>
+  </div>
+</div>
+
+<h2>3 · O QUE KALOS TRAZ DE NOVO</h2>
+<div class="grid3">
+  <div class="box"><h4>MÉTODOS NOVOS</h4><ul>
+    <li><span class="m" style="background:#ff9f43">HORDE</span> encontros de cinco de uma vez.</li>
+    <li><span class="m" style="background:#ff7eb6">FLOWERS</span> com a cor na nota (amarelas, vermelhas, roxas).</li>
+    <li><span class="m" style="background:#c8a070">ROUGH TERRAIN</span>, <span class="m" style="background:#e8a838">BERRY TREE</span> e <span class="m" style="background:#a78bfa">AMBUSH</span> (do teto, do chão, do céu, arbustos e caixotes do lixo).</li>
+  </ul></div>
+  <div class="box"><h4>FRIEND SAFARI</h4><ul>
+    <li>Em Kiloude City, com a área do tipo como zona (Fighting, Fairy…).</li>
+    <li>A nota diz o slot: o 3.º só aparece quando o amigo já venceu a Liga.</li>
+  </ul></div>
+  <div class="box"><h4>LENDÁRIOS</h4><ul>
+    <li>Articuno, Zapdos ou Moltres conforme o inicial; andam por Kalos e ao fim de 11 encontros vão para a Sea Spirit's Den.</li>
+    <li>Xerneas (X) e Yveltal (Y) no Team Flare Secret HQ; Zygarde na Terminus Cave e Mewtwo na Unknown Dungeon depois do Hall of Fame.</li>
+  </ul></div>
+  <div class="box"><h4>LIMITAÇÕES</h4><ul>
+    <li>Os dados do XY no PokeAPI não têm altura do dia, por isso esses chips não aparecem.</li>
+    <li>Os sprites deste mock são os ícones pequenos (os do jogo não estão nos assets); na app aparece o sprite normal.</li>
+  </ul></div>
+</div>
+
+<script>
+const RAW={enc:{"L":[["canalave-city","Canalave City"],["eterna-city","Eterna City"],["pastoria-city","Pastoria City"],["sunyshore-city","Sunyshore City"],["sinnoh-pokemon-league","Pok\u00e9mon League"],["oreburgh-mine","Oreburgh Mine"],["valley-windworks","Valley Windworks"],["eterna-forest","Eterna Forest"],["fuego-ironworks","Fuego Ironworks"],["mt-coronet","Mt. Coronet"],["great-marsh","Great Marsh"],["solaceon-ruins","Solaceon Ruins"],["sinnoh-victory-road","Victory Road"],["ravaged-path","Ravaged Path"],["oreburgh-gate","Oreburgh Gate"],["stark-mountain","Stark Mountain"],["sendoff-spring","Sendoff Spring"],["turnback-cave","Turnback Cave"],["snowpoint-temple","Snowpoint Temple"],["wayward-cave","Wayward Cave"],["ruin-maniac-cave","Ruin Maniac Cave"],["maniac-tunnel","Maniac Tunnel"],["trophy-garden","Trophy Garden"],["iron-island","Iron Island"],["old-chateau","Old Chateau"],["lake-verity","Lake Verity"],["lake-valor","Lake Valor"],["lake-acuity","Lake Acuity"],["valor-lakefront","Valor Lakefront"],["acuity-lakefront","Acuity Lakefront"],["sinnoh-route-201","Route 201"],["sinnoh-route-202","Route 202"],["sinnoh-route-203","Route 203"],["sinnoh-route-204","Route 204"],["sinnoh-route-205","Route 205"],["sinnoh-route-206","Route 206"],["sinnoh-route-207","Route 207"],["sinnoh-route-208","Route 208"],["sinnoh-route-209","Route 209"],["lost-tower","Lost Tower"],["sinnoh-route-210","Route 210"],["sinnoh-route-211","Route 211"],["sinnoh-route-212","Route 212"],["sinnoh-route-213","Route 213"],["sinnoh-route-214","Route 214"],["sinnoh-route-215","Route 215"],["sinnoh-route-216","Route 216"],["sinnoh-route-217","Route 217"],["sinnoh-route-218","Route 218"],["sinnoh-route-219","Route 219"],["sinnoh-route-221","Route 221"],["sinnoh-route-222","Route 222"],["sinnoh-route-224","Route 224"],["sinnoh-route-225","Route 225"],["sinnoh-route-227","Route 227"],["sinnoh-route-228","Route 228"],["sinnoh-route-229","Route 229"],["twinleaf-town","Twinleaf Town"],["celestic-town","Celestic Town"],["resort-area","Resort Area"],["sinnoh-sea-route-220","Sea Route 220"],["sinnoh-sea-route-223","Sea Route 223"],["sinnoh-sea-route-226","Sea Route 226"],["sinnoh-sea-route-230","Sea Route 230"],["new-bark-town","New Bark Town"],["johto-route-29","Route 29"],["cherrygrove-city","Cherrygrove City"],["johto-route-30","Route 30"],["johto-route-31","Route 31"],["violet-city","Violet City"],["sprout-tower","Sprout Tower"],["johto-route-32","Route 32"],["ruins-of-alph","Ruins of Alph"],["union-cave","Union Cave"],["johto-route-33","Route 33"],["slowpoke-well","Slowpoke Well"],["ilex-forest","Ilex Forest"],["johto-route-34","Route 34"],["johto-route-35","Route 35"],["national-park","National Park"],["johto-route-36","Route 36"],["johto-route-37","Route 37"],["ecruteak-city","Ecruteak City"],["burned-tower","Burned Tower"],["bell-tower","Bell Tower"],["johto-route-38","Route 38"],["johto-route-39","Route 39"],["olivine-city","Olivine City"],["johto-sea-route-40","Sea Route 40"],["johto-sea-route-41","Sea Route 41"],["whirl-islands","Whirl Islands"],["cianwood-city","Cianwood City"],["johto-route-42","Route 42"],["mt-mortar","Mt. Mortar"],["johto-route-43","Route 43"],["lake-of-rage","Lake of Rage"],["johto-route-44","Route 44"],["ice-path","Ice Path"],["blackthorn-city","Blackthorn City"],["dragons-den","Dragon's Den"],["johto-route-45","Route 45"],["johto-route-46","Route 46"],["dark-cave","Dark Cave"],["johto-route-47","Route 47"],["mt-moon","Mt. Moon"],["seafoam-islands","Seafoam Islands"],["mt-silver","Mt. Silver"],["kanto-route-12","Route 12"],["kanto-sea-route-19","Sea Route 19"],["kanto-sea-route-20","Sea Route 20"],["cinnabar-island","Cinnabar Island"],["viridian-city","Viridian City"],["cerulean-city","Cerulean City"],["vermilion-city","Vermilion City"],["celadon-city","Celadon City"],["fuchsia-city","Fuchsia City"],["pallet-town","Pallet Town"],["johto-route-48","Route 48"],["kanto-route-26","Route 26"],["kanto-route-27","Route 27"],["kanto-route-28","Route 28"],["rock-tunnel","Rock Tunnel"],["kanto-victory-road-1","Victory Road"],["kanto-route-1","Route 1"],["kanto-route-2","Route 2"],["kanto-route-3","Route 3"],["kanto-route-4","Route 4"],["kanto-route-5","Route 5"],["kanto-route-6","Route 6"],["kanto-route-7","Route 7"],["kanto-route-8","Route 8"],["kanto-route-9","Route 9"],["kanto-route-10","Route 10"],["kanto-route-11","Route 11"],["kanto-route-13","Route 13"],["kanto-route-14","Route 14"],["kanto-route-15","Route 15"],["kanto-route-16","Route 16"],["kanto-route-17","Route 17"],["kanto-route-18","Route 18"],["kanto-sea-route-21","Sea Route 21"],["kanto-route-22","Route 22"],["kanto-route-24","Route 24"],["kanto-route-25","Route 25"],["tohjo-falls","Tohjo Falls"],["digletts-cave","Diglett's Cave"],["viridian-forest","Viridian Forest"],["cerulean-cave","Cerulean Cave"],["kanto-route-23","Route 23"],["kanto-power-plant","Kanto Power Plant"],["kanto-victory-road-2","Victory Road"],["pokemon-tower","Pok\u00e9mon Tower"],["pokemon-mansion","Pok\u00e9mon Mansion"],["kanto-safari-zone","Safari Zone"],["petalburg-city","Petalburg City"],["slateport-city","Slateport City"],["lilycove-city","Lilycove City"],["mossdeep-city","Mossdeep City"],["sootopolis-city","Sootopolis City"],["ever-grande-city","Ever Grande City"],["meteor-falls","Meteor Falls"],["rusturf-tunnel","Rusturf Tunnel"],["granite-cave","Granite Cave"],["petalburg-woods","Petalburg Woods"],["jagged-pass","Jagged Pass"],["fiery-path","Fiery Path"],["mt-pyre","Mt. Pyre"],["seafloor-cavern","Seafloor Cavern"],["cave-of-origin","Cave of Origin"],["hoenn-victory-road","Victory Road"],["shoal-cave","Shoal Cave"],["new-mauville","New Mauville"],["abandoned-ship","Abandoned Ship"],["sky-pillar","Sky Pillar"],["hoenn-route-101","Route 101"],["hoenn-route-102","Route 102"],["hoenn-route-103","Route 103"],["hoenn-route-104","Route 104"],["hoenn-route-105","Route 105"],["hoenn-route-106","Route 106"],["hoenn-route-107","Route 107"],["hoenn-route-108","Route 108"],["hoenn-route-109","Route 109"],["hoenn-route-110","Route 110"],["hoenn-route-111","Route 111"],["hoenn-route-112","Route 112"],["hoenn-route-113","Route 113"],["hoenn-route-114","Route 114"],["hoenn-route-115","Route 115"],["hoenn-route-116","Route 116"],["hoenn-route-117","Route 117"],["hoenn-route-118","Route 118"],["hoenn-route-119","Route 119"],["hoenn-route-120","Route 120"],["hoenn-route-121","Route 121"],["hoenn-route-122","Route 122"],["hoenn-route-123","Route 123"],["hoenn-route-124","Route 124"],["hoenn-route-125","Route 125"],["hoenn-route-126","Route 126"],["hoenn-route-127","Route 127"],["hoenn-route-128","Route 128"],["hoenn-route-129","Route 129"],["hoenn-route-130","Route 130"],["hoenn-route-131","Route 131"],["hoenn-route-132","Route 132"],["hoenn-route-133","Route 133"],["hoenn-route-134","Route 134"],["hoenn-safari-zone","Safari Zone"],["dewford-town","Dewford Town"],["pacifidlog-town","Pacifidlog Town"],["magma-hideout","Magma Hideout"],["mirage-tower","Mirage Tower"],["desert-underpass","Desert Underpass"],["artisan-cave","Artisan Cave"],["hoenn-altering-cave","Altering Cave"],["monean-chamber","Monean Chamber"],["liptoo-chamber","Liptoo Chamber"],["weepth-chamber","Weepth Chamber"],["dilford-chamber","Dilford Chamber"],["scufib-chamber","Scufib Chamber"],["rixy-chamber","Rixy Chamber"],["viapos-chamber","Viapos Chamber"],["ss-anne","S.S. Anne"],["mt-ember","Mt. Ember"],["berry-forest","Berry Forest"],["icefall-cave","Icefall Cave"],["pattern-bush","Pattern Bush"],["lost-cave","Lost Cave"],["kindle-road","Kindle Road"],["treasure-beach","Treasure Beach"],["cape-brink","Cape Brink"],["bond-bridge","Bond Bridge"],["three-isle-port","Three Isle Port"],["resort-gorgeous","Resort Gorgeous"],["water-labyrinth","Water Labyrinth"],["five-isle-meadow","Five Isle Meadow"],["memorial-pillar","Memorial Pillar"],["outcast-island","Outcast Island"],["green-path","Green Path"],["water-path","Water Path"],["ruin-valley","Ruin Valley"],["trainer-tower","Trainer Tower"],["canyon-entrance","Canyon Entrance"],["sevault-canyon","Sevault Canyon"],["tanoby-ruins","Tanoby Ruins"],["one-island","One Island"],["four-island","Four Island"],["five-island","Five Island"],["kanto-altering-cave","Altering Cave"],["striaton-city","Striaton City"],["driftveil-city","Driftveil City"],["icirrus-city","Icirrus City"],["dreamyard","Dreamyard"],["pinwheel-forest","Pinwheel Forest"],["desert-resort","Desert Resort"],["relic-castle","Relic Castle"],["cold-storage","Cold Storage"],["chargestone-cave","Chargestone Cave"],["twist-mountain","Twist Mountain"],["dragonspiral-tower","Dragonspiral Tower"],["unova-victory-road","Victory Road"],["trial-chamber","Trial Chamber"],["giant-chasm","Giant Chasm"],["p2-laboratory","P2 Laboratory"],["undella-bay","Undella Bay"],["driftveil-drawbridge","Driftveil Drawbridge"],["village-bridge","Village Bridge"],["marvelous-bridge","Marvelous Bridge"],["unova-route-1","Route 1"],["unova-route-2","Route 2"],["unova-route-3","Route 3"],["wellspring-cave","Wellspring Cave"],["unova-route-4","Route 4"],["unova-route-5","Route 5"],["unova-route-6","Route 6"],["mistralton-cave","Mistralton Cave"],["guidance-chamber","Guidance Chamber"],["unova-route-7","Route 7"],["celestial-tower","Celestial Tower"],["unova-route-8","Route 8"],["moor-of-icirrus","Moor of Icirrus"],["unova-route-9","Route 9"],["challengers-cave","Challenger's Cave"],["unova-route-10","Route 10"],["unova-route-11","Route 11"],["unova-route-12","Route 12"],["unova-route-13","Route 13"],["unova-route-14","Route 14"],["abundant-shrine","Abundant Shrine"],["unova-route-15","Route 15"],["unova-route-16","Route 16"],["lostlorn-forest","Lostlorn Forest"],["unova-route-18","Route 18"],["undella-town","Undella Town"],["unova-route-17","Route 17"],["castelia-city","Castelia City"],["aspertia-city","Aspertia City"],["virbank-city","Virbank City"],["humilau-city","Humilau City"],["unova-victory-road-2","Victory Road"],["castelia-sewers","Castelia Sewers"],["floccesy-ranch","Floccesy Ranch"],["virbank-complex","Virbank Complex"],["reversal-mountain","Reversal Mountain"],["strange-house","Strange House"],["relic-passage","Relic Passage"],["clay-tunnel","Clay Tunnel"],["underground-ruins","Underground Ruins"],["rocky-mountain-room","Rocky Mountain Room"],["glacier-room","Glacier Room"],["iron-room","Iron Room"],["seaside-cave","Seaside Cave"],["nature-sanctuary","Nature Sanctuary"],["unova-route-19","Route 19"],["unova-route-20","Route 20"],["unova-route-22","Route 22"],["unova-route-23","Route 23"],["unova-route-21","Route 21"],["couriway-town","Couriway Town"],["ambrette-town","Ambrette Town"],["cyllage-city","Cyllage City"],["shalour-city","Shalour City"],["laverre-city","Laverre City"],["kalos-route-2","Route 2"],["kalos-route-3","Route 3"],["kalos-route-4","Route 4"],["kalos-route-5","Route 5"],["kalos-route-6","Route 6"],["kalos-route-7","Route 7"],["kalos-route-8","Route 8"],["kalos-route-9","Route 9"],["kalos-route-10","Route 10"],["kalos-route-11","Route 11"],["kalos-route-12","Route 12"],["kalos-route-13","Route 13"],["kalos-route-14","Route 14"],["kalos-route-15","Route 15"],["kalos-route-16","Route 16"],["kalos-route-17","Route 17"],["kalos-route-18","Route 18"],["kalos-route-19","Route 19"],["kalos-route-20","Route 20"],["kalos-route-21","Route 21"],["kalos-route-22","Route 22"],["santalune-forest","Santalune Forest"],["parfum-palace","Parfum Palace"],["glittering-cave","Glittering Cave"],["reflection-cave","Reflection Cave"],["frost-cavern","Frost Cavern"],["pokemon-village","Pok\u00e9mon Village"],["kalos-victory-road","Victory Road"],["connecting-cave","Connecting Cave"],["terminus-cave","Terminus Cave"],["lost-hotel","Lost Hotel"],["azure-bay","Azure Bay"],["saffron-city","Saffron City"],["goldenrod-city","Goldenrod City"],["littleroot-town","Littleroot Town"],["hearthome-city","Hearthome City"],["veilstone-city","Veilstone City"],["nuvema-town","Nuvema Town"],["floccesy-town","Floccesy Town"],["aquacorde-town","Aquacorde Town"],["lumiose-city","Lumiose City"],["tower-of-mastery","Tower of Mastery"],["lavaridge-town","Lavaridge Town"],["nacrene-city","Nacrene City"],["roaming-johto","Roaming Johto"],["roaming-kanto","Roaming Kanto"],["roaming-hoenn","Roaming Hoenn"],["azalea-town","Azalea Town"],["terra-cave","Terra Cave"],["marine-cave","Marine Cave"],["hoenn-battle-frontier","Hoenn Battle Frontier"],["navel-rock","Navel Rock"],["birth-island","Birth Island"],["faraway-island","Faraway Island"],["desert-ruins","Desert Ruins"],["island-cave","Island Cave"],["ancient-tomb","Ancient Tomb"],["southern-island","Southern Island"],["johto-safari-zone","Johto Safari Zone"],["roaming-sinnoh","Roaming Sinnoh"],["embedded-tower","Embedded Tower"],["spear-pillar","Spear Pillar"],["rustboro-city","Rustboro City"],["newmoon-island","Newmoon Island"],["flower-paradise","Flower Paradise"],["sinnoh-hall-of-origin-1","Hall of Origin"],["team-rocket-hq","Team Rocket HQ"],["sinjoh-ruins","Sinjoh Ruins"],["team-magma-hideout","Team Magma Hideout"],["team-aqua-hideout","Team Aqua Hideout"],["liberty-garden","Liberty Garden"],["roaming-unova","Roaming Unova"],["ns-castle","N's Castle"],["team-flare-secret-hq","Team Flare Secret HQ"],["roaming-kalos","Roaming Kalos"],["sea-spirits-den","Sea Spirit\u2019s Den"],["unknown-dungeon","Unknown Dungeon"],["lavender-town","Lavender Town"],["indigo-plateau","Indigo Plateau"],["hoenn-pokecenter","Pok\u00e9mon Center"],["kanto-pokecenter","Pok\u00e9mon Center"],["sinnoh-pokemart","Pok\u00e9 Mart"],["johto-pokemart","Pok\u00e9 Mart"],["mirage-island","mirage-island"],["kanto-underground-path","Kanto Underground Path"],["pewter-city","Pewter City"],["fortree-city","Fortree City"],["friend-safari","Friend Safari"],["oreburgh-city","Oreburgh City"],["floaroma-meadow","Floaroma Meadow"],["safari-zone-gate","Safari Zone Gate"],["accumula-town","Accumula Town"],["distortion-world","Distortion World"],["kalos-berry-fields","Berry Fields"],["snowpoint-city","Snowpoint City"]],"A":["","1F","B1F","1F Road 207","2F","3F","exterior snowfall","exterior blizzard","4F","4F small room","5F","6F","1F from exterior","1F Road 216","1F Road 211","B1F A","B1F B","B1F C","B2F A","B2F B","B2F C","B3F A","B3F B","B3F C","B3F D","B3F E","B4F A","B4F B","B4F C","B4F D","B5F","inside B1F","inside","inside exit","entrance","main cavern","pillar 1","pillar 2","pillar 3","before pillar 1","between pillars 1 and 2","between pillars 2 and 3","after pillar 3","B2F","B3F","B4F","0\u20139 different Unown caught","10\u201325 different Unown caught","26+ different Unown caught","B1F left","B1F right","B2F right","B2F left","dining room","2F private room","2F leftmost room","2F left room","2F middle room","2F right room","2F rightmost room","south, towards Jubilife City","north, towards Floaroma Town","south, towards Floaroma Town","east, towards Eterna City","south, towards Solaceon Town","west, towards Celestic Town","west, towards Eterna City","east, towards Celestic Town","north, towards Hearthome City","east, towards Pastoria City","outside","interior A","interior B","interior C","interior D","7F","8F","9F","Lower Cave","Upper Cave","Violet City entrance","Blackthorn City entrance","Mount Moon Square","1F top","cave gate","inside cave","10F","mountainside","top","south, towards Viridian City","north, towards Pewter City","Area 1, east","Area 2, north","Area 3, west","middle","S.S. Anne dock","back","back/small room","1F/small room","summit","HIGH TIDE","underwater","NW/mach bike area","NE/acro bike area","SW","SE","expansion south","expansion north","cave","1F, cave behind team rocket","waterfall","room 1","room 2","room 3","room 4","room 5","room 6","room 7","room 8","room 9","room 10","item rooms","A","B","C","D","E","F","G","H","I","B1F 3F","4f Middle Room","forest","forest cave","Victory Road gate","outer","inner","Castelia Sewers entrance","Relic Castle entrance","PWT entrance","Zygarde's Chamber","Road 4","Fighting Dojo","Celadon Mansion rooftop","Silph Co. 7F","north gate","Bill's house","Mania's house","Road 119","Steven's house","Kirk's house","Castelia City","Road 6","west gate","Poke Mart","Pokemon Center","Mount Ember Summit","roof","Apex","Safari Zone Peak","Safari Zone Desert","Safari Zone Plains","Safari Zone Meadow","Safari Zone Forest","Safari Zone Swamp","Safari Zone Marshland","Safari Zone Mountain","Safari Zone Rocky Beach","Safari Zone Wasteland","Safari Zone Savannah","Safari Zone Wetland","Kyogre\u2019s room","Groudon\u2019s room","Rayquaza\u2019s room","Cavern","Road 3","Cinnabar Island","Silph Co.","Cianwood City","Heatran Chamber","Lighthouse Basement","RUMINATION FIELD","THRONE ROOM","LOW TIDE","Prize Corner","Game Corner","Southwest House","Department Store 5F","Normal","Fire","Fighting","Water","Flying","Grass","Poison","Electric","Ground","Psychic","Rock","Ice","Bug","Dragon","Ghost","Dark","Steel","Fairy","Hidden Grotto","Hidden Grotto \u2013 Dark Grass","Hidden Grotto \u2013 Pond","Hidden Grotto \u2013 Near Pokemon Breeder","Hidden Grotto \u2013 Mistralton Cave","Hidden Grotto \u2013 Giant Chasm","Hidden Grotto \u2013 Stairs","Hidden Grotto \u2013 Near Youngster","Hidden Grotto \u2013 Shrine","Hidden Grotto \u2013 Outer area","Hidden Grotto \u2013 Inner area","Oreburgh Mining Museum","Pewter Museum of Science","Nacrene Museum","Northwest House","Condominiums","Island House","Magnet Train Station","Gym"],"N":["","Swarm","Pok\u00e9 Radar","With FireRed in the GBA slot","With Ruby in the GBA slot","With Emerald in the GBA slot","With LeafGreen in the GBA slot","With Sapphire in the GBA slot","Hoenn Sound on the radio","Sinnoh Sound on the radio","Rippling water (Super Rod)","Rippling water (surf)","Rustling grass","Dust cloud","Shadow on the bridge","Yellow flowers","Red flowers","Purple flowers","After the National Dex","After beating Red","Lead Pok\u00e9mon must be very friendly","After defeating Jupiter","After Team Galactic on Iron Island","After the Zephyr Badge","With the correct password","After returning the Machine Part","After the legendary beasts awaken","After the Elite Four rematch \u00b7 If you chose Squirtle","After the Elite Four rematch \u00b7 If you chose Bulbasaur","After the Elite Four rematch \u00b7 If you chose Charmander","After helping Copycat","After the Hall of Fame","After the Hall of Fame \u00b7 Tell Mom the Pok\u00e9mon on TV was red","After the Hall of Fame \u00b7 Tell Mom the Pok\u00e9mon on TV was blue","After the League","Water it with the Wailmer Pail","Virtual Console only","After meeting Oak in Eterna City","After Team Galactic at Mt. Coronet","After the Canalave nightmare","After talking to Cynthia's grandmother \u00b7 After the Hall of Fame \u00b7 With the Adamant Orb","After talking to Cynthia's grandmother \u00b7 After the Hall of Fame \u00b7 With the Lustrous Orb","From the Helix Fossil","From the Dome Fossil","From the Old Amber","From the Root Fossil","From the Claw Fossil","After beating Red \u00b7 After receiving a Kanto starter","After Clair's TM","With Regirock, Regice and Registeel in the party","Fridays only","Invisible: needs the Devon Scope","Only on 6 random water tiles","After defeating Mars \u00b7 Fridays only","After defeating Mars","After talking to 32 people in the Underground \u00b7 From the Odd Keystone","With an event Arceus in the party","If you didn't catch it the first time","With the Ice Key","With the Iron Key","After meeting Juniper at the Cave of Being","With the Lunar Wing","After the Quake Badge","With the Light Stone","With the Dark Stone","After catching Reshiram or Zekrom","After defeating Ghetsis \u00b7 Fridays only","If you chose Chespin","If you chose Fennekin","If you chose Froakie","After meeting it 11 times while it roams \u00b7 If you chose Chespin","After meeting it 11 times while it roams \u00b7 If you chose Fennekin","After meeting it 11 times while it roams \u00b7 If you chose Froakie","After catching Articuno","After catching Zapdos","After catching Moltres","Pok\u00e9mon Colosseum bonus disc (Japan)","Pok\u00e9mon Colosseum bonus disc (US)","Pok\u00e9mon Channel (Europe)","Egg sent from Pok\u00e9mon Ranger","180 coins","500 coins","1,200 coins","2,800 coins","5,500 coins","9,999 coins","120 coins","750 coins","2,500 coins","4,600 coins","6,500 coins","230 coins","1,000 coins","2,680 coins","3,333 coins","6,666 coins","2,222 coins","5,555 coins","8,888 coins","200 coins","700 coins","2,100 coins","100 coins","800 coins","1,500 coins","For your Abra","For your Nidoran-m","For your Nidorino","For your Slowbro","For your Poliwhirl","For your Spearow","For your Raichu","For your Venonat","For your Ponyta","For your Clefairy","For your Cubone","For your Lickitung","For your Tangela","For your Golduck","For your Growlithe","For your Kangaskhan","For your Bellsprout","For your Drowzee","For your Krabby","For your Dragonair","For your Chansey","For your Gloom","For your Haunter","For your Dugtrio","For your Slakoth","For your Pikachu","For your Bellossom","For your Ralts","For your Volbeat","For your Bagon","For your Skitty","Friend Safari: slot 1","Friend Safari: slot 2","Friend Safari: slot 3 (friend has beaten the League)","From the Skull Fossil","From the Armor Fossil","Daily species (look through the binoculars)","Before the National Dex \u00b7 Daily species (look through the binoculars)","After the National Dex \u00b7 Daily species (look through the binoculars)","Munchlax trees only","Rare trees","Secret trees","For your Cottonee","For your Emolga","For your Mantine","For your Ditto","For your Excadrill","For your Hippowdon","For your Petilil","After the National Dex \u00b7 When Mr. Backlot mentions it (daily)","Before the National Dex \u00b7 Bug-Catching Contest","After the National Dex \u00b7 Bug-Catching Contest \u00b7 Tuesdays only","After the National Dex \u00b7 Bug-Catching Contest \u00b7 Thursdays only","After the National Dex \u00b7 Bug-Catching Contest \u00b7 Saturdays only","Safari: plains objects 3+ days","Safari: plains objects 10+ days","Safari: plains objects 15+ days","Safari: forest objects 3+ days","Safari: forest objects 15+ days","Safari: peak objects 5+ days","Safari: peak objects 10+ days","Safari: peak objects 15+ days","Safari: water objects 12+ days","Safari: water objects 28+ days","Safari: plains objects 5+ days","Safari: plains objects 12+ days","Safari: plains objects 35+ days","Safari: forest objects 8+ days","Safari: forest objects 28+ days","Safari: forest objects 35+ days","Safari: peak objects 3+ days","Safari: peak objects 35+ days","Safari: forest objects 28+ days \u00b7 Safari: peak objects 42+ days","Safari: water objects 3+ days","Safari: water objects 2+ days","Safari: water objects 5+ days","Safari: water objects 7+ days","Safari: water objects 10+ days","Safari: water objects 14+ days","Safari: plains objects 24+ days","Safari: forest objects 4+ days","Safari: forest objects 35+ days \u00b7 Safari: plains objects 12+ days","Safari: forest objects 5+ days","Safari: forest objects 56+ days \u00b7 Safari: plains objects 28+ days","Safari: peak objects 24+ days","Safari: forest objects 14+ days \u00b7 Safari: peak objects 35+ days","Safari: water objects 35+ days","Safari: plains objects 4+ days","Safari: peak objects 49+ days \u00b7 Safari: plains objects 49+ days","Safari: forest objects 10+ days","Safari: forest objects 18+ days","Safari: peak objects 8+ days","Safari: water objects 8+ days","Safari: water objects 15+ days","Safari: water objects 20+ days","Safari: water objects 18+ days","Safari: plains objects 2+ days","Safari: plains objects 6+ days","Safari: plains objects 14+ days","Safari: peak objects 4+ days","Safari: peak objects 63+ days","Safari: water objects 6+ days","Safari: water objects 9+ days","Safari: water objects 4+ days","Safari: forest objects 35+ days \u00b7 Safari: peak objects 56+ days","Safari: water objects 24+ days","Safari: peak objects 28+ days","Safari: forest objects 42+ days","Safari: forest objects 49+ days","Safari: peak objects 49+ days","Safari: water objects 13+ days","Safari: water objects 16+ days","Safari: peak objects 42+ days","Safari: forest objects 20+ days","Safari: peak objects 56+ days","Safari: peak objects 21+ days \u00b7 Safari: water objects 49+ days","Safari: plains objects 49+ days","Safari: peak objects 6+ days","Safari: water objects 42+ days","From the Cover Fossil","From the Plume Fossil","If Giratina got away in the Distortion World","Red berry trees","Blue berry trees","Purple berry trees","Green berry trees","Yellow berry trees","Pink berry trees","Hides in trash cans \u00b7 Trash cans: any day","Hides in trash cans \u00b7 Trash cans: Tuesdays","Hides in trash cans \u00b7 Trash cans: Thursdays","Jumps out of rustling bushes","Drops from the ceiling","Pops out of the ground","Swoops down from the sky","For your Nidoran-f","For your Nidorina","For your Machop","For your Buizel","For your Medicham","For your Finneon","For your Forretress","For your Bonsly","For your any Pok\u00e9mon","Not in winter","Winter only","Rustling grass \u00b7 Not in winter","Rippling water (surf) \u00b7 Winter only","Rippling water (surf) \u00b7 Not in winter","Rustling grass \u00b7 Winter only"],"M":["grass","surf","old-rod","good-rod","super-rod","headbutt","rock-smash","gift","egg","trade","static","roaming","special","wild","water","flying","rare","rare-flying","dive","any-rod","event","honey","dark-grass","phenomenon","grotto","horde","flowers","rough","berry","ambush"],"v":{"rby":["R","G","B","Y"],"gsc":["G","S","C"],"rse":["R","S","E"],"frlg":["FR","LG"],"dppt":["D","P","Pt"],"bw":["B","W"],"hgss":["HG","SS"],"b2w2":["B2","W2"],"xy":["X","Y"],"lgpe":["P","E"]},"g":{"rby":{"41":[[104,1,0,6,11,79,7,15,0],[104,2,0,7,11,65,7,15,0],[104,43,0,9,13,55,7,15,0],[121,2,0,15,21,55,7,15,0],[121,43,0,16,22,50,7,15,0],[105,1,0,9,36,45,7,15,0],[105,2,0,18,36,40,7,8,0],[105,43,0,27,36,35,7,8,0],[105,44,0,27,36,30,7,8,0],[105,45,0,36,45,25,7,8,0],[150,1,0,22,44,20,7,15,0],[150,4,0,26,44,15,7,15,0],[150,5,0,22,22,15,7,7,0]],"144":[[105,45,10,50,50,100,7,15,0]]},"gsc":{"41":[[75,1,0,5,8,85,7,7,0],[75,2,0,19,23,80,7,7,0],[93,1,0,13,15,60,7,7,0],[93,2,0,15,17,60,7,7,0],[73,2,0,6,9,50,7,7,0],[73,43,0,22,22,50,7,7,0],[104,1,0,6,8,50,7,7,0],[74,0,0,4,8,40,5,7,0],[92,0,0,14,16,40,4,7,0],[121,1,0,8,15,40,7,7,0],[121,2,0,10,15,40,7,7,0],[102,80,0,2,4,39,7,7,0],[90,1,0,23,23,30,7,7,0],[90,2,0,24,24,30,7,7,0],[90,43,0,24,25,30,7,7,0],[90,44,0,25,26,30,7,7,0],[93,1,0,15,15,30,7,3,1],[102,81,0,23,23,30,7,7,0],[125,0,0,5,6,30,4,7,0],[126,0,0,5,6,30,4,7,0],[144,0,0,22,22,30,7,7,0],[73,1,0,5,7,25,7,7,0],[76,0,0,5,6,25,7,3,0],[97,1,0,22,22,25,7,3,0],[97,2,0,22,22,25,7,3,0],[97,43,0,23,23,25,7,3,0],[97,44,0,24,24,25,7,3,0],[102,80,0,2,2,20,7,7,1],[71,0,0,4,8,10,5,7,0],[83,1,0,14,14,10,7,7,0],[83,2,0,15,15,10,7,7,0],[93,78,0,14,15,10,7,7,0],[67,0,0,3,3,5,4,4,0],[68,0,0,4,4,5,4,4,0],[131,0,0,15,15,5,4,4,0],[132,0,0,15,15,5,4,4,0]]},"rse":{"41":[[215,0,0,6,16,100,7,4,0],[167,0,0,28,35,90,7,7,0],[168,34,0,28,35,90,7,7,0],[160,0,0,14,20,80,7,7,0],[168,1,0,30,34,60,7,7,0],[168,2,0,30,34,60,7,7,0],[168,43,0,30,34,60,7,7,0],[168,44,0,30,34,60,7,7,0],[170,100,0,26,32,45,7,7,0],[170,2,0,26,32,45,7,7,0],[170,184,0,26,32,45,7,7,0],[170,43,0,26,32,45,7,7,0],[170,44,0,26,30,40,7,7,0],[162,1,0,7,8,30,7,7,0],[162,2,0,9,10,30,7,7,0],[162,43,0,10,11,30,7,7,0],[162,98,0,7,8,30,7,7,0],[169,1,0,36,36,10,7,7,0],[160,0,1,5,35,90,7,7,0],[167,0,1,5,35,35,7,7,0],[170,100,1,5,35,30,7,7,0]]},"frlg":{"41":[[249,122,0,6,16,100,7,3,0],[104,1,0,7,10,69,7,3,0],[104,43,0,8,11,49,7,3,0],[105,1,0,22,26,34,7,3,0],[105,2,0,22,26,34,7,3,0],[121,1,0,15,16,30,7,3,0],[121,2,0,15,16,30,7,3,0],[105,43,0,22,24,20,7,3,0],[228,111,0,37,37,20,7,3,0],[228,112,0,37,37,20,7,3,0],[228,113,0,37,37,20,7,3,0],[228,114,0,37,37,20,7,3,0],[228,115,0,37,37,20,7,3,0],[228,116,0,37,37,20,7,3,0],[228,117,0,37,37,20,7,3,0],[228,118,0,37,37,20,7,3,0],[228,119,0,37,37,20,7,3,0],[228,120,0,37,37,20,7,3,0],[228,121,0,37,37,20,7,3,0],[105,44,0,24,24,10,7,3,0],[150,1,0,32,32,10,7,3,0],[150,4,0,34,34,10,7,3,0],[150,5,0,32,32,10,7,3,0],[226,34,0,40,40,10,7,3,0],[226,1,0,40,40,10,7,3,0],[226,2,0,40,40,10,7,3,0],[226,110,0,40,40,10,7,3,0]],"144":[[105,45,10,50,50,100,7,3,0]]},"dppt":{"41":[[13,0,0,3,6,78,7,7,0],[14,2,0,6,10,60,7,7,0],[14,1,0,5,8,50,7,7,0],[39,1,0,16,19,50,7,7,0],[39,4,0,17,19,50,7,7,0],[39,5,0,18,20,49,7,7,0],[19,1,0,14,19,45,7,7,0],[39,8,0,18,21,45,7,7,0],[39,10,0,19,21,40,7,7,0],[19,2,0,15,19,35,7,7,0],[5,1,0,5,7,25,7,7,0],[5,2,0,6,8,25,7,7,0],[9,3,0,14,19,20,7,7,0],[9,14,0,12,15,20,7,7,0],[37,0,0,16,19,20,4,7,0],[23,1,0,30,30,10,7,7,0],[29,0,0,35,35,10,4,3,0],[32,0,0,4,5,10,4,7,0],[33,60,0,3,4,10,4,7,0],[33,61,0,6,8,10,4,7,0],[35,0,0,15,17,10,4,7,0],[36,0,0,5,6,10,4,7,0],[38,0,0,16,19,10,4,7,0],[41,66,0,12,14,10,4,7,0],[41,67,0,26,28,10,4,7,0],[44,0,0,22,22,10,4,4,0],[46,0,0,32,33,10,4,7,0],[47,0,0,35,35,10,4,3,0],[9,3,1,20,40,90,7,7,0],[9,8,1,20,40,90,7,7,0],[9,2,1,20,40,90,7,7,0],[13,0,1,20,30,60,7,7,0],[14,2,1,20,30,60,7,7,0]],"144":[[383,0,11,60,60,25,7,4,37]],"415":[[6,0,21,5,15,60,7,7,0],[7,0,21,5,15,60,7,7,0],[8,0,21,5,15,60,7,7,0],[34,62,21,5,15,60,7,7,0],[34,63,21,5,15,60,7,7,0],[35,0,21,5,15,60,7,7,0],[36,0,21,5,15,60,7,7,0],[37,0,21,5,15,60,7,7,0],[38,0,21,5,15,60,7,7,0],[40,64,21,5,15,60,7,7,0],[40,65,21,5,15,60,7,7,0],[41,67,21,5,15,60,7,7,0],[42,68,21,5,15,60,7,7,0],[42,69,21,5,15,60,7,7,0],[43,0,21,5,15,60,7,7,0],[44,0,21,5,15,60,7,7,0],[45,0,21,5,15,60,7,7,0],[48,0,21,5,15,60,7,7,0],[50,0,21,5,15,60,7,7,0],[51,0,21,5,15,60,7,7,0],[413,0,21,5,15,60,7,7,0]]},"bw":{"415":[[286,0,0,47,47,20,7,3,0],[286,0,22,57,57,20,7,3,0]]},"hgss":{"41":[[75,1,0,5,8,85,7,3,0],[75,2,0,19,23,80,7,3,0],[93,1,0,13,15,60,7,3,0],[93,2,0,15,17,60,7,3,0],[104,1,0,6,8,50,7,3,0],[104,4,0,6,8,50,7,3,0],[74,0,0,4,8,40,5,3,0],[92,0,0,14,16,40,4,3,0],[102,80,0,2,4,39,7,3,0],[73,43,0,22,22,30,7,3,0],[90,1,0,23,23,30,7,3,0],[90,2,0,23,23,30,7,3,0],[90,43,0,23,23,30,7,3,0],[90,44,0,24,24,30,7,3,0],[102,81,0,23,23,30,7,3,0],[105,1,0,26,28,30,7,3,0],[125,0,0,5,5,30,4,3,0],[126,0,0,5,5,30,4,3,0],[144,0,0,22,22,30,7,3,0],[382,167,0,15,17,30,4,3,0],[382,168,0,15,17,30,4,3,0],[382,170,0,15,17,30,4,3,0],[73,1,0,5,7,25,7,3,0],[73,2,0,7,9,25,7,3,0],[76,0,0,5,6,25,7,3,0],[97,1,0,22,22,25,7,3,0],[97,2,0,22,22,25,7,3,0],[97,43,0,23,23,25,7,3,0],[97,44,0,23,23,25,7,3,0],[83,1,0,14,14,10,7,3,0],[105,2,0,28,29,10,7,3,0],[105,43,0,29,30,10,7,3,0],[105,44,0,31,32,10,7,3,0],[121,1,0,8,8,10,7,3,0],[121,2,0,10,10,10,7,3,0],[71,0,0,4,4,5,5,3,0],[83,2,0,15,15,5,7,3,0],[93,78,0,14,14,5,7,3,0],[103,85,0,18,18,5,4,3,0]],"144":[[105,45,10,50,50,100,7,3,0]],"415":[[79,0,0,27,34,5,7,3,157],[79,0,0,27,34,5,7,3,158],[143,0,5,10,14,65,7,3,146],[112,0,5,11,13,20,7,3,0],[112,0,5,14,16,20,7,3,145],[113,0,5,11,13,20,7,3,0],[113,0,5,14,16,20,7,3,145],[114,0,5,15,17,20,7,3,0],[114,0,5,18,20,20,7,3,145],[127,0,5,11,13,20,7,3,0],[127,0,5,14,16,20,7,3,145],[128,0,5,11,13,20,7,3,0],[128,0,5,14,16,20,7,3,145],[129,0,5,15,17,20,7,3,0],[129,0,5,18,20,20,7,3,145],[130,0,5,16,17,20,7,3,0],[130,0,5,18,19,20,7,3,145],[133,0,5,13,14,20,7,3,0],[133,0,5,15,16,20,7,3,145],[137,0,5,26,27,20,7,3,0],[137,0,5,29,30,20,7,3,145],[143,0,5,10,11,20,7,3,0],[143,0,5,13,14,20,7,3,145]]},"b2w2":{"41":[[301,0,0,14,17,45,7,3,0]],"415":[[286,0,0,35,35,20,7,3,0],[292,0,0,22,22,10,7,3,0],[286,0,22,39,39,20,7,3,0],[292,0,22,24,24,10,7,3,0],[292,207,24,20,24,75,7,3,0]]},"xy":{"669":[[329,0,0,13,14,5,7,3,0],[326,0,26,6,8,35,7,3,15],[326,0,26,6,8,35,7,3,16],[329,0,26,12,14,35,7,3,15],[329,0,26,12,14,35,7,3,17]],"415":[[411,201,0,30,30,33,7,3,136],[326,0,26,6,8,30,7,3,15],[326,0,26,8,8,10,7,3,16],[417,0,28,14,15,100,7,3,231]],"674":[[411,191,0,30,30,33,7,3,137],[327,0,0,10,10,10,7,3,0],[327,0,26,8,9,20,7,3,17]],"708":[[411,203,0,30,30,33,7,3,137],[338,0,26,35,35,10,7,3,15],[338,0,27,35,35,10,7,3,0]],"41":[[352,0,0,13,15,30,7,3,0],[352,0,25,8,8,35,7,3,0]],"716":[[397,0,10,50,50,100,7,1,0]],"144":[[399,0,10,70,70,100,7,3,70],[398,0,11,70,70,100,7,3,67]],"718":[[353,141,10,70,70,100,7,3,31]],"714":[[411,202,0,30,30,33,7,3,137],[351,0,29,57,59,22,7,3,237],[353,1,29,44,46,20,7,3,237],[353,49,29,44,46,20,7,3,237],[353,50,29,44,46,20,7,3,237],[353,43,29,44,46,20,7,3,237],[353,141,29,44,46,20,7,3,237]]},"lgpe":{"144":[[105,45,10,50,50,100,7,3,0],[107,0,17,3,56,0,7,3,73],[108,0,17,3,56,0,7,3,73],[109,0,17,3,56,0,7,3,0],[123,0,17,3,56,0,7,3,73],[124,89,17,3,56,0,7,3,73],[124,90,17,3,56,0,7,3,73],[125,0,17,3,56,0,7,3,73],[126,0,17,3,56,0,7,3,73],[128,0,17,3,56,0,7,3,73],[129,0,17,3,56,0,7,3,73],[130,0,17,3,56,0,7,3,73],[131,0,17,3,56,0,7,3,73],[132,0,17,3,56,0,7,3,73],[133,0,17,3,56,0,7,3,73],[134,0,17,3,56,0,7,3,73],[135,0,17,3,56,0,7,3,73],[136,0,17,3,56,0,7,3,73],[137,0,17,3,56,0,7,3,73],[138,0,17,3,56,0,7,3,73],[139,0,17,3,56,0,7,3,73],[140,0,17,3,56,0,7,3,73],[141,0,17,3,56,0,7,3,73],[142,0,17,3,56,0,7,3,73],[143,0,17,3,56,0,7,3,73],[148,0,17,3,56,0,7,3,73]],"41":[[104,1,13,5,10,0,7,3,0],[104,43,13,5,10,0,7,3,0],[104,2,13,5,10,0,7,3,0],[105,1,13,39,44,0,7,3,0],[105,2,13,39,44,0,7,3,0],[105,43,13,39,44,0,7,3,0],[105,44,13,39,44,0,7,3,0],[105,45,13,39,44,0,7,3,0],[121,1,13,18,23,0,7,3,0],[121,2,13,18,23,0,7,3,0],[122,1,13,41,46,0,7,3,0],[122,4,13,41,46,0,7,3,0],[122,5,13,41,46,0,7,3,0],[145,0,13,13,18,0,7,3,0],[147,1,13,51,56,0,7,3,0],[147,4,13,51,56,0,7,3,0],[147,2,13,51,56,0,7,3,0],[151,5,13,27,32,0,7,3,0],[151,8,13,27,32,0,7,3,0],[151,10,13,27,32,0,7,3,0],[151,11,13,27,32,0,7,3,0]]}}}};
+const IMG={"669": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAMFBMVEUxMTExMTExcwhSUlJrtTpzc3OlexmlpaXFKTHFxcXW1tbec73mSlLmxQj/70r///9HwHIaAAAAAXRSTlMAQObYZgAAAIRJREFUKM9jYBiugFEAi6D8R0ZBDHHG/7L/L2KoXHrv3Vt0tYyWf+9eW/8RXan9////0U2V/m//FUMl48/VvzDMZBC7bohuu5zgtyQ7dCMZbdp+OKKrFO4529OMbuSZE+9enDmIJtjTc+ZMTyOadkGJMycMMUPERQVL6Ak6MmABggykAwApZil9/Ban/AAAAABJRU5ErkJggg==", "41": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAG1BMVEUxMTExMTFKhJRSUlJrtcW1e5zFpc7OzsX///9jZKYXAAAAAXRSTlMAQObYZgAAAI5JREFUKM/N0DEOwjAMBVD/G8ShSKxxiNgbLtBgLgCiB+iQnSNwc1anBKls/PFJlvw/0b+Ge+hdB/eBiIjdJ0KnRpEdeFckWBx08nopN4tQzVrPaRZzj6Pq9V5SXSy+vMYxSWV7zwcvMi+haQFmeeTa/oknlyjrXsMpSsAKwaN0VmFGZxVHW/HL1NiMv+cNRWcQio2sxwIAAAAASUVORK5CYII=", "708": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAG1BMVEUxMTExMTFCczpSUlJrrVJzWkKUc1K1lHP/jKWHbwDxAAAAAXRSTlMAQObYZgAAAK1JREFUKM/Nz00KgzAQBeCJJ0gINFtbvEB4rWbbUugJrOtQHNdBcK7fpTEK3XaWH/Pmh+ifyxyY8gdNJar0IGWhc6vctSYLaDKrN69EZOGpceuI6rxoA3hd3VM2kyMDbVQuwxN3PfM4OMlxhPT9IIM86yweZO7kNqVLfnwQYGaOm/OtBMzje4unKWBp4+YnUgxwYUTm03JpRIaNKlUB3vo9wtuy1cLrfd7s9/yuL2rGISV3ur0qAAAAAElFTkSuQmCC", "714": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAG1BMVEUxMTExMTFSUlJjSoxzWkp7a4yEUrWcjLX/tTr6dyf4AAAAAXRSTlMAQObYZgAAAJxJREFUKM/NkDEOgzAMReMbxNDAXISamaUHQO0BQKo6Z3HmBDX/CFybtbFYK9Xjk/+T/Y35kyF7wjp7wsQaVrCLgThoWEIrk0rHckexGkpstxqyaW5bXytpYWSUWunWCMhUp52PglQzenmJOxR8rpL2q7rn4jwAy/T9J1Pj85CyS/XyPHpAaftx9ngnpV364ZN0o0zL46R6y+aHcwBCHB58ffFWhgAAAABJRU5ErkJggg==", "415": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAIVBMVEUxMTExMTFSUlKcnJy9pUK9xe/WxVLmWkLm9//3lCn39ykv4kUwAAAAAXRSTlMAQObYZgAAAJpJREFUKM9jYBgOQBCHIIY4I6ZiQZAgI5qyUAFBQQEMwcCZKo5AcRRRUc1Vk5xmai1kYESSEJq4ShIovkpAuMMQoX9W2iKguFpiR0cjQr/kqkmz0laqaHR0IJnLOFMJqN1FEEk3yNTpRUAHCKA6QHL5SiUXRTRvSkotnOSkIoAmuCwLU5Bx1koVJ0f0YJKc5KIogC7IiO518gEAMQoiiTUlp4gAAAAASUVORK5CYII=", "144": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAHlBMVEUxMTExMTE6Y61Ce85SUlJanPeMhIStpaXWY0L////jyBfaAAAAAXRSTlMAQObYZgAAAK1JREFUKJHNkcENgzAMRe0NMJABChNAQOo1ajxAhP8MHaFz9MC+PaAGQnvprf9kPVv2/zLR30uqT8bjkNsZ1v17kpFpM2Zo2EoWf8mLYEmIiOt+X8mYgYqo9l2fJ8kBFoiazg+7I2eqKuLl6JLNFgXCKcfkowJlGr5Ni8LOUCcsmkraegUQS9qG1YDyFt+va3JAPN7ix4yKgcIAP0WIBIjhQLdSHJDoLJZv7/hVL8qZH5QsnVqeAAAAAElFTkSuQmCC", "718": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAHlBMVEUxMTExMTFCQkJSUlJzlEp7rVKEhIyU1kq9vb3///+6JRFwAAAAAXRSTlMAQObYZgAAAQNJREFUKJFdkE1OxDAMhe0bxGOkrpvAAZJXVM0SitQ9IFWsOUGVjqzZwhVAc10WCMbpW35y3k+I/sS0FxNp2EMNpIF2WHtG5uyRkI5aqzRQ5W5MtaYS+OqguENCqQgujYdUIkp96YuH5SAx4Tn1riVyziWiTD5K9T1pSbGBfMQFiDH6+vJx/H7QEnt/mD7Phlz60ECcKgTtds33WSJEPOQgh3gbl9XnBNKYFltD81qAepoC0dWAUY7D6WJCvIV/LDKP81dnoZtX59uZCcfebHb/tGwrHTCYuUM2WxlPGDZXoHuzR50A+PrdeUHCazvpxmzC6AcRES+2NX6/TRfbhPYS5/cDLzw1bBi0MEAAAAAASUVORK5CYII=", "716": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAIVBMVEUxMTExMTE6QoxCQkJCUqVSUlJaa9ZajLVzrdac1v////9jiJyBAAAAAXRSTlMAQObYZgAAAQpJREFUGBltwbFOg1AUBuD/vME54dLCWIbalRCqq5GQdGyaKzBSmhtdNTWumKDpWG1qeQMf0xgt5arfhy8CMACC4EjgC9UAPKlx5Et2kBcGvIyJ8Y3apnjPR6DmUXzGD2mbIigxXDfZFp3ha7AcyyBfbxgdelqOg8mtLrbo8cbB5DppD4weujtrdm0rsHh6NduFsLm78iMqYaE2ne0Nw+alphKQoI+UGQEqEUEPqUtIFMWa0RGokqZxFIU4UTKoZBUvNONEXd2YqYkXgh5KZqmp9BwWtXk2sZ7DIm/70NEMi+M+hKQZFieMGG4NC4X3DLeGhS4Khs+w0HnO8Bg2pwYEv9AWf1GNfzA6n1nJNG0evOOZAAAAAElFTkSuQmCC", "674": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeBAMAAACs80HuAAAAIVBMVEUxMTEQvSkhYykxMTFSUlJzc3OchFrOxZTejHv/98X////oYePRAAAAAXRSTlMAQObYZgAAAIpJREFUGBndwbENwkAMBdAveQK2oLTkOxD1GUWpkwhRMwKIbMACh4LcZ9BQxk5Fy3v4D8TYOlRGJNNUEdDlYxVBnsxM4ImZvQeGc7KvM2ONstnjqoy1Y2tlbu5wKLV1bm7waBz1aQxH9q9RBQ7tRLXAIyHtlRGkvtOCIA9DKghSyR0jICZlbAl+tgBDXiFSYPxzigAAAABJRU5ErkJggg=="};
+const NAMES={"669": "Flab\u00e9b\u00e9", "41": "Zubat", "708": "Phantump", "714": "Noibat", "415": "Combee", "144": "Articuno", "718": "Zygarde", "716": "Xerneas", "674": "Pancham"};
+const GAMES=[["rby", "RBY"], ["gsc", "GSC"], ["rse", "RSE"], ["frlg", "FRLG"], ["dppt", "DPPt"], ["bw", "BW"], ["hgss", "HGSS"], ["b2w2", "B2W2"], ["xy", "XY"], ["lgpe", "LGPE"]].map(([k,s])=>({k,s}));
+const SP=new Map(Object.entries(NAMES).map(([k,v])=>[+k,{en:v}]));
+const EVO={};
+const SFX={tab(){}};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const spriteChain=o=>[o.sid];
+function imgEl(chain,alt){ const i=new Image(); i.src=IMG[chain[0]]||''; i.alt=alt; i.style.imageRendering='pixelated'; return i; }
+/* ---- where.js from the app, unchanged ---- */
+/* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
+   Data: /data/encounters.json (built from PokeAPI's encounters by data-build/encounters.py), fetched the first time a map
+   opens; RAW.enci (in pokedex.js) says up front which Pokémon each game has, so the "Catch in" pins need no download.
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova, Kalos and the Sevii Islands (not the games' town maps); each PokeAPI location
+   is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
+let ENC=RAW.enc||null, ENC_LOAD=null;                       // RAW.enc: a mock page passes the data in directly
+const ENC_IDX=Object.fromEntries(Object.entries(RAW.enci||Object.fromEntries(Object.entries(ENC?ENC.g:{}).map(([g,G])=>[g,Object.keys(G)])))
+  .map(([g,l])=>[g,new Set(l.map(Number))]));
+function wmLoad(){
+  if(ENC) return Promise.resolve(ENC);
+  return ENC_LOAD||(ENC_LOAD=fetch(`/data/encounters.json?v=${RAW.encv||''}`).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j=>(ENC=j)).catch(e=>{ ENC_LOAD=null; throw e; }));
+}
+const WM={open:false,game:null,sid:0,region:null,sel:-1};
+const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['OLD ROD','#36c6a8'],'good-rod':['GOOD ROD','#36c6a8'],'super-rod':['SUPER ROD','#36c6a8'],
+  headbutt:['HEADBUTT','#d0915a'],'rock-smash':['ROCK SMASH','#a0a0c0'],gift:['GIFT','#5fd38a'],egg:['EGG','#5fd38a'],trade:['TRADE','#f08030'],
+  static:['ONE-TIME','#ef3d4f'],roaming:['ROAMING','#a78bfa'],special:['SPECIAL','#f85888'],
+  wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888'],
+  dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838'],
+  'dark-grass':['DARK GRASS','#9ccf3a'],phenomenon:['PHENOMENON','#f0a0ff'],grotto:['HIDDEN GROTTO','#5fd38a'],
+  horde:['HORDE','#ff9f43'],flowers:['FLOWERS','#ff7eb6'],rough:['ROUGH TERRAIN','#c8a070'],berry:['BERRY TREE','#e8a838'],ambush:['AMBUSH','#a78bfa']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',xy:'X · Y',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+// the maps each game can show (tabs), in order
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],xy:['kalos'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
+
+// ---- the maps (viewBox 640×380) ----
+const WM_MAPS={
+  johto:{name:'JOHTO',
+    land:['M100 0H640V346L560 328 470 350 360 364 250 354 170 362 150 282 112 198 100 110Z','M12 130H112V262H12Z'],
+    water:[['ellipse',446,34,30,16],['ellipse',126,212,14,10]],
+    towns:{'new-bark-town':[566,262,'New Bark'],'cherrygrove-city':[452,282,'Cherrygrove'],'violet-city':[382,152,'Violet'],'azalea-town':[322,318,'Azalea'],
+      'goldenrod-city':[240,206,'Goldenrod'],'ecruteak-city':[296,92,'Ecruteak'],'olivine-city':[156,128,'Olivine'],'cianwood-city':[84,236,'Cianwood'],
+      'mahogany-town':[446,92,'Mahogany'],'blackthorn-city':[594,92,'Blackthorn']},
+    spots:{'national-park':[240,150],'ruins-of-alph':[318,176],'union-cave':[382,272],'slowpoke-well':[304,338],'ilex-forest':[222,318],'sprout-tower':[398,138],
+      'bell-tower':[312,70],'burned-tower':[280,108],'mt-mortar':[372,92],'lake-of-rage':[446,34],'team-rocket-hq':[462,106],'ice-path':[524,92],'dragons-den':[614,72],
+      'dark-cave':[480,170],'whirl-islands':[126,212],'tohjo-falls':[610,262],'johto-safari-zone':[34,150],'safari-zone-gate':[34,186],'embedded-tower':[54,236]},
+    routes:{'johto-route-29':[[566,262],[510,262],[510,282],[452,282]],'johto-route-30':[[452,282],[452,172]],'johto-route-31':[[452,172],[382,172],[382,152]],
+      'johto-route-32':[[382,152],[382,272]],'johto-route-33':[[382,272],[382,318],[322,318]],'johto-route-34':[[222,318],[222,206],[240,206]],
+      'johto-route-35':[[240,206],[240,160]],'johto-route-36':[[240,138],[382,138],[382,152]],'johto-route-37':[[296,138],[296,92]],
+      'johto-route-38':[[296,92],[196,92]],'johto-route-39':[[196,92],[196,128],[156,128]],'johto-sea-route-40':[[156,128],[120,170]],
+      'johto-sea-route-41':[[120,170],[84,236]],'johto-route-42':[[296,92],[446,92]],'johto-route-43':[[446,92],[446,48]],'johto-route-44':[[446,92],[594,92]],
+      'johto-route-45':[[594,92],[594,226]],'johto-route-46':[[594,226],[536,262]],'johto-route-47':[[84,236],[34,236]],'johto-route-48':[[34,236],[34,160]],
+      'kanto-route-27':[[566,262],[630,262]],'kanto-route-26':[[630,262],[630,178]]},
+    sea:['johto-sea-route-40','johto-sea-route-41'], edge:[[632,170,'end','KANTO ▸','kanto']]},
+  kanto:{name:'KANTO',
+    land:['M0 0H640V300L600 320 560 340 470 352 380 346 300 348 220 332 196 318 140 322 110 302 60 292 0 282Z'],
+    water:[],
+    islands:[[170,356,20,13],[252,356,16,10]],
+    towns:{'pallet-town':[170,300,'Pallet'],'viridian-city':[170,210,'Viridian'],'pewter-city':[170,86,'Pewter'],'cerulean-city':[420,72,'Cerulean'],
+      'saffron-city':[420,176,'Saffron'],'celadon-city':[300,176,'Celadon'],'vermilion-city':[420,272,'Vermilion'],'lavender-town':[548,176,'Lavender'],
+      'fuchsia-city':[330,326,'Fuchsia'],'cinnabar-island':[170,356,'Cinnabar'],'indigo-plateau':[76,70,'Indigo Plateau']},
+    spots:{'viridian-forest':[170,146],'mt-moon':[284,74],'cerulean-cave':[394,40],'rock-tunnel':[548,104],'kanto-power-plant':[574,72],'digletts-cave':[456,290],
+      'seafoam-islands':[252,356],'kanto-victory-road-1':[76,118],'kanto-victory-road-2':[76,118],'mt-silver':[24,150],
+      'pokemon-tower':[578,154],'pokemon-mansion':[186,364],'kanto-safari-zone':[330,288],'kanto-underground-path':[446,148],'ss-anne':[384,302]},
+    routes:{'kanto-route-1':[[170,300],[170,210]],'kanto-route-2':[[170,210],[170,86]],'kanto-route-3':[[170,86],[272,86],[272,74]],'kanto-route-4':[[296,74],[420,72]],
+      'kanto-route-24':[[420,72],[420,30]],'kanto-route-25':[[420,30],[520,30]],'kanto-route-5':[[420,72],[420,176]],'kanto-route-6':[[420,176],[420,272]],
+      'kanto-route-7':[[420,176],[300,176]],'kanto-route-8':[[420,176],[548,176]],'kanto-route-9':[[420,72],[548,72]],'kanto-route-10':[[548,72],[548,176]],
+      'kanto-route-11':[[420,272],[518,272]],'kanto-route-12':[[548,176],[548,290]],'kanto-route-13':[[548,290],[500,316]],'kanto-route-14':[[500,316],[440,334]],
+      'kanto-route-15':[[440,334],[330,326]],'kanto-route-16':[[300,176],[236,176]],'kanto-route-17':[[236,176],[236,300]],'kanto-route-18':[[236,300],[330,326]],
+      'kanto-sea-route-19':[[330,326],[330,362]],'kanto-sea-route-20':[[330,362],[176,358]],'kanto-sea-route-21':[[170,356],[170,300]],
+      'kanto-route-22':[[170,210],[76,210]],'kanto-route-23':[[76,210],[76,70]],'kanto-route-28':[[76,210],[24,210],[24,160]]},
+    sea:['kanto-sea-route-19','kanto-sea-route-20','kanto-sea-route-21'], edge:[[8,240,'start','◂ JOHTO','johto'],[8,372,'start','◂ SEVII ISLANDS','sevii']]},
+  // Ruby / Sapphire / Emerald: the mainland on the left, the sea routes and islands to the east and south
+  hoenn:{name:'HOENN',
+    land:['M24 40L120 28 230 36 330 26 420 38 466 66 476 128 470 170 412 182 412 252 340 254 300 300 272 340 230 336 200 342 160 338 120 334 70 322 30 302 16 240 22 160 12 100Z'],
+    water:[],
+    islands:[[80,358,34,14],[565,165,30,24],[520,250,24,18],[613,262,20,42],[390,330,13,8],[446,205,14,12],[462,366,32,11],[380,368,10,7],
+      [490,346,8,6],[420,305,10,8],[566,365,7,6],[590,365,7,6],[614,365,7,6]],
+    towns:{'littleroot-town':[150,318,'Littleroot','b'],'oldale-town':[150,282,'Oldale','r'],'petalburg-city':[90,282,'Petalburg'],'rustboro-city':[60,170,'Rustboro'],
+      'dewford-town':[80,358,'Dewford'],'slateport-city':[250,318,'Slateport'],'mauville-city':[250,220,'Mauville'],'verdanturf-town':[170,220,'Verdanturf'],
+      'fallarbor-town':[140,70,'Fallarbor'],'lavaridge-town':[190,175,'Lavaridge'],'fortree-city':[330,90,'Fortree'],'lilycove-city':[450,150,'Lilycove'],
+      'mossdeep-city':[565,165,'Mossdeep'],'sootopolis-city':[520,250,'Sootopolis'],'pacifidlog-town':[390,330,'Pacifidlog'],'ever-grande-city':[613,250,'Ever Grande']},
+    spots:{'petalburg-woods':[62,228],'rusturf-tunnel':[150,196],'meteor-falls':[80,110],'granite-cave':[108,356],'abandoned-ship':[178,346],
+      'new-mauville':[276,262],'desert-ruins':[274,124],'mirage-tower':[228,112],'fiery-path':[222,150],'jagged-pass':[180,140],'magma-hideout':[162,128],
+      'desert-underpass':[112,90],'terra-cave':[40,140],'hoenn-altering-cave':[206,236],'ancient-tomb':[420,118],'hoenn-safari-zone':[420,176],
+      'mt-pyre':[446,205],'team-aqua-hideout':[470,128],'team-magma-hideout':[470,128],'shoal-cave':[598,116],'seafloor-cavern':[586,296],
+      'cave-of-origin':[536,262],'hoenn-victory-road':[613,228],'sky-pillar':[420,305],'mirage-island':[490,346],'marine-cave':[592,326],
+      'island-cave':[24,316],'southern-island':[380,368],'hoenn-battle-frontier':[462,366],'artisan-cave':[440,366],
+      'navel-rock':[566,365],'birth-island':[590,365],'faraway-island':[614,365]},
+    routes:{'hoenn-route-101':[[150,318],[150,282]],'hoenn-route-102':[[150,282],[90,282]],'hoenn-route-103':[[150,282],[150,248],[206,248]],
+      'hoenn-route-104':[[90,282],[44,282],[44,180],[60,170]],'hoenn-route-105':[[44,282],[44,330]],'hoenn-route-106':[[44,330],[44,358],[80,358]],
+      'hoenn-route-107':[[80,358],[150,358]],'hoenn-route-108':[[150,358],[206,358]],'hoenn-route-109':[[206,358],[250,358],[250,318]],
+      'hoenn-route-110':[[250,318],[250,220]],'hoenn-route-111':[[250,220],[250,70]],'hoenn-route-112':[[250,175],[190,175]],
+      'hoenn-route-113':[[250,70],[140,70]],'hoenn-route-114':[[140,70],[80,70],[80,98]],'hoenn-route-115':[[60,170],[60,116]],
+      'hoenn-route-116':[[60,170],[130,170]],'hoenn-route-117':[[250,220],[170,220]],'hoenn-route-118':[[250,220],[330,220]],
+      'hoenn-route-119':[[330,220],[330,90]],'hoenn-route-120':[[330,90],[400,90],[400,150]],'hoenn-route-121':[[400,150],[450,150]],
+      'hoenn-route-122':[[425,150],[425,240]],'hoenn-route-123':[[425,240],[330,240],[330,220]],'hoenn-route-124':[[450,150],[510,150],[540,165]],
+      'hoenn-route-125':[[565,165],[598,128]],'hoenn-route-126':[[492,160],[492,250],[504,250]],'hoenn-route-127':[[565,165],[565,280]],
+      'hoenn-route-128':[[565,280],[613,280]],'hoenn-route-129':[[565,280],[565,330],[520,330]],'hoenn-route-130':[[520,330],[470,330]],
+      'hoenn-route-131':[[470,330],[390,330]],'hoenn-route-132':[[390,330],[350,330]],'hoenn-route-133':[[350,330],[310,330]],
+      'hoenn-route-134':[[310,330],[262,326]]},
+    sea:['hoenn-route-105','hoenn-route-106','hoenn-route-107','hoenn-route-108','hoenn-route-109','hoenn-route-122','hoenn-route-124','hoenn-route-125',
+      'hoenn-route-126','hoenn-route-127','hoenn-route-128','hoenn-route-129','hoenn-route-130','hoenn-route-131','hoenn-route-132','hoenn-route-133','hoenn-route-134'],
+    edge:[]},
+  // Diamond / Pearl / Platinum: Mt. Coronet down the middle, the Battle Zone island in the north-east
+  sinnoh:{name:'SINNOH',
+    land:['M92 64L200 40 320 22 470 26 500 72 506 140 610 152 632 200 632 346 560 352 470 348 420 340 330 350 270 372 200 352 120 348 96 300 84 200Z',
+      'M528 16H636V112L572 124 528 104Z'],
+    mount:['M378 92L412 90 424 150 418 208 398 216 382 200 372 150Z'],
+    water:[['ellipse',170,250,16,26],['ellipse',140,302,14,9],['ellipse',380,26,22,10],['ellipse',540,304,16,10]],
+    islands:[[40,236,26,20],[500,44,12,9],[300,362,26,10]],
+    towns:{'twinleaf-town':[140,330,'Twinleaf'],'sandgem-town':[230,330,'Sandgem'],'jubilife-city':[230,250,'Jubilife'],'canalave-city':[110,250,'Canalave'],
+      'oreburgh-city':[330,250,'Oreburgh'],'floaroma-town':[230,170,'Floaroma'],'eterna-city':[330,110,'Eterna'],'hearthome-city':[440,240,'Hearthome'],
+      'solaceon-town':[520,240,'Solaceon'],'celestic-town':[462,130,'Celestic'],'veilstone-city':[570,170,'Veilstone'],'pastoria-city':[490,330,'Pastoria'],
+      'sunyshore-city':[612,330,'Sunyshore','a'],'snowpoint-city':[340,40,'Snowpoint','r'],'sinnoh-pokemon-league':[612,226,'League','b'],
+      'fight-area':[562,90,'Fight Area','b'],'survival-area':[562,40,'Survival','b'],'resort-area':[610,100,'Resort','b']},
+    spots:{'lake-verity':[140,302],'oreburgh-gate':[284,250],'oreburgh-mine':[350,270],'ravaged-path':[212,212],'floaroma-meadow':[202,160],
+      'valley-windworks':[262,188],'fuego-ironworks':[176,128],'eterna-forest':[268,140],'old-chateau':[258,118],'wayward-cave':[310,192],
+      'mt-coronet':[398,150],'spear-pillar':[402,112],'sinnoh-hall-of-origin-1':[402,96],'lost-tower':[480,226],'solaceon-ruins':[520,262],
+      'trophy-garden':[426,292],'great-marsh':[470,312],'valor-lakefront':[570,300],'lake-valor':[540,304],'ruin-maniac-cave':[586,250],
+      'maniac-tunnel':[586,250],'sendoff-spring':[548,212],'turnback-cave':[534,198],'distortion-world':[534,198],'acuity-lakefront':[362,58],
+      'lake-acuity':[380,26],'snowpoint-temple':[318,26],'iron-island':[40,236],'sinnoh-victory-road':[612,198],'stark-mountain':[618,28],
+      'newmoon-island':[500,44],'flower-paradise':[630,160]},
+    routes:{'sinnoh-route-201':[[140,330],[230,330]],'sinnoh-route-202':[[230,330],[230,250]],'sinnoh-route-203':[[230,250],[330,250]],
+      'sinnoh-route-204':[[230,250],[230,170]],'sinnoh-route-205':[[230,170],[290,170],[290,120],[330,110]],'sinnoh-route-206':[[330,110],[330,220]],
+      'sinnoh-route-207':[[330,250],[330,220],[384,220]],'sinnoh-route-208':[[412,220],[440,220],[440,240]],'sinnoh-route-209':[[440,240],[520,240]],
+      'sinnoh-route-210':[[520,240],[520,130],[462,130]],'sinnoh-route-211':[[330,110],[462,110],[462,130]],'sinnoh-route-212':[[440,240],[440,330],[490,330]],
+      'sinnoh-route-213':[[570,300],[570,330],[490,330]],'sinnoh-route-214':[[570,170],[570,300]],'sinnoh-route-215':[[520,170],[570,170]],
+      'sinnoh-route-216':[[398,96],[398,72],[340,72]],'sinnoh-route-217':[[340,72],[340,40]],'sinnoh-route-218':[[230,250],[110,250]],
+      'sinnoh-route-219':[[230,330],[230,360]],'sinnoh-sea-route-220':[[230,360],[276,362]],'sinnoh-route-221':[[276,362],[326,362]],
+      'sinnoh-route-222':[[570,330],[612,330]],'sinnoh-sea-route-223':[[612,330],[612,226]],'sinnoh-route-224':[[612,226],[630,170]],
+      'sinnoh-route-225':[[562,90],[562,40]],'sinnoh-sea-route-226':[[562,90],[610,100]],'sinnoh-route-227':[[610,100],[618,40]],
+      'sinnoh-route-228':[[562,40],[618,40]],'sinnoh-route-229':[[562,90],[540,108]],'sinnoh-sea-route-230':[[540,108],[536,130],[570,150]]},
+    sea:['sinnoh-sea-route-220','sinnoh-sea-route-223','sinnoh-sea-route-226','sinnoh-sea-route-230'],
+    edge:[]},
+  // Black / White and Black 2 / White 2 (one map; the B2W2 towns in the south-west and east are only used by B2W2)
+  unova:{name:'UNOVA',
+    land:['M24 24L300 18 520 22 618 30 636 100 636 232 604 300 604 330 540 352 450 342 400 330 360 352 300 354 230 360 170 368 100 362 30 360 14 200Z'],
+    mount:['M226 58L256 54 272 82 252 96 230 90Z'],
+    water:[],
+    islands:[[360,364,16,10],[470,362,20,10],[626,190,7,7]],
+    towns:{'aspertia-city':[60,336,'Aspertia','a'],'floccesy-town':[60,276,'Floccesy'],'virbank-city':[150,336,'Virbank','a'],
+      'nuvema-town':[580,336,'Nuvema','a'],'accumula-town':[580,288,'Accumula'],'striaton-city':[510,288,'Striaton','a'],'nacrene-city':[430,288,'Nacrene','a'],
+      'castelia-city':[330,326,'Castelia','a'],'nimbasa-city':[330,210,'Nimbasa'],'driftveil-city':[210,210,'Driftveil'],'mistralton-city':[120,100,'Mistralton'],
+      'icirrus-city':[290,70,'Icirrus','r'],'opelucid-city':[480,90,'Opelucid'],'lacunosa-town':[560,90,'Lacunosa'],'undella-town':[610,160,'Undella','b'],
+      'lentimas-town':[540,170,'Lentimas','b'],'humilau-city':[610,250,'Humilau','b'],'unova-pokemon-league':[400,30,'League','r']},
+    spots:{'dreamyard':[510,310],'wellspring-cave':[470,272],'pinwheel-forest':[390,308],'liberty-garden':[360,364],'castelia-sewers':[312,346],
+      'relic-passage':[272,330],'desert-resort':[300,252],'relic-castle':[282,236],'cold-storage':[188,232],'driftveil-drawbridge':[242,210],
+      'chargestone-cave':[150,124],'mistralton-cave':[96,82],'clay-tunnel':[190,160],'underground-ruins':[212,170],'rocky-mountain-room':[172,176],
+      'glacier-room':[192,186],'iron-room':[212,190],'celestial-tower':[178,84],'twist-mountain':[250,76],'dragonspiral-tower':[290,40],
+      'moor-of-icirrus':[270,130],'village-bridge':[520,76],'giant-chasm':[590,58],'nature-sanctuary':[580,120],'abundant-shrine':[626,56],
+      'lostlorn-forest':[430,196],'strange-house':[404,228],'marvelous-bridge':[440,226],'reversal-mountain':[575,176],'undella-bay':[626,190],
+      'seaside-cave':[622,214],'unova-victory-road':[440,50],'unova-victory-road-2':[440,50],'p2-laboratory':[470,362],'virbank-complex':[170,354],
+      'floccesy-ranch':[40,246],'trial-chamber':[456,64],'challengers-cave':[500,44],'guidance-chamber':[424,66],'ns-castle':[378,50]},
+    routes:{'unova-route-1':[[580,336],[580,288]],'unova-route-2':[[580,288],[510,288]],'unova-route-3':[[510,288],[430,288]],
+      'unova-route-4':[[330,326],[330,210]],'unova-route-5':[[330,210],[250,210]],'unova-route-6':[[210,210],[150,210],[150,140]],
+      'unova-route-7':[[120,100],[200,100],[226,72],[290,70]],'unova-route-8':[[290,70],[290,140],[340,140]],
+      'unova-route-9':[[340,140],[480,140],[480,90]],'unova-route-10':[[480,90],[480,50],[440,40]],'unova-route-11':[[480,90],[520,90]],
+      'unova-route-12':[[520,90],[560,90]],'unova-route-13':[[560,90],[610,120],[610,160]],'unova-route-14':[[610,160],[626,130],[626,70]],
+      'unova-route-15':[[450,226],[500,226]],'unova-route-16':[[330,210],[420,210]],'unova-route-17':[[580,336],[520,358]],
+      'unova-route-18':[[520,358],[480,362]],'unova-route-19':[[60,336],[60,276]],'unova-route-20':[[60,276],[120,276],[150,336]],
+      'unova-route-21':[[610,160],[626,204],[610,250]],'unova-route-22':[[610,250],[540,250],[540,200]],
+      'unova-route-23':[[540,200],[540,110],[500,60],[452,48]]},
+    sea:['unova-route-17','unova-route-21'],
+    edge:[]},
+  // X / Y: Lumiose in the middle, the coast and caves to the west, the cold north-east, the league in the south-east
+  kalos:{name:'KALOS',
+    land:['M60 40L200 30 300 22 420 30 560 26 620 60 630 200 600 300 520 350 420 360 330 368 250 350 180 330 110 320 50 280 30 200 40 110Z'],
+    mount:['M490 300L536 292 552 318 520 336 488 326Z'],
+    water:[['ellipse',290,30,30,12],['ellipse',248,262,14,9]],
+    islands:[],
+    towns:{'vaniville-town':[320,352,'Vaniville','a'],'aquacorde-town':[320,318,'Aquacorde','r'],'santalune-city':[320,250,'Santalune','r'],
+      'lumiose-city':[320,180,'Lumiose','b'],'camphrier-town':[220,180,'Camphrier','b'],'ambrette-town':[110,262,'Ambrette','b'],
+      'cyllage-city':[80,180,'Cyllage','b'],'geosenge-town':[110,110,'Geosenge','b'],'shalour-city':[236,62,'Shalour','b'],
+      'coumarine-city':[340,62,'Coumarine','r'],'laverre-city':[430,160,'Laverre','b'],'dendemille-town':[450,80,'Dendemille','b'],
+      'anistar-city':[560,60,'Anistar','b'],'couriway-town':[570,170,'Couriway','b'],'snowbelle-city':[580,250,'Snowbelle','b'],
+      'kiloude-city':[470,226,'Kiloude','b'],'kalos-pokemon-league':[440,334,'League','a']},
+    spots:{'santalune-forest':[320,286],'parfum-palace':[220,120],'connecting-cave':[180,226],'kalos-berry-fields':[200,210],
+      'glittering-cave':[90,226],'reflection-cave':[170,84],'tower-of-mastery':[256,76],'azure-bay':[290,30],'sea-spirits-den':[310,18],
+      'lost-hotel':[446,124],'frost-cavern':[500,40],'terminus-cave':[580,116],'pokemon-village':[520,296],'unknown-dungeon':[536,320],
+      'kalos-victory-road':[480,330],'team-flare-secret-hq':[300,166],'friend-safari':[490,246]},
+    routes:{'kalos-route-2':[[320,318],[320,286]],'kalos-route-3':[[320,286],[320,250]],'kalos-route-4':[[320,250],[320,180]],
+      'kalos-route-5':[[320,180],[220,180]],'kalos-route-6':[[220,180],[220,120]],'kalos-route-7':[[220,180],[200,226],[180,226]],
+      'kalos-route-8':[[180,226],[150,262],[110,262]],'kalos-route-9':[[110,262],[90,226]],'kalos-route-10':[[80,180],[110,110]],
+      'kalos-route-11':[[110,110],[170,84],[236,62]],'kalos-route-12':[[236,62],[340,62]],'kalos-route-13':[[340,62],[340,120],[320,180]],
+      'kalos-route-14':[[320,180],[430,160]],'kalos-route-15':[[430,160],[446,124]],'kalos-route-16':[[446,124],[450,80]],
+      'kalos-route-17':[[450,80],[560,60]],'kalos-route-18':[[560,60],[580,116],[570,170]],'kalos-route-19':[[570,170],[580,250]],
+      'kalos-route-20':[[580,250],[520,296]],'kalos-route-21':[[520,296],[480,330]],'kalos-route-22':[[320,250],[248,262]]},
+    sea:[],
+    edge:[]},
+  // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
+  sevii:{name:'SEVII',
+    land:['M150 50L214 46 232 84 222 130 230 200 214 300 160 312 136 270 150 200 136 130 140 84Z','M40 96L104 90 112 150 104 214 46 222 34 160Z',
+      'M56 322L120 316 134 344 120 372 60 372 48 346Z','M290 30L380 26 392 70 372 106 300 108 284 70Z','M420 70L520 62 540 100 510 150 430 150 410 110Z',
+      'M300 186L360 176 400 200 404 300 360 330 304 318 290 260Z','M430 190L560 180 590 220 580 300 548 372 430 372 420 300Z'],
+    water:[],
+    islands:[[24,300,16,12],[248,236,24,20],[584,62,22,14],[604,150,14,10],[612,250,12,9],[612,316,12,9]],
+    towns:{'one-island':[184,262,'One Island'],'two-island':[74,196,'Two Island'],'three-island':[100,338,'Three Island'],'four-island':[330,78,'Four Island'],
+      'five-island':[462,118,'Five Island'],'six-island':[372,236,'Six Island'],'seven-island':[516,214,'Seven Island']},
+    spots:{'mt-ember':[188,72],'treasure-beach':[180,300],'cape-brink':[74,112],'berry-forest':[24,300],'three-isle-port':[120,358],'icefall-cave':[362,44],
+      'water-labyrinth':[440,88],'five-isle-meadow':[510,96],'resort-gorgeous':[584,62],'lost-cave':[600,40],'memorial-pillar':[604,150],
+      'outcast-island':[248,240],'kanto-altering-cave':[248,222],'pattern-bush':[326,226],'ruin-valley':[372,296],'trainer-tower':[560,198],
+      'canyon-entrance':[516,258],'tanoby-ruins':[448,336],'monean-chamber':[446,360],'liptoo-chamber':[464,360],'weepth-chamber':[482,360],
+      'dilford-chamber':[500,360],'scufib-chamber':[518,360],'rixy-chamber':[536,360],'viapos-chamber':[554,360],'birth-island':[612,250],'navel-rock':[612,316]},
+    routes:{'kindle-road':[[184,262],[204,200],[204,124],[188,84]],'bond-bridge':[[86,338],[40,326],[24,310]],'water-path':[[372,236],[372,190]],
+      'green-path':[[372,236],[272,236]],'sevault-canyon':[[516,258],[516,320]]},
+    sea:['bond-bridge'], edge:[[632,16,'end','KANTO ▸','kanto']]},
+};
+// location id → {region, x, y}
+const WM_POS=(()=>{ const pos={};
+  const mid=pts=>{ let len=0; const seg=[]; for(let i=1;i<pts.length;i++){ const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]); seg.push(d); len+=d; }
+    let h=len/2; for(let i=0;i<seg.length;i++){ if(h<=seg[i]){ const t=seg[i]?h/seg[i]:0; return [pts[i][0]+(pts[i+1][0]-pts[i][0])*t,pts[i][1]+(pts[i+1][1]-pts[i][1])*t]; } h-=seg[i]; } return pts[0]; };
+  Object.entries(WM_MAPS).forEach(([r,m])=>{
+    Object.entries(m.towns).forEach(([k,[x,y]])=>pos[k]={r,x,y});
+    Object.entries(m.spots).forEach(([k,[x,y]])=>pos[k]={r,x,y});
+    Object.entries(m.routes).forEach(([k,p])=>{ const [x,y]=mid(p); pos[k]={r,x,y}; });
+  });
+  return pos; })();
+
+// ---- data ----
+const wmHas=(game,sid)=>!!(ENC_IDX[game]&&ENC_IDX[game].has(+sid));
+const wmGames=()=>GAMES.map(x=>x.k).filter(k=>ENC_IDX[k]);      // in the app's game order
+// Where to look in a game: the Pokémon itself, else the nearest pre-evolution that is found, else a later evolution to breed from.
+// (works from the index alone; list is filled in once the encounters have loaded)
+function wmFind(game,sid){
+  const I=ENC_IDX[game]; if(!I) return null;
+  const hit=o=>({...o,list:ENC&&ENC.g[game]?ENC.g[game][o.sid]:null});
+  if(I.has(sid)) return hit({sid});
+  const chain=[]; let p=sid;
+  while(EVO[p]){ const [prev,how,trade]=EVO[p]; chain.push({from:prev,to:p,how,trade}); p=prev; if(I.has(p)) return hit({sid:p,evolve:chain.reverse()}); }
+  const kids=Object.keys(EVO).filter(k=>EVO[k][0]===sid);
+  for(const k of kids){ if(I.has(+k)) return hit({sid:+k,breed:+k}); for(const k2 of Object.keys(EVO).filter(x=>EVO[x][0]===+k)) if(I.has(+k2)) return hit({sid:+k2,breed:+k2}); }
+  return null;
+}
+// group the encounters by location, best first
+function wmPlaces(list){
+  const by=new Map();
+  list.forEach(e=>{ const li=e[0]; if(!by.has(li)) by.set(li,{li,id:ENC.L[li][0],name:ENC.L[li][1],rows:[]}); by.get(li).rows.push(e); });
+  const best=p=>Math.max(...p.rows.map(r=>r[5]));
+  return [...by.values()].sort((a,b)=>(WM_POS[a.id]?0:1)-(WM_POS[b.id]?0:1)||best(b)-best(a));
+}
+const wmMeth=i=>WM_METHOD[ENC.M[i]]||['?','#888'];
+const wmChance=m=>!['gift','egg','trade','static','roaming','special','event'].includes(ENC.M[m]);
+
+// ---- drawing ----
+function wmSVG(region,places,sel){
+  const m=WM_MAPS[region], pl=p=>p.map(q=>q.join(',')).join(' ');
+  let s=`<svg viewBox="0 0 640 380" role="img" aria-label="Map of ${esc(m.name)}"><rect width="640" height="380" fill="#0f1a36"/>`;
+  m.land.forEach(d=>{ s+=`<path d="${d}" fill="#1d2b52" stroke="#33508f" stroke-width="2"/>`; });
+  (m.mount||[]).forEach(d=>{ s+=`<path d="${d}" fill="#2b3766" stroke="#4a5f9a" stroke-width="1.5" stroke-linejoin="round"/>`; });
+  (m.islands||[]).forEach(([x,y,rx,ry])=>{ s+=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#1d2b52" stroke="#33508f" stroke-width="2"/>`; });
+  m.water.forEach(([_,x,y,rx,ry])=>{ s+=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#173a6e" stroke="#2f5d9f" stroke-width="1.5"/>`; });
+  Object.entries(m.routes).forEach(([k,p])=>{ const sea=m.sea.includes(k);
+    s+=`<polyline points="${pl(p)}" fill="none" stroke="${sea?'#3c6fb8':'#6f84bd'}" stroke-width="${sea?3:4}" stroke-linecap="round" stroke-linejoin="round"${sea?' stroke-dasharray="2 7"':''}/>`; });
+  Object.values(m.spots).forEach(([x,y])=>{ s+=`<rect x="${x-4}" y="${y-4}" width="8" height="8" rx="2" fill="#4a5f9a"/>`; });
+  // the name goes below the town (above near the bottom edge); a 4th value forces 'a'bove, 'b'elow or 'r'ight
+  Object.values(m.towns).forEach(([x,y,n,at])=>{ s+=`<rect x="${x-8}" y="${y-8}" width="16" height="16" rx="3" fill="#e9edf6" stroke="#0b1226" stroke-width="2"/>`;
+    const a=at||(y>300?'a':'b'), tx=a==='r'?x+13:x, ty=a==='a'?y-13:a==='b'?y+21:y+3;
+    s+=`<text x="${tx}" y="${ty}" text-anchor="${a==='r'?'start':'middle'}" class="wm-tl">${esc(n.toUpperCase())}</text>`; });
+  m.edge.forEach(([x,y,a,t,to])=>{ if(to&&!wmRegions(WM.game).includes(to)) return; s+=`<text x="${x}" y="${y}" text-anchor="${a}" class="wm-tl dim">${t}</text>`; });
+  places.forEach((p,i)=>{ const q=WM_POS[p.id]; if(!q||q.r!==region) return; const c=wmMeth(p.rows[0][2])[1];
+    s+=`<g class="wm-pin${i===sel?' sel':''}" data-p="${i}" style="--pc:${c}"><circle class="halo" cx="${q.x}" cy="${q.y}" r="9"/><circle class="hit" cx="${q.x}" cy="${q.y}" r="14"/><circle class="dot" cx="${q.x}" cy="${q.y}" r="7"/></g>`; });
+  const sp=places[sel], q=sp&&WM_POS[sp.id];
+  if(q&&q.r===region){ const t=sp.name.toUpperCase(), w=t.length*7.2+18, lx=Math.min(Math.max(q.x-w/2,6),634-w), ly=q.y-36<4||(q.x<260&&q.y-36<48)?q.y+16:q.y-36;
+    s+=`<g pointer-events="none"><rect x="${lx}" y="${ly}" width="${w}" height="21" rx="5" fill="#ffd23f"/><text x="${lx+w/2}" y="${ly+14.5}" text-anchor="middle" class="wm-tl tag">${esc(t)}</text></g>`; }
+  return s+'</svg>';
+}
+function wmRow(e,game){
+  const [m,c]=wmMeth(e[2]), vers=ENC.v[game]||[], all=(1<<vers.length)-1;
+  const lv=e[3]===e[4]?`LV ${e[3]}`:`LV ${e[3]}–${e[4]}`;
+  const tod=e[6]===7?'':['MORN','DAY','NITE'].map((t,i)=>`<i class="${e[6]>>i&1?'on':''}">${t}</i>`).join('');
+  const ver=e[7]===all?'':vers.map((v,i)=>`<i class="v${e[7]>>i&1?' on':''}">${v}</i>`).join('');
+  const area=ENC.A[e[1]], note=ENC.N[e[8]];
+  return `<div class="wm-r"><span class="wm-m" style="--c:${c}">${m}</span><span class="wm-lv">${lv}${wmChance(e[2])&&e[5]?` · ${e[5]}%`:''}</span>${area?`<span class="wm-a">${esc(area)}</span>`:''}
+    ${tod||ver?`<span class="wm-ch">${tod}${ver}</span>`:''}${note?`<span class="wm-n">${esc(note)}</span>`:''}</div>`;
+}
+function wmRender(el,compact){
+  if(!ENC){                                    // first map of the session: show the header, fetch, then draw
+    const sp=SP.get(WM.sid);
+    el.innerHTML=`<div class="wm-h"><div><b>Where to find ${esc(sp?sp.en:'?')}</b><small>${esc((WM_GAME[WM.game]||'').toUpperCase())}</small></div>${compact?'':'<button type="button" class="wm-x" aria-label="Close">✕</button>'}</div><div class="wm-load">LOADING THE MAP…</div>`;
+    const x=el.querySelector('.wm-x'); if(x) x.onclick=wmClose;
+    const want=WM.game+'|'+WM.sid;
+    wmLoad().then(()=>{ if(el.isConnected&&WM.game+'|'+WM.sid===want) wmRender(el,compact); })
+      .catch(()=>{ const l=el.querySelector('.wm-load'); if(l) l.textContent='COULD NOT LOAD THE MAP. CHECK THE CONNECTION AND TRY AGAIN.'; });
+    return;
+  }
+  const sp=SP.get(WM.sid), f=wmFind(WM.game,WM.sid), name=sp?sp.en:'?';
+  const games=wmGames();
+  const tabs=`<div class="wm-games">${games.map(g=>{ const x=GAMES.find(y=>y.k===g); return `<button type="button" data-g="${g}" class="${g===WM.game?'on':''}">${esc(x.s)}</button>`; }).join('')}</div>`;
+  let banner='', places=[];
+  if(!f) banner=`<b>Not found in ${esc(GAMES.find(x=>x.k===WM.game).s)}.</b> Trade it in from another game, or check its event distributions.`;
+  else {
+    places=wmPlaces(f.list||[]);
+    const src=SP.get(f.sid);
+    if(f.evolve){ const steps=f.evolve.map(s=>`${esc(SP.get(s.from).en)} → ${esc(SP.get(s.to).en)} (${esc(s.how)}${s.trade?', trade':''})`).join(', then ');
+      banner=`<b>Not found in the wild.</b> Get ${esc(src.en)} and evolve it: ${steps}.`; }
+    else if(f.breed) banner=`<b>Not found in the wild.</b> Catch ${esc(src.en)}, leave it at the Day Care and hatch the Egg.`;
+  }
+  if(WM.sel>=places.length) WM.sel=0;
+  const regions=[...new Set(places.map(p=>WM_POS[p.id]&&WM_POS[p.id].r).filter(Boolean))];
+  const gameRegions=wmRegions(WM.game);
+  if(!WM.region||!gameRegions.includes(WM.region)) WM.region=regions[0]||gameRegions[0];
+  const regTabs=gameRegions.map(r=>{ const n=places.filter(p=>WM_POS[p.id]&&WM_POS[p.id].r===r).length;
+    return `<button type="button" data-r="${r}" class="${r===WM.region?'on':''}${n?'':' none'}">${WM_MAPS[r].name}${n?` · ${n}`:''}</button>`; }).join('');
+  const map=f?`<div class="wm-map">${wmSVG(WM.region,places,WM.sel)}<div class="wm-regs">${regTabs}</div></div>`:'';
+  const list=`<div class="wm-list">${banner?`<div class="wm-banner">${banner}</div>`:''}${places.map((p,i)=>`<div class="wm-place${i===WM.sel?' sel':''}" data-p="${i}">
+      <div class="wm-ph"><b>${esc(p.name)}</b>${WM_POS[p.id]?`<span class="wm-reg">${WM_MAPS[WM_POS[p.id].r].name}</span>`:'<span class="wm-reg">NOT ON THE MAP</span>'}</div>${p.rows.map(r=>wmRow(r,WM.game)).join('')}</div>`).join('')}</div>`;
+  const head=`<div class="wm-h">${compact?'':'<span class="wm-spr"></span>'}<div><b>Where to find ${esc(name)}</b><small>${esc((WM_GAME[WM.game]||'').toUpperCase())}${f&&f.sid!==WM.sid?' · VIA '+esc(SP.get(f.sid).en.toUpperCase()):''}</small></div>${compact?'':'<button type="button" class="wm-x" aria-label="Close">✕</button>'}</div>`;
+  el.innerHTML=compact?`${head}${tabs}${map}${list}`:`${head}<div class="wm-b"><div class="wm-left">${tabs}${map}</div>${list}</div><div class="wm-f"><span>SCHEMATIC MAP · DATA: POKEAPI</span><span>ESC TO CLOSE</span></div>`;
+  const spr=el.querySelector('.wm-spr'); if(spr) spr.appendChild(imgEl(spriteChain({sid:WM.sid,sk:String(WM.sid)},false),name,()=>{}));
+  el.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ SFX.tab(); WM.game=b.dataset.g; WM.sel=0; WM.region=null; wmRender(el,compact); });
+  el.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{ SFX.tab(); WM.region=b.dataset.r; const i=places.findIndex(p=>WM_POS[p.id]&&WM_POS[p.id].r===WM.region); if(i>=0) WM.sel=i; wmRender(el,compact); });
+  el.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.p, q=WM_POS[places[i].id]; WM.sel=i; if(q) WM.region=q.r; SFX.tab(); wmRender(el,compact);
+    if(b.classList.contains('wm-pin')){ const row=el.querySelector(`.wm-place[data-p="${i}"]`); if(row) row.scrollIntoView({block:'nearest',behavior:'smooth'}); } });
+  const x=el.querySelector('.wm-x'); if(x) x.onclick=wmClose;
+}
+
+// ---- open / close (PC window; on a phone mob.js shows it in the sheet) ----
+function wmOpen(game,sid){
+  WM.game=game; WM.sid=sid; WM.sel=0; WM.region=null;
+  if(window.matchMedia('(max-width:700px)').matches&&typeof mobSheet==='function'){ mobSheet('where'); return; }
+  let w=$('wmWrap');
+  if(!w){ w=document.createElement('div'); w.id='wmWrap'; w.className='wm-wrap';
+    w.innerHTML='<div class="wm-scrim"></div><div class="wm-win" role="dialog" aria-modal="true" tabindex="-1"></div>'; document.body.appendChild(w);
+    w.querySelector('.wm-scrim').onclick=wmClose; }
+  w.hidden=false; WM.open=true; wmRender(w.querySelector('.wm-win')); w.querySelector('.wm-win').focus();
+}
+function wmClose(){ const w=$('wmWrap'); if(w) w.hidden=true; WM.open=false; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&WM.open){ e.stopPropagation(); wmClose(); } },true);
+// the "Catch in" numbers that have a map
+const WM_PIN='<svg class="wm-pinic" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 11.5S1.5 7.2 1.5 4.6a4.5 4.5 0 0 1 9 0C10.5 7.2 6 11.5 6 11.5z"/><circle cx="6" cy="4.6" r="1.7" fill="#fff"/></svg>';
+function wmWire(body,e){ body.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>{ SFX.tab(); wmOpen(b.dataset.map,e.sid); }); }
+
+/* ---- mock wiring ---- */
+const pcWin=$('pcWin'), pick=$('pick');
+function show(sid,game){ WM.game=game; WM.sid=sid; WM.sel=0; WM.region=null; wmRender(pcWin,false);
+  const x=pcWin.querySelector('.wm-x'); if(x) x.remove();
+  pick.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.sid===sid&&b.dataset.g===game)); }
+pick.innerHTML=[[669, "Flab\u00e9b\u00e9", "FLORES", "xy"], [41, "Zubat", "HORDA", "xy"], [708, "Phantump", "TERRENO", "xy"], [714, "Noibat", "EMBOSCADA", "xy"], [415, "Combee", "BAGAS", "xy"], [144, "Articuno", "ROAMER", "xy"], [718, "Zygarde", "TERMINUS", "xy"], [716, "Xerneas", "S\u00d3 NO X", "xy"]].map(([sid,n,tag,g])=>`<button type="button" data-sid="${sid}" data-g="${g}"><img src="${IMG[sid]}" alt=""><span>${n}<small>${tag}</small></span></button>`).join('');
+pick.querySelectorAll('button').forEach(b=>b.onclick=()=>show(+b.dataset.sid,b.dataset.g));
+// the window's own tabs re-render through wmRender; keep the close button out of the page version
+new MutationObserver(()=>{ const x=pcWin.querySelector('.wm-x'); if(x) x.remove(); }).observe(pcWin,{childList:true});
+show(669,'xy');
+
+// phone 1: the dex sheet's Where to get tab
+$('ph1').innerHTML=`<div class="handle"></div><div class="sh-h"><img src="${IMG[674]}" alt=""><div><b>Pancham</b><small>NO. 674 · KALOS · GEN VI</small></div></div>
+  <div class="lower"><div class="tabs"><span>EVOLUTION</span><span class="on">WHERE TO GET</span><span>DETAILS</span></div>
+  <div class="card"><h3>CATCH IN</h3>
+    <div class="wline"><span class="gm">XY</span><span class="tags"><span class="tg map">${WM_PIN}<b>Central Kalos 091</b></span></span></div>
+    <div class="wline"><span class="gm">SM</span><span class="tags"><span class="tg"><b>Alola 220</b></span></span></div>
+    <div class="wline"><span class="gm">USUM</span><span class="tags"><span class="tg"><b>Alola 284</b></span></span></div>
+    <div class="wline"><span class="gm">SWSH</span><span class="tags"><span class="tg"><b>Galar 111</b></span></span></div>
+    <div class="wline"><span class="gm">Z-A</span><span class="tags"><span class="tg"><b>Lumiose 047</b></span></span></div></div></div>`;
+// phone 2: the map sheet (a still copy, so it does not share state with the PC window)
+const tmp=document.createElement('div'); tmp.className='wm-sheet';
+WM.game='xy'; WM.sid=674; WM.sel=0; WM.region=null; wmRender(tmp,true);
+$('ph2').innerHTML=`<div class="handle"></div><div class="wm-sheet"><button type="button" class="wm-back">◂ PANCHAM</button></div>`;
+$('ph2').querySelector('.wm-sheet').append(...tmp.cloneNode(true).childNodes);
+show(669,'xy');
+</script>

@@ -16,6 +16,7 @@ GAMES = {"rby": [("1", "R"), ("45", "G"), ("2", "B"), ("3", "Y")],          # 45
          "bw": [("17", "B"), ("18", "W")],
          "hgss": [("15", "HG"), ("16", "SS")],
          "b2w2": [("21", "B2"), ("22", "W2")],
+         "xy": [("23", "X"), ("24", "Y")],
          "lgpe": [("31", "P"), ("32", "E")]}
 METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "good-rod", "super-rod": "super-rod",
           "headbutt": "headbutt", "headbutt-low": "headbutt", "headbutt-normal": "headbutt", "headbutt-high": "headbutt",
@@ -31,6 +32,10 @@ METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "go
           # Black / White and Black 2 / White 2
           "dark-grass": "dark-grass", "grass-spots": "phenomenon", "cave-spots": "phenomenon", "surf-spots": "phenomenon",
           "super-rod-spots": "phenomenon", "bridge-spots": "phenomenon", "hidden-grotto": "grotto",
+          # X / Y
+          "horde": "horde", "yellow-flowers": "flowers", "red-flowers": "flowers", "purple-flowers": "flowers",
+          "rough-terrain": "rough", "berry-trees": "berry", "ceiling-ambush": "ambush", "trash-can-ambush": "ambush",
+          "rustling-bush-ambush": "ambush", "ground-ambush": "ambush", "sky-ambush": "ambush",
           # event distributions (handed out at a Pokémon Center)
           "colosseum-bonus-disc-jpn": "event", "colosseum-bonus-disc-us": "event", "pokemon-channel-pal": "event",
           "overworld-special": "rare", "overworld-flying-special": "rare-flying", "overworld-water-special": "rare"}
@@ -40,11 +45,16 @@ METHOD_NOTE = {"devon-scope": "Invisible: needs the Devon Scope", "wailmer-pail"
                "pokemon-ranger": "Egg sent from Pokémon Ranger",
                "grass-spots": "Rustling grass", "cave-spots": "Dust cloud", "surf-spots": "Rippling water (surf)",
                "super-rod-spots": "Rippling water (Super Rod)", "bridge-spots": "Shadow on the bridge",
+               "yellow-flowers": "Yellow flowers", "red-flowers": "Red flowers", "purple-flowers": "Purple flowers",
+               "ceiling-ambush": "Drops from the ceiling", "trash-can-ambush": "Hides in trash cans",
+               "rustling-bush-ambush": "Jumps out of rustling bushes", "ground-ambush": "Pops out of the ground",
+               "sky-ambush": "Swoops down from the sky",
                "colosseum-bonus-disc-jpn": "Pokémon Colosseum bonus disc (Japan)",
                "colosseum-bonus-disc-us": "Pokémon Colosseum bonus disc (US)", "pokemon-channel-pal": "Pokémon Channel (Europe)"}
 NO_RATE = {"wild", "water", "flying", "rare", "rare-flying"}
 # PokeAPI files Black / White's roaming Tornadus and Thundurus under a Kalos location
-FIX_LOC = {("bw", "team-flare-secret-hq"): ("roaming-unova", "Roaming Unova", "roaming")}
+FIX_LOC = {("bw", "team-flare-secret-hq"): ("roaming-unova", "Roaming Unova", "roaming"),
+           ("xy", "roaming-kalos"): ("roaming-kalos", "Roaming Kalos", "roaming")}   # X / Y's roaming bird is filed as a one-time encounter
 SKIP_LOC = {"unknown-all-bugs", "unknown-all-poliwag", "unknown-all-rattata"}   # PokeAPI placeholder areas
 TIME = {"time-morning": 1, "time-day": 2, "time-night": 4}
 SEASON = {"season-spring": 1, "season-summer": 2, "season-autumn": 4, "season-winter": 8}
@@ -73,7 +83,8 @@ OTHER = {"correct-password": "With the correct password", "received-kanto-starte
          "talked-to-32-people-underground": "After talking to 32 people in the Underground",
          "talk-to-cynthias-grandmother": "After talking to Cynthia's grandmother",
          "giratina-not-caught-in-distortion-world": "If Giratina got away in the Distortion World",
-         "captured-reshiram-or-zekrom": "After catching Reshiram or Zekrom"}
+         "captured-reshiram-or-zekrom": "After catching Reshiram or Zekrom",
+         "found-11-times-roaming": "After meeting it 11 times while it roams"}
 FIRST = {"first-party-pokemon-high-friendship": "Lead Pokémon must be very friendly"}
 FOSSIL = {"helix": "Helix", "dome": "Dome", "old-amber": "Old Amber", "root": "Root", "claw": "Claw", "skull": "Skull", "armor": "Armor"}
 
@@ -84,6 +95,12 @@ def note_of(cond):
         return None
     if cond in FIRST: return FIRST[cond]
     if cond == "defeated-ghetsis": return "After defeating Ghetsis"
+    m = re.match(r"friend-safari-slot-(\d)", cond)
+    if m: return f"Friend Safari: slot {m.group(1)}" + (" (friend has beaten the League)" if m.group(1) == "3" else "")
+    m = re.match(r"berry-tree-type-(\w+)", cond)
+    if m: return f"{m.group(1).capitalize()} berry trees"
+    m = re.match(r"trash-can-type-(\w+)", cond)
+    if m: return "Trash cans: " + ("any day" if m.group(1) == "daily" else m.group(1).capitalize() + "s")
     if cond == "special-encounter-couldnt-capture-before": return "If you didn't catch it the first time"
     m = re.match(r"item-(.+-(key|wing|stone))$", cond)
     if m: return "With the " + m.group(1).replace("-", " ").title()
@@ -132,7 +149,7 @@ def area_label(prose, loc_name, ident):
     m = re.search(r"\(([^)]*)\)", prose or "")
     label = m.group(1) if m else (prose or "").replace(loc_name, "").strip(" -") or ident.replace("-", " ").upper()
     # Lake Verity's story halves and the Great Marsh's six areas share one list
-    return "" if label in STORY_AREAS or re.fullmatch(r"area \d+", label, re.I) else label
+    return "" if label in STORY_AREAS or re.fullmatch(r"(unknown )?area \d+", label, re.I) else label
 
 
 def build(rows, species_of_pokemon):
@@ -176,7 +193,8 @@ def build(rows, species_of_pokemon):
             name = loc_name.get(lid) or {"johto-pokemart": "Poké Mart", "roaming-johto": "Roaming Johto",
                                      "roaming-kanto": "Roaming Kanto", "roaming-hoenn": "Roaming Hoenn",
                                      "kanto-pokecenter": "Pokémon Center", "hoenn-pokecenter": "Pokémon Center",
-                                     "sinnoh-pokemart": "Poké Mart", "roaming-sinnoh": "Roaming Sinnoh"}.get(ident, ident)
+                                     "sinnoh-pokemart": "Poké Mart", "roaming-sinnoh": "Roaming Sinnoh",
+                                     "roaming-kalos": "Roaming Kalos", "kalos-berry-fields": "Berry Fields"}.get(ident, ident)
         li = idx(L, Li, ident, [ident, name])
         ai = idx(A, Ai, area_label(area_prose.get(area["id"], ""), name, area["identifier"]))
         cs = conds.get(r["id"], [])
@@ -213,7 +231,8 @@ def build(rows, species_of_pokemon):
 
     M = ["grass", "surf", "old-rod", "good-rod", "super-rod", "headbutt", "rock-smash", "gift", "egg", "trade", "static", "roaming", "special",
          "wild", "water", "flying", "rare", "rare-flying",
-         "dive", "any-rod", "event", "honey", "dark-grass", "phenomenon", "grotto"]
+         "dive", "any-rod", "event", "honey", "dark-grass", "phenomenon", "grotto",
+         "horde", "flowers", "rough", "berry", "ambush"]
     out = {g: {} for g in GAMES}
     for (game, sid, li, ai, meth, ni), g in groups.items():
         times = 0

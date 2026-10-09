@@ -343,7 +343,7 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 </tr>
 <tr>
 <td width="50%"><b>Unova map (BW · B2W2)</b> · <a href="docs/mocks/unova-map.html">unova-map.html</a><br><img src="docs/images/mock-unova-map.png" alt="Mock of the Unova map for Black / White and Black 2 / White 2, drawn with the real map code and data"></td>
-<td width="50%"></td>
+<td width="50%"><b>Kalos map (XY)</b> · <a href="docs/mocks/kalos-map.html">kalos-map.html</a><br><img src="docs/images/mock-kalos-map.png" alt="Mock of the Kalos map for X and Y, drawn with the real map code and data"></td>
 </tr>
 </table>
 
