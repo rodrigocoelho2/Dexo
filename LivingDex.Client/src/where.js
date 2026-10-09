@@ -1,6 +1,6 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
    Data: RAW.enc (built from PokeAPI's encounters by data-build/encounters.py) for the games listed in ENC.g.
-   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh and the Sevii Islands (not the games' town maps); each PokeAPI location
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
 const ENC=RAW.enc||{L:[],A:[''],N:[''],M:[],v:{},g:{}};
 const WM={open:false,game:null,sid:0,region:null,sel:-1};
@@ -8,10 +8,11 @@ const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['O
   headbutt:['HEADBUTT','#d0915a'],'rock-smash':['ROCK SMASH','#a0a0c0'],gift:['GIFT','#5fd38a'],egg:['EGG','#5fd38a'],trade:['TRADE','#f08030'],
   static:['ONE-TIME','#ef3d4f'],roaming:['ROAMING','#a78bfa'],special:['SPECIAL','#f85888'],
   wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888'],
-  dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838']};
-const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+  dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838'],
+  'dark-grass':['DARK GRASS','#9ccf3a'],phenomenon:['PHENOMENON','#f0a0ff'],grotto:['HIDDEN GROTTO','#5fd38a']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
 // the maps each game can show (tabs), in order
-const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
 const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
 
 // ---- the maps (viewBox 640×380) ----
@@ -113,6 +114,36 @@ const WM_MAPS={
       'sinnoh-route-225':[[562,90],[562,40]],'sinnoh-sea-route-226':[[562,90],[610,100]],'sinnoh-route-227':[[610,100],[618,40]],
       'sinnoh-route-228':[[562,40],[618,40]],'sinnoh-route-229':[[562,90],[540,108]],'sinnoh-sea-route-230':[[540,108],[536,130],[570,150]]},
     sea:['sinnoh-sea-route-220','sinnoh-sea-route-223','sinnoh-sea-route-226','sinnoh-sea-route-230'],
+    edge:[]},
+  // Black / White and Black 2 / White 2 (one map; the B2W2 towns in the south-west and east are only used by B2W2)
+  unova:{name:'UNOVA',
+    land:['M24 24L300 18 520 22 618 30 636 100 636 232 604 300 604 330 540 352 450 342 400 330 360 352 300 354 230 360 170 368 100 362 30 360 14 200Z'],
+    mount:['M226 58L256 54 272 82 252 96 230 90Z'],
+    water:[],
+    islands:[[360,364,16,10],[470,362,20,10],[626,190,7,7]],
+    towns:{'aspertia-city':[60,336,'Aspertia','a'],'floccesy-town':[60,276,'Floccesy'],'virbank-city':[150,336,'Virbank','a'],
+      'nuvema-town':[580,336,'Nuvema','a'],'accumula-town':[580,288,'Accumula'],'striaton-city':[510,288,'Striaton','a'],'nacrene-city':[430,288,'Nacrene','a'],
+      'castelia-city':[330,326,'Castelia','a'],'nimbasa-city':[330,210,'Nimbasa'],'driftveil-city':[210,210,'Driftveil'],'mistralton-city':[120,100,'Mistralton'],
+      'icirrus-city':[290,70,'Icirrus','r'],'opelucid-city':[480,90,'Opelucid'],'lacunosa-town':[560,90,'Lacunosa'],'undella-town':[610,160,'Undella','b'],
+      'lentimas-town':[540,170,'Lentimas','b'],'humilau-city':[610,250,'Humilau','b'],'unova-pokemon-league':[400,30,'League','r']},
+    spots:{'dreamyard':[510,310],'wellspring-cave':[470,272],'pinwheel-forest':[390,308],'liberty-garden':[360,364],'castelia-sewers':[312,346],
+      'relic-passage':[272,330],'desert-resort':[300,252],'relic-castle':[282,236],'cold-storage':[188,232],'driftveil-drawbridge':[242,210],
+      'chargestone-cave':[150,124],'mistralton-cave':[96,82],'clay-tunnel':[190,160],'underground-ruins':[212,170],'rocky-mountain-room':[172,176],
+      'glacier-room':[192,186],'iron-room':[212,190],'celestial-tower':[178,84],'twist-mountain':[250,76],'dragonspiral-tower':[290,40],
+      'moor-of-icirrus':[270,130],'village-bridge':[520,76],'giant-chasm':[590,58],'nature-sanctuary':[580,120],'abundant-shrine':[626,56],
+      'lostlorn-forest':[430,196],'strange-house':[404,228],'marvelous-bridge':[440,226],'reversal-mountain':[575,176],'undella-bay':[626,190],
+      'seaside-cave':[622,214],'unova-victory-road':[440,50],'unova-victory-road-2':[440,50],'p2-laboratory':[470,362],'virbank-complex':[170,354],
+      'floccesy-ranch':[40,246],'trial-chamber':[456,64],'challengers-cave':[500,44],'guidance-chamber':[424,66],'ns-castle':[378,50]},
+    routes:{'unova-route-1':[[580,336],[580,288]],'unova-route-2':[[580,288],[510,288]],'unova-route-3':[[510,288],[430,288]],
+      'unova-route-4':[[330,326],[330,210]],'unova-route-5':[[330,210],[250,210]],'unova-route-6':[[210,210],[150,210],[150,140]],
+      'unova-route-7':[[120,100],[200,100],[226,72],[290,70]],'unova-route-8':[[290,70],[290,140],[340,140]],
+      'unova-route-9':[[340,140],[480,140],[480,90]],'unova-route-10':[[480,90],[480,50],[440,40]],'unova-route-11':[[480,90],[520,90]],
+      'unova-route-12':[[520,90],[560,90]],'unova-route-13':[[560,90],[610,120],[610,160]],'unova-route-14':[[610,160],[626,130],[626,70]],
+      'unova-route-15':[[450,226],[500,226]],'unova-route-16':[[330,210],[420,210]],'unova-route-17':[[580,336],[520,358]],
+      'unova-route-18':[[520,358],[480,362]],'unova-route-19':[[60,336],[60,276]],'unova-route-20':[[60,276],[120,276],[150,336]],
+      'unova-route-21':[[610,160],[626,204],[610,250]],'unova-route-22':[[610,250],[540,250],[540,200]],
+      'unova-route-23':[[540,200],[540,110],[500,60],[452,48]]},
+    sea:['unova-route-17','unova-route-21'],
     edge:[]},
   // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
   sevii:{name:'SEVII',

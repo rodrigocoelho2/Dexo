@@ -339,6 +339,10 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 <td width="50%"><b>Hoenn map (RSE)</b> · <a href="docs/mocks/hoenn-map.html">hoenn-map.html</a><br><img src="docs/images/mock-hoenn-map.png" alt="Mock of the Hoenn map for Ruby, Sapphire and Emerald, drawn with the real map code and data"></td>
 <td width="50%"><b>Sinnoh map (DPPt)</b> · <a href="docs/mocks/sinnoh-map.html">sinnoh-map.html</a><br><img src="docs/images/mock-sinnoh-map.png" alt="Mock of the Sinnoh map for Diamond, Pearl and Platinum, drawn with the real map code and data"></td>
 </tr>
+<tr>
+<td width="50%"><b>Unova map (BW · B2W2)</b> · <a href="docs/mocks/unova-map.html">unova-map.html</a><br><img src="docs/images/mock-unova-map.png" alt="Mock of the Unova map for Black / White and Black 2 / White 2, drawn with the real map code and data"></td>
+<td width="50%"></td>
+</tr>
 </table>
 
 ## Configuration
