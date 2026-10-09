@@ -18,6 +18,8 @@
 .wm-f{display:flex;justify-content:space-between;padding:0 16px 14px;font-family:var(--tiny);font-size:.46rem;letter-spacing:.12em;color:#56618a}
 .wm-games{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .wm-games button,.wm-regs button{border:0;font-family:var(--tiny);font-size:.56rem;letter-spacing:.1em;padding:6px 10px;border-radius:6px;background:#0b1226;color:#aab6e0;box-shadow:inset 0 0 0 1px #24315a}
+.wm-games{gap:5px}
+.wm-games button{padding:5px 8px;font-size:.52rem}
 .wm-games button.on{background:#ffd23f;color:#2b2200;box-shadow:none}
 .wm-map{position:relative;border-radius:10px;overflow:hidden;background:#0f1a36;box-shadow:inset 0 0 0 1.5px var(--line)}
 .wm-map svg{display:block;width:100%;height:auto}

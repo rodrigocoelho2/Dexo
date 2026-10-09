@@ -17,6 +17,8 @@ GAMES = {"rby": [("1", "R"), ("45", "G"), ("2", "B"), ("3", "Y")],          # 45
          "hgss": [("15", "HG"), ("16", "SS")],
          "b2w2": [("21", "B2"), ("22", "W2")],
          "xy": [("23", "X"), ("24", "Y")],
+         "sm": [("27", "S"), ("28", "M")],
+         "usum": [("29", "US"), ("30", "UM")],
          "lgpe": [("31", "P"), ("32", "E")]}
 METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "good-rod", "super-rod": "super-rod",
           "headbutt": "headbutt", "headbutt-low": "headbutt", "headbutt-normal": "headbutt", "headbutt-high": "headbutt",
@@ -36,6 +38,8 @@ METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "go
           "horde": "horde", "yellow-flowers": "flowers", "red-flowers": "flowers", "purple-flowers": "flowers",
           "rough-terrain": "rough", "berry-trees": "berry", "ceiling-ambush": "ambush", "trash-can-ambush": "ambush",
           "rustling-bush-ambush": "ambush", "ground-ambush": "ambush", "sky-ambush": "ambush",
+          # Sun / Moon and Ultra Sun / Ultra Moon
+          "sos": "sos", "sos-from-bubbling-spot": "sos", "bubbling-spots": "bubbles", "island-scan": "scan",
           # event distributions (handed out at a Pokémon Center)
           "colosseum-bonus-disc-jpn": "event", "colosseum-bonus-disc-us": "event", "pokemon-channel-pal": "event",
           "overworld-special": "rare", "overworld-flying-special": "rare-flying", "overworld-water-special": "rare"}
@@ -48,7 +52,7 @@ METHOD_NOTE = {"devon-scope": "Invisible: needs the Devon Scope", "wailmer-pail"
                "yellow-flowers": "Yellow flowers", "red-flowers": "Red flowers", "purple-flowers": "Purple flowers",
                "ceiling-ambush": "Drops from the ceiling", "trash-can-ambush": "Hides in trash cans",
                "rustling-bush-ambush": "Jumps out of rustling bushes", "ground-ambush": "Pops out of the ground",
-               "sky-ambush": "Swoops down from the sky",
+               "sky-ambush": "Swoops down from the sky", "sos-from-bubbling-spot": "Called from a bubbling spot",
                "colosseum-bonus-disc-jpn": "Pokémon Colosseum bonus disc (Japan)",
                "colosseum-bonus-disc-us": "Pokémon Colosseum bonus disc (US)", "pokemon-channel-pal": "Pokémon Channel (Europe)"}
 NO_RATE = {"wild", "water", "flying", "rare", "rare-flying"}
@@ -75,7 +79,8 @@ STORY = {"national-dex": "After the National Dex", "before-national-dex": "Befor
          "oak-eterna-city": "After meeting Oak in Eterna City", "beat-galactic-coronet": "After Team Galactic at Mt. Coronet",
          "cure-eldritch-nightmares": "After the Canalave nightmare", "beat-team-galactic-iron-island": "After Team Galactic on Iron Island",
          "defeat-mars": "After defeating Mars", "defeat-jupiter": "After defeating Jupiter",
-         "juniper-cave-of-being": "After meeting Juniper at the Cave of Being", "quake-badge": "After the Quake Badge"}
+         "juniper-cave-of-being": "After meeting Juniper at the Cave of Being", "quake-badge": "After the Quake Badge",
+         "finished-looker-sidequest": "After Looker's Ultra Beast missions", "beat-olivias-trial": "After Olivia's grand trial"}
 OTHER = {"correct-password": "With the correct password", "received-kanto-starter": "After receiving a Kanto starter",
          "event-arceus-in-party": "With an event Arceus in the party", "snorlax-11-beat-league": "After the League",
          "virtual-console": "Virtual Console only",
@@ -84,7 +89,8 @@ OTHER = {"correct-password": "With the correct password", "received-kanto-starte
          "talk-to-cynthias-grandmother": "After talking to Cynthia's grandmother",
          "giratina-not-caught-in-distortion-world": "If Giratina got away in the Distortion World",
          "captured-reshiram-or-zekrom": "After catching Reshiram or Zekrom",
-         "found-11-times-roaming": "After meeting it 11 times while it roams"}
+         "found-11-times-roaming": "After meeting it 11 times while it roams",
+         "captured-all-ultra-beasts": "After catching every Ultra Beast", "scan-qr-code": "After scanning a QR code"}
 FIRST = {"first-party-pokemon-high-friendship": "Lead Pokémon must be very friendly"}
 FOSSIL = {"helix": "Helix", "dome": "Dome", "old-amber": "Old Amber", "root": "Root", "claw": "Claw", "skull": "Skull", "armor": "Armor"}
 
@@ -95,6 +101,8 @@ def note_of(cond):
         return None
     if cond in FIRST: return FIRST[cond]
     if cond == "defeated-ghetsis": return "After defeating Ghetsis"
+    m = re.match(r"other-(\w+)-(\w+)-in-party", cond)
+    if m and cond[6:] not in OTHER: return f"With {m.group(1).capitalize()} and {m.group(2).capitalize()} in the party"
     m = re.match(r"friend-safari-slot-(\d)", cond)
     if m: return f"Friend Safari: slot {m.group(1)}" + (" (friend has beaten the League)" if m.group(1) == "3" else "")
     m = re.match(r"berry-tree-type-(\w+)", cond)
@@ -149,7 +157,7 @@ def area_label(prose, loc_name, ident):
     m = re.search(r"\(([^)]*)\)", prose or "")
     label = m.group(1) if m else (prose or "").replace(loc_name, "").strip(" -") or ident.replace("-", " ").upper()
     # Lake Verity's story halves and the Great Marsh's six areas share one list
-    return "" if label in STORY_AREAS or re.fullmatch(r"(unknown )?area \d+", label, re.I) else label
+    return "" if label in STORY_AREAS or label == "MAIN" or re.fullmatch(r"(unknown )?area \d+", label, re.I) else label
 
 
 def build(rows, species_of_pokemon):
@@ -232,7 +240,8 @@ def build(rows, species_of_pokemon):
     M = ["grass", "surf", "old-rod", "good-rod", "super-rod", "headbutt", "rock-smash", "gift", "egg", "trade", "static", "roaming", "special",
          "wild", "water", "flying", "rare", "rare-flying",
          "dive", "any-rod", "event", "honey", "dark-grass", "phenomenon", "grotto",
-         "horde", "flowers", "rough", "berry", "ambush"]
+         "horde", "flowers", "rough", "berry", "ambush",
+         "sos", "bubbles", "scan"]
     out = {g: {} for g in GAMES}
     for (game, sid, li, ai, meth, ni), g in groups.items():
         times = 0

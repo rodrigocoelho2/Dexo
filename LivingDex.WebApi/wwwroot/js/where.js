@@ -1,7 +1,7 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
    Data: /data/encounters.json (built from PokeAPI's encounters by data-build/encounters.py), fetched the first time a map
    opens; RAW.enci (in pokedex.js) says up front which Pokémon each game has, so the "Catch in" pins need no download.
-   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova, Kalos and the Sevii Islands (not the games' town maps); each PokeAPI location
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova, Kalos, Alola and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
 let ENC=RAW.enc||null, ENC_LOAD=null;                       // RAW.enc: a mock page passes the data in directly
 const ENC_IDX=Object.fromEntries(Object.entries(RAW.enci||Object.fromEntries(Object.entries(ENC?ENC.g:{}).map(([g,G])=>[g,Object.keys(G)])))
@@ -18,10 +18,11 @@ const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['O
   wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888'],
   dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838'],
   'dark-grass':['DARK GRASS','#9ccf3a'],phenomenon:['PHENOMENON','#f0a0ff'],grotto:['HIDDEN GROTTO','#5fd38a'],
-  horde:['HORDE','#ff9f43'],flowers:['FLOWERS','#ff7eb6'],rough:['ROUGH TERRAIN','#c8a070'],berry:['BERRY TREE','#e8a838'],ambush:['AMBUSH','#a78bfa']};
-const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',xy:'X · Y',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+  horde:['HORDE','#ff9f43'],flowers:['FLOWERS','#ff7eb6'],rough:['ROUGH TERRAIN','#c8a070'],berry:['BERRY TREE','#e8a838'],ambush:['AMBUSH','#a78bfa'],
+  sos:['SOS CALL','#ff7eb6'],bubbles:['BUBBLING SPOT','#4fb4ff'],scan:['ISLAND SCAN','#5fd38a']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',xy:'X · Y',sm:'Sun · Moon',usum:'Ultra Sun · Ultra Moon',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
 // the maps each game can show (tabs), in order
-const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],xy:['kalos'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],xy:['kalos'],sm:['alola'],usum:['alola'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
 const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
 
 // ---- the maps (viewBox 640×380) ----
@@ -179,6 +180,38 @@ const WM_MAPS={
       'kalos-route-20':[[580,250],[520,296]],'kalos-route-21':[[520,296],[480,330]],'kalos-route-22':[[320,250],[248,262]]},
     sea:[],
     edge:[]},
+  // Sun / Moon and Ultra Sun / Ultra Moon: the four islands (Melemele, Akala, Ula'ula, Poni) and Aether Paradise
+  alola:{name:'ALOLA',
+    land:['M80 96L180 70 280 80 300 140 280 230 220 262 120 258 70 210 60 140Z',
+      'M320 236L400 214 480 210 520 250 512 330 470 366 380 370 330 344 312 290Z',
+      'M400 60L470 24 570 18 630 40 634 140 620 200 540 202 460 196 404 170 392 110Z',
+      'M30 290L120 276 220 282 262 312 250 360 180 376 80 374 26 346Z'],
+    mount:['M470 40L500 28 520 52 494 66Z','M424 62L452 52 462 78 436 90Z'],
+    water:[],
+    islands:[[302,186,14,10],[240,342,12,9]],
+    towns:{'iki-town':[170,100,'Iki Town','r'],'hauoli-city':[170,236,'Hau\u2019oli','a'],'heahea-city':[340,252,'Heahea','b'],
+      'paniola-town':[400,250,'Paniola','r'],'konikoni-city':[470,346,'Konikoni','a'],'malie-city':[440,150,'Malie','b'],
+      'tapu-village':[600,130,'Tapu Village','b'],'seafolk-village':[214,300,'Seafolk','r']},
+    spots:{'mahalo-trail':[204,84],'ruins-of-conflict':[232,82],'trainers-school':[194,204],'hauoli-cemetery':[262,212],
+      'verdant-cavern':[240,150],'verdant-cavern--trial-site':[252,138],'melemele-meadow':[272,100],'seaward-cave':[100,128],
+      'ten-carat-hill':[84,156],'kalae-bay':[104,190],'sandy-cave':[96,222],'melemele-sea':[130,250],'aether-paradise':[302,186],
+      'heahea-beach':[330,272],'hano-beach':[364,232],'brooklet-hill':[462,222],'paniola-ranch':[426,236],'royal-avenue':[400,316],
+      'wela-volcano-park':[334,312],'lush-jungle':[472,296],'digletts-tunnel':[444,302],'memorial-hill':[440,350],'akala-outskirts':[500,326],
+      'ruins-of-life':[500,292],'alola-berry-fields':[420,272],'secluded-shore':[484,246],
+      'malie-garden':[424,128],'mount-hokulani':[440,72],'blush-mountain':[560,188],'thrifty-megamart':[624,186],'ulaula-meadow':[540,64],
+      'team-rockets-castle':[600,34],'haina-desert':[520,120],'ruins-of-abundance':[498,104],'mount-lanakila':[494,46],'ulaula-beach':[420,182],
+      'dividing-peak-tunnel':[580,110],'lake-of-the-sunne':[540,38],'lake-of-the-moone':[560,38],
+      'poni-wilds':[160,300],'ancient-poni-path':[126,318],'poni-breaker-coast':[90,336],'ruins-of-hope':[60,354],'exeggutor-island':[240,342],
+      'vast-poni-canyon':[150,346],'altar-of-the-sunne':[180,364],'altar-of-the-moone':[196,364],'poni-grove':[56,310],'poni-plains':[96,296],
+      'poni-meadow':[122,362],'poni-coast':[220,366],'poni-gauntlet':[70,296],'resolution-cave':[40,330]},
+    routes:{'alola-route-1':[[170,100],[170,236]],'alola-route-2':[[170,236],[240,236],[240,170]],'alola-route-3':[[240,170],[272,110]],
+      'alola-route-4':[[340,252],[400,250]],'alola-route-5':[[400,250],[446,226]],'alola-route-6':[[400,250],[400,316]],
+      'alola-route-7':[[400,316],[350,326]],'alola-route-8':[[400,316],[454,330]],'alola-route-9':[[470,346],[500,346]],
+      'alola-route-10':[[440,150],[440,90]],'alola-route-11':[[440,150],[500,170]],'alola-route-12':[[500,170],[556,170]],
+      'alola-route-13':[[556,170],[600,150]],'alola-route-14':[[600,150],[620,176]],'alola-route-15':[[600,130],[600,90]],
+      'alola-route-16':[[600,90],[560,80]],'alola-route-17':[[600,90],[600,50]]},
+    sea:[],
+    edge:[]},
   // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
   sevii:{name:'SEVII',
     land:['M150 50L214 46 232 84 222 130 230 200 214 300 160 312 136 270 150 200 136 130 140 84Z','M40 96L104 90 112 150 104 214 46 222 34 160Z',
@@ -209,6 +242,8 @@ const WM_POS=(()=>{ const pos={};
   return pos; })();
 
 // ---- data ----
+// a place's position on the current game's maps (PokeAPI files a few encounters under another region's place)
+const wmAt=id=>{ const q=WM_POS[id]; return q&&wmRegions(WM.game).includes(q.r)?q:null; };
 const wmHas=(game,sid)=>!!(ENC_IDX[game]&&ENC_IDX[game].has(+sid));
 const wmGames=()=>GAMES.map(x=>x.k).filter(k=>ENC_IDX[k]);      // in the app's game order
 // Where to look in a game: the Pokémon itself, else the nearest pre-evolution that is found, else a later evolution to breed from.
@@ -228,7 +263,7 @@ function wmPlaces(list){
   const by=new Map();
   list.forEach(e=>{ const li=e[0]; if(!by.has(li)) by.set(li,{li,id:ENC.L[li][0],name:ENC.L[li][1],rows:[]}); by.get(li).rows.push(e); });
   const best=p=>Math.max(...p.rows.map(r=>r[5]));
-  return [...by.values()].sort((a,b)=>(WM_POS[a.id]?0:1)-(WM_POS[b.id]?0:1)||best(b)-best(a));
+  return [...by.values()].sort((a,b)=>(wmAt(a.id)?0:1)-(wmAt(b.id)?0:1)||best(b)-best(a));
 }
 const wmMeth=i=>WM_METHOD[ENC.M[i]]||['?','#888'];
 const wmChance=m=>!['gift','egg','trade','static','roaming','special','event'].includes(ENC.M[m]);
@@ -249,9 +284,9 @@ function wmSVG(region,places,sel){
     const a=at||(y>300?'a':'b'), tx=a==='r'?x+13:x, ty=a==='a'?y-13:a==='b'?y+21:y+3;
     s+=`<text x="${tx}" y="${ty}" text-anchor="${a==='r'?'start':'middle'}" class="wm-tl">${esc(n.toUpperCase())}</text>`; });
   m.edge.forEach(([x,y,a,t,to])=>{ if(to&&!wmRegions(WM.game).includes(to)) return; s+=`<text x="${x}" y="${y}" text-anchor="${a}" class="wm-tl dim">${t}</text>`; });
-  places.forEach((p,i)=>{ const q=WM_POS[p.id]; if(!q||q.r!==region) return; const c=wmMeth(p.rows[0][2])[1];
+  places.forEach((p,i)=>{ const q=wmAt(p.id); if(!q||q.r!==region) return; const c=wmMeth(p.rows[0][2])[1];
     s+=`<g class="wm-pin${i===sel?' sel':''}" data-p="${i}" style="--pc:${c}"><circle class="halo" cx="${q.x}" cy="${q.y}" r="9"/><circle class="hit" cx="${q.x}" cy="${q.y}" r="14"/><circle class="dot" cx="${q.x}" cy="${q.y}" r="7"/></g>`; });
-  const sp=places[sel], q=sp&&WM_POS[sp.id];
+  const sp=places[sel], q=sp&&wmAt(sp.id);
   if(q&&q.r===region){ const t=sp.name.toUpperCase(), w=t.length*7.2+18, lx=Math.min(Math.max(q.x-w/2,6),634-w), ly=q.y-36<4||(q.x<260&&q.y-36<48)?q.y+16:q.y-36;
     s+=`<g pointer-events="none"><rect x="${lx}" y="${ly}" width="${w}" height="21" rx="5" fill="#ffd23f"/><text x="${lx+w/2}" y="${ly+14.5}" text-anchor="middle" class="wm-tl tag">${esc(t)}</text></g>`; }
   return s+'</svg>';
@@ -288,20 +323,20 @@ function wmRender(el,compact){
     else if(f.breed) banner=`<b>Not found in the wild.</b> Catch ${esc(src.en)}, leave it at the Day Care and hatch the Egg.`;
   }
   if(WM.sel>=places.length) WM.sel=0;
-  const regions=[...new Set(places.map(p=>WM_POS[p.id]&&WM_POS[p.id].r).filter(Boolean))];
+  const regions=[...new Set(places.map(p=>wmAt(p.id)&&wmAt(p.id).r).filter(Boolean))];
   const gameRegions=wmRegions(WM.game);
   if(!WM.region||!gameRegions.includes(WM.region)) WM.region=regions[0]||gameRegions[0];
-  const regTabs=gameRegions.map(r=>{ const n=places.filter(p=>WM_POS[p.id]&&WM_POS[p.id].r===r).length;
+  const regTabs=gameRegions.map(r=>{ const n=places.filter(p=>wmAt(p.id)&&wmAt(p.id).r===r).length;
     return `<button type="button" data-r="${r}" class="${r===WM.region?'on':''}${n?'':' none'}">${WM_MAPS[r].name}${n?` · ${n}`:''}</button>`; }).join('');
   const map=f?`<div class="wm-map">${wmSVG(WM.region,places,WM.sel)}<div class="wm-regs">${regTabs}</div></div>`:'';
   const list=`<div class="wm-list">${banner?`<div class="wm-banner">${banner}</div>`:''}${places.map((p,i)=>`<div class="wm-place${i===WM.sel?' sel':''}" data-p="${i}">
-      <div class="wm-ph"><b>${esc(p.name)}</b>${WM_POS[p.id]?`<span class="wm-reg">${WM_MAPS[WM_POS[p.id].r].name}</span>`:'<span class="wm-reg">NOT ON THE MAP</span>'}</div>${p.rows.map(r=>wmRow(r,WM.game)).join('')}</div>`).join('')}</div>`;
+      <div class="wm-ph"><b>${esc(p.name)}</b>${wmAt(p.id)?`<span class="wm-reg">${WM_MAPS[wmAt(p.id).r].name}</span>`:'<span class="wm-reg">NOT ON THE MAP</span>'}</div>${p.rows.map(r=>wmRow(r,WM.game)).join('')}</div>`).join('')}</div>`;
   const head=`<div class="wm-h">${compact?'':'<span class="wm-spr"></span>'}<div><b>Where to find ${esc(name)}</b><small>${esc((WM_GAME[WM.game]||'').toUpperCase())}${f&&f.sid!==WM.sid?' · VIA '+esc(SP.get(f.sid).en.toUpperCase()):''}</small></div>${compact?'':'<button type="button" class="wm-x" aria-label="Close">✕</button>'}</div>`;
   el.innerHTML=compact?`${head}${tabs}${map}${list}`:`${head}<div class="wm-b"><div class="wm-left">${tabs}${map}</div>${list}</div><div class="wm-f"><span>SCHEMATIC MAP · DATA: POKEAPI</span><span>ESC TO CLOSE</span></div>`;
   const spr=el.querySelector('.wm-spr'); if(spr) spr.appendChild(imgEl(spriteChain({sid:WM.sid,sk:String(WM.sid)},false),name,()=>{}));
   el.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ SFX.tab(); WM.game=b.dataset.g; WM.sel=0; WM.region=null; wmRender(el,compact); });
-  el.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{ SFX.tab(); WM.region=b.dataset.r; const i=places.findIndex(p=>WM_POS[p.id]&&WM_POS[p.id].r===WM.region); if(i>=0) WM.sel=i; wmRender(el,compact); });
-  el.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.p, q=WM_POS[places[i].id]; WM.sel=i; if(q) WM.region=q.r; SFX.tab(); wmRender(el,compact);
+  el.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{ SFX.tab(); WM.region=b.dataset.r; const i=places.findIndex(p=>wmAt(p.id)&&wmAt(p.id).r===WM.region); if(i>=0) WM.sel=i; wmRender(el,compact); });
+  el.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.p, q=wmAt(places[i].id); WM.sel=i; if(q) WM.region=q.r; SFX.tab(); wmRender(el,compact);
     if(b.classList.contains('wm-pin')){ const row=el.querySelector(`.wm-place[data-p="${i}"]`); if(row) row.scrollIntoView({block:'nearest',behavior:'smooth'}); } });
   const x=el.querySelector('.wm-x'); if(x) x.onclick=wmClose;
 }
