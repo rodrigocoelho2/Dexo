@@ -1,6 +1,8 @@
 **/bin/
 **/obj/
-**/data/
+# the app's local data folder (not wwwroot/data, which holds the page's Pokédex data)
+data/
+LivingDex.WebApi/data/
 **/node_modules/
 **/TestResults/
 .git/
