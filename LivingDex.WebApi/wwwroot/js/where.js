@@ -1,8 +1,16 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
-   Data: RAW.enc (built from PokeAPI's encounters by data-build/encounters.py) for the games listed in ENC.g.
+   Data: /data/encounters.json (built from PokeAPI's encounters by data-build/encounters.py), fetched the first time a map
+   opens; RAW.enci (in pokedex.js) says up front which Pokémon each game has, so the "Catch in" pins need no download.
    Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
-const ENC=RAW.enc||{L:[],A:[''],N:[''],M:[],v:{},g:{}};
+let ENC=RAW.enc||null, ENC_LOAD=null;                       // RAW.enc: a mock page passes the data in directly
+const ENC_IDX=Object.fromEntries(Object.entries(RAW.enci||Object.fromEntries(Object.entries(ENC?ENC.g:{}).map(([g,G])=>[g,Object.keys(G)])))
+  .map(([g,l])=>[g,new Set(l.map(Number))]));
+function wmLoad(){
+  if(ENC) return Promise.resolve(ENC);
+  return ENC_LOAD||(ENC_LOAD=fetch(`/data/encounters.json?v=${RAW.encv||''}`).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j=>(ENC=j)).catch(e=>{ ENC_LOAD=null; throw e; }));
+}
 const WM={open:false,game:null,sid:0,region:null,sel:-1};
 const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['OLD ROD','#36c6a8'],'good-rod':['GOOD ROD','#36c6a8'],'super-rod':['SUPER ROD','#36c6a8'],
   headbutt:['HEADBUTT','#d0915a'],'rock-smash':['ROCK SMASH','#a0a0c0'],gift:['GIFT','#5fd38a'],egg:['EGG','#5fd38a'],trade:['TRADE','#f08030'],
@@ -175,16 +183,18 @@ const WM_POS=(()=>{ const pos={};
   return pos; })();
 
 // ---- data ----
-const wmHas=(game,sid)=>!!(ENC.g[game]&&ENC.g[game][sid]);
-const wmGames=()=>Object.keys(ENC.g);
+const wmHas=(game,sid)=>!!(ENC_IDX[game]&&ENC_IDX[game].has(+sid));
+const wmGames=()=>GAMES.map(x=>x.k).filter(k=>ENC_IDX[k]);      // in the app's game order
 // Where to look in a game: the Pokémon itself, else the nearest pre-evolution that is found, else a later evolution to breed from.
+// (works from the index alone; list is filled in once the encounters have loaded)
 function wmFind(game,sid){
-  const G=ENC.g[game]; if(!G) return null;
-  if(G[sid]) return {sid,list:G[sid]};
+  const I=ENC_IDX[game]; if(!I) return null;
+  const hit=o=>({...o,list:ENC&&ENC.g[game]?ENC.g[game][o.sid]:null});
+  if(I.has(sid)) return hit({sid});
   const chain=[]; let p=sid;
-  while(EVO[p]){ const [prev,how,trade]=EVO[p]; chain.push({from:prev,to:p,how,trade}); p=prev; if(G[p]) return {sid:p,list:G[p],evolve:chain.reverse()}; }
+  while(EVO[p]){ const [prev,how,trade]=EVO[p]; chain.push({from:prev,to:p,how,trade}); p=prev; if(I.has(p)) return hit({sid:p,evolve:chain.reverse()}); }
   const kids=Object.keys(EVO).filter(k=>EVO[k][0]===sid);
-  for(const k of kids){ if(G[k]) return {sid:+k,list:G[k],breed:+k}; for(const k2 of Object.keys(EVO).filter(x=>EVO[x][0]===+k)) if(G[k2]) return {sid:+k2,list:G[k2],breed:+k2}; }
+  for(const k of kids){ if(I.has(+k)) return hit({sid:+k,breed:+k}); for(const k2 of Object.keys(EVO).filter(x=>EVO[x][0]===+k)) if(I.has(+k2)) return hit({sid:+k2,breed:+k2}); }
   return null;
 }
 // group the encounters by location, best first
@@ -230,13 +240,22 @@ function wmRow(e,game){
     ${tod||ver?`<span class="wm-ch">${tod}${ver}</span>`:''}${note?`<span class="wm-n">${esc(note)}</span>`:''}</div>`;
 }
 function wmRender(el,compact){
+  if(!ENC){                                    // first map of the session: show the header, fetch, then draw
+    const sp=SP.get(WM.sid);
+    el.innerHTML=`<div class="wm-h"><div><b>Where to find ${esc(sp?sp.en:'?')}</b><small>${esc((WM_GAME[WM.game]||'').toUpperCase())}</small></div>${compact?'':'<button type="button" class="wm-x" aria-label="Close">✕</button>'}</div><div class="wm-load">LOADING THE MAP…</div>`;
+    const x=el.querySelector('.wm-x'); if(x) x.onclick=wmClose;
+    const want=WM.game+'|'+WM.sid;
+    wmLoad().then(()=>{ if(el.isConnected&&WM.game+'|'+WM.sid===want) wmRender(el,compact); })
+      .catch(()=>{ const l=el.querySelector('.wm-load'); if(l) l.textContent='COULD NOT LOAD THE MAP. CHECK THE CONNECTION AND TRY AGAIN.'; });
+    return;
+  }
   const sp=SP.get(WM.sid), f=wmFind(WM.game,WM.sid), name=sp?sp.en:'?';
-  const games=wmGames().filter(g=>GAMES.some(x=>x.k===g));
+  const games=wmGames();
   const tabs=`<div class="wm-games">${games.map(g=>{ const x=GAMES.find(y=>y.k===g); return `<button type="button" data-g="${g}" class="${g===WM.game?'on':''}">${esc(x.s)}</button>`; }).join('')}</div>`;
   let banner='', places=[];
   if(!f) banner=`<b>Not found in ${esc(GAMES.find(x=>x.k===WM.game).s)}.</b> Trade it in from another game, or check its event distributions.`;
   else {
-    places=wmPlaces(f.list);
+    places=wmPlaces(f.list||[]);
     const src=SP.get(f.sid);
     if(f.evolve){ const steps=f.evolve.map(s=>`${esc(SP.get(s.from).en)} → ${esc(SP.get(s.to).en)} (${esc(s.how)}${s.trade?', trade':''})`).join(', then ');
       banner=`<b>Not found in the wild.</b> Get ${esc(src.en)} and evolve it: ${steps}.`; }

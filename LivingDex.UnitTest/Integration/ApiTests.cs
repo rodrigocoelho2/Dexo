@@ -282,6 +282,27 @@ public sealed class ApiTests
     }
 
     [SqlFact]
+    public async Task ThePagesFiles_AreCachedForGood_WhenVersioned()
+    {
+        using var app = new TestApp();
+        var client = app.CreateClient();
+        var page = await client.GetStringAsync("/");
+        var script = System.Text.RegularExpressions.Regex.Match(page, "src=\"(/js/app\\.js\\?v=[0-9a-f]+)\"").Groups[1].Value;
+
+        Assert.NotEmpty(script);
+        var versioned = await client.GetAsync(script);
+        versioned.EnsureSuccessStatusCode();
+        var cache = versioned.Headers.CacheControl!;
+        Assert.True(cache.Public);
+        Assert.Equal(TimeSpan.FromDays(365), cache.MaxAge);
+        Assert.Contains(cache.Extensions, e => e.Name == "immutable");
+
+        var plain = await client.GetAsync("/js/app.js");
+        plain.EnsureSuccessStatusCode();
+        Assert.Null(plain.Headers.CacheControl);
+    }
+
+    [SqlFact]
     public async Task TrainerCards_ShowPartnerAndLivingDexCount()
     {
         using var app = new TestApp();

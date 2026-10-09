@@ -1,5 +1,6 @@
-(()=>{
-const RAW = JSON.parse(document.getElementById('pkdata').textContent);
+/* HOME Living Dex: the tracker (state, boxes, inspector, sync). The other scripts in this folder build on it and boot.js starts the app.
+   Classic scripts sharing one global scope, loaded in order by index.html; the Pokédex data comes from /data/pokedex.js. */
+const RAW = window.PKDATA;
 let BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
 let CRY = 'https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/';
 const TYPES = [null,['Normal','#a8a878'],['Fighting','#c03028'],['Flying','#a890f0'],['Poison','#a040a0'],['Ground','#d4a84a'],['Rock','#b8a038'],['Bug','#98b020'],['Ghost','#705898'],['Steel','#a0a0c0'],['Fire','#f08030'],['Water','#5890f0'],['Grass','#68b848'],['Electric','#e8c018'],['Psychic','#f85888'],['Ice','#78c8c8'],['Dragon','#7038f8'],['Dark','#705848'],['Fairy','#e890b0']];
@@ -778,7 +779,3 @@ async function restore(rev){
   try{ const r=await api('POST',`/api/history/${rev}/restore`); if(!r.ok) throw 0; const j=await r.json(); adopt(j.data); SYNC.rev=j.revision; markSynced(); renderAllButControls(); setSync('synced'); flash(`Restored version r${rev}`); loadHistory(); }
   catch(_){ SFX.err(); flash('Could not restore that version'); }
 }
-
-render();
-syncInit();
-})();

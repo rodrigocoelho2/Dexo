@@ -1,5 +1,5 @@
 """Where each Pokémon is found in the games that have a map (Where to get → map).
-Reads PokeAPI's encounter CSVs and returns a compact table for data2.json:
+Reads PokeAPI's encounter CSVs and returns a compact table (wwwroot/data/encounters.json):
   {"L": [[location id, name], ...], "A": [area labels], "N": [notes], "M": [methods],
    "g": {game: {species: [[loc, area, method, min lv, max lv, rate %, times, versions, note], ...]}}}
 times: 1 morning, 2 day, 4 night (7 = any time). versions: one bit per version of the game, in GAMES order.

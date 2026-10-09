@@ -210,18 +210,20 @@ LivingDex.WebApi/             ASP.NET Core app
     Assets/                   sprite/cry/background/music store and the "download all" job
     Health/                   /api/health
   Simulator/                  bridge.js + package.json for the Pokémon Showdown simulator (Node.js)
-  wwwroot/                    index.html (built from LivingDex.Client — do not edit by hand), fonts/, lib/,
-                              manifest.json, sw.js, offline.html, icons/, splash/
+  wwwroot/                    the page:
+    index.html, css/app.css   built by LivingDex.Client/build.py (do not edit by hand)
+    js/                       app.js, sd.js, dexbadges.js, profile.js, where.js, mob.js, boot.js (edited here)
+    data/                     pokedex.js and encounters.json (built by data-build/build_data.py)
+                              fonts/, lib/, manifest.json, sw.js, offline.html, icons/, splash/
   Dockerfile                  the app container
 LivingDex.UnitTest/           xunit: services with in-memory fakes, and API integration tests on SQL Server
 LivingDex.Assets/             sprites/, cries/, battlebg/, music/ shipped with the app
-LivingDex.Client/             the web page sources
-  src/                        base.html, body.html, app.js, sd.js, dexbadges.js, profile.js, mob.js, *.css,
-                              icons.py, data2.json (generated Pokédex data)
-  assemble.py                 builds LivingDex.WebApi/wwwroot/index.html from src/
+LivingDex.Client/             what the page is built from
+  src/                        body.html (the markup), css/*.css, icons.py (favicons)
+  build.py                    writes wwwroot/index.html and wwwroot/css/app.css
   splash.py                   renders the iPhone launch images into wwwroot/splash
   psfx/                       move-animation sources + build.sh (esbuild bundle → wwwroot/lib)
-  data-build/                 build_data.py: PokeAPI CSVs + Showdown data → src/data2.json
+  data-build/                 build_data.py + encounters.py: PokeAPI CSVs + Showdown data → wwwroot/data
 docs/                         README images and the HTML design mocks
 ```
 
@@ -252,18 +254,18 @@ The integration tests create a throw-away database per test from the scripts in 
 
 ### Change the web client
 
-The page is a single self-contained HTML file. Edit the pieces in `LivingDex.Client/src`, then rebuild it:
+The page is a small HTML shell that loads one stylesheet, the Pokédex data and the scripts. The scripts in `LivingDex.WebApi/wwwroot/js` are edited in place; the markup and the stylesheets live in `LivingDex.Client/src`. After changing anything, rebuild the shell:
 
 ```bash
-python3 LivingDex.Client/assemble.py      # → LivingDex.WebApi/wwwroot/index.html
+python3 LivingDex.Client/build.py         # → wwwroot/index.html + wwwroot/css/app.css
 ```
 
-`assemble.py` concatenates the stylesheets in a fixed order (base → tracker → Showdown → generations → draft → toolbar → phone), recolours the blue hues into `hsl(var(--h) …)` so the theme picker can tint them, and inlines `data2.json`, `app.js`, `sd.js` and `mob.js`. Everything for phones lives in `mob.css` (inside `@media (max-width:700px)`) and `mob.js`, so desktop changes and phone changes stay apart.
+`build.py` concatenates the stylesheets in a fixed order (base → tracker → Showdown → generations → draft → toolbar → profile → map → phone), recolours the blue hues into `hsl(var(--h) …)` so the theme picker can tint them, and links every file as `/file?v=<content hash>`. The server keeps those versioned files cached for good and never caches `index.html`, so a deploy shows up on the next load and nothing else is downloaded again. The scripts are plain scripts sharing one global scope, loaded in order (`app.js` first, `boot.js` last). The map encounters (`data/encounters.json`) are only fetched the first time a map opens. Everything for phones lives in `mob.css` (inside `@media (max-width:700px)`) and `mob.js`, so desktop changes and phone changes stay apart.
 
 ### Rebuild the Pokédex data
 
 ```bash
-python3 LivingDex.Client/data-build/build_data.py   # → LivingDex.Client/src/data2.json, then run assemble.py
+python3 LivingDex.Client/data-build/build_data.py   # → wwwroot/data/pokedex.js + encounters.json, then run build.py
 ```
 
 It reads the [PokeAPI](https://github.com/PokeAPI/pokeapi) CSV exports in `LivingDex.Client/data-build/csv` and Pokémon Showdown's `formats-data`/`pokedex` files in `LivingDex.Client/data-build/sd` (which decide what exists in each game). Drop in newer copies of those files to update.

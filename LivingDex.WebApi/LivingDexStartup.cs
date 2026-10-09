@@ -130,12 +130,17 @@ internal static class LivingDexStartup
         app.UseStaticFiles(new StaticFileOptions
         {
             // The page, the service worker and the app manifest must never be cached, so a new deploy shows up on the next launch.
+            // The page links its stylesheet, scripts and data as /file?v=<content hash>: those can be kept for good.
             OnPrepareResponse = static context =>
             {
                 var name = context.File.Name;
                 if (name.EndsWith(".html", StringComparison.OrdinalIgnoreCase) || name is "sw.js" or "manifest.json")
                 {
                     context.Context.Response.Headers.CacheControl = "no-cache";
+                }
+                else if (context.Context.Request.Query.ContainsKey("v"))
+                {
+                    context.Context.Response.Headers.CacheControl = "public, max-age=31536000, immutable";
                 }
             },
         });
