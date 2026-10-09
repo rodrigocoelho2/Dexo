@@ -12,6 +12,7 @@ GAMES = {"rby": [("1", "R"), ("45", "G"), ("2", "B"), ("3", "Y")],          # 45
          "gsc": [("4", "G"), ("5", "S"), ("6", "C")],
          "rse": [("7", "R"), ("8", "S"), ("9", "E")],
          "frlg": [("10", "FR"), ("11", "LG")],
+         "dppt": [("12", "D"), ("13", "P"), ("14", "Pt")],
          "hgss": [("15", "HG"), ("16", "SS")],
          "lgpe": [("31", "P"), ("32", "E")]}
 METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "good-rod", "super-rod": "super-rod",
@@ -23,26 +24,38 @@ METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "go
           # Ruby / Sapphire / Emerald
           "seaweed": "dive", "devon-scope": "static", "wailmer-pail": "static", "feebas-tile-fishing": "any-rod",
           "roaming-water": "roaming",
+          # Diamond / Pearl / Platinum
+          "honey-tree": "honey",
           # event distributions (handed out at a Pokémon Center)
           "colosseum-bonus-disc-jpn": "event", "colosseum-bonus-disc-us": "event", "pokemon-channel-pal": "event",
           "overworld-special": "rare", "overworld-flying-special": "rare-flying", "overworld-water-special": "rare"}
 # a note that comes from how the Pokémon is found, not from a condition
 METHOD_NOTE = {"devon-scope": "Invisible: needs the Devon Scope", "wailmer-pail": "Water it with the Wailmer Pail",
                "feebas-tile-fishing": "Only on 6 random water tiles",
+               "pokemon-ranger": "Egg sent from Pokémon Ranger",
                "colosseum-bonus-disc-jpn": "Pokémon Colosseum bonus disc (Japan)",
                "colosseum-bonus-disc-us": "Pokémon Colosseum bonus disc (US)", "pokemon-channel-pal": "Pokémon Channel (Europe)"}
 NO_RATE = {"wild", "water", "flying", "rare", "rare-flying"}
 SKIP_LOC = {"unknown-all-bugs", "unknown-all-poliwag", "unknown-all-rattata"}   # PokeAPI placeholder areas
 TIME = {"time-morning": 1, "time-day": 2, "time-night": 4}
-IGNORE = {"swarm-no", "radio-off", "bug-catching-contest-no", "johto-safari-blocks-inactive", "headbutt-tree-common"}
+IGNORE = {"swarm-no", "radio-off", "bug-catching-contest-no", "johto-safari-blocks-inactive", "headbutt-tree-common",
+          "radar-off", "slot2-none", "honey-tree-group-a", "honey-tree-group-b", "great-marsh-daily-slot-none", "backlot-not-mentioned"}
+SLOT2 = {"ruby": "Ruby", "sapphire": "Sapphire", "emerald": "Emerald", "firered": "FireRed", "leafgreen": "LeafGreen"}
 STORY = {"national-dex": "After the National Dex", "before-national-dex": "Before the National Dex", "beat-red": "After beating Red",
          "awakened-beasts": "After the legendary beasts awaken", "zephyr-badge": "After the Zephyr Badge",
          "returned-machine-part": "After returning the Machine Part", "vermilion-copycat": "After helping Copycat",
          "receive-tm-from-claire": "After Clair's TM",
-         "beat-elite-four-round-two": "After the Elite Four rematch", "hall-of-fame": "After the Hall of Fame"}
+         "beat-elite-four-round-two": "After the Elite Four rematch", "hall-of-fame": "After the Hall of Fame",
+         "oak-eterna-city": "After meeting Oak in Eterna City", "beat-galactic-coronet": "After Team Galactic at Mt. Coronet",
+         "cure-eldritch-nightmares": "After the Canalave nightmare", "beat-team-galactic-iron-island": "After Team Galactic on Iron Island",
+         "defeat-mars": "After defeating Mars", "defeat-jupiter": "After defeating Jupiter"}
 OTHER = {"correct-password": "With the correct password", "received-kanto-starter": "After receiving a Kanto starter",
          "event-arceus-in-party": "With an event Arceus in the party", "snorlax-11-beat-league": "After the League",
-         "virtual-console": "Virtual Console only"}
+         "virtual-console": "Virtual Console only",
+         "regirock-regice-registeel-in-party": "With Regirock, Regice and Registeel in the party",
+         "talked-to-32-people-underground": "After talking to 32 people in the Underground",
+         "talk-to-cynthias-grandmother": "After talking to Cynthia's grandmother",
+         "giratina-not-caught-in-distortion-world": "If Giratina got away in the Distortion World"}
 FIRST = {"first-party-pokemon-high-friendship": "Lead Pokémon must be very friendly"}
 FOSSIL = {"helix": "Helix", "dome": "Dome", "old-amber": "Old Amber", "root": "Root", "claw": "Claw", "skull": "Skull", "armor": "Armor"}
 
@@ -52,6 +65,13 @@ def note_of(cond):
     if cond in IGNORE or cond in TIME:
         return None
     if cond in FIRST: return FIRST[cond]
+    if cond == "radar-on": return "Poké Radar"
+    if cond == "honey-tree-group-c": return "Munchlax trees only"
+    if cond == "backlot-mentioned": return "When Mr. Backlot mentions it (daily)"
+    if cond.startswith("great-marsh-daily-slot-"): return "Daily species (look through the binoculars)"
+    if cond in ("item-adamant-orb", "item-lustrous-orb"): return "With the " + cond[5:].replace("-", " ").title()
+    m = re.match(r"slot2-(\w+)", cond)
+    if m: return f"With {SLOT2.get(m.group(1), m.group(1))} in the GBA slot"
     if cond == "swarm-yes": return "Swarm"
     m = re.match(r"tv-option-(\w+)", cond)
     if m: return f"Tell Mom the Pokémon on TV was {m.group(1)}"
@@ -81,14 +101,16 @@ def note_of(cond):
     return cond.replace("-", " ").capitalize()
 
 
+STORY_AREAS = {"before Galactic intervention", "after Galactic intervention"}   # Lake Verity / Valor: same encounters
+
+
 def area_label(prose, loc_name, ident):
     if not ident or ident == "area":
         return ""
     m = re.search(r"\(([^)]*)\)", prose or "")
-    if m:
-        return m.group(1)
-    p = (prose or "").replace(loc_name, "").strip(" -")
-    return p or ident.replace("-", " ").upper()
+    label = m.group(1) if m else (prose or "").replace(loc_name, "").strip(" -") or ident.replace("-", " ").upper()
+    # Lake Verity's story halves and the Great Marsh's six areas share one list
+    return "" if label in STORY_AREAS or re.fullmatch(r"area \d+", label, re.I) else label
 
 
 def build(rows, species_of_pokemon):
@@ -128,13 +150,14 @@ def build(rows, species_of_pokemon):
         sid = species_of_pokemon[int(r["pokemon_id"])]
         name = loc_name.get(lid) or {"johto-pokemart": "Poké Mart", "roaming-johto": "Roaming Johto",
                                      "roaming-kanto": "Roaming Kanto", "roaming-hoenn": "Roaming Hoenn",
-                                     "kanto-pokecenter": "Pokémon Center", "hoenn-pokecenter": "Pokémon Center"}.get(ident, ident)
+                                     "kanto-pokecenter": "Pokémon Center", "hoenn-pokecenter": "Pokémon Center",
+                                     "sinnoh-pokemart": "Poké Mart", "roaming-sinnoh": "Roaming Sinnoh"}.get(ident, ident)
         li = idx(L, Li, ident, [ident, name])
         ai = idx(A, Ai, area_label(area_prose.get(area["id"], ""), name, area["identifier"]))
         cs = conds.get(r["id"], [])
         tmask = sum(TIME[c] for c in cs if c in TIME) or 7
         notes = {n for n in (note_of(c) for c in cs) if n} | ({METHOD_NOTE[raw]} if raw in METHOD_NOTE else set())
-        recs.append((game, sid, li, ai, meth, notes, vbit, tmask, raw, int(r["min_level"]), int(r["max_level"]),
+        recs.append((game, sid, li, ai, meth, notes, vbit, tmask, (raw, area["id"]), int(r["min_level"]), int(r["max_level"]),
                      int(slots[r["encounter_slot_id"]]["rarity"])))
 
     # PokeAPI splits a roamer into grass and water tables with different conditions: a version's notes apply to both
@@ -142,9 +165,16 @@ def build(rows, species_of_pokemon):
     for game, sid, li, ai, meth, notes, vbit, *_ in recs:
         if meth == "roaming":
             roam[(game, sid, li, vbit)] |= notes
+    # the GBA-slot and Poké Radar tables repeat most of the normal ones: only keep a Pokémon there when they add it
+    def extra(n): return n.startswith("With ") and n.endswith("GBA slot") or n == "Poké Radar"
+    have = {(game, sid, li, ai, meth, frozenset(roam[(game, sid, li, vbit)] if meth == "roaming" else notes))
+            for game, sid, li, ai, meth, notes, vbit, *_ in recs}
     for game, sid, li, ai, meth, notes, vbit, tmask, raw, lo, hi, rarity in recs:
         if meth == "roaming":
             notes = roam[(game, sid, li, vbit)]
+        base = frozenset(n for n in notes if not extra(n))
+        if base != notes and (game, sid, li, ai, meth, base) in have:
+            continue
         ni = idx(N, Ni, " · ".join(sorted(notes)))
         g = groups.setdefault((game, sid, li, ai, meth, ni), {"min": 99, "max": 0, "rate": defaultdict(int), "ver": 0})
         g["min"] = min(g["min"], lo); g["max"] = max(g["max"], hi)
@@ -156,7 +186,7 @@ def build(rows, species_of_pokemon):
 
     M = ["grass", "surf", "old-rod", "good-rod", "super-rod", "headbutt", "rock-smash", "gift", "egg", "trade", "static", "roaming", "special",
          "wild", "water", "flying", "rare", "rare-flying",
-         "dive", "any-rod", "event"]
+         "dive", "any-rod", "event", "honey"]
     out = {g: {} for g in GAMES}
     for (game, sid, li, ai, meth, ni), g in groups.items():
         times = 0

@@ -360,12 +360,13 @@ function renderEvo(body,g,s,v,list,e){
 }
 function renderWhere(body,g,e){
   const sp=SP.get(e.sid), lines=[];
-  PLAY.forEach(x=>x.dex.forEach((d,di)=>{ const isDlc=(x.dlc||[]).includes(d);
+  PLAY.forEach(x=>{ let pin=true; x.dex.forEach(d=>{ const isDlc=(x.dlc||[]).includes(d);
     const n=DEXNUM[d].get(e.sid); if(n==null) return;
     const exc=RAW.xc[x.k]&&RAW.xc[x.k][e.sid], note=RAW.xn[x.k+'|'+e.sid];
-    const mp=di===0&&wmFind(x.k,e.sid);
+    // the map pin goes on the game's first Pokédex that has it (Giratina is only in Platinum's)
+    const mp=pin&&wmFind(x.k,e.sid); pin=false;
     lines.push(`<div class="wline"><span class="gm">${esc(x.s)}</span><span class="tags">${mp?`<button type="button" class="tg map" data-map="${x.k}" title="Show on the map">${WM_PIN}<b>${esc(dexLabel(x,d))} ${pad(n)}</b></button>`:`<span class="tg${isDlc?' dlc':''}"><b>${esc(dexLabel(x,d))} ${pad(n)}</b></span>`}${isDlc?'<span class="tg">DLC</span>':''}${exc?`<span class="tg x">${esc(exc)} only</span>`:''}</span>${note&&exc?`<span class="hint">${esc(note)}</span>`:''}</div>`);
-  }));
+  }); });
   PLAY.forEach(x=>{ const exc=RAW.xc[x.k]&&RAW.xc[x.k][e.sid]; if(!exc||x.dex.some(d=>DEXNUM[d].has(e.sid))) return;
     lines.push(`<div class="wline"><span class="gm">${esc(x.s)}</span><span class="tags"><span class="tg"><b>Outside regional dex</b></span><span class="tg x">${esc(exc)} only</span></span></div>`); });
   // games with a map where it is found although it's outside their regional Pokédex (radio, Safari Zone, Kanto…)

@@ -1,6 +1,6 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
    Data: RAW.enc (built from PokeAPI's encounters by data-build/encounters.py) for the games listed in ENC.g.
-   Maps: original, simplified drawings of Johto, Kanto, Hoenn and the Sevii Islands (not the games' town maps); each PokeAPI location
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
 const ENC=RAW.enc||{L:[],A:[''],N:[''],M:[],v:{},g:{}};
 const WM={open:false,game:null,sid:0,region:null,sel:-1};
@@ -8,10 +8,10 @@ const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['O
   headbutt:['HEADBUTT','#d0915a'],'rock-smash':['ROCK SMASH','#a0a0c0'],gift:['GIFT','#5fd38a'],egg:['EGG','#5fd38a'],trade:['TRADE','#f08030'],
   static:['ONE-TIME','#ef3d4f'],roaming:['ROAMING','#a78bfa'],special:['SPECIAL','#f85888'],
   wild:['WILD','#ffd23f'],water:['ON WATER','#4fb4ff'],flying:['FLYING','#9fc3ff'],rare:['RARE SPAWN','#f85888'],'rare-flying':['RARE · FLYING','#f85888'],
-  dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888']};
-const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+  dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
 // the maps each game can show (tabs), in order
-const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
 const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
 
 // ---- the maps (viewBox 640×380) ----
@@ -83,6 +83,37 @@ const WM_MAPS={
     sea:['hoenn-route-105','hoenn-route-106','hoenn-route-107','hoenn-route-108','hoenn-route-109','hoenn-route-122','hoenn-route-124','hoenn-route-125',
       'hoenn-route-126','hoenn-route-127','hoenn-route-128','hoenn-route-129','hoenn-route-130','hoenn-route-131','hoenn-route-132','hoenn-route-133','hoenn-route-134'],
     edge:[]},
+  // Diamond / Pearl / Platinum: Mt. Coronet down the middle, the Battle Zone island in the north-east
+  sinnoh:{name:'SINNOH',
+    land:['M92 64L200 40 320 22 470 26 500 72 506 140 610 152 632 200 632 346 560 352 470 348 420 340 330 350 270 372 200 352 120 348 96 300 84 200Z',
+      'M528 16H636V112L572 124 528 104Z'],
+    mount:['M378 92L412 90 424 150 418 208 398 216 382 200 372 150Z'],
+    water:[['ellipse',170,250,16,26],['ellipse',140,302,14,9],['ellipse',380,26,22,10],['ellipse',540,304,16,10]],
+    islands:[[40,236,26,20],[500,44,12,9],[300,362,26,10]],
+    towns:{'twinleaf-town':[140,330,'Twinleaf'],'sandgem-town':[230,330,'Sandgem'],'jubilife-city':[230,250,'Jubilife'],'canalave-city':[110,250,'Canalave'],
+      'oreburgh-city':[330,250,'Oreburgh'],'floaroma-town':[230,170,'Floaroma'],'eterna-city':[330,110,'Eterna'],'hearthome-city':[440,240,'Hearthome'],
+      'solaceon-town':[520,240,'Solaceon'],'celestic-town':[462,130,'Celestic'],'veilstone-city':[570,170,'Veilstone'],'pastoria-city':[490,330,'Pastoria'],
+      'sunyshore-city':[612,330,'Sunyshore','a'],'snowpoint-city':[340,40,'Snowpoint','r'],'sinnoh-pokemon-league':[612,226,'League','b'],
+      'fight-area':[562,90,'Fight Area','b'],'survival-area':[562,40,'Survival','b'],'resort-area':[610,100,'Resort','b']},
+    spots:{'lake-verity':[140,302],'oreburgh-gate':[284,250],'oreburgh-mine':[350,270],'ravaged-path':[212,212],'floaroma-meadow':[202,160],
+      'valley-windworks':[262,188],'fuego-ironworks':[176,128],'eterna-forest':[268,140],'old-chateau':[258,118],'wayward-cave':[310,192],
+      'mt-coronet':[398,150],'spear-pillar':[402,112],'sinnoh-hall-of-origin-1':[402,96],'lost-tower':[480,226],'solaceon-ruins':[520,262],
+      'trophy-garden':[426,292],'great-marsh':[470,312],'valor-lakefront':[570,300],'lake-valor':[540,304],'ruin-maniac-cave':[586,250],
+      'maniac-tunnel':[586,250],'sendoff-spring':[548,212],'turnback-cave':[534,198],'distortion-world':[534,198],'acuity-lakefront':[362,58],
+      'lake-acuity':[380,26],'snowpoint-temple':[318,26],'iron-island':[40,236],'sinnoh-victory-road':[612,198],'stark-mountain':[618,28],
+      'newmoon-island':[500,44],'flower-paradise':[630,160]},
+    routes:{'sinnoh-route-201':[[140,330],[230,330]],'sinnoh-route-202':[[230,330],[230,250]],'sinnoh-route-203':[[230,250],[330,250]],
+      'sinnoh-route-204':[[230,250],[230,170]],'sinnoh-route-205':[[230,170],[290,170],[290,120],[330,110]],'sinnoh-route-206':[[330,110],[330,220]],
+      'sinnoh-route-207':[[330,250],[330,220],[384,220]],'sinnoh-route-208':[[412,220],[440,220],[440,240]],'sinnoh-route-209':[[440,240],[520,240]],
+      'sinnoh-route-210':[[520,240],[520,130],[462,130]],'sinnoh-route-211':[[330,110],[462,110],[462,130]],'sinnoh-route-212':[[440,240],[440,330],[490,330]],
+      'sinnoh-route-213':[[570,300],[570,330],[490,330]],'sinnoh-route-214':[[570,170],[570,300]],'sinnoh-route-215':[[520,170],[570,170]],
+      'sinnoh-route-216':[[398,96],[398,72],[340,72]],'sinnoh-route-217':[[340,72],[340,40]],'sinnoh-route-218':[[230,250],[110,250]],
+      'sinnoh-route-219':[[230,330],[230,360]],'sinnoh-sea-route-220':[[230,360],[276,362]],'sinnoh-route-221':[[276,362],[326,362]],
+      'sinnoh-route-222':[[570,330],[612,330]],'sinnoh-sea-route-223':[[612,330],[612,226]],'sinnoh-route-224':[[612,226],[630,170]],
+      'sinnoh-route-225':[[562,90],[562,40]],'sinnoh-sea-route-226':[[562,90],[610,100]],'sinnoh-route-227':[[610,100],[618,40]],
+      'sinnoh-route-228':[[562,40],[618,40]],'sinnoh-route-229':[[562,90],[540,108]],'sinnoh-sea-route-230':[[540,108],[536,130],[570,150]]},
+    sea:['sinnoh-sea-route-220','sinnoh-sea-route-223','sinnoh-sea-route-226','sinnoh-sea-route-230'],
+    edge:[]},
   // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
   sevii:{name:'SEVII',
     land:['M150 50L214 46 232 84 222 130 230 200 214 300 160 312 136 270 150 200 136 130 140 84Z','M40 96L104 90 112 150 104 214 46 222 34 160Z',
@@ -140,6 +171,7 @@ function wmSVG(region,places,sel){
   const m=WM_MAPS[region], pl=p=>p.map(q=>q.join(',')).join(' ');
   let s=`<svg viewBox="0 0 640 380" role="img" aria-label="Map of ${esc(m.name)}"><rect width="640" height="380" fill="#0f1a36"/>`;
   m.land.forEach(d=>{ s+=`<path d="${d}" fill="#1d2b52" stroke="#33508f" stroke-width="2"/>`; });
+  (m.mount||[]).forEach(d=>{ s+=`<path d="${d}" fill="#2b3766" stroke="#4a5f9a" stroke-width="1.5" stroke-linejoin="round"/>`; });
   (m.islands||[]).forEach(([x,y,rx,ry])=>{ s+=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#1d2b52" stroke="#33508f" stroke-width="2"/>`; });
   m.water.forEach(([_,x,y,rx,ry])=>{ s+=`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#173a6e" stroke="#2f5d9f" stroke-width="1.5"/>`; });
   Object.entries(m.routes).forEach(([k,p])=>{ const sea=m.sea.includes(k);
