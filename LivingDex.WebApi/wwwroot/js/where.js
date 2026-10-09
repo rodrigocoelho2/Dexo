@@ -1,7 +1,7 @@
 /* ---------- WHERE TO GET → MAP: where a Pokémon is found, on a schematic map of the region ----------
    Data: /data/encounters.json (built from PokeAPI's encounters by data-build/encounters.py), fetched the first time a map
    opens; RAW.enci (in pokedex.js) says up front which Pokémon each game has, so the "Catch in" pins need no download.
-   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova, Kalos, Alola and the Sevii Islands (not the games' town maps); each PokeAPI location
+   Maps: original, simplified drawings of Johto, Kanto, Hoenn, Sinnoh, Unova, Kalos, Alola, Galar (with the Isle of Armor and the Crown Tundra) and the Sevii Islands (not the games' town maps); each PokeAPI location
    is placed by hand: towns and spots at a point, routes along a line (the pin sits halfway). */
 let ENC=RAW.enc||null, ENC_LOAD=null;                       // RAW.enc: a mock page passes the data in directly
 const ENC_IDX=Object.fromEntries(Object.entries(RAW.enci||Object.fromEntries(Object.entries(ENC?ENC.g:{}).map(([g,G])=>[g,Object.keys(G)])))
@@ -19,10 +19,11 @@ const WM_METHOD={grass:['GRASS','#ffd23f'],surf:['SURF','#4fb4ff'],'old-rod':['O
   dive:['DIVE','#2f7fd8'],'any-rod':['ANY ROD','#36c6a8'],event:['EVENT','#f85888'],honey:['HONEY TREE','#e8a838'],
   'dark-grass':['DARK GRASS','#9ccf3a'],phenomenon:['PHENOMENON','#f0a0ff'],grotto:['HIDDEN GROTTO','#5fd38a'],
   horde:['HORDE','#ff9f43'],flowers:['FLOWERS','#ff7eb6'],rough:['ROUGH TERRAIN','#c8a070'],berry:['BERRY TREE','#e8a838'],ambush:['AMBUSH','#a78bfa'],
-  sos:['SOS CALL','#ff7eb6'],bubbles:['BUBBLING SPOT','#4fb4ff'],scan:['ISLAND SCAN','#5fd38a']};
-const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',xy:'X · Y',sm:'Sun · Moon',usum:'Ultra Sun · Ultra Moon',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
+  sos:['SOS CALL','#ff7eb6'],bubbles:['BUBBLING SPOT','#4fb4ff'],scan:['ISLAND SCAN','#5fd38a'],
+  dirt:['DIG SPOT','#c8a070'],wanderer:['WANDERING','#ffb347'],raid:['MAX RAID','#e2414f'],adventure:['DYNAMAX ADVENTURE','#b04ad6']};
+const WM_GAME={rby:'Red · Green · Blue · Yellow',gsc:'Gold · Silver · Crystal',rse:'Ruby · Sapphire · Emerald',dppt:'Diamond · Pearl · Platinum',bw:'Black · White',b2w2:'Black 2 · White 2',xy:'X · Y',sm:'Sun · Moon',usum:'Ultra Sun · Ultra Moon',swsh:'Sword · Shield',frlg:'FireRed · LeafGreen',hgss:'HeartGold · SoulSilver',lgpe:"Let's Go Pikachu · Let's Go Eevee"};
 // the maps each game can show (tabs), in order
-const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],xy:['kalos'],sm:['alola'],usum:['alola'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
+const WM_REGIONS={rby:['kanto'],gsc:['johto','kanto'],rse:['hoenn'],dppt:['sinnoh'],bw:['unova'],b2w2:['unova'],xy:['kalos'],sm:['alola'],usum:['alola'],swsh:['galar','armor','tundra'],frlg:['kanto','sevii'],hgss:['johto','kanto'],lgpe:['kanto']};
 const wmRegions=g=>WM_REGIONS[g]||Object.keys(WM_MAPS);
 
 // ---- the maps (viewBox 640×380) ----
@@ -212,6 +213,54 @@ const WM_MAPS={
       'alola-route-16':[[600,90],[560,80]],'alola-route-17':[[600,90],[600,50]]},
     sea:[],
     edge:[]},
+  // Sword / Shield: Galar runs south (Postwick) to north (Wyndon) with the Wild Area in the middle; the two expansions have their own maps
+  galar:{name:'GALAR',
+    land:['M330 8L420 12 452 58 540 86 566 140 546 214 568 280 524 330 430 344 340 372 250 372 200 334 176 262 118 222 72 150 104 104 196 92 256 56 292 18Z'],
+    mount:[],
+    water:[['ellipse',334,262,22,10],['ellipse',282,250,20,9],['ellipse',282,206,18,9],['ellipse',282,180,16,8],['ellipse',240,108,18,9]],
+    islands:[],
+    towns:{'postwick':[300,356,'Postwick','r'],'wedgehurst':[300,322,'Wedgehurst','r'],'motostoke':[384,206,'Motostoke','r'],
+      'turffield':[420,306,'Turffield','b'],'hulbury':[522,288,'Hulbury','b'],'hammerlocke':[300,88,'Hammerlocke','r'],
+      'stow-on-side':[170,160,'Stow-on-Side','b'],'ballonlea':[104,128,'Ballonlea','b'],'circhester':[380,64,'Circhester','r'],
+      'spikemuth':[530,120,'Spikemuth','b'],'wyndon':[380,22,'Wyndon','r']},
+    spots:{'slumbering-weald':[254,356],'meetup-spot':[300,292],'rolling-fields':[266,272],'dappled-grove':[236,248],'watchtower-ruins':[246,222],
+      'east-lake-axewell':[334,262],'west-lake-axewell':[282,250],'axews-eye':[316,234],'south-lake-miloch':[282,206],'giants-seat':[316,200],
+      'north-lake-miloch':[282,180],'motostoke-riverbank':[350,196],'bridge-field':[324,168],'stony-wilderness':[256,158],'dusty-bowl':[290,146],
+      'giants-mirror':[248,134],'hammerlocke-hills':[324,136],'giants-cap':[276,118],'lake-of-outrage':[240,108],'galar-wild-area-max-dens':[214,196],
+      'galar-mine':[450,248],'galar-mine-no-2':[500,240],'motostoke-outskirts':[440,200],'energy-plant':[322,74],'glimwood-tangle':[136,148],
+      'galar-battle-tower':[412,22]},
+    routes:{'galar-route-1':[[300,356],[300,322]],'galar-route-2':[[300,322],[344,306]],'galar-route-3':[[384,206],[440,232]],
+      'galar-route-4':[[450,248],[420,306]],'galar-route-5':[[420,306],[522,288]],'galar-route-6':[[300,88],[200,110],[170,160]],
+      'galar-route-7':[[300,88],[340,88]],'galar-route-8':[[340,88],[380,64]],'galar-route-9':[[380,64],[470,80],[530,120]],
+      'galar-route-10':[[380,64],[380,22]]},
+    sea:[],
+    edge:[]},
+  armor:{name:'ARMOR',
+    land:['M150 90L260 60 380 70 470 110 500 190 470 280 400 340 300 350 200 320 140 260 120 170Z'],
+    mount:['M150 80L210 70 220 120 168 132Z'],
+    water:[['ellipse',330,112,26,14]],
+    islands:[[540,236,24,16],[100,240,16,12]],
+    towns:{'master-dojo':[330,296,'Master Dojo','r']},
+    spots:{'fields-of-honor':[284,318],'soothing-wetlands':[384,300],'forest-of-focus':[204,272],'challenge-beach':[160,200],'brawlers-cave':[212,190],
+      'challenge-road':[232,156],'courageous-cavern':[262,122],'loop-lagoon':[330,112],'training-lowlands':[330,204],'warm-up-tunnel':[270,232],
+      'potbottom-desert':[184,108],'workout-sea':[440,330],'stepping-stone-sea':[480,140],'insular-sea':[100,240],'honeycalm-sea':[516,268],
+      'honeycalm-island':[540,236],'isle-of-armor-caves':[240,252]},
+    routes:{},
+    sea:[],
+    edge:[]},
+  tundra:{name:'TUNDRA',
+    land:['M120 70L250 30 420 30 520 80 560 180 540 280 470 340 340 366 240 350 160 300 110 210 90 130Z'],
+    mount:['M300 50L360 44 372 120 330 132 300 110Z'],
+    water:[['ellipse',440,180,30,16]],
+    islands:[],
+    towns:{'freezington':[300,300,'Freezington','r']},
+    spots:{'slippery-slope':[300,342],'frostpoint-field':[230,284],'giants-bed':[300,220],'old-cemetery':[380,252],'snowslide-slope':[360,150],
+      'tunnel-to-the-top':[334,108],'path-to-the-peak':[334,80],'crown-shrine':[334,52],'giants-foot':[200,180],'roaring-sea-caves':[150,140],
+      'frigid-sea':[110,100],'three-point-pass':[260,150],'ballimere-lake':[440,180],'lakeside-cave':[472,150],'dyna-tree-hill':[420,222],
+      'max-lair':[500,262],'split-decision-ruins':[240,240],'galar-iceberg-ruins':[170,250],'galar-iron-ruins':[420,120],'galar-rock-peak-ruins':[232,110]},
+    routes:{},
+    sea:[],
+    edge:[]},
   // FireRed / LeafGreen only: the seven islands south-west of Kanto (three groups, drawn side by side)
   sevii:{name:'SEVII',
     land:['M150 50L214 46 232 84 222 130 230 200 214 300 160 312 136 270 150 200 136 130 140 84Z','M40 96L104 90 112 150 104 214 46 222 34 160Z',
@@ -311,7 +360,7 @@ function wmRender(el,compact){
     return;
   }
   const sp=SP.get(WM.sid), f=wmFind(WM.game,WM.sid), name=sp?sp.en:'?';
-  const games=wmGames();
+  const games=wmGames().filter(g=>g===WM.game||wmFind(g,WM.sid));   // only the games it (or its family) can be found in
   const tabs=`<div class="wm-games">${games.map(g=>{ const x=GAMES.find(y=>y.k===g); return `<button type="button" data-g="${g}" class="${g===WM.game?'on':''}">${esc(x.s)}</button>`; }).join('')}</div>`;
   let banner='', places=[];
   if(!f) banner=`<b>Not found in ${esc(GAMES.find(x=>x.k===WM.game).s)}.</b> Trade it in from another game, or check its event distributions.`;

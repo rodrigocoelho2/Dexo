@@ -347,7 +347,7 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 </tr>
 <tr>
 <td width="50%"><b>Alola map (SM · USUM)</b> · <a href="docs/mocks/alola-map.html">alola-map.html</a><br><img src="docs/images/mock-alola-map.png" alt="Mock of the Alola map for Sun / Moon and Ultra Sun / Ultra Moon, drawn with the real map code and data"></td>
-<td width="50%"></td>
+<td width="50%"><b>Galar maps (SwSh)</b> · <a href="docs/mocks/galar-map.html">galar-map.html</a><br><img src="docs/images/mock-galar-map.png" alt="Mock of the Galar, Isle of Armor and Crown Tundra maps for Sword and Shield, drawn with the real map code and data"></td>
 </tr>
 </table>
 

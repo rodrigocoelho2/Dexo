@@ -16,6 +16,7 @@ GAMES = {"rby": [("1", "R"), ("45", "G"), ("2", "B"), ("3", "Y")],          # 45
          "bw": [("17", "B"), ("18", "W")],
          "hgss": [("15", "HG"), ("16", "SS")],
          "b2w2": [("21", "B2"), ("22", "W2")],
+         "swsh": [("33", "Sw"), ("34", "Sh")],
          "xy": [("23", "X"), ("24", "Y")],
          "sm": [("27", "S"), ("28", "M")],
          "usum": [("29", "US"), ("30", "UM")],
@@ -40,9 +41,14 @@ METHOD = {"walk": "grass", "surf": "surf", "old-rod": "old-rod", "good-rod": "go
           "rustling-bush-ambush": "ambush", "ground-ambush": "ambush", "sky-ambush": "ambush",
           # Sun / Moon and Ultra Sun / Ultra Moon
           "sos": "sos", "sos-from-bubbling-spot": "sos", "bubbling-spots": "bubbles", "island-scan": "scan",
+          # Sword / Shield (+ Isle of Armor, Crown Tundra)
+          "overworld-dirt": "dirt", "wanderer": "wanderer", "wanderer-water": "wanderer", "chase-water": "water",
+          "max-raid": "raid", "dynamax-adventure": "adventure",
           # event distributions (handed out at a Pokémon Center)
           "colosseum-bonus-disc-jpn": "event", "colosseum-bonus-disc-us": "event", "pokemon-channel-pal": "event",
           "overworld-special": "rare", "overworld-flying-special": "rare-flying", "overworld-water-special": "rare"}
+# The Sword / Shield expansions are their own PokeAPI versions: count them as Sword or Shield
+VERSION_ALIAS = {"35": "33", "36": "33", "50": "34", "51": "34"}
 # a note that comes from how the Pokémon is found, not from a condition
 METHOD_NOTE = {"devon-scope": "Invisible: needs the Devon Scope", "wailmer-pail": "Water it with the Wailmer Pail",
                "feebas-tile-fishing": "Only on 6 random water tiles",
@@ -53,15 +59,37 @@ METHOD_NOTE = {"devon-scope": "Invisible: needs the Devon Scope", "wailmer-pail"
                "ceiling-ambush": "Drops from the ceiling", "trash-can-ambush": "Hides in trash cans",
                "rustling-bush-ambush": "Jumps out of rustling bushes", "ground-ambush": "Pops out of the ground",
                "sky-ambush": "Swoops down from the sky", "sos-from-bubbling-spot": "Called from a bubbling spot",
+               "wanderer-water": "On the water", "chase-water": "Chases you on the water",
                "colosseum-bonus-disc-jpn": "Pokémon Colosseum bonus disc (Japan)",
                "colosseum-bonus-disc-us": "Pokémon Colosseum bonus disc (US)", "pokemon-channel-pal": "Pokémon Channel (Europe)"}
-NO_RATE = {"wild", "water", "flying", "rare", "rare-flying"}
+NO_RATE = {"wild", "water", "flying", "rare", "rare-flying", "dirt", "wanderer", "raid", "adventure"}
 # PokeAPI files Black / White's roaming Tornadus and Thundurus under a Kalos location
 FIX_LOC = {("bw", "team-flare-secret-hq"): ("roaming-unova", "Roaming Unova", "roaming"),
-           ("xy", "roaming-kalos"): ("roaming-kalos", "Roaming Kalos", "roaming")}   # X / Y's roaming bird is filed as a one-time encounter
+           ("xy", "roaming-kalos"): ("roaming-kalos", "Roaming Kalos", "roaming"),
+           ("swsh", "roaming-galar-wild-area"): ("roaming-galar-wild-area", "Roaming the Wild Area", "roaming"),
+           ("swsh", "roaming-isle-of-armor"): ("roaming-isle-of-armor", "Roaming the Isle of Armor", "roaming"),
+           ("swsh", "roaming-crown-tundra"): ("roaming-crown-tundra", "Roaming the Crown Tundra", "roaming")}   # X / Y's roaming bird is filed as a one-time encounter
 SKIP_LOC = {"unknown-all-bugs", "unknown-all-poliwag", "unknown-all-rattata"}   # PokeAPI placeholder areas
 TIME = {"time-morning": 1, "time-day": 2, "time-night": 4}
 SEASON = {"season-spring": 1, "season-summer": 2, "season-autumn": 4, "season-winter": 8}
+WEATHER = {"weather-normal": 1, "weather-overcast": 2, "weather-raining": 4, "weather-thunderstorm": 8, "weather-intense-sun": 16,
+           "weather-snowing": 32, "weather-snowstorm": 64, "weather-sandstorm": 128, "weather-fog": 256}
+WEATHER_NAME = ["Clear", "Overcast", "Rain", "Thunderstorm", "Intense sun", "Snow", "Snowstorm", "Sandstorm", "Fog"]
+RAID_RARITY = {"max-den-rarity-common": 1, "max-den-rarity-rare": 2, "max-den-rarity-special": 4}
+
+
+def weather_note(mask, seen):
+    """Sword / Shield: which weathers it shows up in, when not in all the weathers its area has."""
+    if not mask or mask & seen == seen: return ""
+    have = [n for i, n in enumerate(WEATHER_NAME) if mask >> i & 1]
+    miss = [n for i, n in enumerate(WEATHER_NAME) if seen >> i & 1 and not mask >> i & 1]
+    return ("Not in " + ", ".join(miss)) if len(miss) <= 2 and len(have) > len(miss) else ", ".join(have) + " only"
+
+
+def raid_note(stars, rarity):
+    lo = min(i for i in range(5) if stars >> i & 1) + 1; hi = max(i for i in range(5) if stars >> i & 1) + 1
+    s = f"\u2605{lo}" if lo == hi else f"\u2605{lo}\u2013{hi}"
+    return s + (" · rare dens" if rarity == 2 else " · special dens" if rarity == 4 else "")
 
 
 def season_note(mask):
@@ -80,7 +108,10 @@ STORY = {"national-dex": "After the National Dex", "before-national-dex": "Befor
          "cure-eldritch-nightmares": "After the Canalave nightmare", "beat-team-galactic-iron-island": "After Team Galactic on Iron Island",
          "defeat-mars": "After defeating Mars", "defeat-jupiter": "After defeating Jupiter",
          "juniper-cave-of-being": "After meeting Juniper at the Cave of Being", "quake-badge": "After the Quake Badge",
-         "finished-looker-sidequest": "After Looker's Ultra Beast missions", "beat-olivias-trial": "After Olivia's grand trial"}
+         "finished-looker-sidequest": "After Looker's Ultra Beast missions", "beat-olivias-trial": "After Olivia's grand trial",
+         "master-dojo-complete-first-trial": "After the first Master Dojo trial",
+         "master-dojo-complete-third-trial": "After the third Master Dojo trial",
+         "save-village-from-glastrier-spectrier": "After saving Freezington", "catch-five-ultra-beasts": "After catching five Ultra Beasts"}
 OTHER = {"correct-password": "With the correct password", "received-kanto-starter": "After receiving a Kanto starter",
          "event-arceus-in-party": "With an event Arceus in the party", "snorlax-11-beat-league": "After the League",
          "virtual-console": "Virtual Console only",
@@ -90,19 +121,35 @@ OTHER = {"correct-password": "With the correct password", "received-kanto-starte
          "giratina-not-caught-in-distortion-world": "If Giratina got away in the Distortion World",
          "captured-reshiram-or-zekrom": "After catching Reshiram or Zekrom",
          "found-11-times-roaming": "After meeting it 11 times while it roams",
-         "captured-all-ultra-beasts": "After catching every Ultra Beast", "scan-qr-code": "After scanning a QR code"}
+         "captured-all-ultra-beasts": "After catching every Ultra Beast", "scan-qr-code": "After scanning a QR code",
+         "witness-galarian-bird-fight": "After seeing the Galarian birds fight", "talked-to-32-people": "After talking to 32 people",
+         "eat-curry-with-cobalion-terrakion-virizion": "After eating curry with Cobalion, Terrakion and Virizion"}
 FIRST = {"first-party-pokemon-high-friendship": "Lead Pokémon must be very friendly"}
 FOSSIL = {"helix": "Helix", "dome": "Dome", "old-amber": "Old Amber", "root": "Root", "claw": "Claw", "skull": "Skull", "armor": "Armor"}
 
 
 def note_of(cond):
     """A short note for one non-default encounter condition, or None."""
-    if cond in IGNORE or cond in TIME or cond in SEASON:
+    if cond in IGNORE or cond in TIME or cond in SEASON or cond in WEATHER or cond.startswith("max-den-") \
+            or cond == "story-progress-before-hall-of-fame":
         return None
     if cond in FIRST: return FIRST[cond]
     if cond == "defeated-ghetsis": return "After defeating Ghetsis"
-    m = re.match(r"other-(\w+)-(\w+)-in-party", cond)
-    if m and cond[6:] not in OTHER: return f"With {m.group(1).capitalize()} and {m.group(2).capitalize()} in the party"
+    m = re.match(r"other-(.+)-in-party$", cond)
+    if m and cond[6:] not in OTHER:
+        names = [x.capitalize() for x in m.group(1).split("-")]
+        return "With " + (", ".join(names[:-1]) + " and " + names[-1] if len(names) > 1 else names[0]) + " in the party"
+    m = re.match(r"alolan-diglett-found-(\d+)", cond)
+    if m: return f"After finding {m.group(1)} Alolan Diglett"
+    m = re.match(r"other-find-50-(.+)-footprints", cond)
+    if m: return f"After finding 50 {m.group(1).replace('-', ' ')} footprints"
+    m = re.match(r"other-choose-(\w+)-pattern", cond)
+    if m: return f"Choose the {m.group(1).capitalize()} pattern"
+    m = re.match(r"other-grow-(\w+)-carrot", cond)
+    if m: return f"After growing a {m.group(1).capitalize()} Carrot"
+    m = re.match(r"save-data-from-(.+)", cond)
+    if m: return "With " + m.group(1).replace("lets-go-", "Let's Go ").replace("-", " ").title().replace("Let'S", "Let's") + " save data"
+    if cond == "item-reins-of-unity": return "With the Reins of Unity"
     m = re.match(r"friend-safari-slot-(\d)", cond)
     if m: return f"Friend Safari: slot {m.group(1)}" + (" (friend has beaten the League)" if m.group(1) == "3" else "")
     m = re.match(r"berry-tree-type-(\w+)", cond)
@@ -157,7 +204,7 @@ def area_label(prose, loc_name, ident):
     m = re.search(r"\(([^)]*)\)", prose or "")
     label = m.group(1) if m else (prose or "").replace(loc_name, "").strip(" -") or ident.replace("-", " ").upper()
     # Lake Verity's story halves and the Great Marsh's six areas share one list
-    return "" if label in STORY_AREAS or label == "MAIN" or re.fullmatch(r"(unknown )?area \d+", label, re.I) else label
+    return "" if label in STORY_AREAS or label == "MAIN" or re.fullmatch(r"(unknown )?area \d+|max den \w+", label, re.I) else label
 
 
 def build(rows, species_of_pokemon):
@@ -170,6 +217,7 @@ def build(rows, species_of_pokemon):
     area_prose = {r["location_area_id"]: r["name"] for r in rows("location_area_prose") if r["local_language_id"] == "9"}
     cond_value = {r["id"]: r["identifier"] for r in rows("encounter_condition_values")}
     version_game = {v: (g, i) for g, vs in GAMES.items() for i, (v, _) in enumerate(vs)}
+    version_game.update({a: version_game[v] for a, v in VERSION_ALIAS.items()})
 
     wanted = [r for r in rows("encounters") if r["version_id"] in version_game]
     ids = {r["id"] for r in wanted}
@@ -208,9 +256,18 @@ def build(rows, species_of_pokemon):
         cs = conds.get(r["id"], [])
         tmask = sum(TIME[c] for c in cs if c in TIME) or 7
         smask = sum(SEASON[c] for c in cs if c in SEASON) or 15
+        wmask = sum(WEATHER[c] for c in cs if c in WEATHER)
         notes = {n for n in (note_of(c) for c in cs) if n} | ({METHOD_NOTE[raw]} if raw in METHOD_NOTE else set())
-        recs.append((game, sid, li, ai, meth, notes, vbit, tmask, (raw, area["id"], smask), int(r["min_level"]), int(r["max_level"]),
-                     int(slots[r["encounter_slot_id"]]["rarity"])))
+        raid = None
+        if meth == "raid":   # a den's stars and rarity become one note; the badge count before / after the League doesn't matter here
+            notes.discard("After the Hall of Fame")
+            stars = sum(1 << (int(re.search(r"(\d)", c).group(1)) - 1) for c in cs if c.startswith("max-den-rating-"))
+            raid = (stars or 31, sum(RAID_RARITY.get(c, 0) for c in cs) or 1)
+        recs.append((game, sid, li, ai, meth, notes, vbit, tmask, (raw, area["id"], smask, wmask), int(r["min_level"]), int(r["max_level"]),
+                     int(slots[r["encounter_slot_id"]]["rarity"]), raid))
+    area_weather = defaultdict(int)          # the weathers each area has (Sword / Shield)
+    for rec in recs:
+        area_weather[rec[8][1]] |= rec[8][3]
 
     # PokeAPI splits a roamer into grass and water tables with different conditions: a version's notes apply to both
     roam = defaultdict(set)
@@ -218,18 +275,22 @@ def build(rows, species_of_pokemon):
         if meth == "roaming":
             roam[(game, sid, li, vbit)] |= notes
     # the GBA-slot and Poké Radar tables repeat most of the normal ones: only keep a Pokémon there when they add it
-    def extra(n): return n.startswith("With ") and n.endswith("GBA slot") or n == "Poké Radar"
+    # (Sword / Shield: the after-the-League tables mostly repeat the earlier ones at higher levels)
+    def extra(n, game): return n.startswith("With ") and n.endswith("GBA slot") or n == "Poké Radar" or (game == "swsh" and n == "After the Hall of Fame")
     have = {(game, sid, li, ai, meth, frozenset(roam[(game, sid, li, vbit)] if meth == "roaming" else notes))
             for game, sid, li, ai, meth, notes, vbit, *_ in recs}
-    for game, sid, li, ai, meth, notes, vbit, tmask, raw, lo, hi, rarity in recs:
+    for game, sid, li, ai, meth, notes, vbit, tmask, raw, lo, hi, rarity, raid in recs:
         if meth == "roaming":
             notes = roam[(game, sid, li, vbit)]
-        base = frozenset(n for n in notes if not extra(n))
+        base = frozenset(n for n in notes if not extra(n, game))
         if base != notes and (game, sid, li, ai, meth, base) in have:
             continue
         ni = idx(N, Ni, " · ".join(sorted(notes)))
-        g = groups.setdefault((game, sid, li, ai, meth, ni), {"min": 99, "max": 0, "rate": defaultdict(int), "ver": 0, "seas": 0})
+        g = groups.setdefault((game, sid, li, ai, meth, ni), {"min": 99, "max": 0, "rate": defaultdict(int), "ver": 0, "seas": 0,
+                                                            "wea": 0, "wseen": 0, "stars": 0, "rar": 0})
         g["seas"] |= raw[2]
+        g["wea"] |= raw[3]; g["wseen"] |= area_weather[raw[1]]
+        if raid: g["stars"] |= raid[0]; g["rar"] |= raid[1]
         g["min"] = min(g["min"], lo); g["max"] = max(g["max"], hi)
         g["ver"] |= 1 << vbit
         for t in (1, 2, 4):
@@ -241,16 +302,18 @@ def build(rows, species_of_pokemon):
          "wild", "water", "flying", "rare", "rare-flying",
          "dive", "any-rod", "event", "honey", "dark-grass", "phenomenon", "grotto",
          "horde", "flowers", "rough", "berry", "ambush",
-         "sos", "bubbles", "scan"]
+         "sos", "bubbles", "scan",
+         "dirt", "wanderer", "raid", "adventure"]
     out = {g: {} for g in GAMES}
     for (game, sid, li, ai, meth, ni), g in groups.items():
         times = 0
         for (v, t, _), n in g["rate"].items():
             if n: times |= t
         rate = 0 if meth in NO_RATE else min(100, max(g["rate"].values() or [0]))
-        sn = season_note(g["seas"])           # Black / White: only when it isn't there all year
-        if sn:
-            ni = idx(N, Ni, " · ".join(x for x in (N[ni], sn) if x))
+        # Black / White: only when it isn't there all year; Sword / Shield: weather, and a Max Raid den's stars
+        extras = [season_note(g["seas"]), weather_note(g["wea"], g["wseen"]), raid_note(g["stars"], g["rar"]) if g["stars"] else ""]
+        if any(extras):
+            ni = idx(N, Ni, " · ".join(x for x in [N[ni]] + extras if x))
         out[game].setdefault(sid, []).append([li, ai, M.index(meth), g["min"], g["max"], rate, times or 7, g["ver"], ni])
     for game in out:
         for sid in out[game]:
