@@ -1,0 +1,512 @@
+Test run for /home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.13)
+[xUnit.net 00:00:00.09]   Discovering: LivingDex.UnitTest
+[xUnit.net 00:00:00.16]   Discovered:  LivingDex.UnitTest
+[xUnit.net 00:00:00.22]   Starting:    LivingDex.UnitTest
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {1c79fb13-ac67-4760-a29e-83e3b2a5c93f} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Register_FirstAccount_IsAdminCreatedAndSignedIn [276 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Login_IgnoresCase [594 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Register_SameNameDifferentCase_IsAConflict [508 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: "Rodas", password: "short") [4 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: "ab", password: "pikachu123") [< 1 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: "has space", password: "pikachu123") [< 1 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.UserAdminController[0]
+      UserAdminDelete 2
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.BattleHistoryTests.SavedBattles_ShowUpInRecordsReplaysAndCards [3 s]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Login_UnknownUserAndWrongPassword_LookTheSame [1 s]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.Register_ClosedRegistration_AllowsOnlyTheFirstAccount [634 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.NotUpstream_IsRememberedAsMissing [20 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UpstreamError_IsAFailure_AndNotRemembered [4 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.TryParseKind_KnowsTheFolders(key: "sprites", expected: Sprites) [5 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.TryParseKind_KnowsTheFolders(key: "battlebg", expected: BattleBg) [1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: "../livingdex.db") [< 1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: "theme.mp3") [< 1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: "1.exe") [< 1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: BattleBg, path: "bg-forest.png") [1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Music, path: "../x.mp3") [< 1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: "a//b.png") [< 1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.BundledFile_IsServedFirst_EvenWithCachingOff [14 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.UnreadableBundledFile_IsDownloadedInstead [11 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.CachingOff_RedirectsUpstream [< 1 ms]
+  Passed LivingDex.UnitTest.Assets.AssetStoreTests.MissingFile_IsDownloadedOnce_ThenServedFromTheCache [8 ms]
+  Passed LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests.EnumsAreCamelCaseStrings [2 ms]
+  Passed LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests.DatabaseTimestamps_AreWrittenAsUtc [4 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.GenerateTemporary_IsReadable [2 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: "plain") [< 1 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: "") [< 1 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: "pbkdf2-sha512$x$abc$def") [< 1 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: "pbkdf2-sha512$1000$not-base64!$def") [< 1 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.ChangePassword_NewStampAndFreshCookie [729 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.Hash_UsesANewSaltEveryTime [745 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.ChangePassword_WrongCurrentPassword_IsRefused [844 ms]
+  Passed LivingDex.UnitTest.Accounts.PasswordHasherTests.Hash_VerifiesOnlyTheSamePassword [952 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Success_WithAndWithoutPayload [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 404) [3 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 400) [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 413) [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 401) [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 403) [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 409) [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.CreatedAndAccepted_CarryTheLocation [< 1 ms]
+  Passed LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.ConflictWithTheCurrentRecord_Is409WithThePayload [< 1 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerServiceTests.SetPartner_OutOfRange_IsAValidationProblem(partner: 0) [2 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerServiceTests.SetPartner_OutOfRange_IsAValidationProblem(partner: 1026) [< 1 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerServiceTests.List_CardsCarryProfileAndRecord [4 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerServiceTests.Get_UnknownTrainer_IsNotFound [1 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_TooLarge_IsPayloadTooLarge [7 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_EachUserHasTheirOwnRevisions [9 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.History_KeepsTheLimit_AndRestoreSavesANewRevision [18 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: "null") [< 1 ms]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {a1d6ed51-db82-4ef6-83c6-4f026ab2ff4a} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Extensions.Data.SqliteImporter[0]
+      Imported /tmp/livingdex-tests/17a49fe51a3d40d5b7f6809b5d50b97f/livingdex.db: 2 accounts, 1 progress documents, 2 history entries, 1 trainer profiles, 1 battles.
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: "[1,2,3]") [< 1 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: "\"text\"") [< 1 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Get_BeforeTheFirstSave_IsRevisionZeroAndNull [1 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_StaleRevision_IsAConflictWithTheCurrentState [< 1 ms]
+  Passed LivingDex.UnitTest.States.StateServiceTests.Save_LongClientName_IsCut [< 1 ms]
+  Passed LivingDex.UnitTest.Accounts.AccountServiceTests.DeleteAccount_NeedsThePassword_ThenSignsOut [1 s]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {ee5b5b9f-a5d0-48ca-9528-ce15a9726e57} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.DailyRedTests.OfficialBattles_OncePerDay_ShowUpInStatsAndTrainersToday [1 s]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: "20/10/2026", ok: False) [3 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: null, ok: False) [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: "2026-10-20", ok: True) [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: "2026-10-18", ok: False) [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: "2026-10-21", ok: True) [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: "2026-10-22", ok: False) [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: "2026-10-19", ok: True) [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.NoBattles_AllZero [5 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.DailyRedNumbers_StartAtOne [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.BattlesStillPlaying_DoNotCount [1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.AMissedDay_EndsBothStreaks [4 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.WinsOnConsecutiveDays_MakeTheStreak_AndALossEndsIt [< 1 ms]
+  Passed LivingDex.UnitTest.DailyRed.DailyRedStatsTests.LastPlayedTwoDaysAgo_NoCurrentStreak [< 1 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.VeteranAndTenWins [2 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.CpuBattles_CountSeparately_AndEarnNothing [< 1 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.LastStandFlawlessAndSweeper [< 1 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.NoBattles_NoBadges [< 1 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Zed
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {0b79d95a-0f7c-452a-acf3-0c4edf64a3bc} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.Streak_ResetsOnALoss_OnFireNeedsFiveInARow [2 ms]
+  Passed LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.TimeTraveller_NeedsAWinInEveryGeneration [< 1 ms]
+  Passed LivingDex.UnitTest.Integration.SqliteImporterTests.OldDatabase_IsImportedOnce_AndKeepsAccountsProgressAndBattles [2 s]
+  Passed LivingDex.UnitTest.Battles.BestKnockoutsTests.FaintIsCreditedToTheLastOpposingAttacker [7 ms]
+  Passed LivingDex.UnitTest.Battles.BestKnockoutsTests.NoFaints_IsZero [3 ms]
+  Passed LivingDex.UnitTest.Accounts.UserAdminServiceTests.ResetPassword_OwnAccountOrUnknown_IsRefused [922 ms]
+  Passed LivingDex.UnitTest.Accounts.UserAdminServiceTests.Delete_OwnAccountIsRefused_OthersAreDeleted [549 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.ThePage_IsServedAtTheRoot [672 ms]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {e7493fe7-bf8f-4899-a493-0968a6ca8947} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {a6a7b142-440a-40a1-9c78-542459db9ba4} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.ApiTests.ThePagesFiles_AreCachedForGood_WhenVersioned [823 ms]
+  Passed LivingDex.UnitTest.Accounts.UserAdminServiceTests.ResetPassword_SetsATemporaryPasswordAndNewStamp [1 s]
+  Passed LivingDex.UnitTest.Integration.ApiTests.AssetRoute_RedirectsUpstream_WhenCachingIsOffAndTheFileIsNotBundled [611 ms]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {f1cec4a5-d25e-4897-ac91-903f84817870} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {cf788034-4ef8-4af3-9834-6a9ff663c4ec} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {62469a61-df1a-4a84-a5cd-46c0f22d61b9} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+  Passed LivingDex.UnitTest.Accounts.UserAdminServiceTests.List_CountsMarkedEntriesAcrossGames [565 ms]
+  Passed LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: "{\"caught\":{\"home|normal\":[\"1\",\"2\"],\"sv|sh"···, expected: 3) [< 1 ms]
+  Passed LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: "not json", expected: 0) [< 1 ms]
+  Passed LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: "{\"caught\":[]}", expected: 0) [< 1 ms]
+  Passed LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: "[]", expected: 0) [< 1 ms]
+  Passed LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: "{\"det\":{}}", expected: 0) [< 1 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: "/assets/other/1.png") [589 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: "/assets/sprites/1.exe") [549 ms]
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {2eb6f659-94d7-47d3-83c3-96ca24b8ee24} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {fe2f27dc-13a6-4310-a59b-c5bf9a472c4f} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+  Passed LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: "/assets/sprites/../livingdex.db") [478 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.ClosedRegistration_StillAllowsTheFirstAccount [848 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {d49d3ef2-12e9-425c-b25b-6357f13df5bd} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.ApiTests.EachUser_HasTheirOwnProgress [907 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.WrongPasswordAndUnknownUser_LookTheSame [1 s]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {1890f886-fbe4-41d8-b1fb-caea63e15ca1} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister bad name
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {0ce5fe3c-ddce-4362-89f1-310c8dc71f08} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister ab
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {9a1dacdf-f6b6-4651-9584-9ce40b704348} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: "bad name", password: "pikachu123") [522 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: "ab", password: "pikachu123") [544 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: "Rodas", password: "short") [493 ms]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {146706b4-9fd8-4e9c-a769-1adb52804d16} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: LivingDex.WebApi.Features.Trainers.Controllers.TrainerController[0]
+      TrainerSetPartner 1 #169
+info: LivingDex.WebApi.Features.Trainers.Controllers.TrainerController[0]
+      TrainerSetPartner 1 #0
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {79668c5c-5d67-4595-9e8a-44b860fe44bf} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+  Passed LivingDex.UnitTest.Integration.ApiTests.TrainerCards_ShowPartnerAndLivingDexCount [1 s]
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {b584c2a3-f968-470e-8f77-647d7cbe3723} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {42ac6e0a-6d0e-4aec-bed8-d24af589e753} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+  Passed LivingDex.UnitTest.Integration.ApiTests.StaleRevision_IsRejectedWithTheCurrentState [719 ms]
+  Passed LivingDex.UnitTest.Integration.ApiTests.Progress_ThatIsNotAnObject_IsRejected [759 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {458c2508-a86d-428e-93e5-f1ea5b651bcd} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.ApiTests.FirstAccount_IsAdmin_LaterOnesAreNot [913 ms]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {b3c4547e-41e3-415e-9274-2fda29166966} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {f40473b2-2487-4ae9-9d37-7d4193a87352} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+  Passed LivingDex.UnitTest.Integration.ApiTests.Usernames_AreUniqueIgnoringCase_AndLoginIgnoresCase [1 s]
+  Passed LivingDex.UnitTest.Integration.ApiTests.Health_ReportsFirstRunUntilTheFirstAccount [846 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Zed
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountDelete 1
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {b73ad3e7-8d61-40dc-a1f3-9de92872fedf} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+  Passed LivingDex.UnitTest.Integration.ApiTests.DeletingTheAdmin_PromotesTheOldestRemainingAccount [1 s]
+  Passed LivingDex.UnitTest.Integration.ApiTests.Progress_RequiresASignedInUser [405 ms]
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {be9ce21b-d880-486c-893c-c5fa0f85ac48} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: LivingDex.WebApi.Features.States.Controllers.StateController[0]
+      StateHistoryRestore 1 r3
+info: LivingDex.WebApi.Features.States.Controllers.StateController[0]
+      StateHistoryRestore 1 r1
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {60b75764-7074-455a-8401-9e19b6be5083} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountPassword 1
+  Passed LivingDex.UnitTest.Integration.ApiTests.History_KeepsTheConfiguredNumberOfRevisions_AndCanRestore [798 ms]
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {050dc430-5431-4da1-98fc-9702be76dc8e} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {94e8915c-7909-434a-83b5-84b609bf684b} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+  Passed LivingDex.UnitTest.Integration.ApiTests.ChangingThePassword_SignsOutOtherDevicesOnly [1 s]
+  Passed LivingDex.UnitTest.Integration.ApiTests.Writes_WithoutTheAppHeader_AreRejected [498 ms]
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: LivingDex.WebApi.Features.Accounts.Controllers.UserAdminController[0]
+      UserAdminResetPassword 2
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[xUnit.net 00:00:29.80]   Finished:    LivingDex.UnitTest
+  Passed LivingDex.UnitTest.Integration.ApiTests.Admin_CanResetAPassword_AndOthersCannotUseAdminEndpoints [2 s]
+Results File: /home/runner/work/Dexo/Dexo/TestResults/tests.trx
+
+Test Run Successful.
+Total tests: 113
+     Passed: 113
+ Total time: 30.3051 Seconds

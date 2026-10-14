@@ -1,0 +1,1092 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="bd266930-5e39-444c-9132-2167e7db029d" name="@runnervm8k3b6 2026-10-14 23:12:46" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-14T23:12:46.9476585+00:00" queuing="2026-10-14T23:12:46.9476586+00:00" start="2026-10-14T23:12:44.8717156+00:00" finish="2026-10-14T23:13:15.1927233+00:00" />
+  <TestSettings name="default" id="9644bb09-9cb5-46a4-9807-601555be56f5">
+    <Deployment runDeploymentRoot="_runnervm8k3b6_2026-10-14_23_12_46" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="dd3a7437-0ddb-4a0e-a038-25e6de2279a3" testId="5e4be563-f202-6720-2393-c8540526e899" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Music, path: &quot;../x.mp3&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0002877" startTime="2026-10-14T23:12:50.0377693+00:00" endTime="2026-10-14T23:12:50.0379602+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd3a7437-0ddb-4a0e-a038-25e6de2279a3" />
+    <UnitTestResult executionId="70993744-8326-4927-be78-9c88a02f8f26" testId="0f45837e-25e7-b968-b175-4a9a3e843e6b" testName="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;{\&quot;caught\&quot;:{\&quot;home|normal\&quot;:[\&quot;1\&quot;,\&quot;2\&quot;],\&quot;sv|sh&quot;···, expected: 3)" computerName="runnervm8k3b6" duration="00:00:00.0001532" startTime="2026-10-14T23:12:57.3299521+00:00" endTime="2026-10-14T23:12:57.3300105+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="70993744-8326-4927-be78-9c88a02f8f26" />
+    <UnitTestResult executionId="96870c84-ee55-47a9-8d73-ab022c636006" testId="5cd0f11d-613e-d729-af7b-70e5d9c61cd2" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_FirstAccount_IsAdminCreatedAndSignedIn" computerName="runnervm8k3b6" duration="00:00:00.2762518" startTime="2026-10-14T23:12:46.5021788+00:00" endTime="2026-10-14T23:12:46.7821987+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="96870c84-ee55-47a9-8d73-ab022c636006" />
+    <UnitTestResult executionId="5d0edd48-ea11-45d0-90c0-60304aee218a" testId="ebe4c9a8-99ac-78e1-0cfb-85bf10237aa8" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.ChangePassword_NewStampAndFreshCookie" computerName="runnervm8k3b6" duration="00:00:00.7295077" startTime="2026-10-14T23:12:49.5826032+00:00" endTime="2026-10-14T23:12:50.3111908+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d0edd48-ea11-45d0-90c0-60304aee218a" />
+    <UnitTestResult executionId="cecca2bd-bd10-4c51-ad27-18bf5a096cd1" testId="12e1f8d9-30b2-7d98-c251-1268d0909d81" testName="LivingDex.UnitTest.Accounts.UserAdminServiceTests.Delete_OwnAccountIsRefused_OthersAreDeleted" computerName="runnervm8k3b6" duration="00:00:00.5494805" startTime="2026-10-14T23:12:54.8464814+00:00" endTime="2026-10-14T23:12:55.3958452+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cecca2bd-bd10-4c51-ad27-18bf5a096cd1" />
+    <UnitTestResult executionId="d41c03d1-d4a9-426e-880a-9c015e03d04f" testId="c508f7dd-0172-3981-5a7c-2d45b303d782" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;plain&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0000794" startTime="2026-10-14T23:12:50.0842040+00:00" endTime="2026-10-14T23:12:50.0859031+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d41c03d1-d4a9-426e-880a-9c015e03d04f" />
+    <UnitTestResult executionId="1a81dc78-fd91-43ce-9dca-c59d488d7ea5" testId="85b64d50-0b49-202e-3f82-56a660a720f9" testName="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;not json&quot;, expected: 0)" computerName="runnervm8k3b6" duration="00:00:00.0007712" startTime="2026-10-14T23:12:57.3301192+00:00" endTime="2026-10-14T23:12:57.3301650+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1a81dc78-fd91-43ce-9dca-c59d488d7ea5" />
+    <UnitTestResult executionId="1bcf5e73-2c10-411b-9221-067eb29c01e4" testId="f9f18dba-301d-6a14-0974-bb0d66e25856" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;pbkdf2-sha512$x$abc$def&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0000109" startTime="2026-10-14T23:12:50.0918693+00:00" endTime="2026-10-14T23:12:50.0919745+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bcf5e73-2c10-411b-9221-067eb29c01e4" />
+    <UnitTestResult executionId="7c449170-7e7a-4461-a1c4-9b4ec37d7cb8" testId="228f3f77-8aba-727e-2dac-8d921e469a73" testName="LivingDex.UnitTest.States.StateServiceTests.Save_EachUserHasTheirOwnRevisions" computerName="runnervm8k3b6" duration="00:00:00.0099532" startTime="2026-10-14T23:12:51.8083536+00:00" endTime="2026-10-14T23:12:51.8198723+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c449170-7e7a-4461-a1c4-9b4ec37d7cb8" />
+    <UnitTestResult executionId="dedb01b4-fe18-4b97-a29f-c725188e75da" testId="f7f9f580-7b87-5ab7-5311-f6d04e3ea687" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.DailyRedNumbers_StartAtOne" computerName="runnervm8k3b6" duration="00:00:00.0002219" startTime="2026-10-14T23:12:53.9119575+00:00" endTime="2026-10-14T23:12:53.9120536+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dedb01b4-fe18-4b97-a29f-c725188e75da" />
+    <UnitTestResult executionId="505c4723-abf2-425f-b427-bbebc1b38f1b" testId="a60ec632-dba6-204b-5d35-99b3ded2d4b5" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_SameNameDifferentCase_IsAConflict" computerName="runnervm8k3b6" duration="00:00:00.5080103" startTime="2026-10-14T23:12:47.3779078+00:00" endTime="2026-10-14T23:12:47.8841005+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="505c4723-abf2-425f-b427-bbebc1b38f1b" />
+    <UnitTestResult executionId="ba7994ff-98e7-43bf-8bfb-c40f4ee32cc5" testId="078af6cd-f2a7-c413-1396-affbdd35b672" testName="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.CpuBattles_CountSeparately_AndEarnNothing" computerName="runnervm8k3b6" duration="00:00:00.0004215" startTime="2026-10-14T23:12:53.9180148+00:00" endTime="2026-10-14T23:12:53.9180953+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba7994ff-98e7-43bf-8bfb-c40f4ee32cc5" />
+    <UnitTestResult executionId="922390a3-5fd1-4655-82b0-d39653eabc78" testId="d3cc9983-e477-5782-7610-12e93c4c642f" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 409)" computerName="runnervm8k3b6" duration="00:00:00.0000089" startTime="2026-10-14T23:12:51.7923545+00:00" endTime="2026-10-14T23:12:51.7924561+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="922390a3-5fd1-4655-82b0-d39653eabc78" />
+    <UnitTestResult executionId="2805226a-2f79-49a5-b56a-7f3ba2317cf1" testId="2813aef6-27b9-9aa0-de08-26be801ef285" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.WinsOnConsecutiveDays_MakeTheStreak_AndALossEndsIt" computerName="runnervm8k3b6" duration="00:00:00.0007208" startTime="2026-10-14T23:12:53.9129056+00:00" endTime="2026-10-14T23:12:53.9148481+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2805226a-2f79-49a5-b56a-7f3ba2317cf1" />
+    <UnitTestResult executionId="5ac099f0-6dc8-44e9-badd-84f051c7b73f" testId="4fa112d2-43ed-32ed-1803-4e857f4f0d2a" testName="LivingDex.UnitTest.Integration.ApiTests.WrongPasswordAndUnknownUser_LookTheSame" computerName="runnervm8k3b6" duration="00:00:01.0563620" startTime="2026-10-14T23:13:00.2397127+00:00" endTime="2026-10-14T23:13:01.2953263+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5ac099f0-6dc8-44e9-badd-84f051c7b73f" />
+    <UnitTestResult executionId="a36dfe20-3fea-41a6-b67d-b83d9bde1bb6" testId="ed7ce5bc-8783-a2da-b9e6-ceb0d6977910" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.GenerateTemporary_IsReadable" computerName="runnervm8k3b6" duration="00:00:00.0025079" startTime="2026-10-14T23:12:50.0821025+00:00" endTime="2026-10-14T23:12:50.0837247+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a36dfe20-3fea-41a6-b67d-b83d9bde1bb6" />
+    <UnitTestResult executionId="7e7544b2-20b8-4076-82bb-180807859f19" testId="9b48256d-eccc-4b3f-a4eb-6f22cc4e1a33" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.BattlesStillPlaying_DoNotCount" computerName="runnervm8k3b6" duration="00:00:00.0014982" startTime="2026-10-14T23:12:53.9123073+00:00" endTime="2026-10-14T23:12:53.9124008+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e7544b2-20b8-4076-82bb-180807859f19" />
+    <UnitTestResult executionId="06ee808c-8d4c-413f-8fed-13303ff45c05" testId="aae6c76e-d564-c424-cdd5-b5a2f75b2c1d" testName="LivingDex.UnitTest.Integration.ApiTests.ClosedRegistration_StillAllowsTheFirstAccount" computerName="runnervm8k3b6" duration="00:00:00.8483863" startTime="2026-10-14T23:12:58.4815488+00:00" endTime="2026-10-14T23:12:59.3303062+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="06ee808c-8d4c-413f-8fed-13303ff45c05" />
+    <UnitTestResult executionId="75e28945-f51a-4793-84eb-862a46746f56" testId="f6fe838f-0b7b-e050-825c-e8cbb42592f7" testName="LivingDex.UnitTest.Battles.BestKnockoutsTests.NoFaints_IsZero" computerName="runnervm8k3b6" duration="00:00:00.0038740" startTime="2026-10-14T23:12:54.7418638+00:00" endTime="2026-10-14T23:12:54.7458830+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="75e28945-f51a-4793-84eb-862a46746f56" />
+    <UnitTestResult executionId="d4eeb300-1b8b-474a-ae73-4f2921311215" testId="215ebdb9-8d50-a0fa-9348-5c41e1144667" testName="LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests.EnumsAreCamelCaseStrings" computerName="runnervm8k3b6" duration="00:00:00.0024302" startTime="2026-10-14T23:12:50.0749374+00:00" endTime="2026-10-14T23:12:50.0768603+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d4eeb300-1b8b-474a-ae73-4f2921311215" />
+    <UnitTestResult executionId="7096a842-4a24-4cee-982d-d0e2c7eba003" testId="151fe63e-be1e-e881-fe53-352731e48285" testName="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.Streak_ResetsOnALoss_OnFireNeedsFiveInARow" computerName="runnervm8k3b6" duration="00:00:00.0026110" startTime="2026-10-14T23:12:53.9236734+00:00" endTime="2026-10-14T23:12:53.9237572+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7096a842-4a24-4cee-982d-d0e2c7eba003" />
+    <UnitTestResult executionId="838e5d0a-2892-4027-a519-79ee00514892" testId="2144e516-81ef-13c1-7d82-a4273277c150" testName="LivingDex.UnitTest.Integration.ApiTests.ChangingThePassword_SignsOutOtherDevicesOnly" computerName="runnervm8k3b6" duration="00:00:01.3601232" startTime="2026-10-14T23:13:11.0421346+00:00" endTime="2026-10-14T23:13:12.4024703+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="838e5d0a-2892-4027-a519-79ee00514892" />
+    <UnitTestResult executionId="d63aeaa0-e8cf-43f3-a856-033b12447775" testId="593d6cd1-7c3f-f8a5-2c12-11c732d7b0bb" testName="LivingDex.UnitTest.Integration.ApiTests.History_KeepsTheConfiguredNumberOfRevisions_AndCanRestore" computerName="runnervm8k3b6" duration="00:00:00.7983314" startTime="2026-10-14T23:13:10.2431279+00:00" endTime="2026-10-14T23:13:11.0419174+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d63aeaa0-e8cf-43f3-a856-033b12447775" />
+    <UnitTestResult executionId="87162384-56fd-4e65-b20c-9a71d9be15c8" testId="711aeca8-6c8d-9f61-3833-8123fc2135ba" testName="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_RedirectsUpstream_WhenCachingIsOffAndTheFileIsNotBundled" computerName="runnervm8k3b6" duration="00:00:00.6114976" startTime="2026-10-14T23:12:56.2476255+00:00" endTime="2026-10-14T23:12:56.8611226+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="87162384-56fd-4e65-b20c-9a71d9be15c8" />
+    <UnitTestResult executionId="f16d16bd-1d21-4f51-9cd1-4a3ecce83c4a" testId="31da4848-ff64-33dd-072a-55846a3f7c49" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-18&quot;, ok: False)" computerName="runnervm8k3b6" duration="00:00:00.0000088" startTime="2026-10-14T23:12:53.9021708+00:00" endTime="2026-10-14T23:12:53.9022336+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f16d16bd-1d21-4f51-9cd1-4a3ecce83c4a" />
+    <UnitTestResult executionId="0a76472d-2754-4719-885c-34565fb44bd8" testId="6ac79527-5a77-0589-ec3c-4ec34050bb80" testName="LivingDex.UnitTest.Integration.ApiTests.Health_ReportsFirstRunUntilTheFirstAccount" computerName="runnervm8k3b6" duration="00:00:00.8463741" startTime="2026-10-14T23:13:07.4553864+00:00" endTime="2026-10-14T23:13:08.3049810+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a76472d-2754-4719-885c-34565fb44bd8" />
+    <UnitTestResult executionId="12cdcab1-7075-4b5c-932a-47380127c21c" testId="4b7e012a-21c8-b99c-7367-c015a94f4f0f" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;20/10/2026&quot;, ok: False)" computerName="runnervm8k3b6" duration="00:00:00.0039934" startTime="2026-10-14T23:12:53.8957331+00:00" endTime="2026-10-14T23:12:53.8998612+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12cdcab1-7075-4b5c-932a-47380127c21c" />
+    <UnitTestResult executionId="cf8ba7d4-3030-4435-8b04-5c88a3b7b98b" testId="703f7138-3e39-cf25-be89-3d521cdc881e" testName="LivingDex.UnitTest.Assets.AssetStoreTests.MissingFile_IsDownloadedOnce_ThenServedFromTheCache" computerName="runnervm8k3b6" duration="00:00:00.0084715" startTime="2026-10-14T23:12:50.0655922+00:00" endTime="2026-10-14T23:12:50.0735792+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf8ba7d4-3030-4435-8b04-5c88a3b7b98b" />
+    <UnitTestResult executionId="e377531a-84f2-4bf8-8867-1aa7a48b0717" testId="7338a230-e85e-6a03-8fbf-1d3955e9c668" testName="LivingDex.UnitTest.Integration.ApiTests.Writes_WithoutTheAppHeader_AreRejected" computerName="runnervm8k3b6" duration="00:00:00.4980758" startTime="2026-10-14T23:13:12.4028044+00:00" endTime="2026-10-14T23:13:12.9011524+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e377531a-84f2-4bf8-8867-1aa7a48b0717" />
+    <UnitTestResult executionId="6bf5588f-7b55-4934-bb43-5f80c2285bd4" testId="88127942-da66-ef3e-8c87-28b6dcd8fa55" testName="LivingDex.UnitTest.Assets.AssetStoreTests.CachingOff_RedirectsUpstream" computerName="runnervm8k3b6" duration="00:00:00.0007607" startTime="2026-10-14T23:12:50.0651984+00:00" endTime="2026-10-14T23:12:50.0653590+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6bf5588f-7b55-4934-bb43-5f80c2285bd4" />
+    <UnitTestResult executionId="3e187e9e-2c5e-4675-aeb2-2fc7e919ea6c" testId="c60ddad9-92ad-ffc2-aec7-73892abe7e1c" testName="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.VeteranAndTenWins" computerName="runnervm8k3b6" duration="00:00:00.0027324" startTime="2026-10-14T23:12:53.9154604+00:00" endTime="2026-10-14T23:12:53.9178416+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e187e9e-2c5e-4675-aeb2-2fc7e919ea6c" />
+    <UnitTestResult executionId="86d03950-bb63-4fa6-9c86-80d0559bb4e1" testId="7dd86d03-86b0-eb47-680c-bcdb4eecea37" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.AMissedDay_EndsBothStreaks" computerName="runnervm8k3b6" duration="00:00:00.0045633" startTime="2026-10-14T23:12:53.9125920+00:00" endTime="2026-10-14T23:12:53.9126834+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="86d03950-bb63-4fa6-9c86-80d0559bb4e1" />
+    <UnitTestResult executionId="cc8acd85-5eff-4693-b25c-1e425cd1f8b8" testId="9aa64b4c-5d67-3d41-d136-17f54a176e73" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.ConflictWithTheCurrentRecord_Is409WithThePayload" computerName="runnervm8k3b6" duration="00:00:00.0002825" startTime="2026-10-14T23:12:51.8007438+00:00" endTime="2026-10-14T23:12:51.8008838+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc8acd85-5eff-4693-b25c-1e425cd1f8b8" />
+    <UnitTestResult executionId="9c6aebf5-7c3d-442b-b6e7-1d07a9f6adcd" testId="fe792c68-5fa9-8134-3496-f9e9a7b7abc6" testName="LivingDex.UnitTest.Integration.ApiTests.Admin_CanResetAPassword_AndOthersCannotUseAdminEndpoints" computerName="runnervm8k3b6" duration="00:00:02.2139474" startTime="2026-10-14T23:13:12.9013629+00:00" endTime="2026-10-14T23:13:15.1168621+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c6aebf5-7c3d-442b-b6e7-1d07a9f6adcd" />
+    <UnitTestResult executionId="9f6c6cbe-ed28-4933-9acb-9634938b3976" testId="c9a2203a-d832-3441-c866-14e80830d25f" testName="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.NoBattles_NoBadges" computerName="runnervm8k3b6" duration="00:00:00.0003048" startTime="2026-10-14T23:12:53.9185810+00:00" endTime="2026-10-14T23:12:53.9186489+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f6c6cbe-ed28-4933-9acb-9634938b3976" />
+    <UnitTestResult executionId="bfefd532-d2e3-4d69-8bfe-9e41baae9c2e" testId="000e1d35-4aaa-8e95-a2ee-8f671ec333f1" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: &quot;Rodas&quot;, password: &quot;short&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0042048" startTime="2026-10-14T23:12:47.8845804+00:00" endTime="2026-10-14T23:12:47.8884174+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bfefd532-d2e3-4d69-8bfe-9e41baae9c2e" />
+    <UnitTestResult executionId="185e9a16-b13e-4cc7-b927-95ff28fb3632" testId="e7fc4c88-65cf-3646-5abe-67349fe67972" testName="LivingDex.UnitTest.Integration.ApiTests.Progress_RequiresASignedInUser" computerName="runnervm8k3b6" duration="00:00:00.4058806" startTime="2026-10-14T23:13:09.8367018+00:00" endTime="2026-10-14T23:13:10.2428775+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="185e9a16-b13e-4cc7-b927-95ff28fb3632" />
+    <UnitTestResult executionId="3d85e5cb-ef6f-4699-abc5-ad29c4c8d88d" testId="dcfa0fb1-b37f-0c46-5e24-118ac19b42ac" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;1.exe&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0001643" startTime="2026-10-14T23:12:50.0360864+00:00" endTime="2026-10-14T23:12:50.0362370+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d85e5cb-ef6f-4699-abc5-ad29c4c8d88d" />
+    <UnitTestResult executionId="bde0934a-6e93-42e8-bbe9-0c5c6dbb629e" testId="2586c677-78b3-09e8-906a-bb1764d028f9" testName="LivingDex.UnitTest.Battles.BestKnockoutsTests.FaintIsCreditedToTheLastOpposingAttacker" computerName="runnervm8k3b6" duration="00:00:00.0074492" startTime="2026-10-14T23:12:54.7359804+00:00" endTime="2026-10-14T23:12:54.7414626+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bde0934a-6e93-42e8-bbe9-0c5c6dbb629e" />
+    <UnitTestResult executionId="b2546731-3256-4b56-bca1-6d27eaa2efe1" testId="088b89be-236b-3b4d-3068-9a6e4876ea40" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: null, ok: False)" computerName="runnervm8k3b6" duration="00:00:00.0007947" startTime="2026-10-14T23:12:53.9000048+00:00" endTime="2026-10-14T23:12:53.9018389+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b2546731-3256-4b56-bca1-6d27eaa2efe1" />
+    <UnitTestResult executionId="6696104d-5469-447a-94e9-3ffccac2cf12" testId="7bab0e29-1968-041a-448b-15363448ee67" testName="LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: &quot;\&quot;text\&quot;&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0000273" startTime="2026-10-14T23:12:51.8433308+00:00" endTime="2026-10-14T23:12:51.8434337+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6696104d-5469-447a-94e9-3ffccac2cf12" />
+    <UnitTestResult executionId="10450a44-e37d-4720-91ac-73dfaf47fb94" testId="95a08281-129e-cc0e-4871-b5ed34c568a5" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 400)" computerName="runnervm8k3b6" duration="00:00:00.0003267" startTime="2026-10-14T23:12:51.7910645+00:00" endTime="2026-10-14T23:12:51.7911775+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="10450a44-e37d-4720-91ac-73dfaf47fb94" />
+    <UnitTestResult executionId="890c8298-43b6-483e-b671-149aba1d3754" testId="da858111-f45d-9001-4ac0-272b11ae26e9" testName="LivingDex.UnitTest.Integration.ApiTests.FirstAccount_IsAdmin_LaterOnesAreNot" computerName="runnervm8k3b6" duration="00:00:00.9137895" startTime="2026-10-14T23:13:05.3580133+00:00" endTime="2026-10-14T23:13:06.2713980+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="890c8298-43b6-483e-b671-149aba1d3754" />
+    <UnitTestResult executionId="0911f1e1-f651-4c7f-9e2e-ba084289ed0e" testId="8ab165a5-9f59-92aa-b91d-f8a50b245fcb" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-19&quot;, ok: True)" computerName="runnervm8k3b6" duration="00:00:00.0000041" startTime="2026-10-14T23:12:53.9029216+00:00" endTime="2026-10-14T23:12:53.9029979+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0911f1e1-f651-4c7f-9e2e-ba084289ed0e" />
+    <UnitTestResult executionId="dedc1959-6257-4bf9-bef3-723e88d28bbd" testId="194d4215-00c1-62e3-425b-1552c14b1bc6" testName="LivingDex.UnitTest.Integration.ApiTests.DeletingTheAdmin_PromotesTheOldestRemainingAccount" computerName="runnervm8k3b6" duration="00:00:01.5310718" startTime="2026-10-14T23:13:08.3052018+00:00" endTime="2026-10-14T23:13:09.8364345+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dedc1959-6257-4bf9-bef3-723e88d28bbd" />
+    <UnitTestResult executionId="f5d90c07-71c5-4db5-89a2-9f921f153e47" testId="86e5437e-1b80-e50d-bc4b-e0f0900e9abb" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0001643" startTime="2026-10-14T23:12:50.0861007+00:00" endTime="2026-10-14T23:12:50.0861929+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f5d90c07-71c5-4db5-89a2-9f921f153e47" />
+    <UnitTestResult executionId="4c2637f2-efb8-4fbd-81a6-f13f177ff21e" testId="542b586a-6e0a-891c-b0e6-2f75f7188035" testName="LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: &quot;null&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0007738" startTime="2026-10-14T23:12:51.8363075+00:00" endTime="2026-10-14T23:12:51.8368609+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c2637f2-efb8-4fbd-81a6-f13f177ff21e" />
+    <UnitTestResult executionId="913e0b91-a8c2-4b94-b08a-d432eee27588" testId="4e98d2a3-188c-fd39-1564-04270608f479" testName="LivingDex.UnitTest.Trainers.TrainerServiceTests.List_CardsCarryProfileAndRecord" computerName="runnervm8k3b6" duration="00:00:00.0041965" startTime="2026-10-14T23:12:51.8018988+00:00" endTime="2026-10-14T23:12:51.8019855+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="913e0b91-a8c2-4b94-b08a-d432eee27588" />
+    <UnitTestResult executionId="82009038-587f-45d0-9912-90de312e4b89" testId="540b0a1c-b6e5-a218-2911-029aaacf2aa2" testName="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;{\&quot;det\&quot;:{}}&quot;, expected: 0)" computerName="runnervm8k3b6" duration="00:00:00.0000099" startTime="2026-10-14T23:12:57.3304882+00:00" endTime="2026-10-14T23:12:57.3305257+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="82009038-587f-45d0-9912-90de312e4b89" />
+    <UnitTestResult executionId="44eb5327-fc65-40a1-a257-5f25657c4014" testId="23e7e313-1be5-596f-be8b-137f130b8f91" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;a//b.png&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0001574" startTime="2026-10-14T23:12:50.0425267+00:00" endTime="2026-10-14T23:12:50.0426919+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="44eb5327-fc65-40a1-a257-5f25657c4014" />
+    <UnitTestResult executionId="acaa8a72-633f-4491-906e-2a8089104139" testId="d0b97d18-c748-fd66-9870-0326726db1e4" testName="LivingDex.UnitTest.Accounts.UserAdminServiceTests.ResetPassword_SetsATemporaryPasswordAndNewStamp" computerName="runnervm8k3b6" duration="00:00:01.3638818" startTime="2026-10-14T23:12:55.3980129+00:00" endTime="2026-10-14T23:12:56.7629766+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acaa8a72-633f-4491-906e-2a8089104139" />
+    <UnitTestResult executionId="9d2c7480-24c0-4769-8c95-4fa9bec507fe" testId="27fafdfc-1868-f0f6-0529-a51b24fba41a" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Login_IgnoresCase" computerName="runnervm8k3b6" duration="00:00:00.5946881" startTime="2026-10-14T23:12:46.8901467+00:00" endTime="2026-10-14T23:12:47.3759430+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9d2c7480-24c0-4769-8c95-4fa9bec507fe" />
+    <UnitTestResult executionId="2bea93c9-0525-4f93-b439-eea384864992" testId="77a99a07-f454-b5c1-06a3-c981df481888" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.Hash_VerifiesOnlyTheSamePassword" computerName="runnervm8k3b6" duration="00:00:00.9522829" startTime="2026-10-14T23:12:50.8333117+00:00" endTime="2026-10-14T23:12:51.7843898+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2bea93c9-0525-4f93-b439-eea384864992" />
+    <UnitTestResult executionId="cdb4f918-0663-4afd-97e7-28d8ec50abf7" testId="ec17139e-aeb3-b0ab-87be-fbe297d44cfc" testName="LivingDex.UnitTest.Accounts.UserAdminServiceTests.ResetPassword_OwnAccountOrUnknown_IsRefused" computerName="runnervm8k3b6" duration="00:00:00.9223675" startTime="2026-10-14T23:12:53.9243509+00:00" endTime="2026-10-14T23:12:54.8462200+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cdb4f918-0663-4afd-97e7-28d8ec50abf7" />
+    <UnitTestResult executionId="3afecd36-5a35-4be4-bdbf-d0a863009a49" testId="fb21ae99-3b8a-bfb0-53be-e68aa4542a52" testName="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.TimeTraveller_NeedsAWinInEveryGeneration" computerName="runnervm8k3b6" duration="00:00:00.0008780" startTime="2026-10-14T23:12:53.9239909+00:00" endTime="2026-10-14T23:12:53.9240756+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3afecd36-5a35-4be4-bdbf-d0a863009a49" />
+    <UnitTestResult executionId="1fa956e4-ed06-47a2-a8ae-405763d54b8e" testId="1c385e8d-82f0-c68a-81f3-2beb3326c3e2" testName="LivingDex.UnitTest.Assets.AssetStoreTests.TryParseKind_KnowsTheFolders(key: &quot;battlebg&quot;, expected: BattleBg)" computerName="runnervm8k3b6" duration="00:00:00.0010251" startTime="2026-10-14T23:12:50.0311161+00:00" endTime="2026-10-14T23:12:50.0328886+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fa956e4-ed06-47a2-a8ae-405763d54b8e" />
+    <UnitTestResult executionId="2a432415-d592-49ac-950b-e16e94780df0" testId="d65d50c3-6da4-ef68-5caa-0645eb91257c" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;../livingdex.db&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0009932" startTime="2026-10-14T23:12:50.0331323+00:00" endTime="2026-10-14T23:12:50.0332842+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a432415-d592-49ac-950b-e16e94780df0" />
+    <UnitTestResult executionId="7f757302-3e93-449c-b2a8-7071180ae3cf" testId="ce21c5ec-93a9-7b37-09dc-b6b718784733" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.CreatedAndAccepted_CarryTheLocation" computerName="runnervm8k3b6" duration="00:00:00.0003216" startTime="2026-10-14T23:12:51.7927015+00:00" endTime="2026-10-14T23:12:51.7948713+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f757302-3e93-449c-b2a8-7071180ae3cf" />
+    <UnitTestResult executionId="d0ceca4d-7d70-40d9-99da-b2ed1a3f6f8a" testId="d3cb801b-6241-271c-f209-87ec1aaff546" testName="LivingDex.UnitTest.Trainers.TrainerServiceTests.Get_UnknownTrainer_IsNotFound" computerName="runnervm8k3b6" duration="00:00:00.0016253" startTime="2026-10-14T23:12:51.8022084+00:00" endTime="2026-10-14T23:12:51.8023104+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d0ceca4d-7d70-40d9-99da-b2ed1a3f6f8a" />
+    <UnitTestResult executionId="1706dd3c-c0f5-44f5-b3c8-82d414eb11d9" testId="76a47aab-e4d5-8595-c5b9-852f5bd92912" testName="LivingDex.UnitTest.Trainers.TrainerServiceTests.SetPartner_OutOfRange_IsAValidationProblem(partner: 0)" computerName="runnervm8k3b6" duration="00:00:00.0022876" startTime="2026-10-14T23:12:51.8012513+00:00" endTime="2026-10-14T23:12:51.8013561+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1706dd3c-c0f5-44f5-b3c8-82d414eb11d9" />
+    <UnitTestResult executionId="2f680c0b-cea9-47d3-b8a8-2031f65ccc3e" testId="aa2887e7-c23f-e307-9385-469dcdefd0ca" testName="LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests.DatabaseTimestamps_AreWrittenAsUtc" computerName="runnervm8k3b6" duration="00:00:00.0041131" startTime="2026-10-14T23:12:50.0771231+00:00" endTime="2026-10-14T23:12:50.0808415+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f680c0b-cea9-47d3-b8a8-2031f65ccc3e" />
+    <UnitTestResult executionId="c2d78334-a8bf-4783-92e1-52dead4f3691" testId="68e91dbd-5f70-1b51-8eb3-9ebe42e2a25a" testName="LivingDex.UnitTest.Assets.AssetStoreTests.TryParseKind_KnowsTheFolders(key: &quot;sprites&quot;, expected: Sprites)" computerName="runnervm8k3b6" duration="00:00:00.0055224" startTime="2026-10-14T23:12:50.0258475+00:00" endTime="2026-10-14T23:12:50.0309215+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c2d78334-a8bf-4783-92e1-52dead4f3691" />
+    <UnitTestResult executionId="7e113032-50e8-48bd-8a2d-fda643a41fc9" testId="7bc2e506-15b1-93da-3791-667fe797d093" testName="LivingDex.UnitTest.Integration.ApiTests.StaleRevision_IsRejectedWithTheCurrentState" computerName="runnervm8k3b6" duration="00:00:00.7192566" startTime="2026-10-14T23:13:03.8776565+00:00" endTime="2026-10-14T23:13:04.5979260+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e113032-50e8-48bd-8a2d-fda643a41fc9" />
+    <UnitTestResult executionId="1e954805-78b5-470b-bab1-010c51ae883b" testId="0a8111b9-8699-f55c-afaf-82760c9ae570" testName="LivingDex.UnitTest.States.StateServiceTests.History_KeepsTheLimit_AndRestoreSavesANewRevision" computerName="runnervm8k3b6" duration="00:00:00.0184158" startTime="2026-10-14T23:12:51.8202324+00:00" endTime="2026-10-14T23:12:51.8359263+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1e954805-78b5-470b-bab1-010c51ae883b" />
+    <UnitTestResult executionId="9efb8908-8da5-4a57-b1a6-86d5e3a84431" testId="26867242-48df-f7e1-5f8d-08ecd345a120" testName="LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: &quot;[1,2,3]&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0003242" startTime="2026-10-14T23:12:51.8429098+00:00" endTime="2026-10-14T23:12:51.8430573+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9efb8908-8da5-4a57-b1a6-86d5e3a84431" />
+    <UnitTestResult executionId="633b9134-ddc5-4ce4-a5c4-971c6cd3da42" testId="5ad32bd6-dd70-c4de-ece0-0c97b393c3c5" testName="LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: &quot;bad name&quot;, password: &quot;pikachu123&quot;)" computerName="runnervm8k3b6" duration="00:00:00.5226351" startTime="2026-10-14T23:13:01.2955861+00:00" endTime="2026-10-14T23:13:01.8186953+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="633b9134-ddc5-4ce4-a5c4-971c6cd3da42" />
+    <UnitTestResult executionId="28ec7cab-85f8-4056-934d-9a601a9b27e2" testId="5b246394-7818-684d-403a-55cd5ec117af" testName="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;{\&quot;caught\&quot;:[]}&quot;, expected: 0)" computerName="runnervm8k3b6" duration="00:00:00.0000236" startTime="2026-10-14T23:12:57.3302574+00:00" endTime="2026-10-14T23:12:57.3302965+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="28ec7cab-85f8-4056-934d-9a601a9b27e2" />
+    <UnitTestResult executionId="b19ad3b6-9e80-4b17-82f0-cc42375f3367" testId="7559971a-9afe-9cab-f239-90437b014011" testName="LivingDex.UnitTest.States.StateServiceTests.Save_LongClientName_IsCut" computerName="runnervm8k3b6" duration="00:00:00.0008967" startTime="2026-10-14T23:12:51.8497512+00:00" endTime="2026-10-14T23:12:51.8498922+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b19ad3b6-9e80-4b17-82f0-cc42375f3367" />
+    <UnitTestResult executionId="fee10b6a-9a49-4491-abfe-0f27c2c1a786" testId="2ddadbdd-24a7-386f-9da7-5921770d87f0" testName="LivingDex.UnitTest.Integration.BattleHistoryTests.SavedBattles_ShowUpInRecordsReplaysAndCards" computerName="runnervm8k3b6" duration="00:00:03.2889985" startTime="2026-10-14T23:12:45.5580238+00:00" endTime="2026-10-14T23:12:48.8619989+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fee10b6a-9a49-4491-abfe-0f27c2c1a786" />
+    <UnitTestResult executionId="9734a111-91df-4eb8-ba3b-96d069e5f7d8" testId="bdb605a4-ba54-b614-d2ba-6733943aeea3" testName="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: &quot;/assets/sprites/../livingdex.db&quot;)" computerName="runnervm8k3b6" duration="00:00:00.4789246" startTime="2026-10-14T23:12:58.0021371+00:00" endTime="2026-10-14T23:12:58.4813418+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9734a111-91df-4eb8-ba3b-96d069e5f7d8" />
+    <UnitTestResult executionId="23427d3b-5d7e-49cc-9b7c-2c344e00a54a" testId="5e5461d4-ef63-c6f9-4e17-0ae4326d0865" testName="LivingDex.UnitTest.Integration.ApiTests.Progress_ThatIsNotAnObject_IsRejected" computerName="runnervm8k3b6" duration="00:00:00.7590614" startTime="2026-10-14T23:13:04.5980957+00:00" endTime="2026-10-14T23:13:05.3569823+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23427d3b-5d7e-49cc-9b7c-2c344e00a54a" />
+    <UnitTestResult executionId="409e46b2-978d-45fd-ac3b-6be8daa84ff1" testId="d5dc521e-466b-da7f-5e89-4fe6d26aa943" testName="LivingDex.UnitTest.States.StateServiceTests.Save_StaleRevision_IsAConflictWithTheCurrentState" computerName="runnervm8k3b6" duration="00:00:00.0008259" startTime="2026-10-14T23:12:51.8493850+00:00" endTime="2026-10-14T23:12:51.8494959+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="409e46b2-978d-45fd-ac3b-6be8daa84ff1" />
+    <UnitTestResult executionId="d5aad6b0-1cd1-416c-94d2-8f2bac21880f" testId="9687cd4c-c799-d219-d1f9-b5b0ad04146f" testName="LivingDex.UnitTest.States.StateServiceTests.Get_BeforeTheFirstSave_IsRevisionZeroAndNull" computerName="runnervm8k3b6" duration="00:00:00.0019461" startTime="2026-10-14T23:12:51.8437349+00:00" endTime="2026-10-14T23:12:51.8489576+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5aad6b0-1cd1-416c-94d2-8f2bac21880f" />
+    <UnitTestResult executionId="63724a09-49e4-4574-97d9-0631da995108" testId="474933df-9f6d-3dff-5111-eede2d3621fb" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-22&quot;, ok: False)" computerName="runnervm8k3b6" duration="00:00:00.0000072" startTime="2026-10-14T23:12:53.9026381+00:00" endTime="2026-10-14T23:12:53.9027306+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="63724a09-49e4-4574-97d9-0631da995108" />
+    <UnitTestResult executionId="3d9f5a69-98e9-4937-b363-3eb3edb547d8" testId="d46ceb87-712e-9a7e-803e-cc302014c783" testName="LivingDex.UnitTest.States.StateServiceTests.Save_TooLarge_IsPayloadTooLarge" computerName="runnervm8k3b6" duration="00:00:00.0079628" startTime="2026-10-14T23:12:51.8026635+00:00" endTime="2026-10-14T23:12:51.8078996+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d9f5a69-98e9-4937-b363-3eb3edb547d8" />
+    <UnitTestResult executionId="ffd4c3c6-2e66-489b-87f4-dde4cab57331" testId="aa24212e-ae4d-a3c7-4bf0-14cb8f364fab" testName="LivingDex.UnitTest.Integration.ApiTests.ThePage_IsServedAtTheRoot" computerName="runnervm8k3b6" duration="00:00:00.6729823" startTime="2026-10-14T23:12:54.7466009+00:00" endTime="2026-10-14T23:12:55.4227522+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ffd4c3c6-2e66-489b-87f4-dde4cab57331" />
+    <UnitTestResult executionId="0bed0bda-e5b4-4423-bc30-7920d8549d4b" testId="a0ef9c17-0a41-e44c-f20f-31dac97fd8fb" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 413)" computerName="runnervm8k3b6" duration="00:00:00.0001075" startTime="2026-10-14T23:12:51.7913761+00:00" endTime="2026-10-14T23:12:51.7914810+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0bed0bda-e5b4-4423-bc30-7920d8549d4b" />
+    <UnitTestResult executionId="5b71613a-3adc-4662-8ffb-1bf197368f54" testId="c9e15d07-70d7-17a8-fbbf-e96186d100bd" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 401)" computerName="runnervm8k3b6" duration="00:00:00.0000121" startTime="2026-10-14T23:12:51.7916726+00:00" endTime="2026-10-14T23:12:51.7918427+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5b71613a-3adc-4662-8ffb-1bf197368f54" />
+    <UnitTestResult executionId="5732db61-8bba-4383-b079-a6e3e2e23dc6" testId="52a01645-75d9-9d06-8cfc-f30cfe4d5a51" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;pbkdf2-sha512$1000$not-base64!$def&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0001094" startTime="2026-10-14T23:12:50.0921593+00:00" endTime="2026-10-14T23:12:50.0922515+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5732db61-8bba-4383-b079-a6e3e2e23dc6" />
+    <UnitTestResult executionId="d68be796-69de-4870-8910-42649f758491" testId="fa2d8e8e-d267-5f99-1c26-67da5a53974d" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.NoBattles_AllZero" computerName="runnervm8k3b6" duration="00:00:00.0053428" startTime="2026-10-14T23:12:53.9032121+00:00" endTime="2026-10-14T23:12:53.9065701+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d68be796-69de-4870-8910-42649f758491" />
+    <UnitTestResult executionId="12d2cbde-082f-434f-86f9-a8a05220ec11" testId="36ccd520-846d-f36b-c007-cfd48dbb3713" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnreadableBundledFile_IsDownloadedInstead" computerName="runnervm8k3b6" duration="00:00:00.0110208" startTime="2026-10-14T23:12:50.0531103+00:00" endTime="2026-10-14T23:12:50.0648783+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="12d2cbde-082f-434f-86f9-a8a05220ec11" />
+    <UnitTestResult executionId="38fff135-08e1-4912-b0da-c8abfcf2a726" testId="9b82e1db-511c-6e95-00f1-689f88d256b8" testName="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: &quot;/assets/other/1.png&quot;)" computerName="runnervm8k3b6" duration="00:00:00.5892965" startTime="2026-10-14T23:12:56.8613858+00:00" endTime="2026-10-14T23:12:57.4523572+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38fff135-08e1-4912-b0da-c8abfcf2a726" />
+    <UnitTestResult executionId="01ea95c1-3199-483e-b262-ad61802aff0f" testId="d56a912f-cefb-2c50-af55-5ada301ab7d2" testName="LivingDex.UnitTest.Integration.ApiTests.TrainerCards_ShowPartnerAndLivingDexCount" computerName="runnervm8k3b6" duration="00:00:01.0186305" startTime="2026-10-14T23:13:02.8599188+00:00" endTime="2026-10-14T23:13:03.8774330+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="01ea95c1-3199-483e-b262-ad61802aff0f" />
+    <UnitTestResult executionId="a3e4ee8a-4226-4dac-b7e4-73a1a01223ff" testId="bf1c7fa8-75c2-e8e1-352c-e75017841c0d" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Success_WithAndWithoutPayload" computerName="runnervm8k3b6" duration="00:00:00.0005968" startTime="2026-10-14T23:12:51.7856428+00:00" endTime="2026-10-14T23:12:51.7857531+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a3e4ee8a-4226-4dac-b7e4-73a1a01223ff" />
+    <UnitTestResult executionId="3577f88c-5880-4aab-a6b4-984abcbf5fcb" testId="4bf64934-77ee-7be2-33ac-d244fff3442d" testName="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;[]&quot;, expected: 0)" computerName="runnervm8k3b6" duration="00:00:00.0000112" startTime="2026-10-14T23:12:57.3303732+00:00" endTime="2026-10-14T23:12:57.3304123+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3577f88c-5880-4aab-a6b4-984abcbf5fcb" />
+    <UnitTestResult executionId="62bcda8f-de51-4ee5-a068-ae5c5a095c79" testId="5d568801-3425-5ea1-dd2b-2642f059ca50" testName="LivingDex.UnitTest.Integration.SqliteImporterTests.OldDatabase_IsImportedOnce_AndKeepsAccountsProgressAndBattles" computerName="runnervm8k3b6" duration="00:00:02.8889922" startTime="2026-10-14T23:12:51.8524573+00:00" endTime="2026-10-14T23:12:54.7330101+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="62bcda8f-de51-4ee5-a068-ae5c5a095c79" />
+    <UnitTestResult executionId="997bc3f4-2fd2-4dc0-8e9f-8603f5ad35ae" testId="d5e13e12-d200-65ef-8d4c-f3d8a187750b" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 403)" computerName="runnervm8k3b6" duration="00:00:00.0000093" startTime="2026-10-14T23:12:51.7920500+00:00" endTime="2026-10-14T23:12:51.7921581+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="997bc3f4-2fd2-4dc0-8e9f-8603f5ad35ae" />
+    <UnitTestResult executionId="61253964-3a35-41de-89f4-0324b3428438" testId="40ff12c1-e1ec-59fc-95d4-cf15d14943ba" testName="LivingDex.UnitTest.Integration.ApiTests.ThePagesFiles_AreCachedForGood_WhenVersioned" computerName="runnervm8k3b6" duration="00:00:00.8236906" startTime="2026-10-14T23:12:55.4239046+00:00" endTime="2026-10-14T23:12:56.2472937+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61253964-3a35-41de-89f4-0324b3428438" />
+    <UnitTestResult executionId="4c776da0-4461-4d1e-94a0-a0b00aed4a1b" testId="c06586c5-03ee-5404-9569-fcb81a0657e7" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UpstreamError_IsAFailure_AndNotRemembered" computerName="runnervm8k3b6" duration="00:00:00.0045935" startTime="2026-10-14T23:12:50.0218951+00:00" endTime="2026-10-14T23:12:50.0255693+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c776da0-4461-4d1e-94a0-a0b00aed4a1b" />
+    <UnitTestResult executionId="c5633ef8-470b-494a-b134-63ceeb82d41c" testId="0d1f4cc5-2a7f-6c2c-d617-d408f03afd8f" testName="LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: &quot;ab&quot;, password: &quot;pikachu123&quot;)" computerName="runnervm8k3b6" duration="00:00:00.5446979" startTime="2026-10-14T23:13:01.8189010+00:00" endTime="2026-10-14T23:13:02.3638122+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5633ef8-470b-494a-b134-63ceeb82d41c" />
+    <UnitTestResult executionId="3420f4ab-2b74-454b-8d9c-2aa7093a7f23" testId="c5d72953-3bdc-22ba-b94a-159fec919db8" testName="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: &quot;/assets/sprites/1.exe&quot;)" computerName="runnervm8k3b6" duration="00:00:00.5495625" startTime="2026-10-14T23:12:57.4525684+00:00" endTime="2026-10-14T23:12:58.0019642+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3420f4ab-2b74-454b-8d9c-2aa7093a7f23" />
+    <UnitTestResult executionId="0f9e2dfe-8be2-4073-a9a6-7c82b08d081b" testId="06691e86-6475-70d3-ad40-921b55b02692" testName="LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: &quot;Rodas&quot;, password: &quot;short&quot;)" computerName="runnervm8k3b6" duration="00:00:00.4937545" startTime="2026-10-14T23:13:02.3639847+00:00" endTime="2026-10-14T23:13:02.8596288+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0f9e2dfe-8be2-4073-a9a6-7c82b08d081b" />
+    <UnitTestResult executionId="6f48e4e8-6d2b-47ab-8bb7-ebeb8db6aa49" testId="c157674d-c8c3-7aaf-5e8c-6c24a01f009f" testName="LivingDex.UnitTest.Integration.DailyRedTests.OfficialBattles_OncePerDay_ShowUpInStatsAndTrainersToday" computerName="runnervm8k3b6" duration="00:00:01.6768435" startTime="2026-10-14T23:12:52.2186161+00:00" endTime="2026-10-14T23:12:53.8950966+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f48e4e8-6d2b-47ab-8bb7-ebeb8db6aa49" />
+    <UnitTestResult executionId="73fd1a32-29e5-4ff5-b5f5-02c0b0f2e666" testId="0d873aaa-76fe-4267-4da8-eab1cf4bc21e" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;theme.mp3&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0005259" startTime="2026-10-14T23:12:50.0335185+00:00" endTime="2026-10-14T23:12:50.0359086+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73fd1a32-29e5-4ff5-b5f5-02c0b0f2e666" />
+    <UnitTestResult executionId="f13ca8c4-c349-439d-afd1-f031830eb3c0" testId="c9029b9f-ffe0-e62c-485d-374e29056500" testName="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 404)" computerName="runnervm8k3b6" duration="00:00:00.0035132" startTime="2026-10-14T23:12:51.7860499+00:00" endTime="2026-10-14T23:12:51.7908464+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f13ca8c4-c349-439d-afd1-f031830eb3c0" />
+    <UnitTestResult executionId="6aefd1ac-480f-439c-bff7-1f98784b8fb7" testId="71dd193f-b595-dfec-47fd-24d7bc559175" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.ChangePassword_WrongCurrentPassword_IsRefused" computerName="runnervm8k3b6" duration="00:00:00.8444692" startTime="2026-10-14T23:12:50.3119520+00:00" endTime="2026-10-14T23:12:51.1565503+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6aefd1ac-480f-439c-bff7-1f98784b8fb7" />
+    <UnitTestResult executionId="24be8239-319a-49ed-895a-566508a6454a" testId="e2ba720b-99b2-49a1-e494-02a1aeecec24" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-21&quot;, ok: True)" computerName="runnervm8k3b6" duration="00:00:00.0000076" startTime="2026-10-14T23:12:53.9023928+00:00" endTime="2026-10-14T23:12:53.9024742+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24be8239-319a-49ed-895a-566508a6454a" />
+    <UnitTestResult executionId="6f266913-107c-465f-9105-8e5704ae08bf" testId="a01524f4-c13b-ac3d-6a47-54f809121937" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.DeleteAccount_NeedsThePassword_ThenSignsOut" computerName="runnervm8k3b6" duration="00:00:01.0608632" startTime="2026-10-14T23:12:51.1593718+00:00" endTime="2026-10-14T23:12:52.2182697+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f266913-107c-465f-9105-8e5704ae08bf" />
+    <UnitTestResult executionId="b16a1488-c68f-4adf-bf4b-7a56a9346e75" testId="ee4dfba6-6d26-9a57-572c-fcbf1677f293" testName="LivingDex.UnitTest.Accounts.UserAdminServiceTests.List_CountsMarkedEntriesAcrossGames" computerName="runnervm8k3b6" duration="00:00:00.5656452" startTime="2026-10-14T23:12:56.7633748+00:00" endTime="2026-10-14T23:12:57.3284787+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b16a1488-c68f-4adf-bf4b-7a56a9346e75" />
+    <UnitTestResult executionId="5e3f2e00-15e2-41dc-9be6-35f73b3c3563" testId="9635a81a-7b74-153d-78c7-0d4832c2543e" testName="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: BattleBg, path: &quot;bg-forest.png&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0011934" startTime="2026-10-14T23:12:50.0363953+00:00" endTime="2026-10-14T23:12:50.0365447+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5e3f2e00-15e2-41dc-9be6-35f73b3c3563" />
+    <UnitTestResult executionId="91d39905-64a2-4031-874a-bcb0ef995aa3" testId="94bfab33-1f8e-04eb-00cd-e333e4876491" testName="LivingDex.UnitTest.Accounts.PasswordHasherTests.Hash_UsesANewSaltEveryTime" computerName="runnervm8k3b6" duration="00:00:00.7458460" startTime="2026-10-14T23:12:50.0924714+00:00" endTime="2026-10-14T23:12:50.8328803+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="91d39905-64a2-4031-874a-bcb0ef995aa3" />
+    <UnitTestResult executionId="dd0a83a0-8475-40db-ae29-905375e1c8f0" testId="ee335963-2ddb-bae6-3814-4c1f7edc6e8a" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Login_UnknownUserAndWrongPassword_LookTheSame" computerName="runnervm8k3b6" duration="00:00:01.0576097" startTime="2026-10-14T23:12:47.8897303+00:00" endTime="2026-10-14T23:12:48.9478402+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd0a83a0-8475-40db-ae29-905375e1c8f0" />
+    <UnitTestResult executionId="225ad74e-a773-4e4f-a2b8-d54b79263d82" testId="f4b71a0b-bd50-26e6-ca3f-944026cad032" testName="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.LastStandFlawlessAndSweeper" computerName="runnervm8k3b6" duration="00:00:00.0002871" startTime="2026-10-14T23:12:53.9183027+00:00" endTime="2026-10-14T23:12:53.9183827+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="225ad74e-a773-4e4f-a2b8-d54b79263d82" />
+    <UnitTestResult executionId="2489d418-edba-48b4-8079-dab20041accb" testId="56a31f97-807d-d685-e638-5affffd93cd6" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: &quot;ab&quot;, password: &quot;pikachu123&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0005371" startTime="2026-10-14T23:12:47.8886810+00:00" endTime="2026-10-14T23:12:47.8890243+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2489d418-edba-48b4-8079-dab20041accb" />
+    <UnitTestResult executionId="9945dc09-76b8-4fca-8846-16ffe0f8928f" testId="a17a3fdc-4f5c-c900-3d66-c67aca2317d1" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.LastPlayedTwoDaysAgo_NoCurrentStreak" computerName="runnervm8k3b6" duration="00:00:00.0001799" startTime="2026-10-14T23:12:53.9150894+00:00" endTime="2026-10-14T23:12:53.9151686+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9945dc09-76b8-4fca-8846-16ffe0f8928f" />
+    <UnitTestResult executionId="c471f4cf-14d4-48e9-9cb5-f4080313ded8" testId="31cf6208-39cf-6176-86db-550fc69f4c65" testName="LivingDex.UnitTest.Assets.AssetStoreTests.BundledFile_IsServedFirst_EvenWithCachingOff" computerName="runnervm8k3b6" duration="00:00:00.0143274" startTime="2026-10-14T23:12:50.0437311+00:00" endTime="2026-10-14T23:12:50.0521632+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c471f4cf-14d4-48e9-9cb5-f4080313ded8" />
+    <UnitTestResult executionId="f0e46fb5-6e2b-4d0b-9790-3471342ddc9c" testId="7cf7fc9b-9e28-aaab-b378-7460a3d1c5a4" testName="LivingDex.UnitTest.Integration.ApiTests.EachUser_HasTheirOwnProgress" computerName="runnervm8k3b6" duration="00:00:00.9075038" startTime="2026-10-14T23:12:59.3305676+00:00" endTime="2026-10-14T23:13:00.2395017+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f0e46fb5-6e2b-4d0b-9790-3471342ddc9c" />
+    <UnitTestResult executionId="7441ec38-eed4-47c7-97f9-2f6d5e36acf9" testId="55331b73-465f-f165-548b-7b523aacc245" testName="LivingDex.UnitTest.Trainers.TrainerServiceTests.SetPartner_OutOfRange_IsAValidationProblem(partner: 1026)" computerName="runnervm8k3b6" duration="00:00:00.0002482" startTime="2026-10-14T23:12:51.8015261+00:00" endTime="2026-10-14T23:12:51.8016243+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7441ec38-eed4-47c7-97f9-2f6d5e36acf9" />
+    <UnitTestResult executionId="3cf85f00-865a-4df7-9c1f-84b935df753c" testId="ca23f85b-d9fa-a355-ce33-2f043d8fce84" testName="LivingDex.UnitTest.Assets.AssetStoreTests.NotUpstream_IsRememberedAsMissing" computerName="runnervm8k3b6" duration="00:00:00.0203073" startTime="2026-10-14T23:12:50.0021162+00:00" endTime="2026-10-14T23:12:50.0215777+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3cf85f00-865a-4df7-9c1f-84b935df753c" />
+    <UnitTestResult executionId="aa9ef07b-79de-4f49-916a-8fd25f6cad7d" testId="2e285989-1750-7ecc-7bad-f1d395e1787c" testName="LivingDex.UnitTest.Integration.ApiTests.Usernames_AreUniqueIgnoringCase_AndLoginIgnoresCase" computerName="runnervm8k3b6" duration="00:00:01.1831516" startTime="2026-10-14T23:13:06.2716394+00:00" endTime="2026-10-14T23:13:07.4550877+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aa9ef07b-79de-4f49-916a-8fd25f6cad7d" />
+    <UnitTestResult executionId="7c445795-2203-4444-ac6f-6bf7aa1e5c15" testId="01ba4cca-80fe-7377-1176-1a6b308a8823" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: &quot;has space&quot;, password: &quot;pikachu123&quot;)" computerName="runnervm8k3b6" duration="00:00:00.0000348" startTime="2026-10-14T23:12:47.8892957+00:00" endTime="2026-10-14T23:12:47.8894213+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c445795-2203-4444-ac6f-6bf7aa1e5c15" />
+    <UnitTestResult executionId="72810616-c021-4bad-97d1-5520bdf63018" testId="c80591d6-d8df-1987-e628-511822096942" testName="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_ClosedRegistration_AllowsOnlyTheFirstAccount" computerName="runnervm8k3b6" duration="00:00:00.6342531" startTime="2026-10-14T23:12:48.9483079+00:00" endTime="2026-10-14T23:12:49.5814604+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="72810616-c021-4bad-97d1-5520bdf63018" />
+    <UnitTestResult executionId="de302902-0e05-4209-83c8-7769836ebeb9" testId="325d31d0-4633-d370-866b-d6f05112c533" testName="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-20&quot;, ok: True)" computerName="runnervm8k3b6" duration="00:00:00.0000189" startTime="2026-10-14T23:12:53.9019721+00:00" endTime="2026-10-14T23:12:53.9020404+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="de302902-0e05-4209-83c8-7769836ebeb9" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-18&quot;, ok: False)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="31da4848-ff64-33dd-072a-55846a3f7c49">
+      <Execution id="f16d16bd-1d21-4f51-9cd1-4a3ecce83c4a" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.EachUser_HasTheirOwnProgress" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="7cf7fc9b-9e28-aaab-b378-7460a3d1c5a4">
+      <Execution id="f0e46fb5-6e2b-4d0b-9790-3471342ddc9c" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="EachUser_HasTheirOwnProgress" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: &quot;[1,2,3]&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="26867242-48df-f7e1-5f8d-08ecd345a120">
+      <Execution id="9efb8908-8da5-4a57-b1a6-86d5e3a84431" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_NotAnObject_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: &quot;has space&quot;, password: &quot;pikachu123&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="01ba4cca-80fe-7377-1176-1a6b308a8823">
+      <Execution id="7c445795-2203-4444-ac6f-6bf7aa1e5c15" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Register_InvalidUsernameOrPassword_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.CpuBattles_CountSeparately_AndEarnNothing" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="078af6cd-f2a7-c413-1396-affbdd35b672">
+      <Execution id="ba7994ff-98e7-43bf-8bfb-c40f4ee32cc5" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests" name="CpuBattles_CountSeparately_AndEarnNothing" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: &quot;/assets/sprites/1.exe&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c5d72953-3bdc-22ba-b94a-159fec919db8">
+      <Execution id="3420f4ab-2b74-454b-8d9c-2aa7093a7f23" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="AssetRoute_OnlyServesKnownPaths" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_StaleRevision_IsAConflictWithTheCurrentState" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d5dc521e-466b-da7f-5e89-4fe6d26aa943">
+      <Execution id="409e46b2-978d-45fd-ac3b-6be8daa84ff1" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_StaleRevision_IsAConflictWithTheCurrentState" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.BundledFile_IsServedFirst_EvenWithCachingOff" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="31cf6208-39cf-6176-86db-550fc69f4c65">
+      <Execution id="c471f4cf-14d4-48e9-9cb5-f4080313ded8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="BundledFile_IsServedFirst_EvenWithCachingOff" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.WrongPasswordAndUnknownUser_LookTheSame" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="4fa112d2-43ed-32ed-1803-4e857f4f0d2a">
+      <Execution id="5ac099f0-6dc8-44e9-badd-84f051c7b73f" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="WrongPasswordAndUnknownUser_LookTheSame" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-20&quot;, ok: True)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="325d31d0-4633-d370-866b-d6f05112c533">
+      <Execution id="de302902-0e05-4209-83c8-7769836ebeb9" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: BattleBg, path: &quot;bg-forest.png&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="9635a81a-7b74-153d-78c7-0d4832c2543e">
+      <Execution id="5e3f2e00-15e2-41dc-9be6-35f73b3c3563" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnknownPaths_AreRejectedWithoutAskingUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Login_IgnoresCase" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="27fafdfc-1868-f0f6-0529-a51b24fba41a">
+      <Execution id="9d2c7480-24c0-4769-8c95-4fa9bec507fe" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Login_IgnoresCase" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Music, path: &quot;../x.mp3&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="5e4be563-f202-6720-2393-c8540526e899">
+      <Execution id="dd3a7437-0ddb-4a0e-a038-25e6de2279a3" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnknownPaths_AreRejectedWithoutAskingUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_EachUserHasTheirOwnRevisions" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="228f3f77-8aba-727e-2dac-8d921e469a73">
+      <Execution id="7c449170-7e7a-4461-a1c4-9b4ec37d7cb8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_EachUserHasTheirOwnRevisions" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: null, ok: False)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="088b89be-236b-3b4d-3068-9a6e4876ea40">
+      <Execution id="b2546731-3256-4b56-bca1-6d27eaa2efe1" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.DeleteAccount_NeedsThePassword_ThenSignsOut" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="a01524f4-c13b-ac3d-6a47-54f809121937">
+      <Execution id="6f266913-107c-465f-9105-8e5704ae08bf" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="DeleteAccount_NeedsThePassword_ThenSignsOut" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerServiceTests.SetPartner_OutOfRange_IsAValidationProblem(partner: 0)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="76a47aab-e4d5-8595-c5b9-852f5bd92912">
+      <Execution id="1706dd3c-c0f5-44f5-b3c8-82d414eb11d9" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerServiceTests" name="SetPartner_OutOfRange_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.ChangingThePassword_SignsOutOtherDevicesOnly" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="2144e516-81ef-13c1-7d82-a4273277c150">
+      <Execution id="838e5d0a-2892-4027-a519-79ee00514892" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="ChangingThePassword_SignsOutOtherDevicesOnly" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: &quot;/assets/sprites/../livingdex.db&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="bdb605a4-ba54-b614-d2ba-6733943aeea3">
+      <Execution id="9734a111-91df-4eb8-ba3b-96d069e5f7d8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="AssetRoute_OnlyServesKnownPaths" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 401)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c9e15d07-70d7-17a8-fbbf-e96186d100bd">
+      <Execution id="5b71613a-3adc-4662-8ffb-1bf197368f54" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Failures_AreProblemDetailsWithTheirStatus" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Success_WithAndWithoutPayload" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="bf1c7fa8-75c2-e8e1-352c-e75017841c0d">
+      <Execution id="a3e4ee8a-4226-4dac-b7e4-73a1a01223ff" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Success_WithAndWithoutPayload" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.UserAdminServiceTests.ResetPassword_OwnAccountOrUnknown_IsRefused" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ec17139e-aeb3-b0ab-87be-fbe297d44cfc">
+      <Execution id="cdb4f918-0663-4afd-97e7-28d8ec50abf7" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.UserAdminServiceTests" name="ResetPassword_OwnAccountOrUnknown_IsRefused" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: &quot;ab&quot;, password: &quot;pikachu123&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="0d1f4cc5-2a7f-6c2c-d617-d408f03afd8f">
+      <Execution id="c5633ef8-470b-494a-b134-63ceeb82d41c" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="InvalidUsernamesAndPasswords_AreRejected" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;{\&quot;det\&quot;:{}}&quot;, expected: 0)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="540b0a1c-b6e5-a218-2911-029aaacf2aa2">
+      <Execution id="82009038-587f-45d0-9912-90de312e4b89" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.ProgressDocumentTests" name="CountCaught_AddsEveryList" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.ThePagesFiles_AreCachedForGood_WhenVersioned" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="40ff12c1-e1ec-59fc-95d4-cf15d14943ba">
+      <Execution id="61253964-3a35-41de-89f4-0324b3428438" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="ThePagesFiles_AreCachedForGood_WhenVersioned" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.ClosedRegistration_StillAllowsTheFirstAccount" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="aae6c76e-d564-c424-cdd5-b5a2f75b2c1d">
+      <Execution id="06ee808c-8d4c-413f-8fed-13303ff45c05" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="ClosedRegistration_StillAllowsTheFirstAccount" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.BattleHistoryTests.SavedBattles_ShowUpInRecordsReplaysAndCards" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="2ddadbdd-24a7-386f-9da7-5921770d87f0">
+      <Execution id="fee10b6a-9a49-4491-abfe-0f27c2c1a786" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.BattleHistoryTests" name="SavedBattles_ShowUpInRecordsReplaysAndCards" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_TooLarge_IsPayloadTooLarge" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d46ceb87-712e-9a7e-803e-cc302014c783">
+      <Execution id="3d9f5a69-98e9-4937-b363-3eb3edb547d8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_TooLarge_IsPayloadTooLarge" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.NoBattles_NoBadges" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c9a2203a-d832-3441-c866-14e80830d25f">
+      <Execution id="9f6c6cbe-ed28-4933-9acb-9634938b3976" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests" name="NoBattles_NoBadges" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Battles.BestKnockoutsTests.FaintIsCreditedToTheLastOpposingAttacker" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="2586c677-78b3-09e8-906a-bb1764d028f9">
+      <Execution id="bde0934a-6e93-42e8-bbe9-0c5c6dbb629e" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Battles.BestKnockoutsTests" name="FaintIsCreditedToTheLastOpposingAttacker" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;20/10/2026&quot;, ok: False)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="4b7e012a-21c8-b99c-7367-c015a94f4f0f">
+      <Execution id="12cdcab1-7075-4b5c-932a-47380127c21c" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.UserAdminServiceTests.ResetPassword_SetsATemporaryPasswordAndNewStamp" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d0b97d18-c748-fd66-9870-0326726db1e4">
+      <Execution id="acaa8a72-633f-4491-906e-2a8089104139" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.UserAdminServiceTests" name="ResetPassword_SetsATemporaryPasswordAndNewStamp" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.NoBattles_AllZero" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="fa2d8e8e-d267-5f99-1c26-67da5a53974d">
+      <Execution id="d68be796-69de-4870-8910-42649f758491" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="NoBattles_AllZero" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.Admin_CanResetAPassword_AndOthersCannotUseAdminEndpoints" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="fe792c68-5fa9-8134-3496-f9e9a7b7abc6">
+      <Execution id="9c6aebf5-7c3d-442b-b6e7-1d07a9f6adcd" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="Admin_CanResetAPassword_AndOthersCannotUseAdminEndpoints" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-22&quot;, ok: False)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="474933df-9f6d-3dff-5111-eede2d3621fb">
+      <Execution id="63724a09-49e4-4574-97d9-0631da995108" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.MissingFile_IsDownloadedOnce_ThenServedFromTheCache" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="703f7138-3e39-cf25-be89-3d521cdc881e">
+      <Execution id="cf8ba7d4-3030-4435-8b04-5c88a3b7b98b" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="MissingFile_IsDownloadedOnce_ThenServedFromTheCache" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 400)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="95a08281-129e-cc0e-4871-b5ed34c568a5">
+      <Execution id="10450a44-e37d-4720-91ac-73dfaf47fb94" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Failures_AreProblemDetailsWithTheirStatus" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerServiceTests.SetPartner_OutOfRange_IsAValidationProblem(partner: 1026)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="55331b73-465f-f165-548b-7b523aacc245">
+      <Execution id="7441ec38-eed4-47c7-97f9-2f6d5e36acf9" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerServiceTests" name="SetPartner_OutOfRange_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.ChangePassword_WrongCurrentPassword_IsRefused" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="71dd193f-b595-dfec-47fd-24d7bc559175">
+      <Execution id="6aefd1ac-480f-439c-bff7-1f98784b8fb7" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="ChangePassword_WrongCurrentPassword_IsRefused" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests.EnumsAreCamelCaseStrings" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="215ebdb9-8d50-a0fa-9348-5c41e1144667">
+      <Execution id="d4eeb300-1b8b-474a-ae73-4f2921311215" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests" name="EnumsAreCamelCaseStrings" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UpstreamError_IsAFailure_AndNotRemembered" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c06586c5-03ee-5404-9569-fcb81a0657e7">
+      <Execution id="4c776da0-4461-4d1e-94a0-a0b00aed4a1b" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UpstreamError_IsAFailure_AndNotRemembered" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;pbkdf2-sha512$x$abc$def&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="f9f18dba-301d-6a14-0974-bb0d66e25856">
+      <Execution id="1bcf5e73-2c10-411b-9221-067eb29c01e4" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="Verify_MalformedHash_IsFalse" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.TryParseKind_KnowsTheFolders(key: &quot;battlebg&quot;, expected: BattleBg)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="1c385e8d-82f0-c68a-81f3-2beb3326c3e2">
+      <Execution id="1fa956e4-ed06-47a2-a8ae-405763d54b8e" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="TryParseKind_KnowsTheFolders" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.History_KeepsTheLimit_AndRestoreSavesANewRevision" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="0a8111b9-8699-f55c-afaf-82760c9ae570">
+      <Execution id="1e954805-78b5-470b-bab1-010c51ae883b" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="History_KeepsTheLimit_AndRestoreSavesANewRevision" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 409)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d3cc9983-e477-5782-7610-12e93c4c642f">
+      <Execution id="922390a3-5fd1-4655-82b0-d39653eabc78" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Failures_AreProblemDetailsWithTheirStatus" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.Hash_UsesANewSaltEveryTime" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="94bfab33-1f8e-04eb-00cd-e333e4876491">
+      <Execution id="91d39905-64a2-4031-874a-bcb0ef995aa3" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="Hash_UsesANewSaltEveryTime" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.VeteranAndTenWins" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c60ddad9-92ad-ffc2-aec7-73892abe7e1c">
+      <Execution id="3e187e9e-2c5e-4675-aeb2-2fc7e919ea6c" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests" name="VeteranAndTenWins" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.UserAdminServiceTests.Delete_OwnAccountIsRefused_OthersAreDeleted" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="12e1f8d9-30b2-7d98-c251-1268d0909d81">
+      <Execution id="cecca2bd-bd10-4c51-ad27-18bf5a096cd1" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.UserAdminServiceTests" name="Delete_OwnAccountIsRefused_OthersAreDeleted" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;1.exe&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="dcfa0fb1-b37f-0c46-5e24-118ac19b42ac">
+      <Execution id="3d85e5cb-ef6f-4699-abc5-ad29c4c8d88d" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnknownPaths_AreRejectedWithoutAskingUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.BattlesStillPlaying_DoNotCount" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="9b48256d-eccc-4b3f-a4eb-6f22cc4e1a33">
+      <Execution id="7e7544b2-20b8-4076-82bb-180807859f19" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="BattlesStillPlaying_DoNotCount" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_SameNameDifferentCase_IsAConflict" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="a60ec632-dba6-204b-5d35-99b3ded2d4b5">
+      <Execution id="505c4723-abf2-425f-b427-bbebc1b38f1b" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Register_SameNameDifferentCase_IsAConflict" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.DeletingTheAdmin_PromotesTheOldestRemainingAccount" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="194d4215-00c1-62e3-425b-1552c14b1bc6">
+      <Execution id="dedc1959-6257-4bf9-bef3-723e88d28bbd" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="DeletingTheAdmin_PromotesTheOldestRemainingAccount" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;../livingdex.db&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d65d50c3-6da4-ef68-5caa-0645eb91257c">
+      <Execution id="2a432415-d592-49ac-950b-e16e94780df0" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnknownPaths_AreRejectedWithoutAskingUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Battles.BestKnockoutsTests.NoFaints_IsZero" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="f6fe838f-0b7b-e050-825c-e8cbb42592f7">
+      <Execution id="75e28945-f51a-4793-84eb-862a46746f56" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Battles.BestKnockoutsTests" name="NoFaints_IsZero" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.CachingOff_RedirectsUpstream" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="88127942-da66-ef3e-8c87-28b6dcd8fa55">
+      <Execution id="6bf5588f-7b55-4934-bb43-5f80c2285bd4" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="CachingOff_RedirectsUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerServiceTests.List_CardsCarryProfileAndRecord" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="4e98d2a3-188c-fd39-1564-04270608f479">
+      <Execution id="913e0b91-a8c2-4b94-b08a-d432eee27588" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerServiceTests" name="List_CardsCarryProfileAndRecord" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.TryParseKind_KnowsTheFolders(key: &quot;sprites&quot;, expected: Sprites)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="68e91dbd-5f70-1b51-8eb3-9ebe42e2a25a">
+      <Execution id="c2d78334-a8bf-4783-92e1-52dead4f3691" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="TryParseKind_KnowsTheFolders" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: &quot;null&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="542b586a-6e0a-891c-b0e6-2f75f7188035">
+      <Execution id="4c2637f2-efb8-4fbd-81a6-f13f177ff21e" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_NotAnObject_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: &quot;Rodas&quot;, password: &quot;short&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="000e1d35-4aaa-8e95-a2ee-8f671ec333f1">
+      <Execution id="bfefd532-d2e3-4d69-8bfe-9e41baae9c2e" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Register_InvalidUsernameOrPassword_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;{\&quot;caught\&quot;:{\&quot;home|normal\&quot;:[\&quot;1\&quot;,\&quot;2\&quot;],\&quot;sv|sh&quot;···, expected: 3)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="0f45837e-25e7-b968-b175-4a9a3e843e6b">
+      <Execution id="70993744-8326-4927-be78-9c88a02f8f26" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.ProgressDocumentTests" name="CountCaught_AddsEveryList" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.TimeTraveller_NeedsAWinInEveryGeneration" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="fb21ae99-3b8a-bfb0-53be-e68aa4542a52">
+      <Execution id="3afecd36-5a35-4be4-bdbf-d0a863009a49" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests" name="TimeTraveller_NeedsAWinInEveryGeneration" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Get_BeforeTheFirstSave_IsRevisionZeroAndNull" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="9687cd4c-c799-d219-d1f9-b5b0ad04146f">
+      <Execution id="d5aad6b0-1cd1-416c-94d2-8f2bac21880f" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Get_BeforeTheFirstSave_IsRevisionZeroAndNull" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-19&quot;, ok: True)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="8ab165a5-9f59-92aa-b91d-f8a50b245fcb">
+      <Execution id="0911f1e1-f651-4c7f-9e2e-ba084289ed0e" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: &quot;Rodas&quot;, password: &quot;short&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="06691e86-6475-70d3-ad40-921b55b02692">
+      <Execution id="0f9e2dfe-8be2-4073-a9a6-7c82b08d081b" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="InvalidUsernamesAndPasswords_AreRejected" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.UserAdminServiceTests.List_CountsMarkedEntriesAcrossGames" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ee4dfba6-6d26-9a57-572c-fcbf1677f293">
+      <Execution id="b16a1488-c68f-4adf-bf4b-7a56a9346e75" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.UserAdminServiceTests" name="List_CountsMarkedEntriesAcrossGames" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.TrainerCards_ShowPartnerAndLivingDexCount" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d56a912f-cefb-2c50-af55-5ada301ab7d2">
+      <Execution id="01ea95c1-3199-483e-b262-ad61802aff0f" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="TrainerCards_ShowPartnerAndLivingDexCount" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;a//b.png&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="23e7e313-1be5-596f-be8b-137f130b8f91">
+      <Execution id="44eb5327-fc65-40a1-a257-5f25657c4014" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnknownPaths_AreRejectedWithoutAskingUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.Progress_ThatIsNotAnObject_IsRejected" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="5e5461d4-ef63-c6f9-4e17-0ae4326d0865">
+      <Execution id="23427d3b-5d7e-49cc-9b7c-2c344e00a54a" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="Progress_ThatIsNotAnObject_IsRejected" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.Hash_VerifiesOnlyTheSamePassword" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="77a99a07-f454-b5c1-06a3-c981df481888">
+      <Execution id="2bea93c9-0525-4f93-b439-eea384864992" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="Hash_VerifiesOnlyTheSamePassword" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnreadableBundledFile_IsDownloadedInstead" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="36ccd520-846d-f36b-c007-cfd48dbb3713">
+      <Execution id="12d2cbde-082f-434f-86f9-a8a05220ec11" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnreadableBundledFile_IsDownloadedInstead" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.DailyRedNumbers_StartAtOne" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="f7f9f580-7b87-5ab7-5311-f6d04e3ea687">
+      <Execution id="dedb01b4-fe18-4b97-a29f-c725188e75da" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="DailyRedNumbers_StartAtOne" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;[]&quot;, expected: 0)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="4bf64934-77ee-7be2-33ac-d244fff3442d">
+      <Execution id="3577f88c-5880-4aab-a6b4-984abcbf5fcb" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.ProgressDocumentTests" name="CountCaught_AddsEveryList" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests.DatabaseTimestamps_AreWrittenAsUtc" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="aa2887e7-c23f-e307-9385-469dcdefd0ca">
+      <Execution id="2f680c0b-cea9-47d3-b8a8-2031f65ccc3e" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.UtcDateTimeJsonConverterTests" name="DatabaseTimestamps_AreWrittenAsUtc" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.DailyRedTests.OfficialBattles_OncePerDay_ShowUpInStatsAndTrainersToday" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c157674d-c8c3-7aaf-5e8c-6c24a01f009f">
+      <Execution id="6f48e4e8-6d2b-47ab-8bb7-ebeb8db6aa49" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.DailyRedTests" name="OfficialBattles_OncePerDay_ShowUpInStatsAndTrainersToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.ChangePassword_NewStampAndFreshCookie" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ebe4c9a8-99ac-78e1-0cfb-85bf10237aa8">
+      <Execution id="5d0edd48-ea11-45d0-90c0-60304aee218a" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="ChangePassword_NewStampAndFreshCookie" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;not json&quot;, expected: 0)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="85b64d50-0b49-202e-3f82-56a660a720f9">
+      <Execution id="1a81dc78-fd91-43ce-9dca-c59d488d7ea5" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.ProgressDocumentTests" name="CountCaught_AddsEveryList" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.WinsOnConsecutiveDays_MakeTheStreak_AndALossEndsIt" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="2813aef6-27b9-9aa0-de08-26be801ef285">
+      <Execution id="2805226a-2f79-49a5-b56a-7f3ba2317cf1" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="WinsOnConsecutiveDays_MakeTheStreak_AndALossEndsIt" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.AMissedDay_EndsBothStreaks" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="7dd86d03-86b0-eb47-680c-bcdb4eecea37">
+      <Execution id="86d03950-bb63-4fa6-9c86-80d0559bb4e1" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="AMissedDay_EndsBothStreaks" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.Writes_WithoutTheAppHeader_AreRejected" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="7338a230-e85e-6a03-8fbf-1d3955e9c668">
+      <Execution id="e377531a-84f2-4bf8-8867-1aa7a48b0717" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="Writes_WithoutTheAppHeader_AreRejected" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.CreatedAndAccepted_CarryTheLocation" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ce21c5ec-93a9-7b37-09dc-b6b718784733">
+      <Execution id="7f757302-3e93-449c-b2a8-7071180ae3cf" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="CreatedAndAccepted_CarryTheLocation" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.NotUpstream_IsRememberedAsMissing" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ca23f85b-d9fa-a355-ce33-2f043d8fce84">
+      <Execution id="3cf85f00-865a-4df7-9c1f-84b935df753c" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="NotUpstream_IsRememberedAsMissing" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.FirstAccount_IsAdmin_LaterOnesAreNot" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="da858111-f45d-9001-4ac0-272b11ae26e9">
+      <Execution id="890c8298-43b6-483e-b671-149aba1d3754" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="FirstAccount_IsAdmin_LaterOnesAreNot" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.ProgressDocumentTests.CountCaught_AddsEveryList(json: &quot;{\&quot;caught\&quot;:[]}&quot;, expected: 0)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="5b246394-7818-684d-403a-55cd5ec117af">
+      <Execution id="28ec7cab-85f8-4056-934d-9a601a9b27e2" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.ProgressDocumentTests" name="CountCaught_AddsEveryList" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.InvalidUsernamesAndPasswords_AreRejected(username: &quot;bad name&quot;, password: &quot;pikachu123&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="5ad32bd6-dd70-c4de-ece0-0c97b393c3c5">
+      <Execution id="633b9134-ddc5-4ce4-a5c4-971c6cd3da42" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="InvalidUsernamesAndPasswords_AreRejected" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.ConflictWithTheCurrentRecord_Is409WithThePayload" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="9aa64b4c-5d67-3d41-d136-17f54a176e73">
+      <Execution id="cc8acd85-5eff-4693-b25c-1e425cd1f8b8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="ConflictWithTheCurrentRecord_Is409WithThePayload" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.Usernames_AreUniqueIgnoringCase_AndLoginIgnoresCase" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="2e285989-1750-7ecc-7bad-f1d395e1787c">
+      <Execution id="aa9ef07b-79de-4f49-916a-8fd25f6cad7d" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="Usernames_AreUniqueIgnoringCase_AndLoginIgnoresCase" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_OnlyServesKnownPaths(url: &quot;/assets/other/1.png&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="9b82e1db-511c-6e95-00f1-689f88d256b8">
+      <Execution id="38fff135-08e1-4912-b0da-c8abfcf2a726" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="AssetRoute_OnlyServesKnownPaths" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.LastStandFlawlessAndSweeper" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="f4b71a0b-bd50-26e6-ca3f-944026cad032">
+      <Execution id="225ad74e-a773-4e4f-a2b8-d54b79263d82" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests" name="LastStandFlawlessAndSweeper" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_NotAnObject_IsAValidationProblem(json: &quot;\&quot;text\&quot;&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="7bab0e29-1968-041a-448b-15363448ee67">
+      <Execution id="6696104d-5469-447a-94e9-3ffccac2cf12" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_NotAnObject_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.Health_ReportsFirstRunUntilTheFirstAccount" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="6ac79527-5a77-0589-ec3c-4ec34050bb80">
+      <Execution id="0a76472d-2754-4719-885c-34565fb44bd8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="Health_ReportsFirstRunUntilTheFirstAccount" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 413)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="a0ef9c17-0a41-e44c-f20f-31dac97fd8fb">
+      <Execution id="0bed0bda-e5b4-4423-bc30-7920d8549d4b" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Failures_AreProblemDetailsWithTheirStatus" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.Progress_RequiresASignedInUser" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="e7fc4c88-65cf-3646-5abe-67349fe67972">
+      <Execution id="185e9a16-b13e-4cc7-b927-95ff28fb3632" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="Progress_RequiresASignedInUser" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.GenerateTemporary_IsReadable" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ed7ce5bc-8783-a2da-b9e6-ceb0d6977910">
+      <Execution id="a36dfe20-3fea-41a6-b67d-b83d9bde1bb6" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="GenerateTemporary_IsReadable" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.States.StateServiceTests.Save_LongClientName_IsCut" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="7559971a-9afe-9cab-f239-90437b014011">
+      <Execution id="b19ad3b6-9e80-4b17-82f0-cc42375f3367" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.States.StateServiceTests" name="Save_LongClientName_IsCut" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;plain&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c508f7dd-0172-3981-5a7c-2d45b303d782">
+      <Execution id="d41c03d1-d4a9-426e-880a-9c015e03d04f" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="Verify_MalformedHash_IsFalse" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 403)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d5e13e12-d200-65ef-8d4c-f3d8a187750b">
+      <Execution id="997bc3f4-2fd2-4dc0-8e9f-8603f5ad35ae" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Failures_AreProblemDetailsWithTheirStatus" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.SqliteImporterTests.OldDatabase_IsImportedOnce_AndKeepsAccountsProgressAndBattles" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="5d568801-3425-5ea1-dd2b-2642f059ca50">
+      <Execution id="62bcda8f-de51-4ee5-a068-ae5c5a095c79" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.SqliteImporterTests" name="OldDatabase_IsImportedOnce_AndKeepsAccountsProgressAndBattles" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests.Streak_ResetsOnALoss_OnFireNeedsFiveInARow" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="151fe63e-be1e-e881-fe53-352731e48285">
+      <Execution id="7096a842-4a24-4cee-982d-d0e2c7eba003" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerRecordCalculatorTests" name="Streak_ResetsOnALoss_OnFireNeedsFiveInARow" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Assets.AssetStoreTests.UnknownPaths_AreRejectedWithoutAskingUpstream(kind: Sprites, path: &quot;theme.mp3&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="0d873aaa-76fe-4267-4da8-eab1cf4bc21e">
+      <Execution id="73fd1a32-29e5-4ff5-b5f5-02c0b0f2e666" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Assets.AssetStoreTests" name="UnknownPaths_AreRejectedWithoutAskingUpstream" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="86e5437e-1b80-e50d-bc4b-e0f0900e9abb">
+      <Execution id="f5d90c07-71c5-4db5-89a2-9f921f153e47" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="Verify_MalformedHash_IsFalse" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_ClosedRegistration_AllowsOnlyTheFirstAccount" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c80591d6-d8df-1987-e628-511822096942">
+      <Execution id="72810616-c021-4bad-97d1-5520bdf63018" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Register_ClosedRegistration_AllowsOnlyTheFirstAccount" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests.Failures_AreProblemDetailsWithTheirStatus(status: 404)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="c9029b9f-ffe0-e62c-485d-374e29056500">
+      <Execution id="f13ca8c4-c349-439d-afd1-f031830eb3c0" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Extensions.ServiceApiResponseExtensionsTests" name="Failures_AreProblemDetailsWithTheirStatus" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.StaleRevision_IsRejectedWithTheCurrentState" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="7bc2e506-15b1-93da-3791-667fe797d093">
+      <Execution id="7e113032-50e8-48bd-8a2d-fda643a41fc9" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="StaleRevision_IsRejectedWithTheCurrentState" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_InvalidUsernameOrPassword_IsAValidationProblem(username: &quot;ab&quot;, password: &quot;pikachu123&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="56a31f97-807d-d685-e638-5affffd93cd6">
+      <Execution id="2489d418-edba-48b4-8079-dab20041accb" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Register_InvalidUsernameOrPassword_IsAValidationProblem" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Trainers.TrainerServiceTests.Get_UnknownTrainer_IsNotFound" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="d3cb801b-6241-271c-f209-87ec1aaff546">
+      <Execution id="d0ceca4d-7d70-40d9-99da-b2ed1a3f6f8a" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Trainers.TrainerServiceTests" name="Get_UnknownTrainer_IsNotFound" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.TheDate_MustBeSomebodysToday(date: &quot;2026-10-21&quot;, ok: True)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="e2ba720b-99b2-49a1-e494-02a1aeecec24">
+      <Execution id="24be8239-319a-49ed-895a-566508a6454a" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="TheDate_MustBeSomebodysToday" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Register_FirstAccount_IsAdminCreatedAndSignedIn" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="5cd0f11d-613e-d729-af7b-70e5d9c61cd2">
+      <Execution id="96870c84-ee55-47a9-8d73-ab022c636006" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Register_FirstAccount_IsAdminCreatedAndSignedIn" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.ThePage_IsServedAtTheRoot" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="aa24212e-ae4d-a3c7-4bf0-14cb8f364fab">
+      <Execution id="ffd4c3c6-2e66-489b-87f4-dde4cab57331" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="ThePage_IsServedAtTheRoot" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.AccountServiceTests.Login_UnknownUserAndWrongPassword_LookTheSame" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="ee335963-2ddb-bae6-3814-4c1f7edc6e8a">
+      <Execution id="dd0a83a0-8475-40db-ae29-905375e1c8f0" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.AccountServiceTests" name="Login_UnknownUserAndWrongPassword_LookTheSame" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Accounts.PasswordHasherTests.Verify_MalformedHash_IsFalse(stored: &quot;pbkdf2-sha512$1000$not-base64!$def&quot;)" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="52a01645-75d9-9d06-8cfc-f30cfe4d5a51">
+      <Execution id="5732db61-8bba-4383-b079-a6e3e2e23dc6" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Accounts.PasswordHasherTests" name="Verify_MalformedHash_IsFalse" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.DailyRed.DailyRedStatsTests.LastPlayedTwoDaysAgo_NoCurrentStreak" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="a17a3fdc-4f5c-c900-3d66-c67aca2317d1">
+      <Execution id="9945dc09-76b8-4fca-8846-16ffe0f8928f" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.DailyRed.DailyRedStatsTests" name="LastPlayedTwoDaysAgo_NoCurrentStreak" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.History_KeepsTheConfiguredNumberOfRevisions_AndCanRestore" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="593d6cd1-7c3f-f8a5-2c12-11c732d7b0bb">
+      <Execution id="d63aeaa0-e8cf-43f3-a856-033b12447775" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="History_KeepsTheConfiguredNumberOfRevisions_AndCanRestore" />
+    </UnitTest>
+    <UnitTest name="LivingDex.UnitTest.Integration.ApiTests.AssetRoute_RedirectsUpstream_WhenCachingIsOffAndTheFileIsNotBundled" storage="/home/runner/work/dexo/dexo/livingdex.unittest/bin/release/net10.0/livingdex.unittest.dll" id="711aeca8-6c8d-9f61-3833-8123fc2135ba">
+      <Execution id="87162384-56fd-4e65-b20c-9a71d9be15c8" />
+      <TestMethod codeBase="/home/runner/work/Dexo/Dexo/LivingDex.UnitTest/bin/Release/net10.0/LivingDex.UnitTest.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="LivingDex.UnitTest.Integration.ApiTests" name="AssetRoute_RedirectsUpstream_WhenCachingIsOffAndTheFileIsNotBundled" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="5e4be563-f202-6720-2393-c8540526e899" executionId="dd3a7437-0ddb-4a0e-a038-25e6de2279a3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f45837e-25e7-b968-b175-4a9a3e843e6b" executionId="70993744-8326-4927-be78-9c88a02f8f26" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5cd0f11d-613e-d729-af7b-70e5d9c61cd2" executionId="96870c84-ee55-47a9-8d73-ab022c636006" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ebe4c9a8-99ac-78e1-0cfb-85bf10237aa8" executionId="5d0edd48-ea11-45d0-90c0-60304aee218a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="12e1f8d9-30b2-7d98-c251-1268d0909d81" executionId="cecca2bd-bd10-4c51-ad27-18bf5a096cd1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c508f7dd-0172-3981-5a7c-2d45b303d782" executionId="d41c03d1-d4a9-426e-880a-9c015e03d04f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="85b64d50-0b49-202e-3f82-56a660a720f9" executionId="1a81dc78-fd91-43ce-9dca-c59d488d7ea5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9f18dba-301d-6a14-0974-bb0d66e25856" executionId="1bcf5e73-2c10-411b-9221-067eb29c01e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="228f3f77-8aba-727e-2dac-8d921e469a73" executionId="7c449170-7e7a-4461-a1c4-9b4ec37d7cb8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7f9f580-7b87-5ab7-5311-f6d04e3ea687" executionId="dedb01b4-fe18-4b97-a29f-c725188e75da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a60ec632-dba6-204b-5d35-99b3ded2d4b5" executionId="505c4723-abf2-425f-b427-bbebc1b38f1b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="078af6cd-f2a7-c413-1396-affbdd35b672" executionId="ba7994ff-98e7-43bf-8bfb-c40f4ee32cc5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3cc9983-e477-5782-7610-12e93c4c642f" executionId="922390a3-5fd1-4655-82b0-d39653eabc78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2813aef6-27b9-9aa0-de08-26be801ef285" executionId="2805226a-2f79-49a5-b56a-7f3ba2317cf1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4fa112d2-43ed-32ed-1803-4e857f4f0d2a" executionId="5ac099f0-6dc8-44e9-badd-84f051c7b73f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ed7ce5bc-8783-a2da-b9e6-ceb0d6977910" executionId="a36dfe20-3fea-41a6-b67d-b83d9bde1bb6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9b48256d-eccc-4b3f-a4eb-6f22cc4e1a33" executionId="7e7544b2-20b8-4076-82bb-180807859f19" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aae6c76e-d564-c424-cdd5-b5a2f75b2c1d" executionId="06ee808c-8d4c-413f-8fed-13303ff45c05" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6fe838f-0b7b-e050-825c-e8cbb42592f7" executionId="75e28945-f51a-4793-84eb-862a46746f56" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="215ebdb9-8d50-a0fa-9348-5c41e1144667" executionId="d4eeb300-1b8b-474a-ae73-4f2921311215" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="151fe63e-be1e-e881-fe53-352731e48285" executionId="7096a842-4a24-4cee-982d-d0e2c7eba003" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2144e516-81ef-13c1-7d82-a4273277c150" executionId="838e5d0a-2892-4027-a519-79ee00514892" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="593d6cd1-7c3f-f8a5-2c12-11c732d7b0bb" executionId="d63aeaa0-e8cf-43f3-a856-033b12447775" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="711aeca8-6c8d-9f61-3833-8123fc2135ba" executionId="87162384-56fd-4e65-b20c-9a71d9be15c8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31da4848-ff64-33dd-072a-55846a3f7c49" executionId="f16d16bd-1d21-4f51-9cd1-4a3ecce83c4a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6ac79527-5a77-0589-ec3c-4ec34050bb80" executionId="0a76472d-2754-4719-885c-34565fb44bd8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4b7e012a-21c8-b99c-7367-c015a94f4f0f" executionId="12cdcab1-7075-4b5c-932a-47380127c21c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="703f7138-3e39-cf25-be89-3d521cdc881e" executionId="cf8ba7d4-3030-4435-8b04-5c88a3b7b98b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7338a230-e85e-6a03-8fbf-1d3955e9c668" executionId="e377531a-84f2-4bf8-8867-1aa7a48b0717" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="88127942-da66-ef3e-8c87-28b6dcd8fa55" executionId="6bf5588f-7b55-4934-bb43-5f80c2285bd4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c60ddad9-92ad-ffc2-aec7-73892abe7e1c" executionId="3e187e9e-2c5e-4675-aeb2-2fc7e919ea6c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7dd86d03-86b0-eb47-680c-bcdb4eecea37" executionId="86d03950-bb63-4fa6-9c86-80d0559bb4e1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9aa64b4c-5d67-3d41-d136-17f54a176e73" executionId="cc8acd85-5eff-4693-b25c-1e425cd1f8b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fe792c68-5fa9-8134-3496-f9e9a7b7abc6" executionId="9c6aebf5-7c3d-442b-b6e7-1d07a9f6adcd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9a2203a-d832-3441-c866-14e80830d25f" executionId="9f6c6cbe-ed28-4933-9acb-9634938b3976" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="000e1d35-4aaa-8e95-a2ee-8f671ec333f1" executionId="bfefd532-d2e3-4d69-8bfe-9e41baae9c2e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7fc4c88-65cf-3646-5abe-67349fe67972" executionId="185e9a16-b13e-4cc7-b927-95ff28fb3632" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dcfa0fb1-b37f-0c46-5e24-118ac19b42ac" executionId="3d85e5cb-ef6f-4699-abc5-ad29c4c8d88d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2586c677-78b3-09e8-906a-bb1764d028f9" executionId="bde0934a-6e93-42e8-bbe9-0c5c6dbb629e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="088b89be-236b-3b4d-3068-9a6e4876ea40" executionId="b2546731-3256-4b56-bca1-6d27eaa2efe1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bab0e29-1968-041a-448b-15363448ee67" executionId="6696104d-5469-447a-94e9-3ffccac2cf12" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95a08281-129e-cc0e-4871-b5ed34c568a5" executionId="10450a44-e37d-4720-91ac-73dfaf47fb94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da858111-f45d-9001-4ac0-272b11ae26e9" executionId="890c8298-43b6-483e-b671-149aba1d3754" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ab165a5-9f59-92aa-b91d-f8a50b245fcb" executionId="0911f1e1-f651-4c7f-9e2e-ba084289ed0e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="194d4215-00c1-62e3-425b-1552c14b1bc6" executionId="dedc1959-6257-4bf9-bef3-723e88d28bbd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="86e5437e-1b80-e50d-bc4b-e0f0900e9abb" executionId="f5d90c07-71c5-4db5-89a2-9f921f153e47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="542b586a-6e0a-891c-b0e6-2f75f7188035" executionId="4c2637f2-efb8-4fbd-81a6-f13f177ff21e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e98d2a3-188c-fd39-1564-04270608f479" executionId="913e0b91-a8c2-4b94-b08a-d432eee27588" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="540b0a1c-b6e5-a218-2911-029aaacf2aa2" executionId="82009038-587f-45d0-9912-90de312e4b89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="23e7e313-1be5-596f-be8b-137f130b8f91" executionId="44eb5327-fc65-40a1-a257-5f25657c4014" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d0b97d18-c748-fd66-9870-0326726db1e4" executionId="acaa8a72-633f-4491-906e-2a8089104139" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="27fafdfc-1868-f0f6-0529-a51b24fba41a" executionId="9d2c7480-24c0-4769-8c95-4fa9bec507fe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="77a99a07-f454-b5c1-06a3-c981df481888" executionId="2bea93c9-0525-4f93-b439-eea384864992" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec17139e-aeb3-b0ab-87be-fbe297d44cfc" executionId="cdb4f918-0663-4afd-97e7-28d8ec50abf7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb21ae99-3b8a-bfb0-53be-e68aa4542a52" executionId="3afecd36-5a35-4be4-bdbf-d0a863009a49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c385e8d-82f0-c68a-81f3-2beb3326c3e2" executionId="1fa956e4-ed06-47a2-a8ae-405763d54b8e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d65d50c3-6da4-ef68-5caa-0645eb91257c" executionId="2a432415-d592-49ac-950b-e16e94780df0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ce21c5ec-93a9-7b37-09dc-b6b718784733" executionId="7f757302-3e93-449c-b2a8-7071180ae3cf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3cb801b-6241-271c-f209-87ec1aaff546" executionId="d0ceca4d-7d70-40d9-99da-b2ed1a3f6f8a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="76a47aab-e4d5-8595-c5b9-852f5bd92912" executionId="1706dd3c-c0f5-44f5-b3c8-82d414eb11d9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aa2887e7-c23f-e307-9385-469dcdefd0ca" executionId="2f680c0b-cea9-47d3-b8a8-2031f65ccc3e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="68e91dbd-5f70-1b51-8eb3-9ebe42e2a25a" executionId="c2d78334-a8bf-4783-92e1-52dead4f3691" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bc2e506-15b1-93da-3791-667fe797d093" executionId="7e113032-50e8-48bd-8a2d-fda643a41fc9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0a8111b9-8699-f55c-afaf-82760c9ae570" executionId="1e954805-78b5-470b-bab1-010c51ae883b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="26867242-48df-f7e1-5f8d-08ecd345a120" executionId="9efb8908-8da5-4a57-b1a6-86d5e3a84431" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5ad32bd6-dd70-c4de-ece0-0c97b393c3c5" executionId="633b9134-ddc5-4ce4-a5c4-971c6cd3da42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5b246394-7818-684d-403a-55cd5ec117af" executionId="28ec7cab-85f8-4056-934d-9a601a9b27e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7559971a-9afe-9cab-f239-90437b014011" executionId="b19ad3b6-9e80-4b17-82f0-cc42375f3367" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ddadbdd-24a7-386f-9da7-5921770d87f0" executionId="fee10b6a-9a49-4491-abfe-0f27c2c1a786" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bdb605a4-ba54-b614-d2ba-6733943aeea3" executionId="9734a111-91df-4eb8-ba3b-96d069e5f7d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5e5461d4-ef63-c6f9-4e17-0ae4326d0865" executionId="23427d3b-5d7e-49cc-9b7c-2c344e00a54a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5dc521e-466b-da7f-5e89-4fe6d26aa943" executionId="409e46b2-978d-45fd-ac3b-6be8daa84ff1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9687cd4c-c799-d219-d1f9-b5b0ad04146f" executionId="d5aad6b0-1cd1-416c-94d2-8f2bac21880f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="474933df-9f6d-3dff-5111-eede2d3621fb" executionId="63724a09-49e4-4574-97d9-0631da995108" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d46ceb87-712e-9a7e-803e-cc302014c783" executionId="3d9f5a69-98e9-4937-b363-3eb3edb547d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aa24212e-ae4d-a3c7-4bf0-14cb8f364fab" executionId="ffd4c3c6-2e66-489b-87f4-dde4cab57331" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0ef9c17-0a41-e44c-f20f-31dac97fd8fb" executionId="0bed0bda-e5b4-4423-bc30-7920d8549d4b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9e15d07-70d7-17a8-fbbf-e96186d100bd" executionId="5b71613a-3adc-4662-8ffb-1bf197368f54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="52a01645-75d9-9d06-8cfc-f30cfe4d5a51" executionId="5732db61-8bba-4383-b079-a6e3e2e23dc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa2d8e8e-d267-5f99-1c26-67da5a53974d" executionId="d68be796-69de-4870-8910-42649f758491" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36ccd520-846d-f36b-c007-cfd48dbb3713" executionId="12d2cbde-082f-434f-86f9-a8a05220ec11" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9b82e1db-511c-6e95-00f1-689f88d256b8" executionId="38fff135-08e1-4912-b0da-c8abfcf2a726" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d56a912f-cefb-2c50-af55-5ada301ab7d2" executionId="01ea95c1-3199-483e-b262-ad61802aff0f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bf1c7fa8-75c2-e8e1-352c-e75017841c0d" executionId="a3e4ee8a-4226-4dac-b7e4-73a1a01223ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4bf64934-77ee-7be2-33ac-d244fff3442d" executionId="3577f88c-5880-4aab-a6b4-984abcbf5fcb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5d568801-3425-5ea1-dd2b-2642f059ca50" executionId="62bcda8f-de51-4ee5-a068-ae5c5a095c79" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5e13e12-d200-65ef-8d4c-f3d8a187750b" executionId="997bc3f4-2fd2-4dc0-8e9f-8603f5ad35ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="40ff12c1-e1ec-59fc-95d4-cf15d14943ba" executionId="61253964-3a35-41de-89f4-0324b3428438" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c06586c5-03ee-5404-9569-fcb81a0657e7" executionId="4c776da0-4461-4d1e-94a0-a0b00aed4a1b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0d1f4cc5-2a7f-6c2c-d617-d408f03afd8f" executionId="c5633ef8-470b-494a-b134-63ceeb82d41c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5d72953-3bdc-22ba-b94a-159fec919db8" executionId="3420f4ab-2b74-454b-8d9c-2aa7093a7f23" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="06691e86-6475-70d3-ad40-921b55b02692" executionId="0f9e2dfe-8be2-4073-a9a6-7c82b08d081b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c157674d-c8c3-7aaf-5e8c-6c24a01f009f" executionId="6f48e4e8-6d2b-47ab-8bb7-ebeb8db6aa49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0d873aaa-76fe-4267-4da8-eab1cf4bc21e" executionId="73fd1a32-29e5-4ff5-b5f5-02c0b0f2e666" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9029b9f-ffe0-e62c-485d-374e29056500" executionId="f13ca8c4-c349-439d-afd1-f031830eb3c0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="71dd193f-b595-dfec-47fd-24d7bc559175" executionId="6aefd1ac-480f-439c-bff7-1f98784b8fb7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e2ba720b-99b2-49a1-e494-02a1aeecec24" executionId="24be8239-319a-49ed-895a-566508a6454a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a01524f4-c13b-ac3d-6a47-54f809121937" executionId="6f266913-107c-465f-9105-8e5704ae08bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ee4dfba6-6d26-9a57-572c-fcbf1677f293" executionId="b16a1488-c68f-4adf-bf4b-7a56a9346e75" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9635a81a-7b74-153d-78c7-0d4832c2543e" executionId="5e3f2e00-15e2-41dc-9be6-35f73b3c3563" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="94bfab33-1f8e-04eb-00cd-e333e4876491" executionId="91d39905-64a2-4031-874a-bcb0ef995aa3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ee335963-2ddb-bae6-3814-4c1f7edc6e8a" executionId="dd0a83a0-8475-40db-ae29-905375e1c8f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4b71a0b-bd50-26e6-ca3f-944026cad032" executionId="225ad74e-a773-4e4f-a2b8-d54b79263d82" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="56a31f97-807d-d685-e638-5affffd93cd6" executionId="2489d418-edba-48b4-8079-dab20041accb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a17a3fdc-4f5c-c900-3d66-c67aca2317d1" executionId="9945dc09-76b8-4fca-8846-16ffe0f8928f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31cf6208-39cf-6176-86db-550fc69f4c65" executionId="c471f4cf-14d4-48e9-9cb5-f4080313ded8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7cf7fc9b-9e28-aaab-b378-7460a3d1c5a4" executionId="f0e46fb5-6e2b-4d0b-9790-3471342ddc9c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="55331b73-465f-f165-548b-7b523aacc245" executionId="7441ec38-eed4-47c7-97f9-2f6d5e36acf9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca23f85b-d9fa-a355-ce33-2f043d8fce84" executionId="3cf85f00-865a-4df7-9c1f-84b935df753c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2e285989-1750-7ecc-7bad-f1d395e1787c" executionId="aa9ef07b-79de-4f49-916a-8fd25f6cad7d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="01ba4cca-80fe-7377-1176-1a6b308a8823" executionId="7c445795-2203-4444-ac6f-6bf7aa1e5c15" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c80591d6-d8df-1987-e628-511822096942" executionId="72810616-c021-4bad-97d1-5520bdf63018" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="325d31d0-4633-d370-866b-d6f05112c533" executionId="de302902-0e05-4209-83c8-7769836ebeb9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="113" executed="113" passed="113" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.13)
+[xUnit.net 00:00:00.09]   Discovering: LivingDex.UnitTest
+[xUnit.net 00:00:00.16]   Discovered:  LivingDex.UnitTest
+[xUnit.net 00:00:00.22]   Starting:    LivingDex.UnitTest
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {1c79fb13-ac67-4760-a29e-83e3b2a5c93f} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: LivingDex.WebApi.Features.Accounts.Controllers.UserAdminController[0]
+      UserAdminDelete 2
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {a1d6ed51-db82-4ef6-83c6-4f026ab2ff4a} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Extensions.Data.SqliteImporter[0]
+      Imported /tmp/livingdex-tests/17a49fe51a3d40d5b7f6809b5d50b97f/livingdex.db: 2 accounts, 1 progress documents, 2 history entries, 1 trainer profiles, 1 battles.
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {ee5b5b9f-a5d0-48ca-9528-ce15a9726e57} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Zed
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {0b79d95a-0f7c-452a-acf3-0c4edf64a3bc} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {e7493fe7-bf8f-4899-a493-0968a6ca8947} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {a6a7b142-440a-40a1-9c78-542459db9ba4} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {f1cec4a5-d25e-4897-ac91-903f84817870} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {cf788034-4ef8-4af3-9834-6a9ff663c4ec} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {62469a61-df1a-4a84-a5cd-46c0f22d61b9} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {2eb6f659-94d7-47d3-83c3-96ca24b8ee24} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {fe2f27dc-13a6-4310-a59b-c5bf9a472c4f} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {d49d3ef2-12e9-425c-b25b-6357f13df5bd} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {1890f886-fbe4-41d8-b1fb-caea63e15ca1} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister bad name
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {0ce5fe3c-ddce-4362-89f1-310c8dc71f08} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister ab
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {9a1dacdf-f6b6-4651-9584-9ce40b704348} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {146706b4-9fd8-4e9c-a769-1adb52804d16} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: LivingDex.WebApi.Features.Trainers.Controllers.TrainerController[0]
+      TrainerSetPartner 1 #169
+info: LivingDex.WebApi.Features.Trainers.Controllers.TrainerController[0]
+      TrainerSetPartner 1 #0
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {79668c5c-5d67-4595-9e8a-44b860fe44bf} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {b584c2a3-f968-470e-8f77-647d7cbe3723} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {42ac6e0a-6d0e-4aec-bed8-d24af589e753} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {458c2508-a86d-428e-93e5-f1ea5b651bcd} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {b3c4547e-41e3-415e-9274-2fda29166966} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {f40473b2-2487-4ae9-9d37-7d4193a87352} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Zed
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountDelete 1
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {b73ad3e7-8d61-40dc-a1f3-9de92872fedf} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {be9ce21b-d880-486c-893c-c5fa0f85ac48} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware[9]
+      A request body size limit could not be applied. This server does not support the IHttpMaxRequestBodySizeFeature.
+warn: Microsoft.AspNetCore.Mvc.Filters.RequestSizeLimitFilter[1]
+      A request body size limit could not be applied. This server does not support the IHttpRequestBodySizeFeature.
+info: LivingDex.WebApi.Features.States.Controllers.StateController[0]
+      StateHistoryRestore 1 r3
+info: LivingDex.WebApi.Features.States.Controllers.StateController[0]
+      StateHistoryRestore 1 r1
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {60b75764-7074-455a-8401-9e19b6be5083} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountPassword 1
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {050dc430-5431-4da1-98fc-9702be76dc8e} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {94e8915c-7909-434a-83b5-84b609bf684b} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /home/runner/work/Dexo/Dexo/LivingDex.WebApi
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Rodas
+info: LivingDex.WebApi.Features.Accounts.Controllers.AccountController[0]
+      AccountRegister Ana
+info: LivingDex.WebApi.Features.Accounts.Controllers.UserAdminController[0]
+      UserAdminResetPassword 2
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+[xUnit.net 00:00:29.80]   Finished:    LivingDex.UnitTest
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
