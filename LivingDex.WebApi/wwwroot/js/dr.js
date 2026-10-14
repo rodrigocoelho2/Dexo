@@ -546,8 +546,8 @@ function drShowResult(B){
   if(won) SFX.mark(); else SFX.unmark();
   let h, p;
   if(aborted){ h='<h3>BATTLE STOPPED</h3>'; p=official?"The battle server restarted, so this battle didn't count. You can battle Red again.":'The battle server restarted.'; }
-  else if(won){ h='<h3 class="w">YOU BEAT RED!</h3>'; p=`You won with ${left} Pokémon left, in ${R.turns} turns.`; }
-  else { h='<h3 class="l">RED WINS</h3>'; p=`${R.reason==='forfeit'?'You gave up. ':R.reason==='timeout'?'The battle was left too long. ':''}Red had ${redLeft} Pokémon left, after ${R.turns} turns.`; }
+  else if(won){ h='<h3 class="w">YOU BEAT RED!</h3>'; p=`You won with ${left} Pokémon left, in ${R.turns} turn${R.turns===1?'':'s'}.`; }
+  else { h='<h3 class="l">RED WINS</h3>'; p=`${R.reason==='forfeit'?'You gave up. ':R.reason==='timeout'?'The battle was left too long. ':''}Red had ${redLeft} Pokémon left, after ${R.turns} turn${R.turns===1?'':'s'}.`; }
   const share=official&&!aborted?drShareText(no,won,R.turns,grid):'';
   $('drResult').innerHTML=`<div class="dly-result">
     <div class="dly-e">${official?`DAILY RED NO. ${no} · OFFICIAL BATTLE`:'<span class="dly-pill dly-dash">PRACTICE RUN, NOT RECORDED</span>'}</div>
