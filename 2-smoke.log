@@ -1,0 +1,8 @@
+{"status":"ok","firstRun":true,"registration":true,"showdown":false}
+bundled sprite: 200
+{"id":1,"uniqueId":"4e6a8287-d86c-4f1b-b5fa-c3a10383668e","username":"Rodas","isAdmin":true}
+{"revision":1,"updatedAt":"2026-10-14T23:12:34.659Z","data":{"caught":{"home|normal":["s:1","s:4"]}}}
+[{"id":1,"name":"Rodas","wins":0,"losses":0,"streak":0,"cpuWins":0,"cpuLosses":0,"livingDex":2,"partner":25,"partnerShiny":false,"lastSeen":null,"played":0,"badges":[]}]
+Showdown simulator is running
+{"no":1,"date":"2026-10-14","available":true,"team":[{"species":"Stantler","baseSpecies":"Stantler","num":234,"types":["Normal"],"level":100,"item":"Leftovers","ability":"Intimidate","abilityDesc":"On switch-in, this Pokemon lowers the Attack of opponents by 1 stage.","nature":"","stats":{"hp":308,"atk":247,"def":181,"spa":227,"spd":187,"spe":227},"base":{"hp":73,"atk":95,"def":62,"spa":85,"spd":6
+Daily Red team is ready

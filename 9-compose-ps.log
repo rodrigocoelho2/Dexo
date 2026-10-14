@@ -1,0 +1,4 @@
+NAME                  IMAGE                                        COMMAND                  SERVICE     CREATED              STATUS                        PORTS
+livingdex             livingdex:latest                             "dotnet LivingDex.We…"   livingdex   About a minute ago   Up 49 seconds                 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
+livingdex-db-deploy   livingdex-db-deploy:latest                   "/bin/bash /deploy/d…"   db-deploy   About a minute ago   Exited (0) 50 seconds ago     
+livingdex-sql         mcr.microsoft.com/mssql/server:2022-latest   "/opt/mssql/bin/laun…"   sqlserver   About a minute ago   Up About a minute (healthy)   0.0.0.0:1433->1433/tcp, [::]:1433->1433/tcp
