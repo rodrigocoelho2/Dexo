@@ -105,11 +105,28 @@ $('drBtn').onclick=()=>{ SFX.tab(); drOpen(); };
 window.addEventListener('hashchange',()=>{ if(location.hash==='#dailyred'&&!DR.view) drOpen(); else if(location.hash!=='#dailyred'&&DR.view) drClose(); });
 
 /* ---------------- home page ---------------- */
+const DR_SNOW='<div class="dly-snow" aria-hidden="true"></div>';
+const drRedOf=n=>`<b class="dly-redn">RED's</b> ${esc(n)}`;
 function drField(foe,me,meName,meHp){
   return `<div class="dly-field" style='background-image:${DR_BG}'>
-    <div class="dly-mon dly-foe">${drImg(foe,false)}</div><div class="dly-mon dly-me">${drImg(me,true)}</div>
-    <div class="dly-hp dly-foe"><div class="dly-r1"><span>RED's ${esc(foe)}</span><span>Lv100</span></div><div class="dly-hpbar"><span>HP</span><div><i style="width:100%"></i></div></div><div class="dly-party">${'<i></i>'.repeat(6)}</div></div>
-    <div class="dly-hp dly-me"><div class="dly-r1"><span>${esc(meName)}</span><span>Lv100</span></div><div class="dly-hpbar"><span>HP</span><div><i style="width:100%"></i></div></div><div class="dly-nums">${meHp}/ ${meHp}</div></div></div>`;
+    <div class="dly-mon dly-foe">${drImg(foe,false)}</div><div class="dly-mon dly-me" data-pmon>${drImg(me,true)}</div>${DR_SNOW}
+    <div class="dly-hp dly-foe"><div class="dly-r1"><span class="dly-nm"><span>${drRedOf(foe)}</span></span><span>Lv100</span></div><div class="dly-hpbar"><span>HP</span><div><i style="width:100%"></i></div></div><div class="dly-party">${'<i></i>'.repeat(6)}</div></div>
+    <div class="dly-hp dly-me"><div class="dly-r1"><span class="dly-nm"><span>${esc(meName)}</span></span><span>Lv100</span></div><div class="dly-hpbar"><span>HP</span><div><i style="width:100%"></i></div></div><div class="dly-nums"><div class="dly-party">${'<i></i>'.repeat(6)}</div><span>${meHp}/ ${meHp}</span></div></div></div>
+    <div class="dly-pmsg"><div data-pmsg>RED wants to battle! Go, ${esc(meName)}!</div></div>`;
+}
+/* Picking another lead on the home page: the old one is called back, the new one comes out. */
+async function drLeadSwap(oldImg,oldName,newName){
+  const box=document.querySelector('#drHome [data-pmon]'), msg=document.querySelector('#drHome [data-pmsg]');
+  if(!box||!oldImg||oldName===newName||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const im=box.querySelector('img'); if(!im) return;
+  const ghost=oldImg.cloneNode(true); ghost.classList.add('dly-ghost'); box.appendChild(ghost);
+  im.style.visibility='hidden'; if(msg) msg.textContent=`${oldName}, come back!`;
+  await ghost.animate([{transform:'scale(1)',filter:'none'},{transform:'scale(0)',filter:'brightness(.9) sepia(1) saturate(6) hue-rotate(-30deg)'}],{duration:380,easing:'steps(8)',fill:'forwards'}).finished;
+  ghost.remove(); if(!im.isConnected) return;
+  await new Promise(r=>{ if(im.complete) r(); else { im.addEventListener('load',r,{once:true}); im.addEventListener('error',r,{once:true}); setTimeout(r,800); } });
+  if(msg) msg.textContent=`RED wants to battle! Go, ${newName}!`;
+  im.style.visibility='';
+  await im.animate([{transform:'scale(.15)',filter:'brightness(4)'},{transform:'scale(1)',filter:'brightness(4)',offset:.6},{transform:'scale(1)',filter:'brightness(1)'}],{duration:420,easing:'steps(8)'}).finished;
 }
 function drShareText(no,won,turns,grid){ return `Daily Red No. ${no} · ${won?'WIN':'LOSS'} ${turns}T\n${[...String(grid||'')].map(c=>c==='1'?'🟩':'🟥').join('')}\nHOME Living Dex`; }
 async function drCopy(text){ try{ await navigator.clipboard.writeText(text); SFX.mark(); flash('Result copied'); }catch(_){ SFX.err(); flash('Could not copy the result'); } }
@@ -128,6 +145,7 @@ function drRenderHome(){
       <div class="dly-eyebrow">DAILY RED · <b>NO. ${d.no}</b></div>
       <div class="dly-big">BEAT <i>RED</i> WITH TODAY'S SIX.</div>
       <p class="dly-lede">The same six level 100 Pokémon for every trainer today. <b>One official battle a day</b>, the rest are practice. Runs on the <b>Showdown</b> simulator with <b>Gen 3 rules</b>.</p>
+      ${L&&!run&&o.status==='none'?`<div class="dly-leadpill"><div class="dly-who">${drImg('Pikachu')}<div><small>RED LEADS WITH</small>Pikachu</div></div><div class="dly-who">${drImg(L.species)}<div><small>YOUR LEAD</small>${esc(L.species)}</div></div><button class="dly-chg" type="button" data-a="lead">CHANGE LEAD</button></div>`:''}
       ${cta}${problem}
     </div>${L?`<div class="dly-prev">${drField('Pikachu',L.species,L.species,L.stats.hp)}</div>`:''}</div>`;
   const lead=L?`<div class="dly-card dly-leadc"><span class="dly-badge">LEAD</span>
@@ -159,12 +177,13 @@ function drRenderHome(){
     </div></div>`;
   wireChains(el);
   // the whole row picks the lead (mouse, tap, Enter or Space)
-  const setLead=i=>{ SFX.move(); DR.lead=i; st.drLead={date:d.date,i}; save(); drRenderHome(); };
+  const setLead=i=>{ SFX.move(); const old=el.querySelector('[data-pmon] img'), was=(team[DR.lead]||{}).species; DR.lead=i; st.drLead={date:d.date,i}; save(); drRenderHome(); drLeadSwap(old,was,(team[i]||{}).species); };
   el.querySelectorAll('[data-lead]').forEach(r=>{ r.onclick=()=>setLead(+r.dataset.lead); r.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setLead(+r.dataset.lead); } }; });
   el.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
     const a=b.dataset.a;
     if(a==='battle') drStart(false,b); else if(a==='practice') drStart(true,b); else if(a==='resume') drJoin(run);
     else if(a==='match'){ SFX.tab(); DR.showMatch=!DR.showMatch; drRenderHome(); }
+    else if(a==='lead'){ SFX.tab(); $('drTeam')?.scrollIntoView({behavior:'smooth',block:'start'}); }
     else if(a==='redsets'){ SFX.tab(); DR.showRedSets=!DR.showRedSets; drRenderHome(); }
     else if(a==='copy') drCopy(drShareText(d.no,o.status==='won',o.turns,o.grid));
   });
@@ -219,7 +238,7 @@ function drSetup(B){
     <div class="dly-bgrid">
       <div class="dly-stage">
         <div class="dly-field" data-field><div class="dly-mon dly-foe" data-mon="foe"></div><div class="dly-mon dly-me" data-mon="me"></div>
-          <div class="dly-hp dly-foe" data-hp="foe" hidden></div><div class="dly-hp dly-me" data-hp="me" hidden></div><div class="dly-flash" data-flash></div><span class="dly-wx" data-wx hidden></span></div>
+          <div class="dly-hp dly-foe" data-hp="foe" hidden></div><div class="dly-hp dly-me" data-hp="me" hidden></div>${DR_SNOW}<div class="dly-flash" data-flash></div><span class="dly-wx" data-wx hidden></span></div>
         <div class="dly-cmd dly-talk" data-cmd><div class="dly-dialog"><span data-msg>RED wants to battle!</span></div></div>
       </div>
       <div class="dly-log" data-log><button class="dly-lh2" type="button" data-logbtn aria-expanded="false"><b>Battle log</b><small data-count></small></button><ol data-lines aria-live="off"></ol>
@@ -256,16 +275,16 @@ function drHp(B,side){
     extra=`<div class="dly-nums"><div class="dly-party" aria-label="You have ${size-out} of ${size} left">${'<i></i>'.repeat(Math.max(0,size-out))}${'<i class="out"></i>'.repeat(out)}</div><span>${Math.max(0,m.hp)}/ ${m.max}</span></div>`;
   }
   else { const seen=[...B.seen[side].values()]; const out=seen.filter(x=>x.status==='fnt').length; extra=`<div class="dly-party" aria-label="Red has ${B.size[side]-out} of ${B.size[side]} left">${'<i></i>'.repeat(Math.max(0,B.size[side]-out))}${'<i class="out"></i>'.repeat(out)}</div>`; }
-  const name=side===B.foe?`RED's ${m.name}`:m.name;
+  const name=side===B.foe?drRedOf(m.name):esc(m.name);
   const bar=box.querySelector('.dly-hpbar i');
   if(bar&&box.dataset.who===m.name+'|'+m.side){
     // same Pokémon: let the bar slide
-    box.querySelector('.dly-r1').innerHTML=`<span class="dly-nm"><span>${esc(name)}${g}</span>${stt}</span><span>Lv${m.level}</span>`;
+    box.querySelector('.dly-r1').innerHTML=`<span class="dly-nm"><span>${name}${g}</span>${stt}</span><span>Lv${m.level}</span>`;
     bar.className=drHpCls(p); bar.style.width=p+'%';
     const tail=box.querySelector('.dly-nums,.dly-party'); if(tail) tail.outerHTML=extra;
   } else {
     box.dataset.who=m.name+'|'+m.side;
-    box.innerHTML=`<div class="dly-r1"><span class="dly-nm"><span>${esc(name)}${g}</span>${stt}</span><span>Lv${m.level}</span></div><div class="dly-hpbar"><span>HP</span><div><i class="${drHpCls(p)}" style="width:${p}%"></i></div></div>${extra}`;
+    box.innerHTML=`<div class="dly-r1"><span class="dly-nm"><span>${name}${g}</span>${stt}</span><span>Lv${m.level}</span></div><div class="dly-hpbar"><span>HP</span><div><i class="${drHpCls(p)}" style="width:${p}%"></i></div></div>${extra}`;
   }
   box.hidden=false;
   drCount(B);
