@@ -16,13 +16,12 @@ const MIN_BST = 440; // no hopeless picks (Delibird, Luvdisc…) against a level
 
 // Red on Mt. Silver: always the same six, lead first. Perfect IVs, items, Gen 3 moves.
 const RED_TEAM = [
-  { species: 'Pikachu', item: 'Light Ball', ability: 'Static', nature: 'Hasty', moves: ['volttackle', 'surf', 'irontail', 'quickattack'] },
-  { species: 'Espeon', item: 'Leftovers', ability: 'Synchronize', nature: 'Timid', moves: ['psychic', 'calmmind', 'morningsun', 'hiddenpowerfire'],
-    ivs: { hp: 31, atk: 30, def: 31, spa: 30, spd: 31, spe: 30 } },
-  { species: 'Snorlax', item: 'Leftovers', ability: 'Thick Fat', nature: 'Adamant', moves: ['bodyslam', 'earthquake', 'curse', 'rest'] },
-  { species: 'Venusaur', item: 'Leftovers', ability: 'Overgrow', nature: 'Modest', moves: ['gigadrain', 'sludgebomb', 'sleeppowder', 'synthesis'] },
-  { species: 'Charizard', item: 'Leftovers', ability: 'Blaze', nature: 'Mild', moves: ['flamethrower', 'dragonclaw', 'earthquake', 'rockslide'] },
-  { species: 'Blastoise', item: 'Leftovers', ability: 'Torrent', nature: 'Calm', moves: ['surf', 'icebeam', 'earthquake', 'toxic'] },
+  { species: 'Pikachu', item: 'Light Ball', ability: 'Static', nature: 'Timid', moves: ['thunderbolt', 'irontail', 'quickattack', 'thunder'] },
+  { species: 'Espeon', item: 'Leftovers', ability: 'Synchronize', nature: 'Timid', moves: ['psychic', 'shadowball', 'bite', 'quickattack'] },
+  { species: 'Snorlax', item: 'Leftovers', ability: 'Immunity', nature: 'Adamant', moves: ['bodyslam', 'earthquake', 'shadowball', 'rockslide'] },
+  { species: 'Venusaur', item: 'Miracle Seed', ability: 'Overgrow', nature: 'Modest', moves: ['gigadrain', 'sludgebomb', 'earthquake', 'razorleaf'] },
+  { species: 'Charizard', item: 'Charcoal', ability: 'Blaze', nature: 'Mild', moves: ['flamethrower', 'dragonclaw', 'earthquake', 'aerialace'] },
+  { species: 'Blastoise', item: 'Mystic Water', ability: 'Torrent', nature: 'Modest', moves: ['surf', 'icebeam', 'earthquake', 'brickbreak'] },
 ].map(s => ({ name: s.species, level: 100, gender: '', evs: { ...EVS }, ivs: { ...IVS }, ...s }));
 
 function seedOf(date) {
@@ -41,6 +40,9 @@ function allowed(set, seen) {
 // Gen 3: a move is physical or special by its type (Hidden Power too, once its type is known).
 const SPECIAL = new Set(['Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Psychic', 'Dragon', 'Dark']);
 const categoryOf = (mv, type) => mv.category === 'Status' ? 'Status' : SPECIAL.has(type) ? 'Special' : 'Physical';
+const TYPE_ITEMS = { charcoal: 'Fire', mysticwater: 'Water', miracleseed: 'Grass', magnet: 'Electric', nevermeltice: 'Ice', twistedspoon: 'Psychic',
+  dragonfang: 'Dragon', blackglasses: 'Dark', blackbelt: 'Fighting', sharpbeak: 'Flying', softsand: 'Ground', hardstone: 'Rock', silverpowder: 'Bug',
+  spelltag: 'Ghost', poisonbarb: 'Poison', metalcoat: 'Steel', silkscarf: 'Normal' };
 const toID = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
 /** The six sets of a date ("2026-10-14"), lead first, each at level 100. */
@@ -155,6 +157,7 @@ function damage(att, def, moveId, weather, screens) {
   if (!special && att.ability === 'hustle') A *= 1.5;
   if (!special && att.ability === 'guts' && att.status) A *= 1.5;
   if (special && att.item === 'lightball' && toID(att.species) === 'pikachu') A *= 2;
+  if (TYPE_ITEMS[att.item] === type) bp *= 1.1;
   if (!special && def.ability === 'marvelscale' && def.status) D *= 1.5;
   if (def.ability === 'thickfat' && (type === 'Fire' || type === 'Ice')) A /= 2;
   if (att.hp <= att.maxhp / 3 && ((type === 'Grass' && att.ability === 'overgrow') || (type === 'Fire' && att.ability === 'blaze') || (type === 'Water' && att.ability === 'torrent') || (type === 'Bug' && att.ability === 'swarm'))) bp *= 1.5;

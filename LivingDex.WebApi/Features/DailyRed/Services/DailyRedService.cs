@@ -39,6 +39,7 @@ internal sealed class DailyRedService(
     private readonly TimeProvider _clock = clock;
     private readonly ILogger<DailyRedService> _logger = logger;
     private readonly ConcurrentDictionary<DateTime, JsonElement> _days = new();
+    private readonly ConcurrentDictionary<DateTime, JsonElement> _views = new();
     private readonly SemaphoreSlim _making = new(1, 1);
 
     /// <summary>
@@ -82,6 +83,7 @@ internal sealed class DailyRedService(
         }
 
         var team = await TeamAsync(day);
+        var view = await ViewAsync(day, team);
         var mine = await _dailyRedRepository.ListByUserAsync(userId);
         var running = await _battleManager.DailyBattleOfAsync(userId);
         var today = mine.FirstOrDefault(r => r.DayKey?.Date == day);
@@ -100,8 +102,8 @@ internal sealed class DailyRedService(
             Date = day.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             Available = _sim.Available,
             Team = Part(team, "team"),
-            Red = Part(team, "red"),
-            Matchups = Part(team, "matchups"),
+            Red = Part(view, "red") ?? Part(team, "red"),
+            Matchups = Part(view, "matchups") ?? Part(team, "matchups"),
             Official = Official(today),
             RunningBattleId = running?.BattleId,
             RunningOfficial = running?.Official ?? false,
@@ -203,6 +205,46 @@ internal sealed class DailyRedService(
         RedLeft = row.RedLeft ?? 0,
         Grid = row.Grid,
     };
+
+    /// <summary>
+    /// Red's team and the matchups as the simulator has them now (a stored day keeps the sets it was made with,
+    /// but Red's sets can change with an update). Null when the simulator isn't there: the stored copy is used.
+    /// </summary>
+    private async Task<JsonElement?> ViewAsync(DateTime day, JsonElement? team)
+    {
+        if (_views.TryGetValue(day, out var cached))
+        {
+            return cached;
+        }
+
+        if (!_sim.Available || Part(team, "sets") is not { } sets)
+        {
+            return null;
+        }
+
+        try
+        {
+            var id = "dayview-" + Guid.NewGuid().ToString("N")[..10];
+            var reply = await _sim.RequestAsync(id, new { op = "dayview", id, sets }, TimeSpan.FromSeconds(10));
+            if (reply.GetProperty("type").GetString() != "dayview")
+            {
+                return null;
+            }
+
+            foreach (var old in _views.Keys.Where(k => k < day.AddDays(-3)).ToList())
+            {
+                _views.TryRemove(old, out _);
+            }
+
+            _views[day] = reply;
+            return reply;
+        }
+        catch (Exception ex) when (ex is TimeoutException or InvalidOperationException or KeyNotFoundException)
+        {
+            _logger.LogWarning(ex, "Could not read Red's team for {Day}", day);
+            return null;
+        }
+    }
 
     /// <summary>The day's team: from memory, then the database, otherwise made by the simulator and stored.</summary>
     private async Task<JsonElement?> TeamAsync(DateTime day)

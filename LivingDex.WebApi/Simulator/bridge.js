@@ -4,6 +4,7 @@
 //   stdin : {op:"start", id, format, p1:{name,cpu}, p2:{name,cpu}, teams?:{p1:[set],p2:[set]}}
 //           {op:"pool", id, format, size}     (draft: random-battle sets to pick from)
 //           {op:"dailyteam", id, date}        (Daily Red: the day's team, Red's team and their matchups)
+//           {op:"dayview", id, sets}          (Daily Red: Red's team and the matchups for a stored team)
 //           {op:"choose", id, side:"p1"|"p2", choice:"move 1"|"switch 3"|"default"}
 //           {op:"forfeit", id, side}
 //           {op:"end", id}
@@ -270,6 +271,11 @@ rl.on('line', line => {
     if (msg.op === 'start') return start(msg);
     if (msg.op === 'ping') return out({ type: 'pong' });
     if (msg.op === 'pool') return pool(msg);
+    if (msg.op === 'dayview') {
+      // Red's team and the matchups for a stored day's sets, as the simulator sees them now
+      const sets = Array.isArray(msg.sets) ? msg.sets : [];
+      return out({ id: msg.id, type: 'dayview', red: daily.RED_TEAM.map(daily.view), matchups: daily.matchups(sets) });
+    }
     if (msg.op === 'dailyteam') {
       const sets = daily.teamOf(String(msg.date || ''));
       return out({ id: msg.id, type: 'dailyteam', sets, team: sets.map(daily.view), red: daily.RED_TEAM.map(daily.view), matchups: daily.matchups(sets) });

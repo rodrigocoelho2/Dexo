@@ -469,7 +469,8 @@ $('searchForm').onsubmit=e=>{
   if(j<0){ SFX.err(); flash('Not in this Pokédex'); } else setSel(j);
 };
 document.addEventListener('keydown',e=>{
-  if(e.target.closest('input,textarea,select')||document.body.classList.contains('sdmode')) return;
+  // the box shortcuts only work on the boxes, never in Showdown or Daily Red
+  if(e.target.closest('input,textarea,select')||document.body.classList.contains('sdmode')||document.body.classList.contains('drmode')) return;
   const {i}=current(), m={ArrowLeft:-1,ArrowRight:1,ArrowUp:-6,ArrowDown:6,PageUp:-30,PageDown:30}[e.key];
   if(m!=null){ e.preventDefault(); setSel(i+m); }
   else if(e.key===' '||e.key==='Enter'){ if(e.target.closest('button')) return; e.preventDefault(); toggle(i); }

@@ -6,7 +6,7 @@
    in the server's Showdown simulator and use Showdown's connection (sd.js); the battle is
    one big FireRed/LeafGreen-style window with the log beside it.
    ==================================================================================== */
-const DR={on:false,view:false,screen:'home',data:null,date:'',loading:false,battle:null,joinBuf:null,lead:0,showMatch:false,starting:false};
+const DR={on:false,view:false,screen:'home',data:null,date:'',loading:false,battle:null,joinBuf:null,lead:0,showMatch:false,showRedSets:false,starting:false};
 const DR_FMT=f=>f==='dailyred'?'OFFICIAL BATTLE':'PRACTICE RUN';
 const drDate=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
 const drClock=()=>{ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return [s/3600|0,(s/60|0)%60,s%60].map(x=>String(x).padStart(2,'0')).join(':'); };
@@ -113,16 +113,6 @@ function drField(foe,me,meName,meHp){
 }
 function drShareText(no,won,turns,grid){ return `Daily Red No. ${no} · ${won?'WIN':'LOSS'} ${turns}T\n${[...String(grid||'')].map(c=>c==='1'?'🟩':'🟥').join('')}\nHOME Living Dex`; }
 async function drCopy(text){ try{ await navigator.clipboard.writeText(text); SFX.mark(); flash('Result copied'); }catch(_){ SFX.err(); flash('Could not copy the result'); } }
-function drTrainerLine(t,me){
-  const you=t.userId===me;
-  switch(t.status){
-    case 'won': return [`won with ${t.left} left · ${t.turns} turns`,'<span class="dly-res w">WIN</span>'];
-    case 'lost': return [`lost · Red had ${t.redLeft} left · ${t.turns} turns`,'<span class="dly-res l">LOSS</span>'];
-    case 'playing': return ['battling Red right now','<span class="dly-res p">···</span>'];
-    case 'played': return ['played · battle Red to see how it went','<span class="dly-res p">?</span>'];
-  }
-  return [you?"you haven't played yet":"hasn't played yet",'<span class="dly-res p">—</span>'];
-}
 function drRenderHome(){
   const el=$('drHome'), d=DR.data;
   if(!d){ el.innerHTML='<div class="dly-page"><p class="dly-sub">Loading today\'s team…</p></div>'; return; }
@@ -146,30 +136,38 @@ function drRenderHome(){
       <div class="dly-kv"><span>Item</span><div>${esc(L.item||'—')}</div><span>Ability</span><div><u title="${esc(L.abilityDesc||'')}">${esc(L.ability||'—')}</u></div><span>Base stat total</span><div>${L.bst}</div></div>
       <div class="dly-stats">${[['HP','hp'],['Atk','atk'],['Def','def'],['SpA','spa'],['SpD','spd'],['Spe','spe']].map(([k,s])=>`<div><small>${k}</small><b>${L.stats[s]}</b></div>`).join('')}</div>
       <div class="dly-moves">${L.moves.map(m=>`<div title="${esc(`${m.type} · ${m.category}${m.power?' '+m.power:''}${m.accuracy?' · '+m.accuracy+'%':''} · ${m.desc}`)}"><i style="background:${TYC[m.type]||'#888'}"></i>${esc(m.name)}</div>`).join('')}</div></div>`:'';
-  const rows=team.map((m,i)=>i===DR.lead?'':`<div class="dly-mrow">${drImg(m.species)}<div><b>${esc(m.species)}</b>${m.types.map(drTy).join('')}</div><div class="dly-ia">${esc(m.item||'—')}<br>${esc(m.ability||'')}</div><div class="dly-bst">${m.bst}</div><button type="button" data-lead="${i}" ${run?'disabled':''}>SET AS LEAD</button></div>`).join('');
+  const rows=team.map((m,i)=>i===DR.lead?'':`<div class="dly-mrow" ${run?'aria-disabled="true"':`role="button" tabindex="0" data-lead="${i}" aria-label="Set ${esc(m.species)} as your lead"`}>${drImg(m.species)}<div><b>${esc(m.species)}</b>${m.types.map(drTy).join('')}</div><div class="dly-ia">${esc(m.item||'—')}<br>${esc(m.ability||'')}</div><div class="dly-bst">${m.bst}</div><span class="dly-setl">SET AS LEAD</span></div>`).join('');
   const mu=d.matchups||[];
   const mtab=DR.showMatch&&mu.length?`<div class="dly-mtab"><table><thead><tr><th>YOURS</th>${mu.map(c=>`<th>${drImg(c.species)}<br>${esc(c.species.toUpperCase())}</th>`).join('')}</tr></thead><tbody>
       ${team.map((m,i)=>`<tr><td>${drImg(m.species)} ${esc(m.species)}</td>${mu.map(c=>{ const x=c.rows[i]||{}; return `<td title="${esc(`${m.species}'s ${x.dealMove||'—'}: ${x.deal}% · ${c.species}'s ${x.takeMove||'—'}: ${x.take}% · ${x.faster>0?'you are faster':x.faster<0?'Red is faster':'same speed'}`)}"><span class="dly-dl${x.deal>=100?' dly-ko':''}">${x.deal}%</span> / <span class="dly-tk${x.take>=100?' dly-ko':''}">${x.take}%</span><small>${x.faster>0?'faster':x.faster<0?'slower':'tie'}</small></td>`; }).join('')}</tr>`).join('')}
       </tbody></table><p class="dly-note"><span class="dly-dl">Green</span>: your best hit on that Pokémon of Red's. <span class="dly-tk">Red</span>: its best hit back. Average roll, full HP, no boosts; 100% is a knockout.</p></div>`:'';
-  const s=d.stats, me=sdMe();
-  const trainers=d.trainers.map(t=>{ const [line,res]=drTrainerLine(t,me); return `<li><span class="dly-av">${esc(initials(t.name))}</span><div>${t.userId===me?'You':esc(t.name)}<small>${esc(line)}</small></div>${res}</li>`; }).join('');
+  const s=d.stats;
   el.innerHTML=`<div class="dly-page">${hero}
     ${team.length?`<h2 class="dly-h2" id="drTeam">TODAY'S TEAM</h2><p class="dly-sub">Six random fully evolved Gen 1–3 Pokémon with Gen 3 sets, all level 100. Pick who goes first.</p>
     <div class="dly-tgrid">${lead}<div class="dly-rows">${rows}</div></div>
     <div class="dly-card dly-matchups"><div><b>Today's matchups</b><p>Who hits each of Red's Pokémon hardest, and how hard Red hits back.</p></div><button class="dly-ghost" type="button" data-a="match">${DR.showMatch?'HIDE MATCHUPS':'SHOW MATCHUPS'}</button>${mtab}</div>`:''}
     <div class="dly-rgrid">
-      <div class="dly-card dly-redc"><h3>RED'S TEAM ON MT. SILVER</h3><p>Never changes: all level 100, perfect IVs and held items. Always leads with Pikachu. Says nothing.</p>
-        <div class="dly-rteam">${red.map(m=>`<div title="${esc(`${m.species} @ ${m.item} · ${m.moves.map(x=>x.name).join(', ')}`)}">${drImg(m.species)}<b>${esc(m.species)}</b>${m.types.map(drTy).join('')}</div>`).join('')}</div>
-        <div class="dly-rstats"><div><b>${s.played}</b><small>PLAYED</small></div><div><b>${s.winPct}%</b><small>WIN %</small></div><div><b>${s.streak}</b><small>WIN STREAK</small></div><div><b>${s.dayStreak}</b><small>DAY STREAK</small></div></div></div>
-      <div class="dly-card dly-trc"><h3>TRAINERS TODAY</h3><ul>${trainers}</ul></div>
+      <div class="dly-card dly-redc">
+        <div class="dly-redl"><h3 class="dly-redt">Red's team on Mt. Silver</h3>
+          <p>Red's team never changes: Pikachu, Espeon, Snorlax, Venusaur, Charizard and Blastoise, all at level 100 with perfect IVs and held items. He always leads with Pikachu. He has nothing to say.</p>
+          <div class="dly-rstats"><div><b>${s.played}</b><small>Played</small></div><div><b>${s.winPct}</b><small>Win %</small></div><div><b>${s.streak}</b><small>Win streak</small></div><div><b>${s.dayStreak}</b><small>Day streak</small></div></div>
+          <button class="dly-redmore" type="button" data-a="redsets" aria-expanded="${DR.showRedSets?'true':'false'}">${DR.showRedSets?"Hide Red's moves and items":"Show Red's moves and items"}</button></div>
+        <div class="dly-rteam">${red.map(m=>`<div>${drImg(m.species)}<b>${esc(m.species)}</b><span class="dly-rty">${m.types.map(drTy).join('')}</span></div>`).join('')}</div>
+        ${DR.showRedSets?`<div class="dly-rsets">${red.map(m=>`<div class="dly-rset"><div class="dly-rsh"><b>${esc(m.species)}</b><span class="dly-rty">${m.types.map(drTy).join('')}</span></div>
+          <dl><dt>Item</dt><dd>${esc(m.item||'—')}</dd><dt>Ability</dt><dd>${esc(m.ability||'—')}</dd></dl>
+          <ul>${m.moves.map(x=>`<li title="${esc(`${x.type} · ${x.category}${x.power?' '+x.power:''}${x.accuracy?' · '+x.accuracy+'%':''}`)}"><i style="background:${TYC[x.type]||'#888'}"></i>${esc(x.name)}</li>`).join('')}</ul></div>`).join('')}</div>`:''}
+      </div>
     </div></div>`;
   wireChains(el);
-  el.querySelectorAll('[data-lead]').forEach(b=>b.onclick=()=>{ SFX.move(); DR.lead=+b.dataset.lead; st.drLead={date:d.date,i:DR.lead}; save(); drRenderHome(); });
+  // the whole row picks the lead (mouse, tap, Enter or Space)
+  const setLead=i=>{ SFX.move(); DR.lead=i; st.drLead={date:d.date,i}; save(); drRenderHome(); };
+  el.querySelectorAll('[data-lead]').forEach(r=>{ r.onclick=()=>setLead(+r.dataset.lead); r.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setLead(+r.dataset.lead); } }; });
   el.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
     const a=b.dataset.a;
     if(a==='battle') drStart(false,b); else if(a==='practice') drStart(true,b); else if(a==='resume') drJoin(run);
     else if(a==='lead'){ SFX.tab(); $('drTeam')?.scrollIntoView({behavior:'smooth',block:'start'}); }
     else if(a==='match'){ SFX.tab(); DR.showMatch=!DR.showMatch; drRenderHome(); }
+    else if(a==='redsets'){ SFX.tab(); DR.showRedSets=!DR.showRedSets; drRenderHome(); }
     else if(a==='copy') drCopy(drShareText(d.no,o.status==='won',o.turns,o.grid));
   });
 }
@@ -190,7 +188,7 @@ function drRequest(m){
   const B=DR.battle;
   if(DR.joinBuf&&DR.joinBuf.id===m.battleId&&(!B||B.id!==m.battleId)){ DR.joinBuf.request=m; return; }
   if(!B||B.id!==m.battleId) return;
-  B.request=m.request; B.pending=m.pending; B.chosen=false; B.cursor=0; B.pop=null; setTimeout(drTryRequest,150);
+  B.request=m.request; B.pending=m.pending; B.chosen=false; B.cursor=0; B.pop=null; if(B.active[B.me]&&!B.busy) drHp(B,B.me); setTimeout(drTryRequest,150);
 }
 function drAck(m){ const B=DR.battle; if(!B||B.id!==m.battleId) return; if(!m.ok){ SFX.err(); flash(m.error||'That move can’t be used'); B.chosen=false; drCmd(); } else B.pending=false; }
 function drEnd(res){ const B=DR.battle; if(B&&B.id===res.battleId){ B.result=res; drPump(); } drLoad(); }
@@ -252,7 +250,12 @@ function drHp(B,side){
   const p=hpPct(m), stt=m.status&&m.status!=='fnt'?`<span class="dly-stt ${m.status}">${m.status.toUpperCase()}</span>`:'';
   const g=m.gender==='M'?' ♂':m.gender==='F'?' ♀':'';
   let extra;
-  if(side===B.me) extra=`<div class="dly-nums">${Math.max(0,m.hp)}/ ${m.max}</div>`;
+  if(side===B.me){
+    // your team as squares too: red still standing, grey fainted (from the request, which knows the whole team)
+    const mons=B.request&&B.request.side?B.request.side.pokemon:null, size=mons?mons.length:B.size[side];
+    const out=mons?mons.filter(p=>/ fnt$/.test(p.condition)||p.condition==='0 fnt').length:[...B.seen[side].values()].filter(x=>x.status==='fnt').length;
+    extra=`<div class="dly-nums"><div class="dly-party" aria-label="You have ${size-out} of ${size} left">${'<i></i>'.repeat(Math.max(0,size-out))}${'<i class="out"></i>'.repeat(out)}</div><span>${Math.max(0,m.hp)}/ ${m.max}</span></div>`;
+  }
   else { const seen=[...B.seen[side].values()]; const out=seen.filter(x=>x.status==='fnt').length; extra=`<div class="dly-party" aria-label="Red has ${B.size[side]-out} of ${B.size[side]} left">${'<i></i>'.repeat(Math.max(0,B.size[side]-out))}${'<i class="out"></i>'.repeat(out)}</div>`; }
   const name=side===B.foe?`RED's ${m.name}`:m.name;
   const bar=box.querySelector('.dly-hpbar i');
