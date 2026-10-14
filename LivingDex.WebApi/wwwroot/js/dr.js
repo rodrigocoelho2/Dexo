@@ -128,7 +128,6 @@ function drRenderHome(){
       <div class="dly-eyebrow">DAILY RED · <b>NO. ${d.no}</b></div>
       <div class="dly-big">BEAT <i>RED</i> WITH TODAY'S SIX.</div>
       <p class="dly-lede">The same six level 100 Pokémon for every trainer today. <b>One official battle a day</b>, the rest are practice. Runs on the <b>Showdown</b> simulator with <b>Gen 3 rules</b>.</p>
-      ${L?`<div class="dly-leadpill"><div class="dly-who">${drImg('Pikachu')}<div><small>RED LEADS WITH</small>Pikachu</div></div><div class="dly-who">${drImg(L.species)}<div><small>YOUR LEAD</small>${esc(L.species)}</div></div>${run||done&&false?'':'<button class="dly-chg" type="button" data-a="lead">CHANGE LEAD</button>'}</div>`:''}
       ${cta}${problem}
     </div>${L?`<div class="dly-prev">${drField('Pikachu',L.species,L.species,L.stats.hp)}</div>`:''}</div>`;
   const lead=L?`<div class="dly-card dly-leadc"><span class="dly-badge">LEAD</span>
@@ -165,7 +164,6 @@ function drRenderHome(){
   el.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
     const a=b.dataset.a;
     if(a==='battle') drStart(false,b); else if(a==='practice') drStart(true,b); else if(a==='resume') drJoin(run);
-    else if(a==='lead'){ SFX.tab(); $('drTeam')?.scrollIntoView({behavior:'smooth',block:'start'}); }
     else if(a==='match'){ SFX.tab(); DR.showMatch=!DR.showMatch; drRenderHome(); }
     else if(a==='redsets'){ SFX.tab(); DR.showRedSets=!DR.showRedSets; drRenderHome(); }
     else if(a==='copy') drCopy(drShareText(d.no,o.status==='won',o.turns,o.grid));
@@ -217,7 +215,7 @@ function drPlayMusic(B){ SDM.play({id:B.id,gen:1,result:B.result}); }
 function drSetup(B){
   const el=$('drBattle');
   el.innerHTML=`<div class="dly-bwin">
-    <div class="dly-bbar"><span class="dly-pill${B.official?'':' dly-dash'}">${B.official?`DAILY RED NO. ${DR.data?DR.data.no:''} · OFFICIAL BATTLE`:'PRACTICE RUN, NOT RECORDED'}</span><span class="dly-turn" data-turn></span></div>
+    <div class="dly-bbar"><span class="dly-pill${B.official?'':' dly-dash'}">${B.official?`DAILY RED NO. ${DR.data?DR.data.no:''} · OFFICIAL BATTLE`:'PRACTICE RUN, NOT RECORDED'}</span><span class="dly-bright"><span class="dly-turn" data-turn></span><button class="dly-mus" type="button" data-music aria-label="Music" aria-pressed="${SDM.on()}">♪ ${SDM.on()?'ON':'OFF'}</button></span></div>
     <div class="dly-bgrid">
       <div class="dly-stage">
         <div class="dly-field" data-field><div class="dly-mon dly-foe" data-mon="foe"></div><div class="dly-mon dly-me" data-mon="me"></div>
@@ -234,6 +232,7 @@ function drSetup(B){
     cmd:q('[data-cmd]'),turn:q('[data-turn]'),log:q('[data-log]'),lines:q('[data-lines]'),count:q('[data-count]')};
   B.el.field.style.backgroundImage=DR_BG;
   el.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{ SFX.tab(); st.drFast=b.dataset.speed==='fast'; save(); drSpeedBtns(B); });
+  q('[data-music]').onclick=e=>{ st.sdMusic=!SDM.on(); save(); SFX.tab(); if(SDM.on()) drPlayMusic(B); else SDM.stop(); e.currentTarget.setAttribute('aria-pressed',String(SDM.on())); e.currentTarget.textContent='♪ '+(SDM.on()?'ON':'OFF'); };
   q('[data-logbtn]').onclick=()=>{ B.logOpen=!B.logOpen; B.el.log.classList.toggle('open',B.logOpen); q('[data-logbtn]').setAttribute('aria-expanded',String(B.logOpen)); drLogDraw(B); };
   drSpeedBtns(B); drDrawAll(B);
 }
