@@ -119,7 +119,7 @@ async function drLeadSwap(oldImg,oldName,newName){
   const box=document.querySelector('#drHome [data-pmon]'), msg=document.querySelector('#drHome [data-pmsg]');
   if(!box||!oldImg||oldName===newName||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const im=box.querySelector('img'); if(!im) return;
-  const ghost=oldImg.cloneNode(true); ghost.classList.add('dly-ghost'); box.appendChild(ghost);
+  const ghost=oldImg.cloneNode(true); ghost.classList.add('dly-swapimg'); box.appendChild(ghost);
   im.style.visibility='hidden'; if(msg) msg.textContent=`${oldName}, come back!`;
   await ghost.animate([{transform:'scale(1)',filter:'none'},{transform:'scale(0)',filter:'brightness(.9) sepia(1) saturate(6) hue-rotate(-30deg)'}],{duration:380,easing:'steps(8)',fill:'forwards'}).finished;
   ghost.remove(); if(!im.isConnected) return;
