@@ -1,31 +1,37 @@
 <p align="center">
-  <img src="docs/images/hero.png" alt="HOME Living Dex: the box tracker on desktop and phone" width="100%">
+  <img src="docs/images/banner.png" alt="Dexo — Catch them. Box them. Battle them." width="100%">
 </p>
 
-<h1 align="center">HOME Living Dex</h1>
-
 <p align="center">
-  A self-hosted <b>living dex tracker</b> for Pokémon HOME and every mainline game, dressed as the Black 2 summary screen,<br>
-  with a built-in <b>Pokémon Showdown</b> arena for Gen 1–5 random and draft battles.
+  A self-hosted <b>Pokémon HOME living dex tracker</b> for every game from Red/Blue to Legends: Z-A, dressed as the Black 2 summary screen,<br>
+  with <b>where to get</b> maps, <b>Showdown</b> battles against your friends and a <b>daily battle against Red</b>.
 </p>
 
 <p align="center">
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white">
   <img alt="SQL Server" src="https://img.shields.io/badge/SQL%20Server-Dapper%20%2B%20stored%20procedures-CC2927?logo=microsoftsqlserver&logoColor=white">
-  <img alt="SignalR" src="https://img.shields.io/badge/SignalR-live%20battles-5C2D91">
-  <img alt="Pokémon Showdown" src="https://img.shields.io/badge/Pok%C3%A9mon%20Showdown-0.11-e3363a">
+  <img alt="Pokémon Showdown" src="https://img.shields.io/badge/Pok%C3%A9mon%20Showdown-battle%20simulator-e3363a">
+  <img alt="PWA" src="https://img.shields.io/badge/PWA-installs%20on%20the%20phone-3355FF">
   <img alt="Docker" src="https://img.shields.io/badge/Docker-UGREEN%20NAS-2496ED?logo=docker&logoColor=white">
+  <img alt="CI" src="https://github.com/rodrigocoelho2/home-living-dex/actions/workflows/ci.yml/badge.svg?branch=main">
 </p>
 
 <p align="center">
   <a href="#features">Features</a> ·
   <a href="#screenshots">Screenshots</a> ·
   <a href="#quick-start-docker">Quick start</a> ·
+  <a href="#showdown-in-detail">Showdown</a> ·
+  <a href="#daily-red-in-detail">Daily Red</a> ·
   <a href="#development">Development</a> ·
-  <a href="#database">Database</a> ·
-  <a href="#design-mocks">Design mocks</a> ·
   <a href="#api">API</a>
 </p>
+
+<p align="center">
+  <img src="docs/images/hero.png" alt="Dexo: the boxes on the computer and Daily Red on the phone" width="100%">
+</p>
+
+> Dexo used to be called HOME Living Dex. The code (projects, namespaces, containers, the `LivingDex` database and the volumes)
+> keeps the old name, so updates never lose anything.
 
 ---
 
@@ -41,6 +47,10 @@
 - **Dex badges** – 24 badges for filling your boxes: every region, 100/250/500/1025 caught, shinies, full Unown/Vivillon/Alcremie/Furfrou sets and a few specials, with a "Badge get!" moment on the phone.
 - **Trainer profile** – on the PC, *View profile* in the account menu shows your card, the living dex by region, the dex badges, your battle record by generation and your latest catches.
 
+**Where to get**
+
+- Every game's **region map**, from Kanto to Galar with the Sevii Islands, the Isle of Armor and the Crown Tundra: the routes and areas where a Pokémon appears, with the method, rate, time of day, season and weather.
+
 **Showdown arena**
 
 - Random battles in **Gen 1 to Gen 5** against the other trainers on your server or the CPU, simulated by the real [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) engine.
@@ -52,7 +62,7 @@
 **Daily Red**
 
 - **One team a day for everyone**: six fully evolved Gen 1–3 Pokémon at level 100 with Gen 3 sets, and **one official battle a day** against Red on Mt. Silver (Pikachu, Espeon, Snorlax, Venusaur, Charizard, Blastoise). Practice runs are unlimited.
-- A FireRed/LeafGreen-style battle in **one big window** with the log beside it, a Red who plays by expected damage, a share grid, stats and streaks, and who else played today.
+- A FireRed/LeafGreen-style battle in **one big window** with the log beside it, a Red who plays by expected damage, a share grid, stats and streaks.
 
 **Built to self-host**
 
@@ -63,21 +73,87 @@
 
 ## Screenshots
 
+### Collect
+<img src="docs/images/collect.png" alt="Phone: the boxes, a Pokémon's card with its evolutions, and the trainer card with the dex badges">
+
+### Battle
+<img src="docs/images/battle.png" alt="Phone: the Showdown lobby, Daily Red, a battle against Red and the switch list">
+
 ### One look per generation
 <img src="docs/images/showdown-generations.png" alt="The same battle screen in Gen 1, 2, 3, 4 and 5 styles">
 
 ### Draft mode
 <img src="docs/images/draft.png" alt="Draft: snake picks with the set on the top screen, then the team preview to choose a lead">
 
-### On your phone
-<img src="docs/images/phone.png" alt="Phone layout: sign in, boxes, Pokémon sheet, battle, trainer card and more">
+### On the computer
+<table>
+<tr>
+<td width="50%"><b>Boxes</b><br><img src="docs/images/desktop-boxes.png" alt="Box 1 of the National Dex with Charizard selected"></td>
+<td width="50%"><b>Showdown</b><br><img src="docs/images/desktop-showdown.png" alt="The Showdown lobby: your trainer card, the trainers on the server and the CPU"></td>
+</tr>
+<tr>
+<td width="50%"><b>Daily Red</b><br><img src="docs/images/desktop-daily-red.png" alt="Daily Red: today's six, the lead, Red's team and your stats"></td>
+<td width="50%"><b>Battle against Red</b><br><img src="docs/images/desktop-battle.png" alt="The battle window on Mt. Silver with the moves menu and the battle log"></td>
+</tr>
+</table>
 
-### On the desktop
-<img src="docs/images/desktop.png" alt="Desktop: every game, grouped by generation, and the Showdown lobby">
+<details id="design-mocks">
+<summary>Design mocks</summary>
 
-<details>
-<summary>The box screen at full size</summary>
-<img src="docs/images/desktop-dex.png" alt="Box 1 of the National Dex with Charizard selected">
+Every screen was designed as a clickable HTML mock before it was built. The sources are in [`docs/mocks`](docs/mocks) (open them in a browser; most are interactive).
+
+<table>
+<tr>
+<td colspan="2"><b>Phone app</b> · <a href="docs/mocks/phone-app.html">phone-app.html</a><br><img src="docs/images/mock-phone-app.png" alt="Mock of the phone layout: sign in, boxes, Pokémon sheet, game list and Showdown lobby"></td>
+</tr>
+<tr>
+<td colspan="2"><b>iPhone app</b> · <a href="docs/mocks/iphone-app.html">iphone-app.html</a><br><img src="docs/images/mock-iphone-app.png" alt="Mock of the installed web app: install card, home-screen icon, launch screen, full-screen app and offline page"></td>
+</tr>
+<tr>
+<td width="50%"><b>A look per generation</b> · <a href="docs/mocks/showdown-generations.html">showdown-generations.html</a><br><img src="docs/images/mock-generations.png" alt="Mock of the Gen 1 Red/Blue battle style"></td>
+<td width="50%"><b>Draft mode</b> · <a href="docs/mocks/showdown-draft.html">showdown-draft.html</a><br><img src="docs/images/mock-draft.png" alt="Mock of the draft pick screen"></td>
+</tr>
+<tr>
+<td width="50%"><b>Black 2 battle menu</b> · <a href="docs/mocks/battle-menu.html">battle-menu.html</a><br><img src="docs/images/mock-battle-menu.png" alt="Mock of the Black 2 style touch menu"></td>
+<td width="50%" valign="top"><b>How the mocks became the app</b><br><br>Mocks use sample data and are drawn at their own size, so they differ in small ways from the finished screens above (for example, the Gen 3 and Gen 4 HP boxes lost their EXP bar, and the lobby's Mode row sits under Format). The <a href="#screenshots">screenshots</a> show the real app.</td>
+</tr>
+<tr>
+<td width="50%"><b>Showdown lobby</b> · <a href="docs/mocks/showdown.html">showdown.html</a><br><img src="docs/images/mock-showdown.png" alt="Mock of the Showdown header button, lobby with trainer cards, battle and result"></td>
+<td width="50%"><b>Sign in</b> · <a href="docs/mocks/login.html">login.html</a><br><img src="docs/images/mock-login.png" alt="Mock of the sign in and create account screen"></td>
+</tr>
+<tr>
+<td width="50%"><b>Filters and list view</b> · <a href="docs/mocks/filters.html">filters.html</a><br><img src="docs/images/mock-filters.png" alt="Mock of the filters panel and the list view"></td>
+<td width="50%"><b>Inspector card</b> · <a href="docs/mocks/b2-card.html">b2-card.html</a><br><img src="docs/images/mock-b2-card.png" alt="Mock of the Black 2 style Pokémon inspector card"></td>
+</tr>
+<tr>
+<td width="50%"><b>Compact header</b> · <a href="docs/mocks/compact-header.html">compact-header.html</a><br><img src="docs/images/mock-compact-header.png" alt="Mock of the compact game bar, toolbar and view options"></td>
+<td width="50%"><b>Battle plates</b> · <a href="docs/mocks/battle-plates.html">battle-plates.html</a><br><img src="docs/images/mock-battle-plates.png" alt="Mock of the battle bottom screen with inspector-style plates"></td>
+</tr>
+<tr>
+<td width="50%"><b>Battle effects, ranking and badges</b> · <a href="docs/mocks/battle-fx.html">battle-fx.html</a><br><img src="docs/images/mock-battle-fx.png" alt="Mock of the move animations, ranking, badges, MVP and battle log"></td>
+<td width="50%"><b>Dex badges</b> · <a href="docs/mocks/dex-badges.html">dex-badges.html</a><br><img src="docs/images/mock-dex-badges.png" alt="Mock of the living dex badges on the trainer card and the phone"></td>
+</tr>
+<tr>
+<td width="50%"><b>Trainer profile</b> · <a href="docs/mocks/profile.html">profile.html</a><br><img src="docs/images/mock-profile.png" alt="Mock of the trainer profile window"></td>
+<td width="50%"><b>Where to get → map</b> · <a href="docs/mocks/where-to-get-map.html">where-to-get-map.html</a><br><img src="docs/images/mock-where-to-get-map.png" alt="Mock of the region map opened from the Catch in numbers"></td>
+</tr>
+<tr>
+<td width="50%"><b>Hoenn map (RSE)</b> · <a href="docs/mocks/hoenn-map.html">hoenn-map.html</a><br><img src="docs/images/mock-hoenn-map.png" alt="Mock of the Hoenn map for Ruby, Sapphire and Emerald, drawn with the real map code and data"></td>
+<td width="50%"><b>Sinnoh map (DPPt)</b> · <a href="docs/mocks/sinnoh-map.html">sinnoh-map.html</a><br><img src="docs/images/mock-sinnoh-map.png" alt="Mock of the Sinnoh map for Diamond, Pearl and Platinum, drawn with the real map code and data"></td>
+</tr>
+<tr>
+<td width="50%"><b>Unova map (BW · B2W2)</b> · <a href="docs/mocks/unova-map.html">unova-map.html</a><br><img src="docs/images/mock-unova-map.png" alt="Mock of the Unova map for Black / White and Black 2 / White 2, drawn with the real map code and data"></td>
+<td width="50%"><b>Kalos map (XY)</b> · <a href="docs/mocks/kalos-map.html">kalos-map.html</a><br><img src="docs/images/mock-kalos-map.png" alt="Mock of the Kalos map for X and Y, drawn with the real map code and data"></td>
+</tr>
+<tr>
+<td width="50%"><b>Alola map (SM · USUM)</b> · <a href="docs/mocks/alola-map.html">alola-map.html</a><br><img src="docs/images/mock-alola-map.png" alt="Mock of the Alola map for Sun / Moon and Ultra Sun / Ultra Moon, drawn with the real map code and data"></td>
+<td width="50%"><b>Galar maps (SwSh)</b> · <a href="docs/mocks/galar-map.html">galar-map.html</a><br><img src="docs/images/mock-galar-map.png" alt="Mock of the Galar, Isle of Armor and Crown Tundra maps for Sword and Shield, drawn with the real map code and data"></td>
+</tr>
+<tr>
+<td colspan="2"><b>Daily Red</b> · <a href="docs/mocks/daily-red.html">daily-red.html</a><br><img src="docs/images/mock-daily-red.png" alt="Mock of Daily Red: the header button, the day's team, Red's team, the battle window with the log, the switch list and the result"></td>
+</tr>
+</table>
+
 </details>
 
 ## Quick start (Docker)
@@ -182,10 +258,10 @@ The crossed-swords button in the header opens the battle room. Each battle gives
 The snowy-mountain button next to the crossed swords (on the phone: **Battle › Daily Red**) opens Daily Red. It has a yellow dot until you've played today.
 
 - **The day's team** – six fully evolved Gen 1–3 Pokémon, no Ubers and nothing too weak to stand a chance, with Pokémon Showdown's Gen 3 random-battle sets, all at level 100. The team comes from a generator seeded with the date, and the server stores it the first time a date is asked for, so everyone with the same date gets the same six. The day is **your own date**: the team changes at your midnight. Pick your lead before you battle.
-- **Red** – always the same six, lead Pikachu (Light Ball), all level 100 with perfect IVs and held items. He knocks out what he can before it moves, switches away from a Pokémon that would be knocked out first when a teammate takes the hit much better, sets up (Calm Mind, Curse) when it's safe, heals when low, puts things to sleep or poisons them, and otherwise uses the move with the most expected damage (a Gen 3 damage formula with the real stats, abilities, items and weather).
+- **Red** – always the same six, lead Pikachu (Light Ball), all level 100 with perfect IVs and held items (Charcoal, Mystic Water, Miracle Seed…), four attacks each; *Show Red's moves and items* on the page lists them. He knocks out what he can before it moves, switches away from a Pokémon that would be knocked out first when a teammate takes the hit much better, and otherwise uses the move with the most expected damage (a Gen 3 damage formula with the real stats, abilities, items and weather).
 - **One official battle a day** – enforced by the server. If you close the page, the battle waits for you (on any device); one left alone for 6 hours is forfeited. A simulator restart gives the day back. **Practice runs** use the same team and don't count.
 - **Matchups** – a table of how hard each of your Pokémon hits each of Red's, and back, with who is faster.
-- **Result** – a share grid (one square per Pokémon, standing or fainted) to copy, and your stats: played, win %, win streak and day streak (both count consecutive days). **Trainers today** shows how the others did, but only after you've played yours. Daily Red doesn't count for the Showdown record or battle badges.
+- **Result** – a share grid (one square per Pokémon, standing or fainted) to copy, and your stats: played, win %, win streak and day streak (both count consecutive days). Daily Red doesn't count for the Showdown record or battle badges.
 - **The battle** – one window: the Mt. Silver field with the Ruby/Sapphire sprites and GBA HP boxes, the moves menu (arrow keys and Enter, or the mouse) with PP, type, power, accuracy and effectiveness beside it, POKéMON for the switch list and RUN to give up, and the battle log on the right (a tap-to-open row on the phone). Text speed NORMAL or FAST.
 
 How it runs: `LivingDex.WebApi/Simulator/bridge.js` loads the `pokemon-showdown` npm package and hosts all battles in one Node.js process, which the app starts and supervises (it is restarted if it crashes; battles that were running end as "stopped"). The page talks to the server over SignalR (`/hubs/showdown`): WebSockets if your reverse proxy allows them, long polling otherwise. In Nginx Proxy Manager, tick **Websockets Support** on the proxy host.
@@ -316,62 +392,6 @@ LivingDex.Client/psfx/build.sh               # needs Node.js; → wwwroot/lib/ps
 
 Stored procedures are named `{Entity}{Operation}` (`UserCreate`, `UserStateSave`, `TrainerProfileList`, `BattleListRecent`…); each sets `NOCOUNT`, its transaction isolation level and, for writes, `XACT_ABORT`. To look at the data, connect SSMS or Azure Data Studio to `<nas-ip>,1433` with user `sa` and the password from `.env`.
 
-## Design mocks
-
-Every screen was designed as a clickable HTML mock before it was built. The sources are in [`docs/mocks`](docs/mocks) (open them in a browser; most are interactive).
-
-<table>
-<tr>
-<td colspan="2"><b>Phone app</b> · <a href="docs/mocks/phone-app.html">phone-app.html</a><br><img src="docs/images/mock-phone-app.png" alt="Mock of the phone layout: sign in, boxes, Pokémon sheet, game list and Showdown lobby"></td>
-</tr>
-<tr>
-<td colspan="2"><b>iPhone app</b> · <a href="docs/mocks/iphone-app.html">iphone-app.html</a><br><img src="docs/images/mock-iphone-app.png" alt="Mock of the installed web app: install card, home-screen icon, launch screen, full-screen app and offline page"></td>
-</tr>
-<tr>
-<td width="50%"><b>A look per generation</b> · <a href="docs/mocks/showdown-generations.html">showdown-generations.html</a><br><img src="docs/images/mock-generations.png" alt="Mock of the Gen 1 Red/Blue battle style"></td>
-<td width="50%"><b>Draft mode</b> · <a href="docs/mocks/showdown-draft.html">showdown-draft.html</a><br><img src="docs/images/mock-draft.png" alt="Mock of the draft pick screen"></td>
-</tr>
-<tr>
-<td width="50%"><b>Black 2 battle menu</b> · <a href="docs/mocks/battle-menu.html">battle-menu.html</a><br><img src="docs/images/mock-battle-menu.png" alt="Mock of the Black 2 style touch menu"></td>
-<td width="50%" valign="top"><b>How the mocks became the app</b><br><br>Mocks use sample data and are drawn at their own size, so they differ in small ways from the finished screens above (for example, the Gen 3 and Gen 4 HP boxes lost their EXP bar, and the lobby's Mode row sits under Format). The <a href="#screenshots">screenshots</a> show the real app.</td>
-</tr>
-<tr>
-<td width="50%"><b>Showdown lobby</b> · <a href="docs/mocks/showdown.html">showdown.html</a><br><img src="docs/images/mock-showdown.png" alt="Mock of the Showdown header button, lobby with trainer cards, battle and result"></td>
-<td width="50%"><b>Sign in</b> · <a href="docs/mocks/login.html">login.html</a><br><img src="docs/images/mock-login.png" alt="Mock of the sign in and create account screen"></td>
-</tr>
-<tr>
-<td width="50%"><b>Filters and list view</b> · <a href="docs/mocks/filters.html">filters.html</a><br><img src="docs/images/mock-filters.png" alt="Mock of the filters panel and the list view"></td>
-<td width="50%"><b>Inspector card</b> · <a href="docs/mocks/b2-card.html">b2-card.html</a><br><img src="docs/images/mock-b2-card.png" alt="Mock of the Black 2 style Pokémon inspector card"></td>
-</tr>
-<tr>
-<td width="50%"><b>Compact header</b> · <a href="docs/mocks/compact-header.html">compact-header.html</a><br><img src="docs/images/mock-compact-header.png" alt="Mock of the compact game bar, toolbar and view options"></td>
-<td width="50%"><b>Battle plates</b> · <a href="docs/mocks/battle-plates.html">battle-plates.html</a><br><img src="docs/images/mock-battle-plates.png" alt="Mock of the battle bottom screen with inspector-style plates"></td>
-</tr>
-<tr>
-<td width="50%"><b>Battle effects, ranking and badges</b> · <a href="docs/mocks/battle-fx.html">battle-fx.html</a><br><img src="docs/images/mock-battle-fx.png" alt="Mock of the move animations, ranking, badges, MVP and battle log"></td>
-<td width="50%"><b>Dex badges</b> · <a href="docs/mocks/dex-badges.html">dex-badges.html</a><br><img src="docs/images/mock-dex-badges.png" alt="Mock of the living dex badges on the trainer card and the phone"></td>
-</tr>
-<tr>
-<td width="50%"><b>Trainer profile</b> · <a href="docs/mocks/profile.html">profile.html</a><br><img src="docs/images/mock-profile.png" alt="Mock of the trainer profile window"></td>
-<td width="50%"><b>Where to get → map</b> · <a href="docs/mocks/where-to-get-map.html">where-to-get-map.html</a><br><img src="docs/images/mock-where-to-get-map.png" alt="Mock of the region map opened from the Catch in numbers"></td>
-</tr>
-<tr>
-<td width="50%"><b>Hoenn map (RSE)</b> · <a href="docs/mocks/hoenn-map.html">hoenn-map.html</a><br><img src="docs/images/mock-hoenn-map.png" alt="Mock of the Hoenn map for Ruby, Sapphire and Emerald, drawn with the real map code and data"></td>
-<td width="50%"><b>Sinnoh map (DPPt)</b> · <a href="docs/mocks/sinnoh-map.html">sinnoh-map.html</a><br><img src="docs/images/mock-sinnoh-map.png" alt="Mock of the Sinnoh map for Diamond, Pearl and Platinum, drawn with the real map code and data"></td>
-</tr>
-<tr>
-<td width="50%"><b>Unova map (BW · B2W2)</b> · <a href="docs/mocks/unova-map.html">unova-map.html</a><br><img src="docs/images/mock-unova-map.png" alt="Mock of the Unova map for Black / White and Black 2 / White 2, drawn with the real map code and data"></td>
-<td width="50%"><b>Kalos map (XY)</b> · <a href="docs/mocks/kalos-map.html">kalos-map.html</a><br><img src="docs/images/mock-kalos-map.png" alt="Mock of the Kalos map for X and Y, drawn with the real map code and data"></td>
-</tr>
-<tr>
-<td width="50%"><b>Alola map (SM · USUM)</b> · <a href="docs/mocks/alola-map.html">alola-map.html</a><br><img src="docs/images/mock-alola-map.png" alt="Mock of the Alola map for Sun / Moon and Ultra Sun / Ultra Moon, drawn with the real map code and data"></td>
-<td width="50%"><b>Galar maps (SwSh)</b> · <a href="docs/mocks/galar-map.html">galar-map.html</a><br><img src="docs/images/mock-galar-map.png" alt="Mock of the Galar, Isle of Armor and Crown Tundra maps for Sword and Shield, drawn with the real map code and data"></td>
-</tr>
-<tr>
-<td colspan="2"><b>Daily Red</b> · <a href="docs/mocks/daily-red.html">daily-red.html</a><br><img src="docs/images/mock-daily-red.png" alt="Mock of Daily Red: the header button, the day's team, Red's team, the battle window with the log, the switch list and the result"></td>
-</tr>
-</table>
-
 ## Configuration
 
 All settings are under `LivingDex` (env vars use `LivingDex__Name`):
@@ -450,3 +470,9 @@ Pokédex data: [PokeAPI](https://github.com/PokeAPI/pokeapi). Form availability 
 `wwwroot/lib/psanims.js` bundles Showdown's move animations: the animation engine pieces are MIT, the per-move animations and most effect images are CC0. Of the effect images, `icicle.png` and `lightning.png` (Clint Bellanger) are GPLv2/GPLv3/CC-BY-SA-3.0 and `rocks.png`/`rock1.png`/`rock2.png` (PO user "Gilad") are GPLv3. `wwwroot/lib/psfx.js` is the small adapter that runs them on this app's battle screen; jQuery (MIT) drives the animation queues.
 
 Pokémon and all related names, images, music and designs are © Nintendo / Creatures / GAME FREAK. This is a personal, non-commercial fan project, not affiliated with or endorsed by them.
+
+<br>
+<p align="center">
+  <img src="docs/images/dexo-box.png" alt="A box of the living dex: eight slots filled and the last one under the cursor" width="120">
+</p>
+<p align="center"><sub><i>Thirty-five boxes, 1025 slots. There is always one more to fill.</i></sub></p>
