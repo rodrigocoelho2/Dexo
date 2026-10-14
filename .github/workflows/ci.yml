@@ -98,7 +98,8 @@ jobs:
       - name: Smoke test
         run: |
           exec > >(tee ci-output/2-smoke.log) 2>&1
-          set -e
+          # "curl | grep -q" ends curl early (SIGPIPE) once grep has its match: not a failure here.
+          set -e +o pipefail
           for i in $(seq 1 60); do curl -fs http://localhost:8085/api/health && break; sleep 2; done
           echo
           curl -fs http://localhost:8085/ | grep -q "HOME Living Dex"
