@@ -119,6 +119,11 @@ jobs:
           for i in $(seq 1 30); do curl -fs -b $jar http://localhost:8085/api/showdown/status | grep -q '"available":true' && break; sleep 2; done
           curl -fs -b $jar http://localhost:8085/api/showdown/status | grep -q '"available":true'
           echo "Showdown simulator is running"
+          # Daily Red: the simulator makes today's team and the server stores it.
+          day=$(curl -fs -b $jar "http://localhost:8085/api/dailyred?date=$(date -u +%F)")
+          echo "$day" | head -c 400; echo
+          echo "$day" | grep -q '"team":\[{' && echo "$day" | grep -q '"red":\[{'
+          echo "Daily Red team is ready"
 
       - name: Page screenshots
         run: |

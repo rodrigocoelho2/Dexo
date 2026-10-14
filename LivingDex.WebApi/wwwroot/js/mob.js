@@ -77,6 +77,10 @@ function mobBuild(){
   // a search that finds something opens that Pokémon
   $('searchForm').addEventListener('submit',()=>{ MOBS.searchBefore=current().i; },true);
   $('searchForm').addEventListener('submit',()=>{ if(!isMob()) return; const before=MOBS.searchBefore; setTimeout(()=>{ if(current().i!==before){ document.body.classList.remove('mob-searching'); $('q').blur(); mobSheet('mon'); } },0); });
+  // Battle tab: Showdown or Daily Red (remembers the last one)
+  const seg=mk('div','mobSeg','mob-seg','<button type="button" data-bm="showdown">SHOWDOWN</button><button type="button" data-bm="daily">DAILY RED<i aria-hidden="true"></i></button>');
+  seg.setAttribute('role','group'); seg.setAttribute('aria-label','Battle mode'); $('sdView').before(seg);
+  seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{ SFX.tab(); if(b.dataset.bm==='daily') drOpen(); else sdOpen(); mobSync(); window.scrollTo(0,0); });
   // battles: a slim bar on top instead of the page header
   const bt=mk('div','mobBtop','mob-btop',`<button type="button" aria-label="Back to the lobby">${MI.x}</button><span id="mobBinfo"></span><span id="mobBtn2"></span>`);
   $('sdBattle').prepend(bt);
@@ -88,8 +92,9 @@ function mobBuild(){
 
 function mobTab(t){
   MOBS.tab=t; mobCloseSheet(); document.body.classList.remove('mob-searching');
-  if(t==='battle'){ if(!SD.view) sdOpen(); else if(SD.screen!=='lobby'&&!(SD.battle&&!SD.battle.result)) { SD.battle=null; sdShow('lobby'); sdLoadLobbyData(); } }
-  else { if(SD.view) sdClose(true); $('dexView').hidden=t!=='dex'; }
+  if(t==='battle'&&st.battleMode==='daily'&&DR.on){ if(!DR.view) drOpen(); else if(DR.screen==='result') drHome(); }
+  else if(t==='battle'){ if(!SD.view) sdOpen(); else if(SD.screen!=='lobby'&&!(SD.battle&&!SD.battle.result)) { SD.battle=null; sdShow('lobby'); sdLoadLobbyData(); } }
+  else { if(SD.view) sdClose(true); if(DR.view) drClose(true); $('dexView').hidden=t!=='dex'; }
   if(t==='card') mobTrainer();
   if(t==='more') mobMore();
   mobSync(); window.scrollTo(0,0);
@@ -97,10 +102,14 @@ function mobTab(t){
 
 function mobSync(){
   if(!isMob()||!$('mobNav')) return;
-  if(SD.view) MOBS.tab='battle'; else if(MOBS.tab==='battle') MOBS.tab='dex';
+  if(SD.view||DR.view) MOBS.tab='battle'; else if(MOBS.tab==='battle') MOBS.tab='dex';
   const nav=$('mobNav');
   nav.querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-selected',String(b.dataset.mt===MOBS.tab)); if(b.dataset.mt==='battle'||b.dataset.mt==='card') b.hidden=!SD.on; });
-  nav.querySelector('[data-mt="battle"]').classList.toggle('mob-dot',!$('sdDot').hidden);
+  nav.querySelector('[data-mt="battle"]').classList.toggle('mob-dot',!$('sdDot').hidden||!$('drDot').hidden);
+  const seg=$('mobSeg'), fight=(SD.view&&SD.screen==='battle')||(DR.view&&DR.screen==='battle');
+  seg.hidden=MOBS.tab!=='battle'||fight||!DR.on;
+  seg.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.bm==='daily'?DR.view:SD.view)));
+  seg.querySelector('i').hidden=$('drDot').hidden;
   nav.style.gridTemplateColumns=`repeat(${SD.on?4:2},1fr)`;
   document.body.classList.toggle('mob-fight',!!(SD.view&&SD.screen==='battle'));
   if(MOBS.tab==='card'||MOBS.tab==='more') $('dexView').hidden=true;
@@ -288,7 +297,7 @@ function mobMode(){
   mobCloseSheet(); mobBackupHome();
   document.body.classList.remove('mob-fight','mob-searching','mob-locked');
   if($('mobCard')){ $('mobCard').hidden=true; $('mobMore').hidden=true; }
-  if(!SD.view) $('dexView').hidden=false;
+  if(!SD.view&&!DR.view) $('dexView').hidden=false;
   if(MOBS.tab==='card'||MOBS.tab==='more') MOBS.tab='dex';
 }
 /* ---------- installed as an app (home screen): status-bar strip, offline page, install hint ---------- */

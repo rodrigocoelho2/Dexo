@@ -3,6 +3,7 @@
 // One long-lived process hosts many battles. It speaks JSON lines:
 //   stdin : {op:"start", id, format, p1:{name,cpu}, p2:{name,cpu}, teams?:{p1:[set],p2:[set]}}
 //           {op:"pool", id, format, size}     (draft: random-battle sets to pick from)
+//           {op:"dailyteam", id, date}        (Daily Red: the day's team, Red's team and their matchups)
 //           {op:"choose", id, side:"p1"|"p2", choice:"move 1"|"switch 3"|"default"}
 //           {op:"forfeit", id, side}
 //           {op:"end", id}
@@ -11,12 +12,18 @@
 //           {id, type:"ack", side, ok, error}
 //           {id, type:"end", winner, turns, teams}
 //           {id, type:"pool", pool:[{set, species, num, types, level, item, ability, moves:[{name,type}]}]}
+//           {id, type:"dailyteam", sets:[set], team:[view], red:[view], matchups:[…]}
+// Daily Red battles start with format "gen3customgame", the day's team as teams.p1 and p2.ai = "red"
+// (Red's fixed team and his damage-based choices, see dailyred.js).
 //           {type:"ready"} / {id, type:"error", message}
 const readline = require('readline');
 const { BattleStream, getPlayerStreams, Dex, Teams } = require('pokemon-showdown');
+const daily = require('./dailyred');
 
-const FORMATS = new Set(['gen1randombattle', 'gen2randombattle', 'gen3randombattle', 'gen4randombattle', 'gen5randombattle']);
+const FORMATS = new Set(['gen1randombattle', 'gen2randombattle', 'gen3randombattle', 'gen4randombattle', 'gen5randombattle', daily.FORMAT]);
 const battles = new Map();
+// SIM_NO_DELAY=1 makes CPU players answer at once (for scripted test runs).
+const NO_DELAY = process.env.SIM_NO_DELAY === '1';
 
 function out(obj) { process.stdout.write(JSON.stringify(obj) + '\n'); }
 
@@ -51,7 +58,8 @@ function enrich(b, side, req) {
         let type = mv.type;
         if (mv.id.startsWith('hiddenpower') && user) type = user.hpType || type;
         m.type = type;
-        m.category = mv.category;
+        // Gens 1–3: physical or special by type, which matters for Hidden Power.
+        m.category = battle.gen <= 3 && mv.category !== 'Status' ? (['Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Psychic', 'Dragon', 'Dark'].includes(type) ? 'Special' : 'Physical') : mv.category;
         m.basePower = mv.basePower;
         m.accuracy = mv.accuracy === true ? 0 : mv.accuracy;
         m.desc = mv.shortDesc || mv.desc || '';
@@ -178,7 +186,13 @@ async function pump(b, name) {
         enrich(b, name, req);
         out({ id: b.id, type: 'request', side: name, request: req });
         if (b.cpu[name] && !req.wait && !req.teamPreview) {
-          setTimeout(() => { if (!b.finished) choose(b, name, cpuChoose(b, name, req)); }, 600 + Math.random() * 900);
+          const pickFor = b.smart[name] ? daily.redChoose : cpuChoose;
+          setTimeout(() => {
+            if (b.finished) return;
+            let c;
+            try { c = pickFor(b, name, req); } catch (e) { out({ id: b.id, type: 'error', message: 'ai: ' + String(e && e.stack || e) }); c = cpuChoose(b, name, req); }
+            choose(b, name, c);
+          }, (NO_DELAY ? 0 : 600 + Math.random() * 900));
         } else if (b.cpu[name] && req.teamPreview) {
           setTimeout(() => choose(b, name, 'default'), 300);
         }
@@ -224,7 +238,8 @@ function start(msg) {
   const format = FORMATS.has(msg.format) ? msg.format : 'gen5randombattle';
   const stream = new BattleStream();
   const streams = getPlayerStreams(stream);
-  const b = { id: msg.id, stream, streams, cpu: { p1: !!msg.p1.cpu, p2: !!msg.p2.cpu }, finished: false };
+  const b = { id: msg.id, stream, streams, cpu: { p1: !!msg.p1.cpu, p2: !!msg.p2.cpu }, finished: false,
+    smart: { p1: !!msg.p1.ai, p2: !!msg.p2.ai } };
   battles.set(msg.id, b);
   for (const n of ['p1', 'p2', 'spectator', 'omniscient']) {
     pump(b, n).catch(e => out({ id: b.id, type: 'error', message: String(e && e.stack || e) }));
@@ -240,7 +255,7 @@ function start(msg) {
 // Draft battles bring their own teams (already in battle order, lead first); others are generated.
 function player(msg, side) {
   const p = { name: msg[side].name };
-  const team = msg.teams && msg.teams[side];
+  const team = msg[side].ai === 'red' ? daily.RED_TEAM : msg.teams && msg.teams[side];
   if (Array.isArray(team) && team.length) p.team = Teams.pack(team);
   return p;
 }
@@ -255,6 +270,10 @@ rl.on('line', line => {
     if (msg.op === 'start') return start(msg);
     if (msg.op === 'ping') return out({ type: 'pong' });
     if (msg.op === 'pool') return pool(msg);
+    if (msg.op === 'dailyteam') {
+      const sets = daily.teamOf(String(msg.date || ''));
+      return out({ id: msg.id, type: 'dailyteam', sets, team: sets.map(daily.view), red: daily.RED_TEAM.map(daily.view), matchups: daily.matchups(sets) });
+    }
     const b = battles.get(msg.id);
     if (!b) return out({ id: msg.id, type: 'error', message: 'unknown battle' });
     if (msg.op === 'choose') {

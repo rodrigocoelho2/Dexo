@@ -21,7 +21,7 @@ WORKDIR /sim
 COPY LivingDex.WebApi/Simulator/package.json LivingDex.WebApi/Simulator/package-lock.json ./
 # Only the simulator code is needed: skip optional database drivers and install scripts.
 RUN npm ci --omit=dev --omit=optional --ignore-scripts --no-audit --no-fund && npm cache clean --force
-COPY LivingDex.WebApi/Simulator/bridge.js ./
+COPY LivingDex.WebApi/Simulator/bridge.js LivingDex.WebApi/Simulator/dailyred.js ./
 RUN chmod -R a+rX /sim && node --version
 
 # ---- runtime ----

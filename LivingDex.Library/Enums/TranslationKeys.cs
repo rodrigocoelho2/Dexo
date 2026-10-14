@@ -70,4 +70,7 @@ public enum TranslationKeys
 
     /// <summary>A download is already running.</summary>
     AssetAlreadyRunning,
+
+    /// <summary>The Daily Red date is not the caller's today (yyyy-MM-dd, within a day of UTC).</summary>
+    InvalidDailyDate,
 }

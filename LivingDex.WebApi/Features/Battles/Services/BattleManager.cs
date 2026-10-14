@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using LivingDex.WebApi.Features.Battles.Hubs;
 using LivingDex.WebApi.Features.Battles.Models.Entities;
 using LivingDex.WebApi.Features.Battles.Repositories;
+using LivingDex.WebApi.Features.DailyRed.Models.Entities;
+using LivingDex.WebApi.Features.DailyRed.Repositories;
 using LivingDex.WebApi.Features.Trainers.Models;
 using LivingDex.WebApi.Features.Trainers.Services;
 using Microsoft.AspNetCore.SignalR;
@@ -35,10 +37,20 @@ internal sealed partial class BattleManager : BackgroundService
     private static readonly TimeSpan KeepFinished = TimeSpan.FromMinutes(10);
     private const int MaxAutoMoves = 3;
 
+    /// <summary>Daily Red formats (not challengeable; the battle runs as a Gen 3 custom game against Red).</summary>
+    public const string DailyFormat = "dailyred";
+
+    /// <summary>A Daily Red practice run: same team, doesn't count.</summary>
+    public const string DailyPracticeFormat = "dailyredpractice";
+
+    // Daily Red has no turn timer (a battle can be continued later, on any device); one left alone this long is forfeited.
+    private static readonly TimeSpan DailyIdle = TimeSpan.FromHours(6);
+
     private readonly SimulatorHost _sim;
     private readonly IHubContext<ShowdownHub> _hub;
     private readonly IBattleRepository _battleRepository;
     private readonly ITrainerService _trainerService;
+    private readonly IDailyRedRepository _dailyRedRepository;
     private readonly IOptions<LivingDexOptions> _options;
     private readonly ILogger<BattleManager> _logger;
     private readonly TimeProvider _clock;
@@ -55,16 +67,18 @@ internal sealed partial class BattleManager : BackgroundService
     /// <param name="hub">The Showdown hub, to push messages to the pages.</param>
     /// <param name="battleRepository">Saves finished battles.</param>
     /// <param name="trainerService">Last-seen times and battle records.</param>
+    /// <param name="dailyRedRepository">Saves Daily Red results.</param>
     /// <param name="options">The LivingDex options.</param>
     /// <param name="logger">Logger.</param>
     /// <param name="clock">Clock.</param>
     public BattleManager(SimulatorHost sim, IHubContext<ShowdownHub> hub, IBattleRepository battleRepository, ITrainerService trainerService,
-        IOptions<LivingDexOptions> options, ILogger<BattleManager> logger, TimeProvider clock)
+        IDailyRedRepository dailyRedRepository, IOptions<LivingDexOptions> options, ILogger<BattleManager> logger, TimeProvider clock)
     {
         _sim = sim;
         _hub = hub;
         _battleRepository = battleRepository;
         _trainerService = trainerService;
+        _dailyRedRepository = dailyRedRepository;
         _options = options;
         _logger = logger;
         _clock = clock;
@@ -155,10 +169,28 @@ internal sealed partial class BattleManager : BackgroundService
         public string? ForcedReason;
         public object? Result;
         public Draft? Draft;
+        public DailyInfo? Daily;
 
         public Side? SideOf(long userId) => Sides.FirstOrDefault(s => s.UserId == userId);
         public Side Other(Side s) => Sides[s.Id == "p1" ? 1 : 0];
     }
+
+    /// <summary>A Daily Red battle: one trainer against Red, official (counts, once a day) or practice.</summary>
+    private sealed class DailyInfo
+    {
+        public required long UserId;
+        public required DateTime Day;
+        public required bool Official;
+        public DateTimeOffset LastActive;
+    }
+
+    /// <summary>The Daily Red battle a trainer has running.</summary>
+    /// <param name="BattleId">The battle.</param>
+    /// <param name="Official">The official battle of the day (or a practice run).</param>
+    /// <param name="Day">The trainer's day it belongs to.</param>
+    public sealed record DailyRun(string BattleId, bool Official, DateTime Day);
+
+    private readonly Dictionary<long, string> _daily = [];
 
     // ------------------------------------------------------------------ draft state
 
@@ -382,6 +414,128 @@ internal sealed partial class BattleManager : BackgroundService
         return null;
     });
 
+    // ------------------------------------------------------------------ Daily Red
+
+    private DailyRun? DailyOf(long userId) =>
+        _daily.TryGetValue(userId, out var id) && _battles.TryGetValue(id, out var b) && !b.Ended && b.Daily is { } d ? new DailyRun(id, d.Official, d.Day) : null;
+
+    /// <summary>
+    /// The Daily Red battle a trainer has running, if any.
+    /// </summary>
+    /// <param name="userId">The trainer.</param>
+    /// <returns>The battle, or null.</returns>
+    public Task<DailyRun?> DailyBattleOfAsync(long userId) => Locked(() => Task.FromResult(DailyOf(userId)));
+
+    /// <summary>
+    /// Starts a Daily Red battle: the trainer with the day's team (lead first) against Red. Daily Red doesn't make
+    /// the trainer busy in Showdown, so they can still be challenged, and it has no turn timer.
+    /// </summary>
+    /// <param name="battleId">The new battle's identifier.</param>
+    /// <param name="userId">The trainer.</param>
+    /// <param name="name">The trainer's name.</param>
+    /// <param name="day">The trainer's day.</param>
+    /// <param name="official">The official battle of the day (or a practice run).</param>
+    /// <param name="team">The six sets, in battle order.</param>
+    /// <returns>The error, or the battle (the one already running, if there is one).</returns>
+    public Task<(string? Error, string? BattleId)> StartDailyAsync(string battleId, long userId, string name, DateTime day, bool official, JsonElement[] team) =>
+        Locked<(string?, string?)>(async () =>
+        {
+            if (!Available) return ("The battle simulator isn't running.", null);
+            if (DailyOf(userId) is { } running) return (null, running.BattleId);
+
+            // The simulator tells the winner by name: the trainer can't be called RED too.
+            var playerName = string.Equals(name, "RED", StringComparison.OrdinalIgnoreCase) ? name + " (you)" : name;
+            var battle = new Battle
+            {
+                Id = battleId,
+                Format = official ? DailyFormat : DailyPracticeFormat,
+                Background = "mtsilver",
+                StartedAt = Now.UtcDateTime,
+                Sides = [new Side { Id = "p1", UserId = userId, Name = playerName }, new Side { Id = "p2", UserId = null, Name = "RED", Cpu = true }],
+                Daily = new DailyInfo { UserId = userId, Day = day.Date, Official = official, LastActive = Now },
+            };
+            _battles[battle.Id] = battle;
+            _daily[userId] = battle.Id;
+            try
+            {
+                await _sim.SendAsync(new
+                {
+                    op = "start",
+                    id = battle.Id,
+                    format = "gen3customgame",
+                    p1 = new { name = playerName, cpu = false },
+                    p2 = new { name = "RED", cpu = true, ai = "red" },
+                    teams = new { p1 = team },
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _battles.Remove(battle.Id);
+                _daily.Remove(userId);
+                return (ex.Message, null);
+            }
+
+            return (null, battle.Id);
+        });
+
+    private async Task FinishDailyAsync(Battle b, DailyInfo daily, JsonElement? msg)
+    {
+        var winnerName = msg?.TryGetProperty("winner", out var wn) == true ? wn.GetString() ?? "" : "";
+        var winner = winnerName == "" ? 0 : b.Sides[0].Name == winnerName ? 1 : b.Sides[1].Name == winnerName ? 2 : 0;
+        var turns = msg?.TryGetProperty("turns", out var tn) == true ? tn.GetInt32() : b.Turn;
+        JsonElement? teams = msg?.TryGetProperty("teams", out var tm) == true ? tm.Clone() : null;
+        int Left(int i) => teams is { } t && t.GetArrayLength() > i ? t[i].EnumerateArray().Count(p => !p.GetProperty("fainted").GetBoolean()) : 0;
+        var grid = teams is { } tt && tt.GetArrayLength() > 0
+            ? string.Concat(tt[0].EnumerateArray().Select(p => p.GetProperty("fainted").GetBoolean() ? '0' : '1'))
+            : null;
+        var reason = msg is null ? "aborted" : b.ForcedReason ?? "normal";
+
+        if (daily.Official)
+        {
+            try
+            {
+                if (msg is null)
+                    await _dailyRedRepository.ReleaseAsync(daily.UserId, daily.Day, b.Id);
+                else
+                    await _dailyRedRepository.FinishAsync(new DailyRedResult
+                    {
+                        UserID = daily.UserId,
+                        DayKey = daily.Day,
+                        BattleID = b.Id,
+                        Status = winner == 1 ? DailyRedResult.Won : DailyRedResult.Lost,
+                        Turns = turns,
+                        MonsLeft = Left(0),
+                        RedLeft = Left(1),
+                        Grid = grid,
+                        EndedAt = Now.UtcDateTime,
+                    });
+            }
+            catch (Exception ex) { _logger.LogError(ex, "Could not save the Daily Red result of battle {Id}", b.Id); }
+        }
+
+        if (_daily.TryGetValue(daily.UserId, out var current) && current == b.Id)
+            _daily.Remove(daily.UserId);
+
+        b.Result = new
+        {
+            battleId = b.Id,
+            format = b.Format,
+            winner,
+            reason,
+            turns,
+            cpu = true,
+            players = Players(b),
+            left = new[] { Left(0), Left(1) },
+            teams,
+            records = (object?)null,
+            daily = new { official = daily.Official, day = daily.Day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), grid },
+        };
+
+        await _hub.Clients.Groups(Group(b.Id, "p1"), Group(b.Id, "spec")).SendAsync("battleEnd", b.Result);
+        try { if (_sim.Available) await _sim.SendAsync(new { op = "end", id = b.Id }); }
+        catch (InvalidOperationException) { /* simulator gone */ }
+    }
+
     private async Task<Battle> StartBattleAsync(string format, Side p1, Side p2)
     {
         var battle = new Battle
@@ -435,6 +589,7 @@ internal sealed partial class BattleManager : BackgroundService
 
         var side = b.SideOf(userId);
         var role = side?.Id ?? "spectator";
+        if (b.Daily is { } daily && side is not null) daily.LastActive = Now;
         await _hub.Groups.AddToGroupAsync(connectionId, Group(b.Id, side?.Id ?? "spec"));
         var log = side?.Log ?? b.SpectatorLog;
         return new JoinResult(null, b.Id, role, b.Format, b.Background, Players(b), [.. log],
@@ -461,6 +616,7 @@ internal sealed partial class BattleManager : BackgroundService
         if (!side.Pending) return "It's not your turn to choose.";
         if (!ValidChoice().IsMatch(choice ?? "")) return "That isn't a valid choice.";
         side.AutoMoves = 0;
+        if (b.Daily is { } daily) daily.LastActive = Now;
         await _sim.SendAsync(new { op = "choose", id = b.Id, side = side.Id, choice });
         return null;
     });
@@ -643,7 +799,7 @@ internal sealed partial class BattleManager : BackgroundService
                 var wait = request.TryGetProperty("wait", out var w) && w.ValueKind == JsonValueKind.True;
                 side.Request = request;
                 side.Pending = !wait;
-                side.Deadline = !wait && !side.Cpu ? Now.AddSeconds(TurnSeconds) : null;
+                side.Deadline = !wait && !side.Cpu && b.Daily is null ? Now.AddSeconds(TurnSeconds) : null;
                 if (!side.Cpu)
                 {
                     await _hub.Clients.Group(Group(b.Id, side.Id)).SendAsync("request",
@@ -702,6 +858,11 @@ internal sealed partial class BattleManager : BackgroundService
         b.Ended = true;
         b.EndedAt = Now;
         foreach (var s in b.Sides) { s.Pending = false; s.Deadline = null; }
+        if (b.Daily is { } daily)
+        {
+            await FinishDailyAsync(b, daily, msg);
+            return;
+        }
 
         var winnerName = msg?.TryGetProperty("winner", out var wn) == true ? wn.GetString() ?? "" : "";
         var winner = winnerName == "" ? 0 : b.Sides[0].Name == winnerName ? 1 : b.Sides[1].Name == winnerName ? 2 : 0;
@@ -868,6 +1029,16 @@ internal sealed partial class BattleManager : BackgroundService
             if (b.Draft is { Phase: "pick" or "lead" })
             {
                 await DraftTickAsync(b);
+                continue;
+            }
+            if (b.Daily is { } daily)
+            {
+                if (now - daily.LastActive > DailyIdle)
+                {
+                    daily.LastActive = now;
+                    b.ForcedReason ??= "timeout";
+                    await _sim.SendAsync(new { op = "forfeit", id = b.Id, side = "p1" });
+                }
                 continue;
             }
             foreach (var s in b.Sides)

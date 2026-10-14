@@ -10,6 +10,8 @@ using LivingDex.WebApi.Features.Assets.Services;
 using LivingDex.WebApi.Features.Battles.Hubs;
 using LivingDex.WebApi.Features.Battles.Repositories;
 using LivingDex.WebApi.Features.Battles.Services;
+using LivingDex.WebApi.Features.DailyRed.Repositories;
+using LivingDex.WebApi.Features.DailyRed.Services;
 using LivingDex.WebApi.Features.Health.Services;
 using LivingDex.WebApi.Features.States.Repositories;
 using LivingDex.WebApi.Features.States.Services;
@@ -90,11 +92,15 @@ internal static class LivingDexStartup
 
         // Battles: the simulator process, the live battle state (both background services) and the REST side.
         services.AddSingleton<IBattleRepository, BattleRepository>();
+        services.AddSingleton<IDailyRedRepository, DailyRedRepository>();
         services.AddSingleton<SimulatorHost>();
         services.AddHostedService(static provider => provider.GetRequiredService<SimulatorHost>());
         services.AddSingleton<BattleManager>();
         services.AddHostedService(static provider => provider.GetRequiredService<BattleManager>());
         services.AddSingleton<IBattleService, BattleService>();
+
+        // Daily Red: the day's team and the official battles (played through the battle manager).
+        services.AddSingleton<IDailyRedService, DailyRedService>();
 
         // Assets
         services.AddSingleton<IAssetStore, AssetStore>();

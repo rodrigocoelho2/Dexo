@@ -1,6 +1,7 @@
 using LivingDex.WebApi.Extensions.Authentication;
 using LivingDex.WebApi.Features.Accounts.Repositories;
 using LivingDex.WebApi.Features.Battles.Services;
+using LivingDex.WebApi.Features.DailyRed.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -13,14 +14,16 @@ namespace LivingDex.WebApi.Features.Battles.Hubs;
 /// </summary>
 /// <param name="battleManager">The live battle state.</param>
 /// <param name="userRepository">Account data access (challenge targets).</param>
+/// <param name="dailyRedService">Daily Red (battles against Red with the day's team).</param>
 [Authorize]
-internal sealed class ShowdownHub(BattleManager battleManager, IUserRepository userRepository) : Hub
+internal sealed class ShowdownHub(BattleManager battleManager, IUserRepository userRepository, IDailyRedService dailyRedService) : Hub
 {
     /// <summary>The URL the hub is mapped to.</summary>
     public const string Path = "/hubs/showdown";
 
     private readonly BattleManager _battleManager = battleManager;
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IDailyRedService _dailyRedService = dailyRedService;
 
     private long UserID => Context.User!.RequiredUserID();
 
@@ -172,4 +175,17 @@ internal sealed class ShowdownHub(BattleManager battleManager, IUserRepository u
     /// <param name="index">The pool index.</param>
     /// <returns>Null, or the error to show.</returns>
     public Task<string?> DraftLead(string battleId, int index) => _battleManager.DraftLeadAsync(UserID, battleId, index);
+
+    /// <summary>
+    /// Starts a Daily Red battle against Red with the day's team, or goes back to the one running.
+    /// </summary>
+    /// <param name="date">The trainer's today on their device, yyyy-MM-dd.</param>
+    /// <param name="practice">A practice run (doesn't count) instead of the official battle of the day.</param>
+    /// <param name="lead">Which of the six (0–5) goes first.</param>
+    /// <returns>{ error, battleId }.</returns>
+    public async Task<object> DailyRedStart(string date, bool practice, int lead)
+    {
+        var (error, battleId) = await _dailyRedService.StartAsync(UserID, Name, date, practice, lead);
+        return new { error, battleId };
+    }
 }

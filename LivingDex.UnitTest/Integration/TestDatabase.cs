@@ -13,7 +13,7 @@ internal sealed partial class TestDatabase : IDisposable
     public const string EnvironmentVariable = "LIVINGDEX_TEST_SQL";
 
     // Tables in foreign-key order; every stored procedure after them.
-    private static readonly string[] TableOrder = ["User", "UserState", "UserStateHistory", "TrainerProfile", "Battle"];
+    private static readonly string[] TableOrder = ["User", "UserState", "UserStateHistory", "TrainerProfile", "Battle", "DailyRedDay", "DailyRedResult"];
 
     public TestDatabase()
     {

@@ -14,10 +14,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'src')
 WWW = os.path.normpath(os.path.join(HERE, '..', 'LivingDex.WebApi', 'wwwroot'))
 
-# base → tracker → Showdown → generations → draft → toolbar → profile → map → phone (mob.css last: phone overrides)
-CSS = ['base', 'extra', 'sd_base', 'sd_extra', 'sd_b2', 'sd_fx', 'sd_gen', 'sd_draft', 'tb', 'profile', 'where', 'mob']
+# base → tracker → Showdown → generations → draft → toolbar → profile → map → Daily Red → phone (mob.css last: phone overrides)
+CSS = ['base', 'extra', 'sd_base', 'sd_extra', 'sd_b2', 'sd_fx', 'sd_gen', 'sd_draft', 'tb', 'profile', 'where', 'dr', 'mob']
 # One global scope: app.js defines the tracker, the others build on it, boot.js renders.
-JS = ['app', 'sd', 'dexbadges', 'profile', 'where', 'mob', 'boot']
+JS = ['app', 'sd', 'dexbadges', 'profile', 'where', 'dr', 'mob', 'boot']
 
 
 def rd(*p): return open(os.path.join(*p), encoding='utf-8').read()

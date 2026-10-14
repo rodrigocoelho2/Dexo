@@ -17,6 +17,7 @@
     <Folder Include="Tables\" />
     <Folder Include="StoredProcedures\" />
     <Folder Include="StoredProcedures\Battles\" />
+    <Folder Include="StoredProcedures\DailyRed\" />
     <Folder Include="StoredProcedures\States\" />
     <Folder Include="StoredProcedures\Trainers\" />
     <Folder Include="StoredProcedures\Users\" />
@@ -25,6 +26,8 @@
 
   <ItemGroup>
     <Build Include="Tables\dbo.Battle.sql" />
+    <Build Include="Tables\dbo.DailyRedDay.sql" />
+    <Build Include="Tables\dbo.DailyRedResult.sql" />
     <Build Include="Tables\dbo.TrainerProfile.sql" />
     <Build Include="Tables\dbo.User.sql" />
     <Build Include="Tables\dbo.UserState.sql" />
@@ -34,6 +37,13 @@
     <Build Include="StoredProcedures\Battles\dbo.BattleListRecent.sql" />
     <Build Include="StoredProcedures\Battles\dbo.BattleSave.sql" />
     <Build Include="StoredProcedures\Battles\dbo.BattleTrainerRecord.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedDayGet.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedDaySave.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedResultFinish.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedResultListByDay.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedResultListByUser.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedResultRelease.sql" />
+    <Build Include="StoredProcedures\DailyRed\dbo.DailyRedResultStart.sql" />
     <Build Include="StoredProcedures\States\dbo.UserStateGet.sql" />
     <Build Include="StoredProcedures\States\dbo.UserStateHistoryGet.sql" />
     <Build Include="StoredProcedures\States\dbo.UserStateHistoryList.sql" />

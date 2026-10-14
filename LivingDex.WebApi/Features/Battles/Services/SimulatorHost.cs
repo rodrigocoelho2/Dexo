@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -19,6 +20,7 @@ internal sealed class SimulatorHost(IOptions<LivingDexOptions> options, IHostEnv
     private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
 
     private readonly SemaphoreSlim _writeGate = new(1, 1);
+    private readonly ConcurrentDictionary<string, TaskCompletionSource<JsonElement>> _requests = new(StringComparer.Ordinal);
     private Process? _process;
     private volatile bool _ready;
 
@@ -143,6 +145,14 @@ internal sealed class SimulatorHost(IOptions<LivingDexOptions> options, IHostEnv
                 if (type == "error")
                     logger.LogWarning("sim error: {Message}", root.TryGetProperty("message", out var m) ? m.GetString() : line);
 
+                // The answer to a RequestAsync call goes back to its caller, not to the battles.
+                if (root.TryGetProperty("id", out var idElement) && idElement.ValueKind == JsonValueKind.String &&
+                    idElement.GetString() is { } requestId && _requests.TryRemove(requestId, out var waiting))
+                {
+                    waiting.TrySetResult(root.Clone());
+                    continue;
+                }
+
                 if (OnMessage is not null)
                 {
                     try { await OnMessage(root); }
@@ -154,6 +164,29 @@ internal sealed class SimulatorHost(IOptions<LivingDexOptions> options, IHostEnv
         await process.WaitForExitAsync(CancellationToken.None);
         _process = null;
         Problem = $"Simulator exited with code {process.ExitCode}.";
+    }
+
+    /// <summary>
+    /// Sends a message and waits for the simulator's answer with the same id (not a battle id).
+    /// </summary>
+    /// <param name="id">A unique id for this request; the message must carry it as "id".</param>
+    /// <param name="message">The message.</param>
+    /// <param name="timeout">How long to wait.</param>
+    /// <returns>The answer.</returns>
+    /// <exception cref="TimeoutException">The simulator did not answer in time.</exception>
+    public async Task<JsonElement> RequestAsync(string id, object message, TimeSpan timeout)
+    {
+        var waiting = new TaskCompletionSource<JsonElement>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _requests[id] = waiting;
+        try
+        {
+            await SendAsync(message);
+            return await waiting.Task.WaitAsync(timeout);
+        }
+        finally
+        {
+            _requests.TryRemove(id, out _);
+        }
     }
 
     /// <summary>

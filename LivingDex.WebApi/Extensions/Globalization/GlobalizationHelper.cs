@@ -61,6 +61,9 @@ internal sealed class GlobalizationHelper : IGlobalizationHelper
         // Trainers
         [nameof(TranslationKeys.InvalidPartner)] = "Pick a Pokémon from #1 to #1025.",
 
+        // Daily Red
+        [nameof(TranslationKeys.InvalidDailyDate)] = "Send today's date on your device as yyyy-MM-dd.",
+
         // Assets
         [nameof(TranslationKeys.AssetDownloadDisabled)] = "Asset caching is turned off (LivingDex__CacheAssets), so there is nothing to download.",
         [nameof(TranslationKeys.AssetNothingToDownload)] = "Nothing to download.",

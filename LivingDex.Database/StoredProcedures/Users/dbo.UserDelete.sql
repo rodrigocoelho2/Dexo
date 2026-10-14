@@ -16,6 +16,7 @@ BEGIN
     DELETE FROM [dbo].[UserStateHistory] WHERE [UserID] = @UserID;
     DELETE FROM [dbo].[UserState] WHERE [UserID] = @UserID;
     DELETE FROM [dbo].[TrainerProfile] WHERE [UserID] = @UserID;
+    DELETE FROM [dbo].[DailyRedResult] WHERE [UserID] = @UserID;
 
     -- Battles stay for the other trainer's history and replays.
     UPDATE [dbo].[Battle] SET [P1UserID] = NULL WHERE [P1UserID] = @UserID;

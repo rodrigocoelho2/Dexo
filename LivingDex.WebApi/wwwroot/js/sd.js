@@ -81,7 +81,7 @@ function ago(iso){ if(!iso) return ''; const s=(Date.now()-new Date(iso))/1000; 
 async function sdInit(){
   if(!SYNC.on||!SYNC.user||SD.connecting) return;
   try{ const r=await api('GET','/api/showdown/status'); if(!r.ok) return; SD.status=await r.json(); }catch(_){ return; }
-  SD.on=true; $('sdBtn').hidden=SD.view; sdBadge();
+  SD.on=true; $('sdBtn').hidden=SD.view; sdBadge(); drInit();
   if(!SD.status.available){ if(location.hash==='#showdown') sdOpen(); return; }
   await sdConnect();
   if(location.hash==='#showdown') sdOpen();
@@ -113,9 +113,10 @@ async function sdConnect(){
     const me=SYNC.user&&SYNC.user.username;
     if(why==='left'&&by&&by!==me){ SFX.err(); flash(`${by} left the room`); } else if(why==='offline'){ SFX.err(); flash(`${by||'Your opponent'} went offline`); } else if(why==='expired') flash('The room closed after 10 minutes'); else if(why==='error'){ SFX.err(); flash('Could not start the battle'); }
     sdRenderLobbyIfOpen(); });
-  c.on('chunk',({battleId,data})=>{ const B=SD.battle; if(B&&B.id===battleId&&!B.replay){ B.queue.push(...data.split('\n')); sdPump(); } else if(SD.joinBuf&&SD.joinBuf.id===battleId) SD.joinBuf.chunks.push(data); });
-  c.on('request',m=>{ const B=SD.battle; if(SD.joinBuf&&SD.joinBuf.id===m.battleId&&(!B||B.id!==m.battleId)){ SD.joinBuf.request=m; return; } if(!B||B.id!==m.battleId||B.replay) return; B.request=m.request; B.pending=m.pending; B.deadline=m.pending?Date.now()+m.deadlineMs:0; B.reqShown=false; B.chosen=false; setTimeout(sdTryShowRequest,150); });
-  c.on('ack',m=>{ const B=SD.battle; if(!B||B.id!==m.battleId) return; if(!m.ok){ SFX.err(); flash(m.error||'That move can’t be used'); B.chosen=false; sdShowControls(); } else { B.pending=false; B.deadline=0; sdTimer(); } });
+  // Daily Red battles (dr.js) share this connection.
+  c.on('chunk',({battleId,data})=>{ if(drOwns(battleId)) return drChunk(battleId,data); const B=SD.battle; if(B&&B.id===battleId&&!B.replay){ B.queue.push(...data.split('\n')); sdPump(); } else if(SD.joinBuf&&SD.joinBuf.id===battleId) SD.joinBuf.chunks.push(data); });
+  c.on('request',m=>{ if(drOwns(m.battleId)) return drRequest(m); const B=SD.battle; if(SD.joinBuf&&SD.joinBuf.id===m.battleId&&(!B||B.id!==m.battleId)){ SD.joinBuf.request=m; return; } if(!B||B.id!==m.battleId||B.replay) return; B.request=m.request; B.pending=m.pending; B.deadline=m.pending?Date.now()+m.deadlineMs:0; B.reqShown=false; B.chosen=false; setTimeout(sdTryShowRequest,150); });
+  c.on('ack',m=>{ if(drOwns(m.battleId)) return drAck(m); const B=SD.battle; if(!B||B.id!==m.battleId) return; if(!m.ok){ SFX.err(); flash(m.error||'That move can’t be used'); B.chosen=false; sdShowControls(); } else { B.pending=false; B.deadline=0; sdTimer(); } });
   c.on('opponent',m=>{ const B=SD.battle; if(B&&B.id===m.battleId){ B.oppChoosing=m.choosing; if(B.chosen&&!B.busy) sdBotWait(); } });
   c.on('timeout',m=>{ const B=SD.battle; if(B&&B.id===m.battleId){ SFX.err(); flash(m.left>0?`Time's up! A move was picked for you (${m.left} more and you forfeit)`:'Time ran out'); } });
   c.on('draft',({battleId,draft})=>{ const B=SD.battle; if(!B||B.id!==battleId||!B.draft) return;
@@ -123,13 +124,14 @@ async function sdConnect(){
     const was=B.draft; B.draft={...draft,at:Date.now()};
     if(was.phase!==draft.phase||was.pick!==draft.pick){ if(draft.pick>was.pick&&draft.order[draft.pick-1]!==B.me) SFX.box(); if(draft.phase!==was.phase||B.draft.picks.includes(SD.draftSel)) SD.draftSel=null; }
     sdDraftRender(); });
-  c.on('battleEnd',res=>{ const B=SD.battle; SD.battleId=null; sdBadge(); if(B&&B.id===res.battleId&&!B.replay){ B.result=res; sdPump(); } else sdLoadLobbyData(); });
+  c.on('battleEnd',res=>{ if(drOwns(res.battleId)) return drEnd(res); const B=SD.battle; SD.battleId=null; sdBadge(); if(B&&B.id===res.battleId&&!B.replay){ B.result=res; sdPump(); } else sdLoadLobbyData(); });
   c.onreconnecting(()=>setSync('reconnecting'));
-  c.onreconnected(async()=>{ setSync('synced'); await sdHello(); const B=SD.battle; if(B&&!B.replay&&!B.result) sdJoin(B.id,true); });
+  c.onreconnected(async()=>{ setSync('synced'); await sdHello(); const B=SD.battle; if(B&&!B.replay&&!B.result) sdJoin(B.id,true); drReconnected(); });
   c.onclose(()=>{ SD.conn=null; });
   SD.conn=c;
   try{ await c.start(); await sdHello(); }catch(_){ SD.conn=null; }
   SD.connecting=false;
+  if(SD.conn) drLoad();   // Daily Red can open a battle in progress now
 }
 async function sdHello(){
   const snap=await SD.conn.invoke('Hello');
@@ -142,6 +144,7 @@ async function sdHello(){
 function sdStop(){
   if(SD.conn){ try{ SD.conn.stop(); }catch(_){} SD.conn=null; }
   SD.on=false; SD.battle=null; SD.battleId=null; SD.challenges.clear(); $('sdBtn').hidden=true; $('sdChal').hidden=true; if(SD.view) sdClose(true);
+  drStop();
 }
 
 /* ---------------- header badge + challenge popup ---------------- */
@@ -202,6 +205,8 @@ function sdTab(on){
 }
 function sdOpen(){
   if(!SD.on) return;
+  if(DR.view) drClose(true);
+  if(st.battleMode!=='showdown'){ st.battleMode='showdown'; save(); }
   SD.view=true; document.body.classList.add('sdmode'); setAcctPop(false);
   $('dexView').hidden=true; $('sdView').hidden=false; $('sdBtn').hidden=true; $('sdBack').hidden=false;
   $('brandTitle').textContent='SHOWDOWN'; sdSub(); sdTab(true);
@@ -209,7 +214,7 @@ function sdOpen(){
   if(SD.battle&&!SD.battle.result){ sdShow('battle'); SDM.play(SD.battle); }
   else if(SD.battleId) sdJoin(SD.battleId);
   else sdShow('lobby');
-  sdLoadLobbyData(); window.scrollTo(0,0);
+  sdLoadLobbyData(); window.scrollTo(0,0); drSync();
 }
 function sdClose(quiet){
   SD.view=false; document.body.classList.remove('sdmode'); SDM.stop();
@@ -217,7 +222,7 @@ function sdClose(quiet){
   $('brandTitle').textContent='HOME LIVING DEX'; $('brandSub').textContent='BOX TRACKER · B2 STYLE'; sdTab(false);
   if(location.hash==='#showdown') history.replaceState(null,'',location.pathname+location.search);
   const B=SD.battle; if(B&&(B.role==='spectator'||B.replay||B.result)){ if(B.role==='spectator'&&!B.replay&&SD.conn) SD.conn.invoke('LeaveBattle',B.id).catch(()=>{}); SD.battle=null; }
-  sdBadge(); if(!quiet) sdChalPopup();
+  sdBadge(); drSync(); if(!quiet) sdChalPopup();
 }
 function sdShow(screen){
   SD.screen=screen;

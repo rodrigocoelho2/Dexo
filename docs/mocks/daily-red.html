@@ -1,0 +1,532 @@
+<title>Daily Red Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap">
+<style>
+/* Layout: the app's night-blue pages and rounded panels; the GBA (FireRed) battle pieces sit inside them.
+   Single dark look on purpose, like the app. */
+:root{
+  color-scheme:dark;
+  --night:#0c1222; --panel:#141d36; --panel2:#0f1730; --line:#2a3a64; --ink:#e8edf8; --muted:#8c9abb; --mute2:#56618a;
+  --gold:#ffd23f; --red:#ef3d4f; --red2:#b8202f; --cream:#f8f8d8; --gbink:#303830; --gbline:#405048; --hp:#48c860;
+  --pixel:"DotGothic16","Courier New",monospace; --tiny:"Silkscreen","DotGothic16",monospace; --gb:"Press Start 2P","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--pixel);padding-block:28px 64px;padding-inline:max(16px,3vw);background:
+  radial-gradient(900px 500px at 80% 0%,rgba(80,110,220,.16),transparent 70%),
+  radial-gradient(rgba(120,150,255,.07) 1px,transparent 1.2px) 0 0/14px 14px,var(--night)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+img.px{image-rendering:pixelated}
+.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:10px var(--gb);letter-spacing:.2em;color:var(--muted)}
+.top b{color:var(--gold);font-weight:400}
+.intro{max-width:940px;margin:18px 0 26px;font-size:16px;line-height:1.6;color:#c9d3ff}
+.intro em{font-style:normal;color:var(--gold)}
+h2{margin:52px 0 8px;font:11px var(--gb);letter-spacing:.2em;color:var(--gold);font-weight:400;line-height:1.6}
+.sub{margin:0 0 18px;color:#aab6e0;font-size:14.5px;max-width:880px;line-height:1.55}
+.sub b{color:var(--ink);font-weight:400}
+.cap{font:10px var(--gb);letter-spacing:.16em;color:var(--muted);line-height:1.6;margin-bottom:10px}
+.cap b{color:var(--ink);font-weight:400}
+.row{display:flex;flex-wrap:wrap;gap:28px 24px;align-items:flex-start}
+.col{display:grid;gap:10px;min-width:0;max-width:100%}
+.frame{width:min(1160px,100%);border-radius:16px;background:rgba(12,18,34,.6);box-shadow:inset 0 0 0 1.5px var(--line);padding:18px;min-width:0}
+
+/* ---------- 1 · header ---------- */
+.hdr{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:12px;background:var(--panel2);box-shadow:inset 0 0 0 1.5px var(--line);width:min(620px,100%)}
+.hdr .ball{width:30px;height:30px;border-radius:50%;background:linear-gradient(#ef3d4f 0 46%,#151515 46% 54%,#f4f4f4 54%);box-shadow:inset 0 0 0 2px #151515;flex:none}
+.hdr .t b{display:block;font-size:1.25rem;font-weight:400;letter-spacing:.04em}
+.hdr .t small{font:400 .5rem var(--tiny);letter-spacing:.2em;color:var(--muted)}
+.hdr .sp{flex:1}
+.hdr .cnt{text-align:right;font:400 .5rem var(--tiny);letter-spacing:.14em;color:var(--muted)}
+.hdr .cnt b{display:block;font:400 1rem var(--pixel);color:var(--ink);letter-spacing:0}
+.rbtn{position:relative;width:34px;height:34px;border-radius:50%;border:0;display:grid;place-items:center;flex:none}
+.rbtn.sd{background:linear-gradient(#e2414f,#a8202d)}
+.rbtn.dr{background:linear-gradient(#2c3f7c,#18244a);box-shadow:inset 0 0 0 2px #ef3d4f}
+.rbtn svg{width:20px;height:20px}
+.rbtn .dot{position:absolute;top:-1px;right:-1px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px var(--panel2)}
+.av{width:30px;height:30px;border-radius:50%;background:#e9edf6;color:#232b45;display:grid;place-items:center;font:400 .6rem var(--tiny);flex:none}
+.tip{position:relative}
+.tip::after{content:"DAILY RED · NOT PLAYED TODAY";position:absolute;top:44px;right:-40px;white-space:nowrap;font:400 .46rem var(--tiny);letter-spacing:.12em;background:#e9edf6;color:#232b45;padding:5px 8px;border-radius:5px}
+.seg{display:inline-flex;border-radius:10px;background:var(--panel2);box-shadow:inset 0 0 0 1.5px var(--line);padding:4px;gap:4px}
+.seg span{font:400 .6rem var(--tiny);letter-spacing:.14em;padding:8px 14px;border-radius:7px;color:var(--muted)}
+.seg span.on{background:#e9edf6;color:#232b45}
+.note{font-size:13.5px;line-height:1.5;color:#aab6e0;max-width:520px}
+
+/* ---------- 2 · the page ---------- */
+.pghead{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.logo{font:400 1.6rem var(--pixel);letter-spacing:.04em}
+.logo i{font-style:normal;color:var(--red)}
+.pghead small{display:block;font:400 .5rem var(--tiny);letter-spacing:.2em;color:var(--muted);margin-top:2px}
+.pghead small b{color:#5fd38a;font-weight:400}
+.pghead .sp{flex:1}
+.homebtn{border:0;border-radius:6px;padding:9px 14px;background:#24315f;font:400 .52rem var(--tiny);letter-spacing:.16em}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:26px;align-items:center}
+@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr)}}
+.eyebrow{font:400 .56rem var(--tiny);letter-spacing:.2em;color:var(--muted)}
+.eyebrow b{color:var(--ink);font-weight:400}
+.big{margin:12px 0 14px;font:400 clamp(1.4rem,3.2vw,2.3rem)/1.35 var(--gb);letter-spacing:.01em;text-wrap:balance}
+.big i{font-style:normal;color:var(--red)}
+.lede{font-size:15px;line-height:1.6;color:#c9d3ff;max-width:46ch;margin:0 0 16px}
+.lede b{color:var(--ink);font-weight:400}
+.leadpill{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 12px;border-radius:12px;background:var(--panel2);box-shadow:inset 0 0 0 1.5px var(--line);width:max-content;max-width:100%}
+.leadpill .who{display:flex;align-items:center;gap:8px}
+.leadpill img{width:40px;height:40px;background:#18244a;border-radius:8px}
+.leadpill small{display:block;font:400 .44rem var(--tiny);letter-spacing:.12em;color:var(--muted)}
+.leadpill a{font:400 .5rem var(--tiny);letter-spacing:.12em;color:#ff8a8a;text-decoration:underline}
+.ctas{display:flex;align-items:center;gap:22px;margin-top:18px;flex-wrap:wrap}
+.bigred{border:0;border-radius:10px;padding:16px 30px;background:linear-gradient(#f0505f,#d8303f);font:400 .8rem var(--gb);letter-spacing:.08em;box-shadow:0 5px 0 var(--red2)}
+.bigred:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red2)}
+.textlink{font:400 .55rem var(--tiny);letter-spacing:.14em;color:var(--ink);text-decoration:underline;background:none;border:0}
+.prev{border-radius:12px;overflow:hidden;box-shadow:0 0 0 2px #33427a,0 24px 50px rgba(0,0,0,.45)}
+
+/* team */
+.tgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:14px;margin-top:8px}
+@media (max-width:900px){.tgrid{grid-template-columns:minmax(0,1fr)}}
+.card{border-radius:14px;background:var(--panel);box-shadow:inset 0 0 0 1.5px var(--line);padding:16px;min-width:0}
+.leadc{box-shadow:inset 0 0 0 1.5px #e9edf6;position:relative}
+.badge{position:absolute;top:14px;right:14px;font:400 .44rem var(--tiny);letter-spacing:.14em;background:var(--red);padding:4px 7px;border-radius:4px}
+.lh{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.lh .spr{width:96px;height:96px;border-radius:12px;background:#0b1226;display:grid;place-items:center;flex:none}
+.lh .spr img{width:96px;height:96px}
+.lh b{font-size:1.5rem;font-weight:400;display:block;margin-bottom:6px}
+.ty{display:inline-block;font:400 .42rem var(--tiny);letter-spacing:.1em;padding:3px 6px;border-radius:4px;color:#fff;margin-right:4px;text-shadow:0 1px 0 rgba(0,0,0,.35)}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:6px 10px;font-size:.88rem;margin:8px 0 12px}
+.kv span{color:var(--muted)}
+.kv u{text-decoration-color:var(--mute2);text-underline-offset:3px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:10px}
+.stats div{background:#0b1226;border-radius:8px;padding:6px 4px;text-align:center}
+.stats small{display:block;font:400 .42rem var(--tiny);letter-spacing:.1em;color:var(--muted)}
+.stats b{font:400 .95rem var(--pixel)}
+.moves{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.moves div{display:flex;align-items:center;gap:8px;background:#0b1226;border-radius:8px;padding:9px 10px;font-size:.88rem}
+.moves i{width:8px;height:8px;border-radius:2px;flex:none}
+.rows{display:grid;gap:8px}
+.mrow{display:grid;grid-template-columns:52px minmax(0,1.3fr) minmax(0,1fr) 46px auto;gap:12px;align-items:center;border-radius:12px;background:var(--panel);box-shadow:inset 0 0 0 1.5px var(--line);padding:8px 12px}
+.mrow img{width:52px;height:52px;background:#0b1226;border-radius:8px}
+.mrow b{font-weight:400;font-size:1rem;display:block;margin-bottom:3px}
+.mrow .ia{font-size:.78rem;color:var(--muted);line-height:1.35}
+.mrow .bst{font:400 .9rem var(--pixel);color:var(--muted);text-align:right}
+.mrow button{border:0;background:none;font:400 .48rem var(--tiny);letter-spacing:.12em;color:var(--muted);padding:6px}
+.mrow button:hover{color:var(--gold)}
+@media (max-width:640px){.mrow{grid-template-columns:44px minmax(0,1fr) auto}.mrow .ia,.mrow .bst{display:none}.mrow img{width:44px;height:44px}}
+.matchups{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.matchups b{font-weight:400;font-size:1.05rem}
+.matchups p{margin:4px 0 0;font-size:.82rem;color:var(--muted)}
+.ghost{border:0;border-radius:8px;padding:10px 14px;background:none;box-shadow:inset 0 0 0 1.5px #e9edf6;font:400 .5rem var(--tiny);letter-spacing:.14em}
+
+/* Red + stats + trainers */
+.rgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;margin-top:14px}
+@media (max-width:900px){.rgrid{grid-template-columns:minmax(0,1fr)}}
+.redc{background:linear-gradient(160deg,#22346c,#1a2752);box-shadow:inset 0 0 0 1.5px #3a5096}
+.redc h3,.trc h3{margin:0 0 6px;font:400 .62rem var(--tiny);letter-spacing:.16em;color:var(--gold)}
+.redc p{margin:0 0 12px;font-size:.85rem;line-height:1.5;color:#c9d3ff}
+.rteam{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.rteam{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.rteam div{text-align:center}
+.rteam img{width:100%;max-width:64px;aspect-ratio:1;background:rgba(11,18,38,.5);border-radius:10px}
+.rteam b{display:block;font-weight:400;font-size:.78rem;margin:4px 0 3px}
+.rstats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;border-top:1px solid #3a5096;padding-top:12px}
+.rstats b{display:block;font:400 1.3rem var(--pixel)}
+.rstats small{font:400 .42rem var(--tiny);letter-spacing:.12em;color:#aab6e0}
+.trc ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.trc li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;font-size:.9rem}
+.trc li .av{width:28px;height:28px}
+.trc li small{display:block;font-size:.72rem;color:var(--muted)}
+.grid6{font-size:.75rem;letter-spacing:1px;white-space:nowrap}
+.res{font:400 .44rem var(--tiny);letter-spacing:.12em;padding:4px 7px;border-radius:4px}
+.res.w{background:#163b2a;color:#5fd38a}.res.l{background:#3b1620;color:#ff8a8a}.res.p{background:#2a2f4a;color:var(--muted)}
+.newtag{display:inline-block;margin-left:6px;font:400 .4rem var(--tiny);letter-spacing:.12em;color:#2b2200;background:var(--gold);padding:2px 5px;border-radius:3px;vertical-align:2px}
+
+/* ---------- 3 · battle window ---------- */
+.bwin{width:min(1160px,100%);border-radius:16px;background:var(--panel);box-shadow:0 0 0 2px #33427a,0 30px 70px rgba(0,0,0,.55);padding:14px;position:relative;min-width:0}
+.bbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.pill{font:400 .5rem var(--tiny);letter-spacing:.12em;padding:7px 10px;border-radius:7px;box-shadow:inset 0 0 0 1.5px #e9edf6}
+.pill.dash{box-shadow:none;border:1.5px dashed var(--muted);color:var(--muted)}
+.turn{font:400 .5rem var(--tiny);letter-spacing:.16em;color:var(--muted)}
+.bgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+@media (max-width:980px){.bgrid{grid-template-columns:minmax(0,1fr)}}
+.stage{border-radius:12px;overflow:hidden;background:#0b1226}
+.field{position:relative;aspect-ratio:240/108;overflow:hidden}
+.field svg.bg{position:absolute;inset:0;width:100%;height:100%}
+.mon{position:absolute;image-rendering:pixelated}
+.mon.foe{right:15%;top:12%;width:22%}
+.mon.me{left:11%;bottom:-3%;width:26%}
+.hpbox{position:absolute;background:var(--cream);color:var(--gbink);border:3px solid var(--gbline);box-shadow:4px 4px 0 rgba(0,0,0,.25);font-family:var(--pixel);padding:6px 12px 8px;min-width:0}
+.hpbox.foe{left:3%;top:7%;width:40%;border-radius:8px 0 22px 0}
+.hpbox.me{right:3%;top:53%;width:42%;border-radius:22px 0 0 8px}
+.hpbox .r1{white-space:nowrap;gap:8px;display:flex;justify-content:space-between;font-size:clamp(.7rem,1.5vw,1.05rem)}
+.hpbox .r1 em{font-style:normal;color:var(--red)}
+.hpbar{display:flex;align-items:center;gap:6px;margin-top:4px}
+.hpbar span{font:400 .42rem var(--tiny);background:#e8a838;color:#fff;padding:1px 4px;border-radius:3px}
+.hpbar div{flex:1;height:9px;border-radius:5px;background:#506858;box-shadow:inset 0 0 0 2px #404840;overflow:hidden}
+.hpbar div i{display:block;height:100%;background:var(--hp);border-radius:5px;transition:width .6s}
+.hpbar div i.y{background:#f0c030}.hpbar div i.r{background:#e84838}
+.party{display:flex;gap:3px;margin-top:5px}
+.party i{width:9px;height:9px;border-radius:2px;background:var(--gbink)}
+.party i.on{background:var(--red)}
+.party i.out{background:#b0b8a8}
+.hpbox .nums{display:flex;justify-content:space-between;align-items:center;margin-top:3px;font-size:clamp(.7rem,1.4vw,1rem)}
+.cmd{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:10px;padding:10px;background:#141d36}
+@media (max-width:640px){.cmd{grid-template-columns:minmax(0,1fr)}}
+.gbp{background:var(--cream);color:var(--gbink);border-radius:10px;box-shadow:inset 0 0 0 3px #d8d8b8;padding:12px 16px}
+.gbp .q{display:flex;justify-content:space-between;font-size:.9rem;color:#606858;margin-bottom:8px}
+.mv{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.mv button{display:flex;align-items:center;gap:8px;border:0;background:none;padding:8px 10px;border-radius:6px;font:400 .62rem var(--gb);letter-spacing:.04em;color:var(--gbink);text-align:left;text-transform:uppercase}
+.mv button i{width:9px;height:9px;border-radius:2px;flex:none}
+.mv button.on{background:#e4e4c4}
+.mv button.on::before{content:"▶";font-size:.6rem;margin-right:-2px}
+.info{display:grid;gap:6px;font-size:.88rem}
+.info .l{display:flex;justify-content:space-between}
+.info small{display:flex;justify-content:space-between;font-size:.75rem;color:#606858}
+.eff{display:inline-block;font:400 .44rem var(--tiny);letter-spacing:.08em;background:#e4e4c4;padding:3px 6px;border-radius:4px;width:max-content}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.two button{border:0;border-radius:7px;background:#fff8e8;box-shadow:inset 0 0 0 2px var(--gbline);padding:8px;font:400 .55rem var(--gb);color:var(--gbink)}
+.dialog{background:var(--cream);color:var(--gbink);border-radius:10px;box-shadow:inset 0 0 0 3px #d8d8b8;padding:14px 18px;font:400 .7rem/1.8 var(--gb);min-height:84px}
+.log{border-radius:12px;background:var(--panel2);box-shadow:inset 0 0 0 1.5px #e9edf6;display:flex;flex-direction:column;min-height:0}
+.log .lh2{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.log .lh2 b{font-weight:400;font-size:1rem}
+.log .lh2 small{font:400 .46rem var(--tiny);letter-spacing:.1em;color:var(--muted)}
+.log ol{list-style:none;margin:0;padding:12px 14px;display:grid;gap:6px;align-content:start;flex:1;font-size:.85rem;line-height:1.4;max-height:320px;overflow:auto}
+.log ol li.t{font:400 .46rem var(--tiny);letter-spacing:.14em;color:var(--gold);margin-top:6px}
+.log ol li .r{color:#ff8a8a}
+.log .lf{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+.speed{display:inline-flex;border-radius:7px;box-shadow:inset 0 0 0 1.5px var(--line);overflow:hidden}
+.speed span{font:400 .46rem var(--tiny);letter-spacing:.1em;padding:6px 10px}
+.speed span.on{background:#e9edf6;color:#232b45}
+.keys{margin-top:8px;font-size:.75rem;color:var(--mute2)}
+
+/* switch popup */
+.scrim{position:absolute;inset:0;background:rgba(5,8,18,.55);border-radius:16px;display:grid;place-items:center;padding:16px}
+.party-pop{width:min(540px,100%);border-radius:14px;background:#141b30;box-shadow:0 0 0 2px #2a3a64,0 30px 60px rgba(0,0,0,.6);padding:12px;display:grid;gap:8px}
+.pm{display:grid;grid-template-columns:48px minmax(0,1fr) minmax(0,1.2fr);gap:12px;align-items:center;border:0;border-radius:12px;padding:6px 12px;background:linear-gradient(#3d6fc8,#2f5aae);box-shadow:inset 0 0 0 2px #5c8ee0;text-align:left}
+.pm.cur{background:linear-gradient(#4f86de,#3c6fc8);box-shadow:inset 0 0 0 2.5px var(--gold)}
+.pm.fnt{background:linear-gradient(#5a5f78,#464b62);box-shadow:inset 0 0 0 2px #6c7290;opacity:.85}
+.pm img{width:48px;height:48px;background:rgba(255,255,255,.12);border-radius:10px}
+.pm b{display:block;font:400 .72rem var(--gb);margin-bottom:4px}
+.pm small{font-size:.75rem;color:#dfe8ff}
+.pm .hpw .hpbar span{background:#e8a838}
+.pm .hpw .hpbar div{background:#1d2f5c;box-shadow:inset 0 0 0 2px #17264a}
+.pm .hpw .n{text-align:right;font:400 .58rem var(--gb);margin-top:4px}
+.pop-f{display:flex;justify-content:space-between;align-items:center;background:var(--cream);color:var(--gbink);border-radius:10px;padding:12px 14px;font:400 .62rem var(--gb)}
+.pop-f button{border:0;border-radius:6px;background:none;box-shadow:inset 0 0 0 2px var(--gbline);padding:7px 12px;font:400 .5rem var(--gb);color:var(--gbink)}
+
+/* result */
+.result{width:min(560px,100%);border-radius:16px;background:var(--panel);box-shadow:0 0 0 2px #33427a,0 30px 70px rgba(0,0,0,.5);padding:20px;text-align:center}
+.result .e{font:400 .55rem var(--tiny);letter-spacing:.2em;color:var(--muted)}
+.result h3{margin:10px 0 6px;font:400 1.4rem/1.4 var(--gb)}
+.result h3 i{font-style:normal;color:#5fd38a}
+.result p{margin:0 0 16px;color:#c9d3ff;font-size:.95rem}
+.share{display:inline-block;text-align:left;background:#0b1226;border-radius:12px;padding:14px 18px;font:400 .95rem/1.7 var(--pixel);white-space:pre;box-shadow:inset 0 0 0 1.5px var(--line);max-width:100%;overflow-x:auto}
+.result .btns{display:flex;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.copy{border:0;border-radius:10px;padding:12px 20px;background:linear-gradient(#f0505f,#d8303f);font:400 .6rem var(--gb);box-shadow:0 4px 0 var(--red2)}
+.rs4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.rs4 b{display:block;font:400 1.3rem var(--pixel)}
+.rs4 small{font:400 .42rem var(--tiny);letter-spacing:.12em;color:var(--muted)}
+
+/* phones */
+.phone{width:min(390px,calc(100vw - 32px));height:820px;border-radius:44px;padding:12px;background:#05070e;box-shadow:0 0 0 2px #1f2a4a,0 30px 70px rgba(0,0,0,.6);flex:none}
+.screen{position:relative;height:100%;border-radius:34px;overflow:hidden;background:var(--night);display:flex;flex-direction:column}
+.ph-top{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font:600 14px system-ui,sans-serif;color:#fff;flex:none}
+.ph-body{flex:1;overflow:hidden;padding:4px 14px 0;display:grid;gap:10px;align-content:start}
+.ph-nav{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #1d2747;padding:10px 0 22px;background:#0b1020;flex:none}
+.ph-nav span{text-align:center;font:400 .46rem var(--tiny);letter-spacing:.14em;color:var(--mute2)}
+.ph-nav span.on{color:var(--ink)}
+.ph-nav span i{display:block;width:40px;height:22px;margin:0 auto 6px;border-radius:11px}
+.ph-nav span.on i{background:#24315f}
+.ph-body .seg{width:100%}.ph-body .seg span{flex:1;text-align:center}
+.mini-h{display:flex;justify-content:space-between;align-items:baseline}
+.mini-h b{font:400 .95rem/1.4 var(--gb)}
+.mini-h b i{font-style:normal;color:var(--red)}
+.mini-h small{font:400 .44rem var(--tiny);letter-spacing:.1em;color:var(--muted);text-align:right}
+.ph-team{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.ph-team img{width:100%;aspect-ratio:1;background:var(--panel);border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.ph-team img.lead{box-shadow:inset 0 0 0 2px #e9edf6}
+.ph-body .bigred{width:100%;padding:14px}
+.ph-body .gbp{padding:10px 12px}
+.ph-body .mv button{font-size:.5rem;padding:9px 8px}
+@media (max-width:640px){.hpbox{padding:4px 8px 6px;border-width:2px}.hpbox.foe,.hpbox.me{width:47%}.hpbox .r1{font-size:.58rem}.hpbox .nums{font-size:.58rem}.hpbox .party i{width:7px;height:7px}}
+.ph-body .hpbox{padding:4px 8px 6px;border-width:2px;overflow:hidden}
+.ph-body .hpbox.foe,.ph-body .hpbox.me{width:47%}
+.ph-body .hpbox .r1{font-size:.58rem;white-space:nowrap;gap:6px}
+.ph-body .hpbox .nums{font-size:.66rem}
+.ph-body .hpbar div{height:7px}
+.ph-body .party i{width:7px;height:7px}
+.ph-log{display:flex;justify-content:space-between;align-items:center;border-radius:10px;background:var(--panel2);box-shadow:inset 0 0 0 1.5px var(--line);padding:10px 12px;font-size:.8rem}
+.ph-log small{font:400 .44rem var(--tiny);letter-spacing:.12em;color:var(--muted)}
+
+/* notes */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;max-width:1160px}
+.box{border-radius:12px;background:var(--panel2);box-shadow:inset 0 0 0 1.5px var(--line);padding:14px 16px;font-size:14px;line-height:1.55;color:#c9d3ff;min-width:0}
+.box h4{margin:0 0 8px;font:400 .62rem var(--tiny);letter-spacing:.16em;color:var(--gold)}
+.box ul{margin:0;padding-left:18px}.box li{margin:3px 0}
+.box b{color:var(--ink);font-weight:400}
+.q{color:#ffd23f}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="top"><span>HOME LIVING DEX · <b>MOCK</b></span><span>NOVO MODO · DAILY RED</span></div>
+<p class="intro">Um segundo modo de batalha ao lado do Showdown: o <em>Daily Red</em>. Todos os dias há uma equipa de seis Pokémon de nível 100 das Gen 1–3, <em>igual para todos os treinadores da app</em>, e tens uma batalha oficial contra o <em>Red</em> do Mt. Silver (Pikachu, Espeon, Snorlax, Venusaur, Charizard, Blastoise). Corre no mesmo simulador do Showdown que já temos, com regras de Gen 3. A batalha fica numa <em>só janela grande</em>: campo, menu e log juntos, no estilo FireRed/LeafGreen.</p>
+
+<h2>1 · O BOTÃO</h2>
+<p class="sub">No PC, um segundo botão redondo ao lado do do Showdown, com o Mt. Silver nevado. Tem uma pinta amarela enquanto não jogaste a batalha de hoje. No telemóvel, o separador <b>Battle</b> ganha um seletor entre Showdown e Daily Red.</p>
+<div class="row">
+  <div class="col">
+    <div class="cap">PC · <b>CABEÇALHO</b></div>
+    <div class="hdr">
+      <span class="ball"></span><div class="t"><b>HOME LIVING DEX</b><small>BOX TRACKER · B2 STYLE</small></div><span class="sp"></span>
+      <div class="cnt">POKÉMON HOME · NORMAL<b>154 / 1025</b></div>
+      <button class="rbtn sd" aria-label="Showdown"><svg viewBox="0 0 20 20" fill="none" stroke-linecap="round"><g stroke="#fff" stroke-width="2.1"><line x1="3" y1="3" x2="13" y2="13"/><line x1="17" y1="3" x2="7" y2="13"/></g><g stroke="#ffd23f" stroke-width="2"><line x1="11.2" y1="14.8" x2="14.8" y2="11.2"/><line x1="5.2" y1="11.2" x2="8.8" y2="14.8"/></g></svg></button>
+      <span class="tip"><button class="rbtn dr" aria-label="Daily Red"><svg viewBox="0 0 20 20"><path d="M1 16 7 6l3 4 2-3 7 9Z" fill="#e9edf6"/><path d="M7 6l-1.8 3 1.2-.4L7 9.6l.8-1 1.4.4Z M12 7l-1 1.6 1.1-.3.6.6.5-.7Z" fill="#9fb4ff"/><circle cx="15.5" cy="4.5" r="1.6" fill="#ef3d4f"/></svg><span class="dot"></span></button></span>
+      <span class="av">R</span>
+    </div>
+  </div>
+  <div class="col">
+    <div class="cap">TELEMÓVEL · <b>SEPARADOR BATTLE</b></div>
+    <div class="seg"><span>SHOWDOWN</span><span class="on">DAILY RED ●</span></div>
+    <div class="note">O seletor fica no topo do separador Battle e lembra-se do último modo que usaste.</div>
+  </div>
+</div>
+
+<h2>2 · A PÁGINA DO DAILY RED</h2>
+<p class="sub">Abre como o Showdown: uma página da app com o botão HOME para voltar. Em cima a equipa do dia e o botão para lutar; depois a equipa com o Pokémon que sai primeiro; no fim o Red, as tuas estatísticas e, como a app tem vários treinadores, quem já jogou hoje e como correu.</p>
+<div class="frame" id="page">
+  <div class="pghead"><div><div class="logo">DAILY <i>RED</i></div><small>NO. 3 · WED, OCT 14 · NEXT TEAM <span id="cd">09:54:09</span> · <b>SYNCED</b></small></div><span class="sp"></span><button class="homebtn">◀ HOME</button><span class="av">R</span></div>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">DAILY RED · <b>NO. 3</b></div>
+      <div class="big">BEAT <i>RED</i> WITH TODAY'S SIX.</div>
+      <p class="lede">Os mesmos seis Pokémon de nível 100 para todos os treinadores, hoje. <b>Uma batalha oficial por dia</b>, as outras são treino. Corre no simulador do <b>Showdown</b> com <b>regras de Gen 3</b>.</p>
+      <div class="leadpill">
+        <div class="who"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC" alt=""><div><small>RED LEADS WITH</small>Pikachu</div></div>
+        <div class="who"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAA2RJREFUSIltlD9v2zgYxgmYHB1DwHWzF+k656BXmglYNDqqNcPtevkcXe473CfoZ9Eeo9FwW5zcDV1j9eiiHRrznle2a0syEcAR9ePz/nsoIfZrvBZCvhU/1/hedNd4JsQ8Pz3Xsz4wvRfpCRhH6x4g6nsZ6zOBqh+jXu0Bsxeoe8DoNwAJALnAk3Szqg+8Vm6UZI0oSjwV9GUAJDazAGQCQFI2AFBitqSsmUMEAmYIpHQD4CtHgUAZDQCZLFJqRYQl82M67TdKJnlMeUKlUBCoqgEwivHWEgAWqKqqD4g58eIIWXk3jQaNFGmSMPBVtQLTaADIOGVg6xbOuWiQghAqhoLOysUyJlQ5BCZxTPTdlCV+ywsRxCSNSX9jAKUM7MIhIP3mLwDI5McFAWmXCb37xQQGwgWBIr4mujFlMF6DGALzmDx6HLwpd+4SUaBGMiH4rHx4cJQ3QoUOpTCHEJ5DkZWrVWWtdpYy1yOW+nGLMKuqfmXzjPv6tkOEZbJDHrd1PatftaOjRTcPF2tPphnPounKF0iV8s57ZZe/IgVckYdopvSjB3GIIY1zwoUkIGzJ1+ZupfSfPj4CMsUkA2ktJoEWsPWaFT547C4O7ym/gd9QNwx5i631vdIfiyPA599/Rqe8436FxqFFCpJ8ULBd4ZT3HzzpGJukg2NrqpwKggHaKQD4AwCcEPCHkww40EeAO/LRY1j08t/1JqQJmqFyHXzaAmlr91BwHeunXQugVluGbQuMkrapeaDG65f18ya0twPXA8GYlGxmJGB8M9FPj8/BY64NFxyg2rSAbvCEFtpyjQi+DHyQY/hsD8AcGW8W/uVpF8iUll9gb28Zq3nUSEGR1wgBQLUdtKYRJ8BTIzN//bjxmSk5Q9yUcDSKEBDQIFW82xADKtt2DckC+MC59BqWYmV3Y84JxT5HCga3iwwDy8QcMtivW+BIgSwDXOPy8Hu+RpgiPkNtBHyHDv+cL8wArtkflHRBArcXztqfk+kFCclzP963OehBDP7QLQ6bRbx3eFeCjXHbHOSSISAY+P0ApPGFGPZMlk0/AOQZINMLgCrOircJuT4gtmH7E5hQfjcAJg9/nzL376ZPfeAq+nT6qEy+RJ/6gPj3fOuqng1idABxNR0AV13R538GMTb9jf8B6kycYgbSCVcAAAAASUVORK5CYII=" alt=""><div><small>YOUR LEAD</small><span id="leadName">Scizor</span></div></div>
+        <a href="#team">CHANGE LEAD</a>
+      </div>
+      <div class="ctas"><button class="bigred">BATTLE RED</button><button class="textlink">PRACTICE RUN</button></div>
+    </div>
+    <div class="prev"><div class="field"><svg class="bg" viewBox="0 0 240 108" preserveAspectRatio="none"><defs>
+<linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1630"/><stop offset=".7" stop-color="#2a3a6a"/><stop offset="1" stop-color="#55679a"/></linearGradient>
+<linearGradient id="snowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe8f4"/><stop offset="1" stop-color="#b8c6dc"/></linearGradient></defs>
+<rect width="240" height="108" fill="url(#skyG)"/><circle cx="82" cy="9" r="0.6" fill="#fff" opacity="0.9"/><circle cx="12" cy="4" r="0.3" fill="#fff" opacity="0.6"/><circle cx="149" cy="3" r="0.4" fill="#fff" opacity="0.4"/><circle cx="22" cy="27" r="0.6" fill="#fff" opacity="0.4"/><circle cx="61" cy="5" r="0.6" fill="#fff" opacity="0.4"/><circle cx="211" cy="36" r="0.3" fill="#fff" opacity="0.4"/><circle cx="161" cy="40" r="0.3" fill="#fff" opacity="0.9"/><circle cx="149" cy="25" r="0.3" fill="#fff" opacity="0.4"/><circle cx="11" cy="35" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="9" r="0.3" fill="#fff" opacity="0.9"/><circle cx="78" cy="35" r="0.4" fill="#fff" opacity="0.4"/><circle cx="148" cy="36" r="0.4" fill="#fff" opacity="0.6"/><circle cx="24" cy="35" r="0.3" fill="#fff" opacity="0.9"/><circle cx="15" cy="39" r="0.4" fill="#fff" opacity="0.6"/><circle cx="174" cy="34" r="0.6" fill="#fff" opacity="0.6"/><circle cx="119" cy="37" r="0.6" fill="#fff" opacity="0.6"/><circle cx="76" cy="15" r="0.4" fill="#fff" opacity="0.9"/><circle cx="199" cy="15" r="0.3" fill="#fff" opacity="0.9"/><circle cx="76" cy="33" r="0.6" fill="#fff" opacity="0.6"/><circle cx="186" cy="28" r="0.5" fill="#fff" opacity="0.9"/><circle cx="18" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="193" cy="21" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="2" r="0.3" fill="#fff" opacity="0.9"/><circle cx="146" cy="20" r="0.5" fill="#fff" opacity="0.9"/><circle cx="89" cy="38" r="0.6" fill="#fff" opacity="0.9"/><circle cx="204" cy="29" r="0.3" fill="#fff" opacity="0.4"/><circle cx="69" cy="30" r="0.3" fill="#fff" opacity="0.4"/><circle cx="187" cy="19" r="0.6" fill="#fff" opacity="0.6"/><circle cx="183" cy="24" r="0.5" fill="#fff" opacity="0.4"/><circle cx="240" cy="29" r="0.5" fill="#fff" opacity="0.4"/><circle cx="156" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="55" cy="18" r="0.4" fill="#fff" opacity="0.9"/><circle cx="63" cy="25" r="0.6" fill="#fff" opacity="0.6"/><circle cx="20" cy="10" r="0.6" fill="#fff" opacity="0.6"/><circle cx="140" cy="17" r="0.4" fill="#fff" opacity="0.6"/><circle cx="221" cy="35" r="0.5" fill="#fff" opacity="0.9"/><circle cx="106" cy="22" r="0.6" fill="#fff" opacity="0.4"/><circle cx="38" cy="5" r="0.4" fill="#fff" opacity="0.4"/><circle cx="59" cy="14" r="0.3" fill="#fff" opacity="0.6"/><circle cx="212" cy="37" r="0.4" fill="#fff" opacity="0.6"/>
+<path d="M0 58 L22 38 L34 46 L58 22 L74 36 L92 28 L118 48 L140 30 L162 42 L186 18 L206 34 L224 28 L240 40 V70 H0Z" fill="#3c4c7c"/>
+<path d="M58 22 L66 30 L62 32 L56 28 L50 30Z M186 18 L194 26 L190 28 L184 24 L178 27Z M140 30 L146 36 L136 36Z" fill="#e8eef8"/>
+<path d="M0 66 L30 52 L52 60 L80 46 L108 58 L136 50 L170 60 L200 48 L240 58 V80 H0Z" fill="#6878a8"/>
+<rect y="68" width="240" height="40" fill="url(#snowG)"/>
+<path d="M0 74 Q60 70 120 74 T240 72" stroke="#fff" stroke-width=".6" fill="none" opacity=".7"/>
+<ellipse cx="170" cy="62" rx="44" ry="8" fill="#a8b8d0"/><ellipse cx="170" cy="61" rx="40" ry="6" fill="#c8d4e6"/>
+<ellipse cx="62" cy="102" rx="56" ry="9" fill="#a8b8d0"/><ellipse cx="62" cy="101" rx="52" ry="7" fill="#c8d4e6"/>
+</svg><img class="mon foe px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC" alt="Pikachu"><img class="mon me px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAAmFJREFUSInVlT1y2zAQhTkjos6kimsw6jNcoIYjQjU1hFDnJnGbW+R0aW05kNog+wBKJkjaKTNmAXGID2//sKuqem9Pbf8B7KR/G7BSHvC7ObwCCGq32Gs/rx6395VjAqbWAEtEB4EFwP1if9NKIs0SvFQ7WjrRSnmV+MbYaSEgZUPaGQAUk0yx/WUnWWHYRtggTWRm+luCgmul924F2MjGt23a0HJLhIBOM4AgzcvAgMLrZeYh6ZCMD7JJKIVpoDVCNJp3HL9loIxjxzbozy+40FBYBfiLeQwMtFegSGZSMN8Z4N81QECBHgICpWC7hQ0BBYohAjhbEKYAugFHTHCXDDDxHEqgyQArKACW7koAzrF1KGTA3j1Mvexydgyd3BX4FKflGIHecLXtCPwsAbhP9gQgJuLrDzcBakoSCeifYpL4uARUBh6zhC0A5XUGBIAs0U+rNZDzhG+vAymDvffwIdmI00tXp1Kcbc/RHGOsPkReqhlgfhvLnh6P1i9nQL11mm8jNwzxviS/6DynuSdw3+i4Tz02BwbkYcDdVQMANevNunkBurQuAK1JpwZPXbME2EkybwCOExX6Fk6irJfOloBQ7Fbfkxxbn29GKSB2/CnGLO64MdQc6MiwZuoYFVaAymE/A7Y/78nOAZFSi/mkuKRc7pUpl4RoLHMkvUo4Ph9HdHWqA8gJEGY5KdO5m/thPghHJ2+AKOdcba2vBFrjFp8rJHjOkne5uWr8LUDCvFzLmie9zsPN7vlWaKg7QzeiRuunWiobcKGgfnETN9ggYZpzjmns4urIY2Ylkv/y/AWIhh2FSDRKUgAAAABJRU5ErkJggg==" alt="Scizor"><div class="hpbox foe"><div class="r1"><span>RED's Pikachu</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:100%"></i></div></div><div class="party"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div><div class="hpbox me"><div class="r1"><span>Scizor</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:100%"></i></div></div><div class="nums"><span></span><span>282/ 282</span></div></div></div></div>
+  </div>
+
+  <h2 id="team" style="margin-top:34px">EQUIPA DE HOJE</h2>
+  <p class="sub" style="margin-bottom:10px">Seis Pokémon aleatórios das Gen 1–3, totalmente evoluídos, com sets de Gen 3. Escolhe quem sai primeiro.</p>
+  <div class="tgrid">
+    <div class="card leadc" id="leadCard"></div>
+    <div class="rows" id="teamRows"></div>
+  </div>
+  <div class="card matchups"><div><b>Matchups de hoje</b><p>Quem bate mais forte em cada Pokémon do Red, e quanto o Red bate de volta.</p></div><button class="ghost">SHOW MATCHUPS</button></div>
+
+  <div class="rgrid">
+    <div class="card redc">
+      <h3>A EQUIPA DO RED NO MT. SILVER</h3>
+      <p>Nunca muda: todos nível 100, IVs perfeitos e com itens. Abre sempre com o Pikachu. Não diz nada.</p>
+      <div class="rteam" id="redTeam"></div>
+      <div class="rstats"><div><b>12</b><small>PLAYED</small></div><div><b>58%</b><small>WIN %</small></div><div><b>2</b><small>WIN STREAK</small></div><div><b>5</b><small>DAY STREAK</small></div></div>
+    </div>
+    <div class="card trc">
+      <h3>TREINADORES HOJE <span class="newtag">NOVO</span></h3>
+      <ul>
+        <li><span class="av">A</span><div>Ana<small>venceu com 3 em pé · 14 turnos</small></div><span class="res w">WIN</span></li>
+        <li><span class="av">M</span><div>Marta<small>perdeu no Charizard · 22 turnos</small></div><span class="res l">LOSS</span></li>
+        <li><span class="av">T</span><div>Tiago<small>ainda não jogou</small></div><span class="res p">—</span></li>
+        <li><span class="av">R</span><div>Tu<small>ainda não jogaste</small></div><span class="res p">—</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h2>3 · A BATALHA, NUMA SÓ JANELA</h2>
+<p class="sub">O campo grande à esquerda com os menus por baixo, e o log à direita, tudo dentro da mesma janela, em vez dos dois ecrãs do Showdown. Setas e Enter escolhem o ataque; o painel ao lado mostra PP, tipo e se é eficaz contra o Pokémon do Red. <b>POKéMON</b> abre a troca, <b>RUN</b> desiste. Experimenta passar o rato pelos ataques.</p>
+<div class="bwin" id="bwin">
+  <div class="bbar"><span class="pill">DAILY RED NO. 3 · OFFICIAL BATTLE</span><span class="turn">TURN 1</span></div>
+  <div class="bgrid">
+    <div class="stage">
+      <div class="field"><svg class="bg" viewBox="0 0 240 108" preserveAspectRatio="none"><defs>
+<linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1630"/><stop offset=".7" stop-color="#2a3a6a"/><stop offset="1" stop-color="#55679a"/></linearGradient>
+<linearGradient id="snowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe8f4"/><stop offset="1" stop-color="#b8c6dc"/></linearGradient></defs>
+<rect width="240" height="108" fill="url(#skyG)"/><circle cx="82" cy="9" r="0.6" fill="#fff" opacity="0.9"/><circle cx="12" cy="4" r="0.3" fill="#fff" opacity="0.6"/><circle cx="149" cy="3" r="0.4" fill="#fff" opacity="0.4"/><circle cx="22" cy="27" r="0.6" fill="#fff" opacity="0.4"/><circle cx="61" cy="5" r="0.6" fill="#fff" opacity="0.4"/><circle cx="211" cy="36" r="0.3" fill="#fff" opacity="0.4"/><circle cx="161" cy="40" r="0.3" fill="#fff" opacity="0.9"/><circle cx="149" cy="25" r="0.3" fill="#fff" opacity="0.4"/><circle cx="11" cy="35" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="9" r="0.3" fill="#fff" opacity="0.9"/><circle cx="78" cy="35" r="0.4" fill="#fff" opacity="0.4"/><circle cx="148" cy="36" r="0.4" fill="#fff" opacity="0.6"/><circle cx="24" cy="35" r="0.3" fill="#fff" opacity="0.9"/><circle cx="15" cy="39" r="0.4" fill="#fff" opacity="0.6"/><circle cx="174" cy="34" r="0.6" fill="#fff" opacity="0.6"/><circle cx="119" cy="37" r="0.6" fill="#fff" opacity="0.6"/><circle cx="76" cy="15" r="0.4" fill="#fff" opacity="0.9"/><circle cx="199" cy="15" r="0.3" fill="#fff" opacity="0.9"/><circle cx="76" cy="33" r="0.6" fill="#fff" opacity="0.6"/><circle cx="186" cy="28" r="0.5" fill="#fff" opacity="0.9"/><circle cx="18" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="193" cy="21" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="2" r="0.3" fill="#fff" opacity="0.9"/><circle cx="146" cy="20" r="0.5" fill="#fff" opacity="0.9"/><circle cx="89" cy="38" r="0.6" fill="#fff" opacity="0.9"/><circle cx="204" cy="29" r="0.3" fill="#fff" opacity="0.4"/><circle cx="69" cy="30" r="0.3" fill="#fff" opacity="0.4"/><circle cx="187" cy="19" r="0.6" fill="#fff" opacity="0.6"/><circle cx="183" cy="24" r="0.5" fill="#fff" opacity="0.4"/><circle cx="240" cy="29" r="0.5" fill="#fff" opacity="0.4"/><circle cx="156" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="55" cy="18" r="0.4" fill="#fff" opacity="0.9"/><circle cx="63" cy="25" r="0.6" fill="#fff" opacity="0.6"/><circle cx="20" cy="10" r="0.6" fill="#fff" opacity="0.6"/><circle cx="140" cy="17" r="0.4" fill="#fff" opacity="0.6"/><circle cx="221" cy="35" r="0.5" fill="#fff" opacity="0.9"/><circle cx="106" cy="22" r="0.6" fill="#fff" opacity="0.4"/><circle cx="38" cy="5" r="0.4" fill="#fff" opacity="0.4"/><circle cx="59" cy="14" r="0.3" fill="#fff" opacity="0.6"/><circle cx="212" cy="37" r="0.4" fill="#fff" opacity="0.6"/>
+<path d="M0 58 L22 38 L34 46 L58 22 L74 36 L92 28 L118 48 L140 30 L162 42 L186 18 L206 34 L224 28 L240 40 V70 H0Z" fill="#3c4c7c"/>
+<path d="M58 22 L66 30 L62 32 L56 28 L50 30Z M186 18 L194 26 L190 28 L184 24 L178 27Z M140 30 L146 36 L136 36Z" fill="#e8eef8"/>
+<path d="M0 66 L30 52 L52 60 L80 46 L108 58 L136 50 L170 60 L200 48 L240 58 V80 H0Z" fill="#6878a8"/>
+<rect y="68" width="240" height="40" fill="url(#snowG)"/>
+<path d="M0 74 Q60 70 120 74 T240 72" stroke="#fff" stroke-width=".6" fill="none" opacity=".7"/>
+<ellipse cx="170" cy="62" rx="44" ry="8" fill="#a8b8d0"/><ellipse cx="170" cy="61" rx="40" ry="6" fill="#c8d4e6"/>
+<ellipse cx="62" cy="102" rx="56" ry="9" fill="#a8b8d0"/><ellipse cx="62" cy="101" rx="52" ry="7" fill="#c8d4e6"/>
+</svg><img class="mon foe px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC" alt="Pikachu"><img class="mon me px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAAmFJREFUSInVlT1y2zAQhTkjos6kimsw6jNcoIYjQjU1hFDnJnGbW+R0aW05kNog+wBKJkjaKTNmAXGID2//sKuqem9Pbf8B7KR/G7BSHvC7ObwCCGq32Gs/rx6395VjAqbWAEtEB4EFwP1if9NKIs0SvFQ7WjrRSnmV+MbYaSEgZUPaGQAUk0yx/WUnWWHYRtggTWRm+luCgmul924F2MjGt23a0HJLhIBOM4AgzcvAgMLrZeYh6ZCMD7JJKIVpoDVCNJp3HL9loIxjxzbozy+40FBYBfiLeQwMtFegSGZSMN8Z4N81QECBHgICpWC7hQ0BBYohAjhbEKYAugFHTHCXDDDxHEqgyQArKACW7koAzrF1KGTA3j1Mvexydgyd3BX4FKflGIHecLXtCPwsAbhP9gQgJuLrDzcBakoSCeifYpL4uARUBh6zhC0A5XUGBIAs0U+rNZDzhG+vAymDvffwIdmI00tXp1Kcbc/RHGOsPkReqhlgfhvLnh6P1i9nQL11mm8jNwzxviS/6DynuSdw3+i4Tz02BwbkYcDdVQMANevNunkBurQuAK1JpwZPXbME2EkybwCOExX6Fk6irJfOloBQ7Fbfkxxbn29GKSB2/CnGLO64MdQc6MiwZuoYFVaAymE/A7Y/78nOAZFSi/mkuKRc7pUpl4RoLHMkvUo4Ph9HdHWqA8gJEGY5KdO5m/thPghHJ2+AKOdcba2vBFrjFp8rJHjOkne5uWr8LUDCvFzLmie9zsPN7vlWaKg7QzeiRuunWiobcKGgfnETN9ggYZpzjmns4urIY2Ylkv/y/AWIhh2FSDRKUgAAAABJRU5ErkJggg==" alt="Scizor"><div class="hpbox foe"><div class="r1"><span>RED's Pikachu</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:64%"></i></div></div><div class="party"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div><div class="hpbox me"><div class="r1"><span>Scizor</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:100%"></i></div></div><div class="nums"><span></span><span>282/ 282</span></div></div></div>
+      <div class="cmd">
+        <div class="gbp"><div class="q"><span>What will SCIZOR do?</span><span>SWARM</span></div><div class="mv" id="mv"></div></div>
+        <div class="gbp info" id="minfo"></div>
+      </div>
+    </div>
+    <div class="log">
+      <div class="lh2"><b>Battle log</b><small>YOU 6 · RED 6</small></div>
+      <ol><li>RED: ......</li><li>RED wants to battle!</li><li>Go! Scizor!</li><li><span class="r">RED</span> sent out Pikachu!</li></ol>
+      <div class="lf"><span>Text speed</span><span class="speed"><span>NORMAL</span><span class="on">FAST</span></span></div>
+    </div>
+  </div>
+  <div class="keys">Setas movem o cursor, Enter ataca. POKéMON troca, RUN desiste.</div>
+</div>
+
+<h2>4 · TROCAR DE POKÉMON</h2>
+<p class="sub">O botão POKéMON abre a equipa por cima da batalha, com o HP de cada um. O que está em campo fica com contorno dourado; os que já desmaiaram ficam cinzentos. Trocar gasta o turno, e a caixa de baixo lembra isso.</p>
+<div class="bwin" style="min-height:560px">
+  <div class="bbar"><span class="pill">DAILY RED NO. 3 · OFFICIAL BATTLE</span><span class="turn">TURN 6</span></div>
+  <div class="bgrid"><div class="stage"><div class="field"><svg class="bg" viewBox="0 0 240 108" preserveAspectRatio="none"><defs>
+<linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1630"/><stop offset=".7" stop-color="#2a3a6a"/><stop offset="1" stop-color="#55679a"/></linearGradient>
+<linearGradient id="snowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe8f4"/><stop offset="1" stop-color="#b8c6dc"/></linearGradient></defs>
+<rect width="240" height="108" fill="url(#skyG)"/><circle cx="82" cy="9" r="0.6" fill="#fff" opacity="0.9"/><circle cx="12" cy="4" r="0.3" fill="#fff" opacity="0.6"/><circle cx="149" cy="3" r="0.4" fill="#fff" opacity="0.4"/><circle cx="22" cy="27" r="0.6" fill="#fff" opacity="0.4"/><circle cx="61" cy="5" r="0.6" fill="#fff" opacity="0.4"/><circle cx="211" cy="36" r="0.3" fill="#fff" opacity="0.4"/><circle cx="161" cy="40" r="0.3" fill="#fff" opacity="0.9"/><circle cx="149" cy="25" r="0.3" fill="#fff" opacity="0.4"/><circle cx="11" cy="35" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="9" r="0.3" fill="#fff" opacity="0.9"/><circle cx="78" cy="35" r="0.4" fill="#fff" opacity="0.4"/><circle cx="148" cy="36" r="0.4" fill="#fff" opacity="0.6"/><circle cx="24" cy="35" r="0.3" fill="#fff" opacity="0.9"/><circle cx="15" cy="39" r="0.4" fill="#fff" opacity="0.6"/><circle cx="174" cy="34" r="0.6" fill="#fff" opacity="0.6"/><circle cx="119" cy="37" r="0.6" fill="#fff" opacity="0.6"/><circle cx="76" cy="15" r="0.4" fill="#fff" opacity="0.9"/><circle cx="199" cy="15" r="0.3" fill="#fff" opacity="0.9"/><circle cx="76" cy="33" r="0.6" fill="#fff" opacity="0.6"/><circle cx="186" cy="28" r="0.5" fill="#fff" opacity="0.9"/><circle cx="18" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="193" cy="21" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="2" r="0.3" fill="#fff" opacity="0.9"/><circle cx="146" cy="20" r="0.5" fill="#fff" opacity="0.9"/><circle cx="89" cy="38" r="0.6" fill="#fff" opacity="0.9"/><circle cx="204" cy="29" r="0.3" fill="#fff" opacity="0.4"/><circle cx="69" cy="30" r="0.3" fill="#fff" opacity="0.4"/><circle cx="187" cy="19" r="0.6" fill="#fff" opacity="0.6"/><circle cx="183" cy="24" r="0.5" fill="#fff" opacity="0.4"/><circle cx="240" cy="29" r="0.5" fill="#fff" opacity="0.4"/><circle cx="156" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="55" cy="18" r="0.4" fill="#fff" opacity="0.9"/><circle cx="63" cy="25" r="0.6" fill="#fff" opacity="0.6"/><circle cx="20" cy="10" r="0.6" fill="#fff" opacity="0.6"/><circle cx="140" cy="17" r="0.4" fill="#fff" opacity="0.6"/><circle cx="221" cy="35" r="0.5" fill="#fff" opacity="0.9"/><circle cx="106" cy="22" r="0.6" fill="#fff" opacity="0.4"/><circle cx="38" cy="5" r="0.4" fill="#fff" opacity="0.4"/><circle cx="59" cy="14" r="0.3" fill="#fff" opacity="0.6"/><circle cx="212" cy="37" r="0.4" fill="#fff" opacity="0.6"/>
+<path d="M0 58 L22 38 L34 46 L58 22 L74 36 L92 28 L118 48 L140 30 L162 42 L186 18 L206 34 L224 28 L240 40 V70 H0Z" fill="#3c4c7c"/>
+<path d="M58 22 L66 30 L62 32 L56 28 L50 30Z M186 18 L194 26 L190 28 L184 24 L178 27Z M140 30 L146 36 L136 36Z" fill="#e8eef8"/>
+<path d="M0 66 L30 52 L52 60 L80 46 L108 58 L136 50 L170 60 L200 48 L240 58 V80 H0Z" fill="#6878a8"/>
+<rect y="68" width="240" height="40" fill="url(#snowG)"/>
+<path d="M0 74 Q60 70 120 74 T240 72" stroke="#fff" stroke-width=".6" fill="none" opacity=".7"/>
+<ellipse cx="170" cy="62" rx="44" ry="8" fill="#a8b8d0"/><ellipse cx="170" cy="61" rx="40" ry="6" fill="#c8d4e6"/>
+<ellipse cx="62" cy="102" rx="56" ry="9" fill="#a8b8d0"/><ellipse cx="62" cy="101" rx="52" ry="7" fill="#c8d4e6"/>
+</svg><img class="mon foe px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC" alt="Pikachu"><img class="mon me px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAAmFJREFUSInVlT1y2zAQhTkjos6kimsw6jNcoIYjQjU1hFDnJnGbW+R0aW05kNog+wBKJkjaKTNmAXGID2//sKuqem9Pbf8B7KR/G7BSHvC7ObwCCGq32Gs/rx6395VjAqbWAEtEB4EFwP1if9NKIs0SvFQ7WjrRSnmV+MbYaSEgZUPaGQAUk0yx/WUnWWHYRtggTWRm+luCgmul924F2MjGt23a0HJLhIBOM4AgzcvAgMLrZeYh6ZCMD7JJKIVpoDVCNJp3HL9loIxjxzbozy+40FBYBfiLeQwMtFegSGZSMN8Z4N81QECBHgICpWC7hQ0BBYohAjhbEKYAugFHTHCXDDDxHEqgyQArKACW7koAzrF1KGTA3j1Mvexydgyd3BX4FKflGIHecLXtCPwsAbhP9gQgJuLrDzcBakoSCeifYpL4uARUBh6zhC0A5XUGBIAs0U+rNZDzhG+vAymDvffwIdmI00tXp1Kcbc/RHGOsPkReqhlgfhvLnh6P1i9nQL11mm8jNwzxviS/6DynuSdw3+i4Tz02BwbkYcDdVQMANevNunkBurQuAK1JpwZPXbME2EkybwCOExX6Fk6irJfOloBQ7Fbfkxxbn29GKSB2/CnGLO64MdQc6MiwZuoYFVaAymE/A7Y/78nOAZFSi/mkuKRc7pUpl4RoLHMkvUo4Ph9HdHWqA8gJEGY5KdO5m/thPghHJ2+AKOdcba2vBFrjFp8rJHjOkne5uWr8LUDCvFzLmie9zsPN7vlWaKg7QzeiRuunWiobcKGgfnETN9ggYZpzjmns4urIY2Ylkv/y/AWIhh2FSDRKUgAAAABJRU5ErkJggg==" alt="Scizor"><div class="hpbox foe"><div class="r1"><span>RED's Pikachu</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:64%"></i></div></div><div class="party"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="out"></i><i class="out"></i></div></div><div class="hpbox me"><div class="r1"><span>Scizor</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:53%"></i></div></div><div class="nums"><span></span><span>150/ 282</span></div></div></div><div class="cmd"><div class="dialog">What will SCIZOR do?</div><div class="gbp info" style="opacity:.6"></div></div></div>
+    <div class="log"><div class="lh2"><b>Battle log</b><small>YOU 5 · RED 4</small></div><ol><li class="t">TURN 5</li><li>Snorlax used Body Slam!</li><li>Breloom fainted!</li></ol></div></div>
+  <div class="scrim"><div class="party-pop" id="partyPop"></div></div>
+</div>
+
+<h2>5 · O RESULTADO</h2>
+<p class="sub">Depois da batalha oficial: o resultado, uma grelha com um quadrado por Pokémon (em pé ou desmaiado) para copiar e partilhar, e as estatísticas atualizadas. As batalhas de treino mostram "Practice run, not recorded" e não contam.</p>
+<div class="row">
+  <div class="result">
+    <div class="e">DAILY RED NO. 3 · OFFICIAL BATTLE</div>
+    <h3><i>YOU BEAT RED!</i></h3>
+    <p>Venceste com 3 Pokémon em pé, em 18 turnos.</p>
+    <div class="share">Daily Red No. 3 · WIN 18T
+🟩🟩🟥🟩🟥🟥
+HOME Living Dex</div>
+    <div class="btns"><button class="copy">COPY RESULT</button><button class="ghost">VIEW LOG</button></div>
+    <div class="rs4"><div><b>13</b><small>PLAYED</small></div><div><b>62%</b><small>WIN %</small></div><div><b>3</b><small>WIN STREAK</small></div><div><b>6</b><small>DAY STREAK</small></div></div>
+  </div>
+  <div class="col" style="max-width:420px">
+    <div class="cap">TREINO · <b>NÃO CONTA</b></div>
+    <span class="pill dash" style="width:max-content">PRACTICE RUN, NOT RECORDED</span>
+    <div class="note">Os treinos são ilimitados e usam a mesma equipa. A batalha oficial, se saíres a meio, fica à tua espera, porque está guardada no servidor e continua de qualquer dispositivo.</div>
+  </div>
+</div>
+
+<h2>6 · NO TELEMÓVEL</h2>
+<p class="sub">Dentro do separador Battle. A página fica compacta, com a equipa numa fila. Na batalha, o campo ocupa a largura toda, os ataques numa grelha 2×2 por baixo, e o log fica numa linha que abre quando tocas.</p>
+<div class="row">
+  <div class="col"><div class="cap">BATTLE · <b>DAILY RED</b></div>
+    <div class="phone"><div class="screen"><div class="ph-top"><span>14:07</span><span>●●● ▮</span></div>
+      <div class="ph-body">
+        <div class="seg"><span>SHOWDOWN</span><span class="on">DAILY RED</span></div>
+        <div class="mini-h"><b>BEAT <i>RED</i><br>WITH TODAY'S SIX.</b><small>NO. 3<br>NEXT 09:54:09</small></div>
+        <div class="ph-team" id="phTeam"></div>
+        <div class="leadpill" style="width:100%"><div class="who"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC" alt=""><div><small>RED LEADS</small>Pikachu</div></div><div class="who"><img class="px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAA2RJREFUSIltlD9v2zgYxgmYHB1DwHWzF+k656BXmglYNDqqNcPtevkcXe473CfoZ9Eeo9FwW5zcDV1j9eiiHRrznle2a0syEcAR9ePz/nsoIfZrvBZCvhU/1/hedNd4JsQ8Pz3Xsz4wvRfpCRhH6x4g6nsZ6zOBqh+jXu0Bsxeoe8DoNwAJALnAk3Szqg+8Vm6UZI0oSjwV9GUAJDazAGQCQFI2AFBitqSsmUMEAmYIpHQD4CtHgUAZDQCZLFJqRYQl82M67TdKJnlMeUKlUBCoqgEwivHWEgAWqKqqD4g58eIIWXk3jQaNFGmSMPBVtQLTaADIOGVg6xbOuWiQghAqhoLOysUyJlQ5BCZxTPTdlCV+ywsRxCSNSX9jAKUM7MIhIP3mLwDI5McFAWmXCb37xQQGwgWBIr4mujFlMF6DGALzmDx6HLwpd+4SUaBGMiH4rHx4cJQ3QoUOpTCHEJ5DkZWrVWWtdpYy1yOW+nGLMKuqfmXzjPv6tkOEZbJDHrd1PatftaOjRTcPF2tPphnPounKF0iV8s57ZZe/IgVckYdopvSjB3GIIY1zwoUkIGzJ1+ZupfSfPj4CMsUkA2ktJoEWsPWaFT547C4O7ym/gd9QNwx5i631vdIfiyPA599/Rqe8436FxqFFCpJ8ULBd4ZT3HzzpGJukg2NrqpwKggHaKQD4AwCcEPCHkww40EeAO/LRY1j08t/1JqQJmqFyHXzaAmlr91BwHeunXQugVluGbQuMkrapeaDG65f18ya0twPXA8GYlGxmJGB8M9FPj8/BY64NFxyg2rSAbvCEFtpyjQi+DHyQY/hsD8AcGW8W/uVpF8iUll9gb28Zq3nUSEGR1wgBQLUdtKYRJ8BTIzN//bjxmSk5Q9yUcDSKEBDQIFW82xADKtt2DckC+MC59BqWYmV3Y84JxT5HCga3iwwDy8QcMtivW+BIgSwDXOPy8Hu+RpgiPkNtBHyHDv+cL8wArtkflHRBArcXztqfk+kFCclzP963OehBDP7QLQ6bRbx3eFeCjXHbHOSSISAY+P0ApPGFGPZMlk0/AOQZINMLgCrOircJuT4gtmH7E5hQfjcAJg9/nzL376ZPfeAq+nT6qEy+RJ/6gPj3fOuqng1idABxNR0AV13R538GMTb9jf8B6kycYgbSCVcAAAAASUVORK5CYII=" alt=""><div><small>YOUR LEAD</small>Scizor</div></div></div>
+        <button class="bigred">BATTLE RED</button>
+        <button class="textlink" style="justify-self:center">PRACTICE RUN</button>
+        <div class="card redc" style="padding:12px"><h3>RED · MT. SILVER</h3><div class="rteam" id="phRed"></div>
+          <div class="rstats"><div><b>12</b><small>PLAYED</small></div><div><b>58%</b><small>WIN</small></div><div><b>2</b><small>STREAK</small></div><div><b>5</b><small>DAYS</small></div></div></div>
+      </div>
+      <div class="ph-nav"><span><i></i>DEX</span><span class="on"><i></i>BATTLE</span><span><i></i>TRAINER</span><span><i></i>MORE</span></div>
+    </div></div></div>
+  <div class="col"><div class="cap">BATTLE · <b>EM JOGO</b></div>
+    <div class="phone"><div class="screen"><div class="ph-top"><span>14:09</span><span>●●● ▮</span></div>
+      <div class="ph-body">
+        <div class="bbar" style="margin:0"><span class="pill" style="font-size:.42rem">NO. 3 · OFFICIAL</span><span class="turn">TURN 1</span></div>
+        <div class="stage"><div class="field"><svg class="bg" viewBox="0 0 240 108" preserveAspectRatio="none"><defs>
+<linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1630"/><stop offset=".7" stop-color="#2a3a6a"/><stop offset="1" stop-color="#55679a"/></linearGradient>
+<linearGradient id="snowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe8f4"/><stop offset="1" stop-color="#b8c6dc"/></linearGradient></defs>
+<rect width="240" height="108" fill="url(#skyG)"/><circle cx="82" cy="9" r="0.6" fill="#fff" opacity="0.9"/><circle cx="12" cy="4" r="0.3" fill="#fff" opacity="0.6"/><circle cx="149" cy="3" r="0.4" fill="#fff" opacity="0.4"/><circle cx="22" cy="27" r="0.6" fill="#fff" opacity="0.4"/><circle cx="61" cy="5" r="0.6" fill="#fff" opacity="0.4"/><circle cx="211" cy="36" r="0.3" fill="#fff" opacity="0.4"/><circle cx="161" cy="40" r="0.3" fill="#fff" opacity="0.9"/><circle cx="149" cy="25" r="0.3" fill="#fff" opacity="0.4"/><circle cx="11" cy="35" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="9" r="0.3" fill="#fff" opacity="0.9"/><circle cx="78" cy="35" r="0.4" fill="#fff" opacity="0.4"/><circle cx="148" cy="36" r="0.4" fill="#fff" opacity="0.6"/><circle cx="24" cy="35" r="0.3" fill="#fff" opacity="0.9"/><circle cx="15" cy="39" r="0.4" fill="#fff" opacity="0.6"/><circle cx="174" cy="34" r="0.6" fill="#fff" opacity="0.6"/><circle cx="119" cy="37" r="0.6" fill="#fff" opacity="0.6"/><circle cx="76" cy="15" r="0.4" fill="#fff" opacity="0.9"/><circle cx="199" cy="15" r="0.3" fill="#fff" opacity="0.9"/><circle cx="76" cy="33" r="0.6" fill="#fff" opacity="0.6"/><circle cx="186" cy="28" r="0.5" fill="#fff" opacity="0.9"/><circle cx="18" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="193" cy="21" r="0.4" fill="#fff" opacity="0.6"/><circle cx="107" cy="2" r="0.3" fill="#fff" opacity="0.9"/><circle cx="146" cy="20" r="0.5" fill="#fff" opacity="0.9"/><circle cx="89" cy="38" r="0.6" fill="#fff" opacity="0.9"/><circle cx="204" cy="29" r="0.3" fill="#fff" opacity="0.4"/><circle cx="69" cy="30" r="0.3" fill="#fff" opacity="0.4"/><circle cx="187" cy="19" r="0.6" fill="#fff" opacity="0.6"/><circle cx="183" cy="24" r="0.5" fill="#fff" opacity="0.4"/><circle cx="240" cy="29" r="0.5" fill="#fff" opacity="0.4"/><circle cx="156" cy="7" r="0.6" fill="#fff" opacity="0.4"/><circle cx="55" cy="18" r="0.4" fill="#fff" opacity="0.9"/><circle cx="63" cy="25" r="0.6" fill="#fff" opacity="0.6"/><circle cx="20" cy="10" r="0.6" fill="#fff" opacity="0.6"/><circle cx="140" cy="17" r="0.4" fill="#fff" opacity="0.6"/><circle cx="221" cy="35" r="0.5" fill="#fff" opacity="0.9"/><circle cx="106" cy="22" r="0.6" fill="#fff" opacity="0.4"/><circle cx="38" cy="5" r="0.4" fill="#fff" opacity="0.4"/><circle cx="59" cy="14" r="0.3" fill="#fff" opacity="0.6"/><circle cx="212" cy="37" r="0.4" fill="#fff" opacity="0.6"/>
+<path d="M0 58 L22 38 L34 46 L58 22 L74 36 L92 28 L118 48 L140 30 L162 42 L186 18 L206 34 L224 28 L240 40 V70 H0Z" fill="#3c4c7c"/>
+<path d="M58 22 L66 30 L62 32 L56 28 L50 30Z M186 18 L194 26 L190 28 L184 24 L178 27Z M140 30 L146 36 L136 36Z" fill="#e8eef8"/>
+<path d="M0 66 L30 52 L52 60 L80 46 L108 58 L136 50 L170 60 L200 48 L240 58 V80 H0Z" fill="#6878a8"/>
+<rect y="68" width="240" height="40" fill="url(#snowG)"/>
+<path d="M0 74 Q60 70 120 74 T240 72" stroke="#fff" stroke-width=".6" fill="none" opacity=".7"/>
+<ellipse cx="170" cy="62" rx="44" ry="8" fill="#a8b8d0"/><ellipse cx="170" cy="61" rx="40" ry="6" fill="#c8d4e6"/>
+<ellipse cx="62" cy="102" rx="56" ry="9" fill="#a8b8d0"/><ellipse cx="62" cy="101" rx="52" ry="7" fill="#c8d4e6"/>
+</svg><img class="mon foe px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC" alt="Pikachu"><img class="mon me px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAAmFJREFUSInVlT1y2zAQhTkjos6kimsw6jNcoIYjQjU1hFDnJnGbW+R0aW05kNog+wBKJkjaKTNmAXGID2//sKuqem9Pbf8B7KR/G7BSHvC7ObwCCGq32Gs/rx6395VjAqbWAEtEB4EFwP1if9NKIs0SvFQ7WjrRSnmV+MbYaSEgZUPaGQAUk0yx/WUnWWHYRtggTWRm+luCgmul924F2MjGt23a0HJLhIBOM4AgzcvAgMLrZeYh6ZCMD7JJKIVpoDVCNJp3HL9loIxjxzbozy+40FBYBfiLeQwMtFegSGZSMN8Z4N81QECBHgICpWC7hQ0BBYohAjhbEKYAugFHTHCXDDDxHEqgyQArKACW7koAzrF1KGTA3j1Mvexydgyd3BX4FKflGIHecLXtCPwsAbhP9gQgJuLrDzcBakoSCeifYpL4uARUBh6zhC0A5XUGBIAs0U+rNZDzhG+vAymDvffwIdmI00tXp1Kcbc/RHGOsPkReqhlgfhvLnh6P1i9nQL11mm8jNwzxviS/6DynuSdw3+i4Tz02BwbkYcDdVQMANevNunkBurQuAK1JpwZPXbME2EkybwCOExX6Fk6irJfOloBQ7Fbfkxxbn29GKSB2/CnGLO64MdQc6MiwZuoYFVaAymE/A7Y/78nOAZFSi/mkuKRc7pUpl4RoLHMkvUo4Ph9HdHWqA8gJEGY5KdO5m/thPghHJ2+AKOdcba2vBFrjFp8rJHjOkne5uWr8LUDCvFzLmie9zsPN7vlWaKg7QzeiRuunWiobcKGgfnETN9ggYZpzjmns4urIY2Ylkv/y/AWIhh2FSDRKUgAAAABJRU5ErkJggg==" alt="Scizor"><div class="hpbox foe"><div class="r1"><span>RED's Pikachu</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:64%"></i></div></div><div class="party"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div><div class="hpbox me"><div class="r1"><span>Scizor</span><span>Lv100</span></div><div class="hpbar"><span>HP</span><div><i class="" style="width:100%"></i></div></div><div class="nums"><span></span><span>282/ 282</span></div></div></div></div>
+        <div class="gbp"><div class="q"><span>What will SCIZOR do?</span></div><div class="mv" id="mv2"></div></div>
+        <div class="gbp info" id="minfo2"></div>
+        <div class="ph-log"><span>Battle log</span><small>YOU 6 · RED 6 ▾</small></div>
+      </div>
+      <div class="ph-nav"><span><i></i>DEX</span><span class="on"><i></i>BATTLE</span><span><i></i>TRAINER</span><span><i></i>MORE</span></div>
+    </div></div></div>
+</div>
+
+<h2>7 · COMO FUNCIONARIA</h2>
+<div class="grid3">
+  <div class="box"><h4>NO SERVIDOR, NÃO NO BROWSER</h4><ul>
+    <li>A prompt original faz tudo no browser. Aqui uso o <b>simulador do Showdown que já corre no servidor</b>, no formato Gen 3, como as batalhas contra o CPU.</li>
+    <li>A equipa do dia sai de uma <b>semente com a data</b>, por isso é igual para todos.</li>
+    <li>A batalha oficial fica guardada no servidor: se fechares a página, continua de onde ficou, noutro dispositivo também.</li>
+  </ul></div>
+  <div class="box"><h4>O RED</h4><ul>
+    <li>Equipa fixa do Mt. Silver, nível 100, IVs perfeitos e itens.</li>
+    <li>Joga melhor do que o CPU de hoje: escolhe o ataque com mais dano esperado (calculadora de dano da Smogon) e troca quando está em grande desvantagem de tipo e tem uma troca melhor.</li>
+  </ul></div>
+  <div class="box"><h4>REGRAS E DADOS</h4><ul>
+    <li><b>Uma batalha oficial por dia</b>, controlada pelo servidor; treinos ilimitados que não contam.</li>
+    <li>Estatísticas por treinador na base de dados: jogadas, % de vitórias, sequência de vitórias e de dias.</li>
+    <li>"Treinadores hoje" mostra os resultados dos outros, mas só depois de jogares a tua, para não estragar a surpresa.</li>
+  </ul></div>
+  <div class="box"><h4>DECISÕES TUAS</h4><ul>
+    <li class="q">Quando muda a equipa: à meia-noite de Lisboa para todos (proposta), ou à meia-noite de cada um?</li>
+    <li class="q">A lista "Treinadores hoje": fica ou tiro?</li>
+    <li class="q">Vitórias no Daily Red contam para os badges de batalha do perfil, ou ficam à parte?</li>
+    <li class="q">A grelha para partilhar: diz "HOME Living Dex" no fim, ou outro texto?</li>
+  </ul></div>
+</div>
+
+<script>
+const IMG={"25": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzbT//////3v/7gDuvQDFiwCDUgD/AP//AP//AP//SkrmAAC0AABqamoQEBD/AP9rriIfAAAAAXRSTlMAQObYZgAAAdZJREFUSIntlDFPg0AUx2+QG/kIDhC/gO/qYtOFB5sMAh2NKcjYD2Yc3XTTyXR0xTQpdtCUz+C7QmnhXtvBzfgSkub+P/7vf8frCfG3yj4GVPPfAqvqSIRiF2Ds7OKjXbSrggPeN4v2agfeAaBZtLyi4PIsIKx/RFB8cEDUADHAFbvlBpAAMGJ3fKLCBP1xSkDIGQgLE8dxFenI6kJkDpXW6waJ0QJqQE3rrO5tD0jh3HFU5am1YLnQB+JK5z9dqPVmrkH1AGt0qoFVDcSuwqALyNGKAN2CBMtR2AeyQQkZIZePOD/xAA3gC8ADiODpGZcpvW8A3x4MZjOPgGAyRhOQ9gvA7B7gaTaJnEwDYQeY5AS8PQAMX1MYaCCYdwxcRV9pSBAE9JR9nT620oKuFFRo6iJDP2oIQAJ6x0gjif5GV7jsBVxXiVsD8ut3IIu0NQiF5Cw2EZR/K2mbhoVsI8TTBeLUMLC2GVNOF9sIASIz9jLf7IFOgUkoJmdpC5Tc3CeDi6YDhnbCWGT1SepJCZd5bFpYiJkH9STlU+6/meF6Sqhy/jorsWyAPZeZrBrdZ9/XVVV35ih2y14yo9QlPm8OX6cySQ4aCDk+BviHIuo6euX/1776AQcQxQAcCes7AAAAAElFTkSuQmCC", "196": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/AP//AP//AP//AP+DOUHVOUExMTFSOWp7UrS0c+bVrObu3u4QEBAAGJT///82D36lAAAAAXRSTlMAQObYZgAAAhFJREFUSIntlM2O2jAQx32cqOLx9tSe+wph1Qu3NY4icVucNFJvkHE5VgJPufZSDhyhKE9QqY9Qdexkt9gxvEBrKTjh/8t8eSZC/F+plWmtF3d0XRORlbd1i1LOa1rfsk9YZohobhEZdqLCsjvVNEsTpQBsHKm2t6LI8Oi2iQlNZK+ZVb33N5d9COxe7lTT7xM6poH5AIjiUwC8Rg0vLxabEGjjgLL2GgB6NSEr4wFor/MAQ33ick5DFUNAKLLumWW7mqaAJ6LdcgZOzxcp4NnsatoWhKt82gMqPC/4UB/Iuvfz+eB0GQKPXw/f2UGey8EDhn0F9cEB7VRKn4tQYQhCfPRAKSX/r7npMPTApXz4zN1IzoB2NzoykH359o48oaXf98cYeP/WC1aZfo8AsA9mfyEWt+gJG7mAmuzvn1RUhhQ63UZ9DRfaM/C0RVyhJTK4CQHBwC+z1Y/PeY7GWItNBLiRo7nWFQ4rBoDtbq70uFBCLHkor3Q8xoAz4oSWryoN8OjeB4RRLKyxbc5uTwBFwU7WujmVbKJNmFgbdtJ1HOwPNpH4EC2JXAHPWndpHwXZDRuenPWsUwkAyPaxg264J+PD8HUo+4F0I67GgHIp3gdmQy+nAeCwlM/ef8jUKMi/gOIawDgLsIsegBZn/DQ6b7A83c4xtPxbVKNSgz16SYiONaXHZ9H1Ur8mp5H+b68/E+5rC/JycQkAAAAASUVORK5CYII=", "143": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXV1b2Li7Rzc5RaWnNBQVr//8329pzm3pScnFLurHPVnFqkainV1d5qanMQEBD///9cfKMLAAAAAXRSTlMAQObYZgAAAvhJREFUSInVkztPG0EUhUfEhRsjrUkfMUYRVSI8Jl0cP1aBJnRLXFFEeOwGpCiOxxISTfCjiXvDL4jzAxBxm4LCspDSAmtlI5JqiyilY3JmxmsPhkCbHK3kx/32zLn37hLyf8q+ox6yUrcDM9b924H5u4C0Zdn2LTlCltINyBmZVQZzjFlWlFI7RUJrfQNw+y5+huaec56O2hlKF/x0NGkAp71TALHldc43V/lmhsKIToDIyZclmJIn3OdKIOajMQP4nbaij8g9x3H8miYopSbwWSbrS8DRFhwxWGoSQUVPLaOOEEX/Qlkwo4u0BBYAbEiCb1/wEo1NAVQBTrO6ro4QmStARg6nAb11cn4V9QKAhDEGRFqsy4gvG7oLITJZc04hulh1tBQihCj9Sp4bwLgOFetCAt0XQ1RmEARX2Kivc0W8Yc96JxjRUF6kZtYxCQCvrbmnqEQGffcnCfP8GJARC7BYsqIPFHDsDvqIlZ/cryxKmMzjITmPdGuNyx/qT2MRsMhiMtiW+7XBeaPJp1VIxOexDADHBVHOb9wAYN0KkA2Vc9eACpPPA0uQiJoJv5iUtuT3QkkDKRIWCqhPAPeh3ESJxXEC1qmBcnFcL7o9zs8AMBhMgG0RAO8HvdrWUAIQ9g2g0xFiW5RHBrnBcc4diqwCkhLYabUOAYyIqtOovuoGQEoCR63WgdhVUdFdHrMsdnulmALkI1ffb38YAVAFj5ooN/ZobBQBQLvdBrCigRpXmfme7ekIGvgodhOaqBXUR7F76ekICPFJAu+YIipc9SQq3WEQgYR32u1DAT5hrwBATx0JeEEEnIF7dvVY7FWOntC1aLIgghpVxWNaSQUcCH1H8Oo2/aDOkoWj1j6aEt44gnwlGDOAfZlZGBGuAKy+o7s2IkDeBPguOrKpXfMEQmaNM/RyvSsGUxZCTBvAIkvHFvVR16YBiIxenyz4vjdtoD3GiFTcJ+Q6MUHo2nQdxLc4DZS4dr+SP0ISfv/GukSU/lr+Z/UHx2PQWlnPvk8AAAAASUVORK5CYII=", "3": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzawQUiAglFpazZSD7sWDMQC9ajEQEBDeQUH/g3Oc9ovezTH/7lJBpBhqzUH///9P/ut5AAAAAXRSTlMAQObYZgAABCBJREFUSInVlE9o40YUxuUs3ZwCK9nFYJBdjQzqpRhrDHsMjQ177R5m7dAceqnDkhwsU2XCsmFJqfCYLSyUprXYXNLLgiC+bWmwr9tusA/VyRAYgXsJFCwI3ZJj+ka2EyVpeyz0YbA97/e+772nP5L0/4s6IZ/8S/pufXjkfkf+GXjsRvG3Gnfr9c+kVZHuuw2JVOnNPBTvEdZ23ZeDn1qk77rV6/nNY6jdY4w5zGWt9tC9QTzuH7lDt1N7u7a2tvp2e9pKIybgvhTeHWet/2O/T5hID93vY0AnKmFfbzwijz7dFK3sDzoxoObAkbvPnDe/UPrzGwG4PYddedQIHHWYQ2n/6dPX1GbCxKldAYQ9P+44pMbIxubGOnxBG8DHFFhvQFbhjBFKt0U9wCxm8R7rEdElEC1I9MVOaqwlxQCnvX8EjUXA84GAnTggkVp7OHCBYeCwf+zCh1VjiwIJ1hPr7dBqVeyxP+iwvfiqRUtCt2XbNoWRh2DWblwHxK46NiEkknBuAzXW7rTs9Xq1SuGCir9xYHHbES4Pt+wt27Zq0WW/fsssUhivt2PX1z8nOwJo2dfyUkImArC2tiwK16Ln3LgvuTzmlPUsladVzt9nr6uWHM8veV7Xlym1OD/lEKS6w3mcSGQ8PxtwrgbhOAi4OlJ91U9fdrnETzx+OJlM4Pj3MZ9MRiPONR6EjSuDQy+ESj/reZMg8DkYcGjnEpAzXhiG4wmXT7xg8tFE3YG0z8Px3OPEOzgMs6HqQ69B6POR5kNeDeceS143cxCOwtNm5uQHkFJHSAYPf5K+7EH2xuEoGBmHGa87BhDJanYchOG9KbAga11FHe00jQMvkwWvplz6OJsVbc2AyoqsGE2jaWYOg2z426leKitWZhxOZpvIV8oIQvsKZw66Pjjgyv0vm5nMuPvrHKiYCCPt27Imd2mW6hhvf9M0nrx68uoSKGOMtS/K2KCIIvhd1DVkNBbprIVKSRBapVTGSDd1jIBBTTSbAYByXgDJVL6CRZgY6yZSkDa/lACswHkuFXEYl3AxaSINzSUA0PNQt7yLKyUB5FdyAtD1D2YSqXISgOKyhacK+fQLXSiYxTmAFTCXl88qUwX5/IUOa0G6PveIAG0FWogUChfvYEpQwDOJhKIJoAIRTQGzYgHgObBcMCBjpqb7mk6qCAsTTz2MZw8gYyZhXfo0X5QR7EHHyVkTlJZNKFJKIJSEPP3zIYJN6sW5h5SAUlPTcoooT1uEgENTLPz+HMBFABS6vUstBR5cEEgr1wFoXZOThniDst0cQlRKIGjCmAF3/sAmyt9LFD6E53o3KfKSlFM0xZhte/kMFZTUA0mJFmFqIn/nnZI7S61MAYPSi3MKxxqFsKLhFijNXdCrt0zhXLoVi/GXzELjNvBfxV+BUAhDOe9pCgAAAABJRU5ErkJggg==", "6": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXV1dXuUkHFMSAprL0ge5QYQWr/5pz/1Wr/pFoQEBD/xWL/lEHeYiCUMQDV1dX///+qh23HAAAAAXRSTlMAQObYZgAAA+xJREFUSImVlD9o41Ycxx+mi8EaMmUqpF5Ch07xDZ0tDYUbApWG0Hh157uh9kFvyWIVGhAUl3vEInPlu+HG+D3RW64g9FPxFQqV9V493xC6FQK9tL/fk2LJSa6lb0hEfp98f/9/jP2fl/2HvfOi+oBX9wOrF5uP5X12axHcfIl7nHV0IW8ApuCORFYIkdRisC2B/y1ECkENyC0JqxAS+KwJxKopYQlIuHdEgNa6BI6gARSSTz0CtBbRHBltxZ5q+CgSj16on8eLUIkIIIy9L4IGMCX7YBVpefH3OyETTkAdhCWnru14qyiay/V3f8lkyYrMGzSSlp5t294swlzxYbksmXneRe3htUvAmSjtQAA6lcsasDeABICEWRT1Jg1LkoDtHF3CJYAGrLIBjoNbgHfF3+U8VADBNpAaDwgMsjzs5ugkURXQaoRgG6fhRx8b4NcK2KuAfr8E2r/sEAB3gF6v5zgEvNn5RGYAHO0uxUBAB2NEBcctAS0xSgrBOV7WSaCC5zjHWf7mQ5VQolgnF0emVQH9g77tuu4A1npdJBgDIGBjL2qgZ6OC560yLYPCAC4CLRMkAgcHBw4qYMfnOLgF5pF77kP00O2WSRDwwCEJzgNWCIzS9R5iEt3ungE+nX6OaXCcuwE2ogJoHCqgH7APeg8OGWtPPZVZ1NLs0CGgddIl4DP87B9SwG1PaWV6vuwEBjghgD69sihTnZZDERDQavknexVQvTCtpiZoM1yQro8SxevmhsQEYCE4s66Dlj+ZnDCrsWOWWM3jlIBZsPqBtSaj/W2gQEBSJUGFq2SJwO4WYKVyJeSMgOz35+hm8mh3XAGZ1q+YErGIYQaj0dfJWsGPwf6j3ceMLek+RFEk8UhkQiUwHA6/TGI8CGx/Z3evlMatE+JCiEJw/hMCwye4oZjmzmPTz3QRUXZKyCIXMjdAjG1j1ktqJ7o29vgMQxBS//w9unhizk0Rlw7EXMhUYJXjWMA1J+Ap9UqLZQWIGE9Cgr9zSM7RPhw9DVg7TMsFVyQfWCrE7Qd+9c2fKDA6TTjt4AYQWgFut1TJlf8V2kffKrPmNYBZ0c/Mf+aP6Clcn6RaDJVSj+GMcoXf/AnZx1iv5GYMFEh8cEbFQmBMwCkezs2B6UCapgCFAbLJZEICUJ8w1gbTPhFFFIk/Ho9RAPLGGJn+JmIxnxOAEqeYQvOWt0tALIyC75M9awwqYzn91YwrIMBD2PZAxDPfnxkAr5gFCrKZ3iYszmniJSlbJmgRsFvPrFxIX+gDp+ftbUCJuvqI/MFvA2ulM3VTnjbdgVseri+v15d3HDeKwc/fnufvtxMStP9F4P3vH2Wo9JIgZPU/AAAAAElFTkSuQmCC", "9": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz////Vzc2UpKRqSjmsYiDurFr/1WrmrFq9izmcakqD1f9qrOZBg8VKSoMQEBBJb+tYAAAAAXRSTlMAQObYZgAAA61JREFUSInt1EFv40QUAGBL3WuDJukNJVWHckHahNR3UiCC9kLEwdkjl8Srctjeau2ZHvIDKpD3skLKhV72B9hw4tZxKiRuzdhxWyio9rgW0dJdkTze2Kkd7y6IH8BLIlmZzzNv3htbUf6P/x4fTP59fIXWX/9TVd/PrrcoFWKyKoSyKrKbCKlkokxpnYtryxZn398s/msCxJUMIxhZlsWYPUtBu41gTiZ3oEzv4/2MsdMFuB00KyD8DBDawNEzm8Fs2oFtRZl+hSlkQGmScmPscMsVXugNBodTZfoxwagtZbwRhO6oXHc4j9uDQVuCMq1vK9kUG/OQ+3GVOTwmOyiauCz9LQMlInN0+Bh/HlnLwGFWKmHZDpMhAdlpD5tyhZ0clGwxTgAPeZO0j18HjC0mCPkfZHMIF7jC5TKIPQBR41yEHMhaB3xB37kc5EApgaZpEQjjEYfmGla5EsHt4EZZil9QaH8aBwgIfsstuD3cXgb3tK5+B+aytvDymVIEut5/YBy4gDVWsTvwclgE3QTsdWLswsUWbcFxmoKq5kB7aPQiwjmvqWoLnqUp+EQkXX2rq/c14+CzuHpiOb6qArxIQWkjdCfcFR8+1z9/YPQgHmNbvAsVpuZiE0KEruWxy76mGb0OkDEePT5vwe7uUQrO/Kprn7KfP9H1HsBeldmjCLxoah4tgEvuu2zE/AbAp4bxuMpY4HCIds2jpym4xiXYyPE3DRmPa+MRLuGBaZqddJtvOxwBz0HARhCT300zrWSzJnvs5oAHLGBkPQMrEcx5Ah5KsFcOQ1zjp3XzDsgagTyy78p2at1v66FgnHvLQB4HiL/Wk/iSzgme/hdFIM03SQ6GPowlmJrmkzeDA30fZtxd/858Umy3kgG915iT9ffM45s3AgPBRzRap8evgNWrO7A/F5wD3RwWwdmP3WS8/8XzAGvtnlNZaZFPYP3QTwuhP0qeoHPawsxH+QSW/WtaCAQWAhdBKTjNwLXFrha7CE4k8LbUecC8rAr4CnMXm1gAVf2LOTk4wYN4lYzrgWXb2IwLBHyS9Qvz8hZJBNaJ7JZQZ5zfFICbjO8HzEYQRQiyFRQlYHzGBW4TZBmwW7OotTSBoqDGYzNNt4nj7iwqTICHBld0I8DDr4f48EX44YVa4zgC5V4HX9IAIAkUeiFvE1Gaj5Pg4rjq17hfT+ccMwFytuVYqZCyIClYqY0InYlGASiQRHLZLPv4BjqnrxyoPPBBIfUI4B+BNPng36RqttVUo9AGAAAAAElFTkSuQmCC", "212": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXNzaz/////xXP/YhDNOQB7IAD/AP//zRD/iym9iyn/AP//AP/Fxc2UlJxaWmoQEBA2fxRKAAAAAXRSTlMAQObYZgAAA2RJREFUSIltlD9v2zgYxgmYHB1DwHWzF+k656BXmglYNDqqNcPtevkcXe473CfoZ9Eeo9FwW5zcDV1j9eiiHRrznle2a0syEcAR9ePz/nsoIfZrvBZCvhU/1/hedNd4JsQ8Pz3Xsz4wvRfpCRhH6x4g6nsZ6zOBqh+jXu0Bsxeoe8DoNwAJALnAk3Szqg+8Vm6UZI0oSjwV9GUAJDazAGQCQFI2AFBitqSsmUMEAmYIpHQD4CtHgUAZDQCZLFJqRYQl82M67TdKJnlMeUKlUBCoqgEwivHWEgAWqKqqD4g58eIIWXk3jQaNFGmSMPBVtQLTaADIOGVg6xbOuWiQghAqhoLOysUyJlQ5BCZxTPTdlCV+ywsRxCSNSX9jAKUM7MIhIP3mLwDI5McFAWmXCb37xQQGwgWBIr4mujFlMF6DGALzmDx6HLwpd+4SUaBGMiH4rHx4cJQ3QoUOpTCHEJ5DkZWrVWWtdpYy1yOW+nGLMKuqfmXzjPv6tkOEZbJDHrd1PatftaOjRTcPF2tPphnPounKF0iV8s57ZZe/IgVckYdopvSjB3GIIY1zwoUkIGzJ1+ZupfSfPj4CMsUkA2ktJoEWsPWaFT547C4O7ym/gd9QNwx5i631vdIfiyPA599/Rqe8436FxqFFCpJ8ULBd4ZT3HzzpGJukg2NrqpwKggHaKQD4AwCcEPCHkww40EeAO/LRY1j08t/1JqQJmqFyHXzaAmlr91BwHeunXQugVluGbQuMkrapeaDG65f18ya0twPXA8GYlGxmJGB8M9FPj8/BY64NFxyg2rSAbvCEFtpyjQi+DHyQY/hsD8AcGW8W/uVpF8iUll9gb28Zq3nUSEGR1wgBQLUdtKYRJ8BTIzN//bjxmSk5Q9yUcDSKEBDQIFW82xADKtt2DckC+MC59BqWYmV3Y84JxT5HCga3iwwDy8QcMtivW+BIgSwDXOPy8Hu+RpgiPkNtBHyHDv+cL8wArtkflHRBArcXztqfk+kFCclzP963OehBDP7QLQ6bRbx3eFeCjXHbHOSSISAY+P0ApPGFGPZMlk0/AOQZINMLgCrOircJuT4gtmH7E5hQfjcAJg9/nzL376ZPfeAq+nT6qEy+RJ/6gPj3fOuqng1idABxNR0AV13R538GMTb9jf8B6kycYgbSCVcAAAAASUVORK5CYII=", "282": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEWcpFLu7v/Fzd6ktM2DlLR7UlJzKTn/nIPmUjmDzf/////N/6yU5pRzvXMxe0oQEBD6IaPTAAAAAXRSTlMAQObYZgAAAl9JREFUSIl9lTGP0zAUxzPkRhI5t4PyLoibqERvQAwHDZkJCzOfgm8A6n0Qdj6AW/gAdQB1Qmqcht6CxMUthYGBxjynvqa9s/OWSP3//P8/20+u4xjLE+bfr0vMaFF26BXF+mgnPEYbYmU1YDSbIfHFZsDzCR1PKB1ZLDYKUMT4kyWBc9XEmNKJ0cLjorGgMzr7agQqIitlMaIjY5sVX5B7gqmMsQUopiStkZhkRuAqKwR5MvzHaG4DFoQ8/vshZ3lWGgFWLMjx8H2dX2XGbSJACOkPHvJqbtLxqgpxGZKgV3DzUftZLsRvOJFiadRxnwgs+6kjbde94Z8RqK3T4Ph8JpaPaltAY0EFRKUd8Kucfid37YDjyRqP4lmHxSLsBrwCgftRB8CBkAev7UDFp0BOh+/swHwDcHrxxp5QetNuYHW04d8uXloTCgeBH0Mb4PG5c/RW2BMqXiIA1oQ7TE1SDK9sATlToxhDz6yLnKlZdsEMeBVj2gAi00j9pLwxSMAC+JIy6bgJCQBOnhp7kNJNBjgMaJEaZDdJGlk5wPNbGVokWwPor26uJrtSBhAdNtGu1gY3gL3lWj8EDDpEl20T7p7c5EN4CLT5wZk6RYiDYB9ww53aHCJEYRjCWQvEoOUtFiWDAOuFuO4S7xYJ0I1G2w2HYQvETVs93UWsv8fiEJC/ArAAKiGSzjqSDRHpjs93ABqk2K+/chQB8jaAy3Wt0UqstwlVIfQ20/bAfFnjE9gknXNeGIYOdSH+INHHPybTS+xLRUgAwbnlJZZYjlS6+SnXtTF3sB8lyy59r/4DvWlhizGoJOoAAAAASUVORK5CYII=", "376": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEUxpFLNzc2srKyUi5RzanPe3t6DSkr/amrVSlKDzf/F3v9apP9Kg9U5YrQxOXMQEBCdZlluAAAAAXRSTlMAQObYZgAAAw1JREFUSIntlLFu20gQhrdwaxEWkAfwWrjuYsR0auHgXBfESACVeR2/w4bRPYAAtwcIQ8a1oFnykE4hl3QcN4bIXcZKYcMiN0NHVhzbSn9Bplrg/zjz78wsGfsd/8toHS8O5mHdKbIFqOzDuloAjioeIqpUl4tjrYvyrqwcpZeA1dq09A/6+sAqs8zrEFGI8kcgS6tsCWgqIo5uAx8GWaZVydaVUv+RnVrr8W2gfnMYGV1kxYfBYHBoFWUwY/97DedMHKKtzZU/aCLTRhubwHegnggf59aCh6QrYnWFOUQ3eisVIomSMBoOYSQKRDiyKOewrFGkwsNIhXjloRBBMoYjrLL50kRLFaKPtsqxSoZDD4IxVEg245saVXom/MhmCj/+6XkAvpKVIqMSspsKl2TBUSrlPAYAlO1tpbRBhdc1aAgTD48dq0745qsYfHzf5pWqdY5ovgFm1MfSGvuM80evEXGz3TEEzBHzJkWdFhijzfSVevak11P4foPvJ1ab/AbQlQ++VdYHe/qUiI32ts2jayCJrgEJvp8pNYbPB6e93svNzoHNZT3PUUoCHFP1wQ+iKgG4uKj+7rXbf1zUqOoqQRnSPRx91gcIormM4d+Dy9MNzp8foExvAZcE5GFF9mH49oRz/hilIkBhEMoGEIkHCVryhBhyvsd5odJ9bQiQtEOsFhPxDtHuagJOeCfc4Y/T0y51MoHrhzAdjUTfx8zt1kW6s/UcP3GuZ7RSc0nAMQG+EDHg8az88sJ1X2itd7a6tbF1QkBKKaaBEFOfhsGcPXeXllbN3K6jy+m7AtKCNncKEy8mgFri7takp8YtHcNyaCZLnVqH+J8xymZusy6z1paMXlDJcqRFbQANE7pE2IzFuf2YWjkBoWGtEOI+ARm7GzPyOytZjMEwQJngvfd83j13CZgGMUhFLu8BTnnedegSQyEE7dl9YOGpAXxcuHwoWt+AcMWPi7G1YkRA+mlVArbm0r/A7LmrgY7juuVaZ5XO2P7aFvV+ezXA2JNO0/ufxF8//ZzdmdGvGV8B9JF1rCpfHt0AAAAASUVORK5CYII=", "232": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXm5s3///+kxcV7nJxSc3MxUlLm3tXVzc2spKSDe3vFe1qUOSne3t69vb1aWloQEBBagbGUAAAAAXRSTlMAQObYZgAAAxlJREFUSIntlL9r20AUxwVNIFBQ0NbB7aB0D0T2nBKfZqWJBdn0Z8ibyRB8JUUa007dVehUCFjQUkohBbshWwt1fgwlHhwlcc/4wNSv751kObHT/gPtw2DQfe7d933fu9O0/zEbcwzjyZ/X2YppmlZp3XXdO9fLFgamcPpuBe7KX2I27q04guHvjhzzGyZlcIQDAIytzwBrtE4EKGAmBaV3N60iA+Ccg+tOpWBYwJK1iufTOhFXtxWaVKFVdJgjuY9RhVuFsA3aTwJY0d3yFSFunMGsTVwtogeCWaa9VSei5oyX71lmqYQKAYTDyujmY5WkZo8NXDEtu0JdIIMIQMRGISKVWUZxzFYK6Az8WyE9tgcpMGdaqwA9M+uDRyZZKeyoOtaWh3Ec97IETp9shLKCEScA4kYUsSz6HiBPTqeBhzBNux+/VTaRiyO+24heqzQgFJD7SC56z79wRbxHO6vhxMy1zGZpfMY27MYgOXpVDXMne6oE4Ty9PvB91StldpADP8lGJqA52vMnUeV5Q+dJMdiQ1P1ZgJOGJXLB4byKn6eB7WQCJDXY49PAmZFoPQV4wcPrwregPgUsGEaSAjIwHh21XuQA56cE6B+MAwJsIcMjw2hJPgVoXeMj0EALGP4yCi3lUQakTunNT9SKohjG8nuzzXnQqacSMkC72KFWMDFsvLlon/DgfKxxDGg/aJ4QiKJ3l5Infg0GdWV57vXGEt1JL4r2cVdx0DNX66ojOTDv4gQypxHtB7yHwFJRpkDeDKFmejeuSm6ygWAZEHp5O6nf9sAPeWhCPRSMgM4NYFHNrDc6BVimWWKyowB7fEbab7xreihJvxihAL4jckCjiSkKuNL5QFmoElRYDuhKBBaidQboZHKJD4S9VWH5/dVDdStcT9MfGIXj5iFdDVlh+VifV+kiuPiqnH1FIGlfoSoZwtjrBZ7wZy+hjxv0pNvqcCBVZESmYXu7MEpeZRWPEtUknQcJlyfpx+DsMGiOz1sEoH16p9tK2hmgJZLD7VdN6x4328eTjzC9rulw0Q61v8bizKZ/OH4DkVsactQV8VoAAAAASUVORK5CYII=", "286": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEXu7u7/////7pz21XvVrGpSGBBiSjk5Uhikg1Ks1WKUvUpzlDHue0qsMRAAAADeSil+szSjAAAAAXRSTlMAQObYZgAAAs9JREFUSIndlc9rE0EUx+cUD8X5EzxE8A9wltKDtocMJSDkL5AampDuSXLqQhcvtmwGD70n/gEhEwzeBndwL7lGK3jQQ2MDhnRh2/EfiI1vd9tk9ke8Cr4ENpv3me9782beDEL/pW1IsL/5e22w/vu1wId2ZG/XERvCsl0Q6QzUGuCQHVhA8POzSS6AHZM1LJe/G8mbpGNWjZ/Mgc+BmwTuWc1g/1H822cNZjL742KhAUe8K18vAZ8x1pIXi28rgV6HH5JncVL4lJaZAomxSACWdWo1w5f7M2JUlN+Cci6ncc/lXc4hTgR8L5LtBz6zdUDyozbv9jqRRA2AyylkIZvLGIEEYNDrhEMKBEyRMgDeqgjK5nzA+RIgpAwxVgBCtssF7zdjwDEJYQAM9EJKGdyOUDNaJoZjtlxdoaAUVndZTymljtOSXR1gk9ULAGUf1qOpAf5JNQFUfJinNgb+04AapRPs20LzozrRAaMSTl2PgH5qAEx0G6VNB44J2ZqkgdoKMIsPyVYlq7B5q28Wi0VinLxMATgGCo1jEgIlSlMEJBbG2AfnYwhh0DSBSxFQI+QElrIECvUUUae7KFoSQjYNYwuKDdXSAZ+yapwtUaXSLqW79SRQYMyJgdMbWApYDpVsTgzN0Aifav4DAI/SXwmBsGGAqCJrMD+f0kBOK+PPKCPBnAPOr54rBRsWlFBWgr2Bzas470vhXaVCxBJHvB02Ee8LL3uAgEQLjo4Od4EQXsaPsAkAKEATcp7cT0uiJUN5APp2OoOYmAUSwgMlZC6AcABdL+Br56QQE3bYYsIW+QJRC3oYCrUWQEHkChXGX/KBKLvA5a9GO3kEjo+NDSnm4+FOHmDx7iTM1VsMz4c5EpdfBQkPUKwW86ejT1ngeijI70jqYjF6cZMFxkPxJAKQur7Yy7kRrud7Z7fjVidOIskxXnNP3JlCa26af2p/AGVSjA69sbF1AAAAAElFTkSuQmCC", "350": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAMFBMVEX29pRzOTGkalLevZz/1bT/5tWUrMWLxf/VYkHug1q0UkHmg4v/pINqYnv29u4AAACz8+nGAAAAAXRSTlMAQObYZgAAA0RJREFUSImF1c1LG0EUAPBZD/0QSrLGaKKF2orQa7q5S5vJpVBK6c5BT3oZi2EJXrKghJqeNl5KoELGkz0UdnsuuWyDeC0Reto96P4PEcGCtGzfzGyMJrs4sMtk3i/vzczOJgiNtInRgVtBFaGlBegoU/FxPiyAoOONxyfIgsQL43ElLUBafkqPg6f8SxN6MhBll/QXdwB8B5jGLxMn+YxPFEdAGY+LMUXHb6/1aONZvxGS73MYU4HPa3KfEHaA5J7FTcLZJyvMirYkZhLpPCErbeswIQ4LZVDB/qQmxZGyAqAw1UiKIyVL9C+qlQyeEPJeLdnJIAXgVWi3kkuUCQ7fOclgoojx84zDEgE8S6xpDjtMBBlcAtBMBl81TVu0rbHDQsV9DSH7QjvXYsBGHW73agA+h4uxwPwdAeswEw/q/LaGHiQCSOHDFYHdUXDfNINHpgC744BSBME6XDUAexzsjeTn3zYDQAPQGAE8eA2yq+3mbcDz+3CZ5kc02T7IrjLWGgXmNWAxANYHoGZQAA9Zi8QCo9ahXqeKnFgANQzq0tNOH0BDAFUd/kbRIPB3Op7bAaA6LCtAvddTB/u9YdaCmutVAJz/YgBeM8Zmz05Oj9VBgRoNKt2Ka3T+CoDzAGDhP3uR8CilnusB+MfnKAFMfKd3LKukaMXtQgrjiF6DFt8Yt3csU4TUdYOKZ1Q3eQVdgDdmvfcD4/RQQKGqMwRucAZAL0ighJQa1PsjK+BC02rPdw0XY1KSKWb9MKSed8WaDQEsy5rv0kwRE5lCgUexdUmrHywrW45Ao0vXi2WiL4sEZuCrKVqF8Wldj8B3bx1DOg1+8pSTOl1H6HIThstlHAGkTBNCShw87nkU5nJpwzCE4e3MgVCzENcHABKgK+sWEHF41ftI6Z3UAaQggZXhQBsA0efAN4O0MmfZEpQk4MlKJV5CgePsb804bRiGpUNcK0hQLBa1Zf6sfNiHbdbiJTTROOB9SMD3Ycaod32nNWc1boAm7xf5FGB99NTtbqdtK9dQJNByOZZr8I7YyNTlqXt0jmx1cghUOLc83pcnJgz74h8rjQY1tHxrGL/ZlIsoRwFAOB7nRyMiahjGhCWRbfD5P8TruDYz84+IAAAAAElFTkSuQmCC"};
+const TYPE={Normal:'#a8a878',Fire:'#f08030',Water:'#6890f0',Grass:'#78c850',Electric:'#f8d030',Ice:'#98d8d8',Fighting:'#c03028',Poison:'#a040a0',Ground:'#e0c068',Flying:'#a890f0',Psychic:'#f85888',Bug:'#a8b820',Rock:'#b8a038',Ghost:'#705898',Dragon:'#7038f8',Dark:'#705848',Steel:'#b8b8d0'};
+const ty=t=>`<span class="ty" style="background:${TYPE[t]}">${t.toUpperCase()}</span>`;
+const TEAM=[
+ {id:212,n:'Scizor',t:['Bug','Steel'],item:'Leftovers',ab:'Swarm',bst:500,st:[282,394,236,131,196,229],hp:282,mv:[['Silver Wind','Bug','Special 60','100','5/5','Not very effective'],['Steel Wing','Steel','Physical 70','90','40/40','Not very effective'],['Slash','Normal','Physical 70','100','20/20','Effective'],['Swords Dance','Normal','Status','—','30/30','Raises Attack']]},
+ {id:282,n:'Gardevoir',t:['Psychic'],item:'Leftovers',ab:'Synchronize',bst:518,hp:278},
+ {id:376,n:'Metagross',t:['Steel','Psychic'],item:'Leftovers',ab:'Clear Body',bst:600,hp:302},
+ {id:232,n:'Donphan',t:['Ground'],item:'Leftovers',ab:'Sturdy',bst:500,hp:384},
+ {id:286,n:'Breloom',t:['Grass','Fighting'],item:'Sitrus Berry',ab:'Effect Spore',bst:460,hp:262},
+ {id:350,n:'Milotic',t:['Water'],item:'Leftovers',ab:'Marvel Scale',bst:540,hp:394}];
+const RED=[[25,'Pikachu',['Electric']],[196,'Espeon',['Psychic']],[143,'Snorlax',['Normal']],[3,'Venusaur',['Grass','Poison']],[6,'Charizard',['Fire','Flying']],[9,'Blastoise',['Water']]];
+let lead=0;
+function renderTeam(){
+  const L=TEAM[lead], S=TEAM[0];
+  const st=L.st||[L.hp,0,0,0,0,0];
+  document.getElementById('leadCard').innerHTML=`<span class="badge">LEAD</span>
+    <div class="lh"><div class="spr"><img class="px" src="${IMG[L.id]}" alt=""></div><div><b>${L.n}</b>${L.t.map(ty).join('')}</div></div>
+    <div class="kv"><span>Item</span><div>${L.item}</div><span>Ability</span><div><u>${L.ab}</u></div><span>Base stat total</span><div>${L.bst}</div></div>
+    <div class="stats">${['HP','Atk','Def','SpA','SpD','Spe'].map((k,i)=>`<div><small>${k}</small><b>${L.st?L.st[i]:(i?'—':L.hp)}</b></div>`).join('')}</div>
+    <div class="moves">${(L.mv||S.mv).map(m=>`<div><i style="background:${TYPE[m[1]]}"></i>${m[0]}</div>`).join('')}</div>`;
+  document.getElementById('teamRows').innerHTML=TEAM.map((m,i)=>i===lead?'':`<div class="mrow"><img class="px" src="${IMG[m.id]}" alt=""><div><b>${m.n}</b>${m.t.map(ty).join('')}</div><div class="ia">${m.item}<br>${m.ab}</div><div class="bst">${m.bst}</div><button data-i="${i}">SET AS LEAD</button></div>`).join('');
+  document.querySelectorAll('#teamRows button').forEach(b=>b.onclick=()=>{lead=+b.dataset.i;document.getElementById('leadName').textContent=TEAM[lead].n;renderTeam();});
+}
+renderTeam();
+document.getElementById('redTeam').innerHTML=RED.map(([id,n,t])=>`<div><img class="px" src="${IMG[id]}" alt=""><b>${n}</b>${t.map(ty).join('')}</div>`).join('');
+document.getElementById('phRed').innerHTML=RED.map(([id])=>`<div><img class="px" src="${IMG[id]}" alt=""></div>`).join('');
+document.getElementById('phTeam').innerHTML=TEAM.map((m,i)=>`<img class="px${i?'':' lead'}" src="${IMG[m.id]}" alt="${m.n}">`).join('');
+// moves menu
+function moveMenu(mvEl,infoEl){
+  let cur=1; const M=TEAM[0].mv;
+  const draw=()=>{ mvEl.innerHTML=M.map((m,i)=>`<button class="${i===cur?'on':''}" data-i="${i}"><i style="background:${TYPE[m[1]]}"></i>${m[0]}</button>`).join('');
+    const m=M[cur]; infoEl.innerHTML=`<div class="l"><span>PP</span><span>${m[4]}</span></div><div class="l"><span>TYPE/</span><span>${m[1].toUpperCase()}</span></div><small><span>${m[2]}</span><span>Accuracy ${m[3]}</span></small><span class="eff">${m[5]}</span><div class="two"><button>POKéMON</button><button>RUN</button></div>`;
+    mvEl.querySelectorAll('button').forEach(b=>{ b.onmouseenter=b.onfocus=()=>{cur=+b.dataset.i;draw();mvEl.querySelector(`[data-i="${cur}"]`).focus({preventScroll:true});}; }); };
+  draw();
+  mvEl.addEventListener('keydown',e=>{ const k={ArrowRight:1,ArrowLeft:-1,ArrowDown:2,ArrowUp:-2}[e.key]; if(k==null) return; e.preventDefault(); cur=(cur+k+4)%4; draw(); mvEl.querySelector(`[data-i="${cur}"]`).focus(); });
+}
+moveMenu(document.getElementById('mv'),document.getElementById('minfo'));
+moveMenu(document.getElementById('mv2'),document.getElementById('minfo2'));
+// switch popup
+const HPNOW={212:[150,282],282:[278,278],376:[302,302],232:[384,384],286:[0,262],350:[394,394]};
+document.getElementById('partyPop').innerHTML=TEAM.map((m,i)=>{ const [h,mx]=HPNOW[m.id], p=h/mx*100, c=p>50?'':p>20?'y':'r';
+  return `<button class="pm${i===0?' cur':''}${h===0?' fnt':''}"><img class="px" src="${IMG[m.id]}" alt=""><div><b>${m.n}</b><small>Lv100${i===0?', in battle':h===0?', fainted':''}</small></div>
+  <div class="hpw"><div class="hpbar"><span>HP</span><div><i class="${c}" style="width:${p}%"></i></div></div><div class="n">${h}/ ${mx}</div></div></button>`; }).join('')+
+  `<div class="pop-f"><span>Switch? It uses your turn.</span><button>CANCEL</button></div>`;
+// countdown
+(function tick(){ const now=new Date(), n=new Date(now); n.setHours(24,0,0,0); const s=Math.floor((n-now)/1000);
+  document.getElementById('cd').textContent=[s/3600|0,(s/60|0)%60,s%60].map(x=>String(x).padStart(2,'0')).join(':'); setTimeout(tick,1000); })();
+</script>

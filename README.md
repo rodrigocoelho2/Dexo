@@ -49,6 +49,11 @@
 - **Battle music** from each generation, **930+ move animations**, weather, crits and super-effective shakes.
 - Trainer cards with record, streak, **eight badges**, a partner Pokémon and **replays** of every battle. Spectators can watch live.
 
+**Daily Red**
+
+- **One team a day for everyone**: six fully evolved Gen 1–3 Pokémon at level 100 with Gen 3 sets, and **one official battle a day** against Red on Mt. Silver (Pikachu, Espeon, Snorlax, Venusaur, Charizard, Blastoise). Practice runs are unlimited.
+- A FireRed/LeafGreen-style battle in **one big window** with the log beside it, a Red who plays by expected damage, a share grid, stats and streaks, and who else played today.
+
 **Built to self-host**
 
 - Three containers from one `docker-compose.yml`, made for a UGREEN NAS: **SQL Server 2022 Express**, a one-shot **database deploy** (tables and stored procedures from `LivingDex.Database`) and the **app** (ASP.NET Core + Node.js for the simulator).
@@ -171,6 +176,17 @@ The crossed-swords button in the header opens the battle room. Each battle gives
 - **A look for each generation** – Gen 1 battles use the Pokémon Red/Blue sprites on a plain white Game Boy screen, Gen 2 the Silver sprites, Gen 3 Ruby/Sapphire on the GBA fields, Gen 4 Diamond/Pearl on the DS fields, and Gen 5 the animated Black/White sprites. The HP boxes, text box and wording ("Enemy GENGAR", "Foe GENGAR", "The foe's GENGAR") follow each era. Gen 1–2 keep the Game Boy effects (screen shake and blink) instead of the modern move animations. The bottom touch screen is the same in every generation.
 - **Battle music** – each battle plays a track from its generation, picked at random and looped: the HGSS Kanto and Johto trainer themes for Gen 1 and 2, Ruby/Sapphire (ORAS), Colosseum and XD for Gen 3, Diamond/Pearl for Gen 4 and Black/White and B2W2 for Gen 5. The ♪ button on the bottom screen turns it off (remembered on that device).
 - **Badges** – eight badges on the trainer card, earned in battles against other trainers: First Win, Ten Wins, On Fire (5 in a row), Last Stand (win with 1 Pokémon left), Sweeper (3 KOs with one Pokémon), Flawless (win without losing one), Veteran (50 battles) and Time Traveller (win in Gen 1 to Gen 5).
+
+## Daily Red in detail
+
+The snowy-mountain button next to the crossed swords (on the phone: **Battle › Daily Red**) opens Daily Red. It has a yellow dot until you've played today.
+
+- **The day's team** – six fully evolved Gen 1–3 Pokémon, no Ubers and nothing too weak to stand a chance, with Pokémon Showdown's Gen 3 random-battle sets, all at level 100. The team comes from a generator seeded with the date, and the server stores it the first time a date is asked for, so everyone with the same date gets the same six. The day is **your own date**: the team changes at your midnight. Pick your lead before you battle.
+- **Red** – always the same six, lead Pikachu (Light Ball), all level 100 with perfect IVs and held items. He knocks out what he can before it moves, switches away from a Pokémon that would be knocked out first when a teammate takes the hit much better, sets up (Calm Mind, Curse) when it's safe, heals when low, puts things to sleep or poisons them, and otherwise uses the move with the most expected damage (a Gen 3 damage formula with the real stats, abilities, items and weather).
+- **One official battle a day** – enforced by the server. If you close the page, the battle waits for you (on any device); one left alone for 6 hours is forfeited. A simulator restart gives the day back. **Practice runs** use the same team and don't count.
+- **Matchups** – a table of how hard each of your Pokémon hits each of Red's, and back, with who is faster.
+- **Result** – a share grid (one square per Pokémon, standing or fainted) to copy, and your stats: played, win %, win streak and day streak (both count consecutive days). **Trainers today** shows how the others did, but only after you've played yours. Daily Red doesn't count for the Showdown record or battle badges.
+- **The battle** – one window: the Mt. Silver field with the Ruby/Sapphire sprites and GBA HP boxes, the moves menu (arrow keys and Enter, or the mouse) with PP, type, power, accuracy and effectiveness beside it, POKéMON for the switch list and RUN to give up, and the battle log on the right (a tap-to-open row on the phone). Text speed NORMAL or FAST.
 
 How it runs: `LivingDex.WebApi/Simulator/bridge.js` loads the `pokemon-showdown` npm package and hosts all battles in one Node.js process, which the app starts and supervises (it is restarted if it crashes; battles that were running end as "stopped"). The page talks to the server over SignalR (`/hubs/showdown`): WebSockets if your reverse proxy allows them, long polling otherwise. In Nginx Proxy Manager, tick **Websockets Support** on the proxy host.
 
@@ -295,6 +311,8 @@ LivingDex.Client/psfx/build.sh               # needs Node.js; → wwwroot/lib/ps
 | `dbo.UserStateHistory` | past revisions for restore (the newest 200 per trainer) |
 | `dbo.TrainerProfile` | partner Pokémon and last time online in Showdown |
 | `dbo.Battle` | finished battles: players, result, teams and the full log for replays |
+| `dbo.DailyRedDay` | the Daily Red team of each date (stored once, never changes) |
+| `dbo.DailyRedResult` | each trainer's official Daily Red battle per date: playing, won or lost, turns, Pokémon left and the share grid |
 
 Stored procedures are named `{Entity}{Operation}` (`UserCreate`, `UserStateSave`, `TrainerProfileList`, `BattleListRecent`…); each sets `NOCOUNT`, its transaction isolation level and, for writes, `XACT_ABORT`. To look at the data, connect SSMS or Azure Data Studio to `<nas-ip>,1433` with user `sa` and the password from `.env`.
 
@@ -349,6 +367,9 @@ Every screen was designed as a clickable HTML mock before it was built. The sour
 <td width="50%"><b>Alola map (SM · USUM)</b> · <a href="docs/mocks/alola-map.html">alola-map.html</a><br><img src="docs/images/mock-alola-map.png" alt="Mock of the Alola map for Sun / Moon and Ultra Sun / Ultra Moon, drawn with the real map code and data"></td>
 <td width="50%"><b>Galar maps (SwSh)</b> · <a href="docs/mocks/galar-map.html">galar-map.html</a><br><img src="docs/images/mock-galar-map.png" alt="Mock of the Galar, Isle of Armor and Crown Tundra maps for Sword and Shield, drawn with the real map code and data"></td>
 </tr>
+<tr>
+<td colspan="2"><b>Daily Red</b> · <a href="docs/mocks/daily-red.html">daily-red.html</a><br><img src="docs/images/mock-daily-red.png" alt="Mock of Daily Red: the header button, the day's team, Red's team, the battle window with the log, the switch list and the result"></td>
+</tr>
 </table>
 
 ## Configuration
@@ -397,7 +418,8 @@ Every request that changes something must send the header `X-LivingDex: 1` (CSRF
 | GET | `/api/showdown/battles` | Your 12 most recent battles |
 | GET | `/api/showdown/me/stats` | Your wins and losses per format against other trainers (for the profile) |
 | GET | `/api/showdown/battles/{id}` | One battle with teams and the full log, for replays |
-| WS | `/hubs/showdown` | SignalR hub: presence, challenges, battle messages and choices |
+| GET | `/api/dailyred?date=yyyy-MM-dd` | Daily Red for your date: team, Red, matchups, your battle of the day, stats and trainers today |
+| WS | `/hubs/showdown` | SignalR hub: presence, challenges, battle messages and choices (`DailyRedStart` starts a Daily Red battle) |
 | GET | `/assets/sprites/{path}` · `/assets/cries/{path}` | PokeAPI files (`.png`, `.gif`, `.ogg` only): bundled, then cached, then downloaded once |
 | GET | `/assets/battle/fx/{file}` | Battle backgrounds and move-effect sprites |
 | GET | `/assets/music/{file}.mp3` | Battle music |

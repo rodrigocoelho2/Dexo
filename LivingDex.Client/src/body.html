@@ -53,6 +53,7 @@
       </div>
       <button class="backbtn" type="button" id="sdBack" hidden>◀ HOME</button>
       <button class="sdbtn" type="button" id="sdBtn" title="Showdown" aria-label="Showdown" hidden><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke-linecap="round"><g stroke="#fff" stroke-width="2.1"><line x1="3" y1="3" x2="13" y2="13"/><line x1="17" y1="3" x2="7" y2="13"/></g><g stroke="#ffd23f" stroke-width="2"><line x1="11.2" y1="14.8" x2="14.8" y2="11.2"/><line x1="5.2" y1="11.2" x2="8.8" y2="14.8"/></g><g stroke="#4a2a0c" stroke-width="2"><line x1="14.2" y1="14.2" x2="16" y2="16"/><line x1="5.8" y1="14.2" x2="4" y2="16"/></g><g fill="#ffd23f"><circle cx="16.7" cy="16.7" r="1.2"/><circle cx="3.3" cy="16.7" r="1.2"/></g></svg><span class="s-dot" id="sdDot" hidden></span></button>
+      <button class="drbtn" type="button" id="drBtn" title="Daily Red" aria-label="Daily Red" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M1 16 7 6l3 4 2-3 7 9Z" fill="#e9edf6"/><path d="M7 6l-1.8 3 1.2-.4L7 9.6l.8-1 1.4.4Z M12 7l-1 1.6 1.1-.3.6.6.5-.7Z" fill="#9fb4ff"/><circle cx="15.5" cy="4.5" r="1.6" fill="#ef3d4f"/></svg><span class="dly-dot" id="drDot" hidden></span></button>
       <div class="acct" id="acct" hidden>
         <button class="acctbtn" type="button" id="acctBtn" aria-haspopup="true" aria-expanded="false" aria-controls="acctPop">?</button>
         <div class="acctpop" id="acctPop" hidden>
@@ -176,6 +177,11 @@
       </div>
     </section>
     <section id="sdResult" class="s-screen" aria-label="Battle result" hidden></section>
+  </div>
+  <div id="drView" hidden>
+    <section id="drHome" aria-label="Daily Red"></section>
+    <section id="drBattle" aria-label="Daily Red battle" hidden></section>
+    <section id="drResult" aria-label="Daily Red result" hidden></section>
   </div>
 </div>
 <div class="modal" id="modal" hidden>
