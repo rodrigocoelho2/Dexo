@@ -261,12 +261,12 @@ function drHp(B,side){
   const bar=box.querySelector('.dly-hpbar i');
   if(bar&&box.dataset.who===m.name+'|'+m.side){
     // same Pokémon: let the bar slide
-    box.querySelector('.dly-r1').innerHTML=`<span>${esc(name)}${g}${stt}</span><span>Lv${m.level}</span>`;
+    box.querySelector('.dly-r1').innerHTML=`<span class="dly-nm"><span>${esc(name)}${g}</span>${stt}</span><span>Lv${m.level}</span>`;
     bar.className=drHpCls(p); bar.style.width=p+'%';
     const tail=box.querySelector('.dly-nums,.dly-party'); if(tail) tail.outerHTML=extra;
   } else {
     box.dataset.who=m.name+'|'+m.side;
-    box.innerHTML=`<div class="dly-r1"><span>${esc(name)}${g}${stt}</span><span>Lv${m.level}</span></div><div class="dly-hpbar"><span>HP</span><div><i class="${drHpCls(p)}" style="width:${p}%"></i></div></div>${extra}`;
+    box.innerHTML=`<div class="dly-r1"><span class="dly-nm"><span>${esc(name)}${g}</span>${stt}</span><span>Lv${m.level}</span></div><div class="dly-hpbar"><span>HP</span><div><i class="${drHpCls(p)}" style="width:${p}%"></i></div></div>${extra}`;
   }
   box.hidden=false;
   drCount(B);

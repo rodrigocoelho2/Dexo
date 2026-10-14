@@ -1395,7 +1395,7 @@ button.b2-fbadge:active{transform:translateY(.12em)}
 .dly-hp.dly-foe{left:3%;top:7%;width:40%;border-radius:8px 0 22px 0}
 .dly-hp.dly-me{right:3%;top:53%;width:42%;border-radius:22px 0 0 8px}
 .dly-hp .dly-r1{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;font-size:clamp(.62rem,2.6cqw,1.05rem)}
-.dly-hp .dly-r1 span:first-child{overflow:hidden;text-overflow:ellipsis}
+.dly-hp .dly-nm{display:flex;align-items:center;min-width:0}.dly-hp .dly-nm>span{overflow:hidden;text-overflow:ellipsis}.dly-hp .dly-nm .dly-stt{flex:none}
 .dly-stt{display:inline-block;margin-left:5px;font:400 .44rem var(--tiny);letter-spacing:.06em;padding:2px 4px;border-radius:3px;color:#fff;vertical-align:2px}
 .dly-stt.par{background:#c8a020}.dly-stt.brn{background:#d85830}.dly-stt.psn,.dly-stt.tox{background:#a040a0}.dly-stt.slp{background:hsl(calc(var(--h) + 3) calc(16% * var(--sat)) 60%)}.dly-stt.frz{background:hsl(calc(var(--h) - 22) calc(56% * var(--sat)) 58%)}
 .dly-hpbar{display:flex;align-items:center;gap:6px;margin-top:4px}
