@@ -10,6 +10,11 @@ on:
 permissions:
   contents: write
 
+# bash -eo pipefail: a failing command still fails its step when its output is piped into tee.
+defaults:
+  run:
+    shell: bash
+
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true

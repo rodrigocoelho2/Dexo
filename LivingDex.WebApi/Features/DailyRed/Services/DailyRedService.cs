@@ -99,9 +99,9 @@ internal sealed class DailyRedService(
             No = NumberOf(day),
             Date = day.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             Available = _sim.Available,
-            Team = team is { } t ? t.GetProperty("team") : null,
-            Red = team is { } r ? r.GetProperty("red") : null,
-            Matchups = team is { } m && m.TryGetProperty("matchups", out var mu) ? mu : null,
+            Team = Part(team, "team"),
+            Red = Part(team, "red"),
+            Matchups = Part(team, "matchups"),
             Official = Official(today),
             RunningBattleId = running?.BattleId,
             RunningOfficial = running?.Official ?? false,
@@ -183,6 +183,9 @@ internal sealed class DailyRedService(
 
         return (error, id);
     }
+
+    private static JsonElement? Part(JsonElement? team, string name) =>
+        team is { ValueKind: JsonValueKind.Object } t && t.TryGetProperty(name, out var part) ? part : null;
 
     private static string Status(byte? status, string? battleId) => battleId is null ? "none" : status switch
     {
