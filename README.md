@@ -43,6 +43,7 @@
 - Click to inspect, double-click (or Space) to mark, arrow keys to move. Record the **OT game, ball and date** for each catch; the evolution line, where to get it and the details sit under the summary.
 - **Overview** shows every Pokémon in colour; **Highlight missing** makes the gaps stand out; search by name or number from anywhere.
 - **Accounts and sync** – everyone has their own dex, saved in SQL Server and synced across devices, with a 200-revision history you can restore.
+- **Sign in with Discord** – link it to your account from the account menu (the password keeps working), or sign up with it.
 - **Themes** – eight colours for the boxes and panels, sound effects and cries.
 - **Dex badges** – 24 badges for filling your boxes: every region, 100/250/500/1025 caught, shinies, full Unown/Vivillon/Alcremie/Furfrou sets and a few specials, with a "Badge get!" moment on the phone.
 - **Trainer profile** – on the PC, *View profile* in the account menu shows your card, the living dex by region, the dex badges, your battle record by generation and your latest catches.
@@ -203,6 +204,24 @@ mkdir -p ./data && sudo chown 1654 ./data
 ### Upgrading from the SQLite version
 
 Keep the same folder and the same `livingdex-data` volume, add `SQL_SA_PASSWORD` to `.env`, and run `docker compose up -d --build`. On its first start the app finds the old `/data/livingdex.db` and copies every account (with the same identifiers and passwords), progress document, history entry, trainer card and battle into SQL Server, then renames the file to `livingdex.db.imported` and keeps it as a backup. Everyone stays signed in. The import only runs while SQL Server has no accounts, so it can't happen twice.
+
+## Sign in with Discord
+
+Optional:
+
+1. At [discord.com/developers/applications](https://discord.com/developers/applications) make an application (one is
+   enough for all your apps). In **OAuth2**, copy the **Client ID**, **Reset Secret** and copy the **Client Secret**,
+   and under **Redirects** add `https://<where you open the dex>/signin-discord` (one per address).
+2. Put them in `.env` as `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET`, and update.
+3. Already have an account? Sign in with your password, open the account menu › **Link Discord**. From then on
+   **Discord** on the sign-in screen opens that same account, with every box in it.
+4. Someone new presses **Discord**, picks a username, and has an account with no password. They can add one from the
+   account menu; until then Discord can't be unlinked, so nobody gets locked out.
+
+Only who you are is asked of Discord (the `identify` scope). New accounts through Discord follow
+`LIVINGDEX_ALLOW_REGISTRATION`: with it off, a Discord account that isn't linked can't sign in and doesn't create one.
+Behind HTTPS (Cloudflare, Nginx Proxy Manager) the address Discord sends you back to is the https one even with
+`LIVINGDEX_BEHIND_PROXY` off.
 
 ## On a phone
 
@@ -403,6 +422,7 @@ All settings are under `LivingDex` (env vars use `LivingDex__Name`):
 | `AssetsDirectory` | `assets` | Bundled sprites, cries, backgrounds and music (`/app/assets` in the container, mounted from `LivingDex.Assets`) |
 | `AllowRegistration` | `true` | Let people create their own account (the first account is always allowed) |
 | `BehindProxy` | `false` | Trust `X-Forwarded-For` / `X-Forwarded-Proto` from a reverse proxy |
+| `DiscordClientId`, `DiscordClientSecret` | – | Turn on **Sign in with Discord** (env `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` in `.env`) |
 | `AuthAttemptsPerMinute` | `10` | Sign-in / sign-up / password attempts per minute from one address |
 | `HistoryLimit` | `200` | Saved revisions kept for restore |
 | `CacheAssets` | `true` | Download assets missing from the bundle once and cache them; `false` redirects to GitHub |
@@ -418,13 +438,18 @@ Every request that changes something must send the header `X-LivingDex: 1` (CSRF
 
 | Method | Path | Notes |
 |---|---|---|
-| GET | `/api/health` | Always open. `{ status, firstRun, registration, showdown }` |
+| GET | `/api/health` | Always open. `{ status, firstRun, registration, showdown, discord }` |
 | POST | `/api/auth/register` | `{ username, password, remember? }` → signs in. 409 if taken, 403 if sign-up is closed |
 | POST | `/api/auth/login` | `{ username, password, remember? }` → signs in (cookie `livingdex.auth`) |
 | POST | `/api/auth/logout` | |
-| GET | `/api/auth/me` | `{ id, username, isAdmin }` or 401 |
+| GET | `/api/auth/me` | `{ id, username, isAdmin, discordLinked, discordName, hasPassword }` or 401 |
 | POST | `/api/auth/password` | `{ currentPassword, newPassword }`. Signs out the account's other devices |
 | POST | `/api/auth/delete-account` | `{ password }`. Deletes the account and its progress |
+| GET | `/api/auth/discord` | Off to Discord to sign in; back at `/api/auth/discord/done`, then `/` (`?discord=signup` for someone new) |
+| GET | `/api/auth/discord/link` | Signed in: off to Discord to link it to this account |
+| GET | `/api/auth/discord/pending` | Someone new back from Discord: `{ name, suggestion }`, or 404 |
+| POST | `/api/auth/discord/register` | `{ username }` → creates the account for that Discord account and signs in |
+| POST | `/api/auth/discord/unlink` | Refused while Discord is the account's only way in |
 | GET | `/api/admin/users` | Admin only. Accounts with marked count and last sign-in |
 | POST | `/api/admin/users/{id}/reset-password` | Admin only. Returns `{ temporaryPassword }` |
 | DELETE | `/api/admin/users/{id}` | Admin only |

@@ -594,6 +594,8 @@ function lgMode(m){
   LG.mode=m; const isNew=m==='new';
   $('lgTabIn').setAttribute('aria-selected',String(!isNew)); $('lgTabNew').setAttribute('aria-selected',String(isNew));
   $('lgTabNew').hidden=!reg; $('lgSwap').hidden=!reg;
+  $('lgDiscord').hidden=!(SYNC.health&&SYNC.health.discord&&!SYNC.health.firstRun);
+  $('lgPass').closest('.hex').hidden=false; $('lgTabIn').parentElement.hidden=false;
   $('lgConfirmRow').hidden=!isNew; $('lgNewHint').hidden=!isNew||!!(SYNC.health&&SYNC.health.firstRun); $('lgRememberRow').hidden=isNew;
   $('lgPass').autocomplete=isNew?'new-password':'current-password';
   $('lgGo').textContent=isNew?'▶ CREATE ACCOUNT':'▶ SIGN IN';
@@ -602,6 +604,21 @@ function lgMode(m){
   $('lgDex').textContent=isNew?(SYNC.health&&SYNC.health.firstRun?'Keeps saved progress':'Starts empty'):'Saved on server';
   $('lgFirst').hidden=!(isNew&&SYNC.health&&SYNC.health.firstRun);
   lgMsg(''); if(!LG.sprite){ LG.sprite=true; lgSprite(); $('lgUser').placeholder='e.g. '+TRAINERS[Math.floor(Math.random()*TRAINERS.length)]; }
+}
+/* Someone new back from Discord: Discord said who they are, so only the username is left to pick. */
+async function lgDiscord(){
+  let pending=null;
+  try{ const r=await fetch('/api/auth/discord/pending',{cache:'no-store',credentials:'same-origin'}); if(r.ok) pending=await r.json(); }catch(_){}
+  if(!pending){ lgMsg("Signing in with Discord didn't finish. Try again, or use your password."); return; }
+  LG.mode='discord';
+  $('lgTabIn').parentElement.hidden=true; $('lgPass').closest('.hex').hidden=true; $('lgConfirmRow').hidden=true; $('lgRememberRow').hidden=true;
+  $('lgFirst').hidden=true; $('lgNewHint').hidden=false; $('lgDiscord').hidden=true; $('lgSwap').hidden=false;
+  $('lgSwap').textContent='HAVE AN ACCOUNT? SIGN IN';
+  $('lgGo').innerHTML='<span class="discord-mark" aria-hidden="true"></span> CREATE ACCOUNT';
+  $('lgStrip').textContent='TRAINER CARD · NEW'; $('lgDex').textContent='Starts empty';
+  $('lgUser').value=pending.suggestion||''; $('lgName').textContent=$('lgUser').value||'—';
+  lgMsg(`Signed in to Discord as ${pending.name}. Pick a username. Already have an account? Sign in with your password, then link Discord from the account menu.`,true);
+  setTimeout(()=>$('lgUser').focus(),0);
 }
 function lgMsg(t,ok){ const m=$('lgMsg'); m.textContent=t||''; m.className='msg'+(ok?' ok':''); }
 async function showLogin(mode,message){
@@ -613,12 +630,24 @@ async function showLogin(mode,message){
 }
 function hideLogin(){ $('boot').hidden=true; $('login').hidden=true; $('app').hidden=false; $('lgPass').value=''; $('lgPass2').value=''; }
 $('lgTabIn').onclick=()=>lgMode('in'); $('lgTabNew').onclick=()=>lgMode('new');
-$('lgSwap').onclick=()=>lgMode(LG.mode==='in'?'new':'in');
+$('lgSwap').onclick=()=>lgMode(LG.mode==='in'?'new':'in');   // from Discord's 'pick a username' too: back to signing in
 $('lgEye').onclick=()=>{ const p=$('lgPass'), show=p.type==='password'; p.type=show?'text':'password'; $('lgEye').textContent=show?'HIDE':'SHOW'; $('lgEye').setAttribute('aria-label',show?'Hide password':'Show password'); };
 $('lgUser').oninput=e=>{ $('lgName').textContent=e.target.value.trim()||'—'; };
 $('lgForm').onsubmit=async e=>{
   e.preventDefault();
   const u=$('lgUser').value.trim(), p=$('lgPass').value, isNew=LG.mode==='new';
+  if(LG.mode==='discord'){
+    if(!/^[A-Za-z0-9_.-]{3,24}$/.test(u)) return lgMsg('Username must be 3–24 letters, numbers, dots, dashes or underscores.');
+    const btn=$('lgGo'); btn.disabled=true; lgMsg('Creating your account…',true);
+    try{
+      const r=await api('POST','/api/auth/discord/register',{username:u});
+      if(r.status===404){ lgMode('in'); lgMsg('Signing in with Discord took too long. Try again.'); return; }
+      if(!r.ok){ SFX.err(); lgMsg(await problemText(r,'Could not create the account.')); return; }
+      const me=await r.json(); SFX.mark(); startSession(me); flash(`Welcome, ${me.username}!`);
+    }catch(_){ lgMsg('Could not reach the server. Check your connection and try again.'); }
+    finally{ btn.disabled=false; }
+    return;
+  }
   if(isNew&&!/^[A-Za-z0-9_.-]{3,24}$/.test(u)) return lgMsg('Username must be 3–24 letters, numbers, dots, dashes or underscores.');
   if(!u) return lgMsg('Type your username.');
   if(isNew&&p.length<8) return lgMsg('Password must have at least 8 characters.');
@@ -642,7 +671,23 @@ function renderAccount(){
   $('acctName').textContent=SYNC.user.username;
   $('acctRole').textContent=SYNC.user.isAdmin?'ADMIN':'TRAINER';
   $('acctUsers').hidden=!SYNC.user.isAdmin; $('acctAssets').hidden=!SYNC.user.isAdmin;
+  $('acctDiscord').hidden=!(SYNC.health&&SYNC.health.discord);
+  $('acctDiscord').textContent=SYNC.user.discordLinked?'Discord':'Link Discord';
+  $('acctPass').textContent=SYNC.user.hasPassword===false?'Set password':'Change password';
 }
+/* Off to Discord and back (Discord's page opens in this tab). */
+function discordLink(){ location.href='/api/auth/discord/link'; }
+$('acctDiscord').onclick=()=>{
+  if(!SYNC.user.discordLinked){ setAcctPop(false); discordLink(); return; }
+  const who=esc(SYNC.user.discordName||'your Discord account');
+  if(SYNC.user.hasPassword===false){ openModal('Discord',`<p class="hint">Linked to <b>${who}</b>. It's the only way into this account until you set a password (account menu › Set password).</p>`); return; }
+  openModal('Discord',`<p class="hint">Linked to <b>${who}</b>. "Discord" on the sign-in screen opens this account; your password still works too.</p><div class="msg" id="dcMsg" aria-live="polite"></div><button class="bt alt" type="button" id="dcUnlink">UNLINK DISCORD</button>`);
+  $('dcUnlink').onclick=async()=>{
+    try{ const r=await api('POST','/api/auth/discord/unlink'); if(!r.ok){ $('dcMsg').textContent=await problemText(r,'Could not unlink Discord.'); return; }
+      SYNC.user=Object.assign({},SYNC.user,{discordLinked:false,discordName:null}); renderAccount(); $('modal').hidden=true; flash('Discord unlinked'); }
+    catch(_){ $('dcMsg').textContent='Could not reach the server.'; }
+  };
+};
 function setAcctPop(open){ $('acctPop').hidden=!open; $('acctBtn').setAttribute('aria-expanded',String(open)); }
 function closeAccount(){ setAcctPop(false); $('modal').hidden=true; }
 $('acctBtn').onclick=e=>{ e.stopPropagation(); setThemePop(false); setAcctPop($('acctPop').hidden); };
@@ -654,23 +699,24 @@ $('modal').addEventListener('click',e=>{ if(e.target===$('modal')) $('modal').hi
 function openModal(title,html){ setAcctPop(false); $('modalTitle').textContent=title; $('modalBody').innerHTML=html; $('modal').hidden=false; const f=$('modalBody').querySelector('input,button'); if(f) setTimeout(()=>f.focus(),0); }
 const field=(id,label,type,ac)=>`<label class="hex"><span class="in"><span class="chip">${label}</span><input id="${id}" type="${type}" autocomplete="${ac}"></span></label>`;
 $('acctPass').onclick=()=>{
-  openModal('Change password',`<form id="pwForm" class="mform" novalidate>${field('pwCur','CURRENT','password','current-password')}${field('pwNew','NEW','password','new-password')}${field('pwNew2','CONFIRM','password','new-password')}
-    <p class="hint">Other devices signed in to this account will be signed out.</p><div class="msg" id="pwMsg" aria-live="polite"></div><button class="bt go" type="submit">▶ SAVE PASSWORD</button></form>`);
+  const first=SYNC.user.hasPassword===false;
+  openModal(first?'Set password':'Change password',`<form id="pwForm" class="mform" novalidate>${first?'':field('pwCur','CURRENT','password','current-password')}${field('pwNew','NEW','password','new-password')}${field('pwNew2','CONFIRM','password','new-password')}
+    <p class="hint">${first?'You signed up with Discord. With a password you can also sign in with your username.':'Other devices signed in to this account will be signed out.'}</p><div class="msg" id="pwMsg" aria-live="polite"></div><button class="bt go" type="submit">▶ SAVE PASSWORD</button></form>`);
   $('pwForm').onsubmit=async e=>{
     e.preventDefault(); const m=$('pwMsg'); m.className='msg';
-    const cur=$('pwCur').value, nw=$('pwNew').value;
+    const cur=$('pwCur')?$('pwCur').value:'', nw=$('pwNew').value;
     if(nw.length<8) return m.textContent='The new password must have at least 8 characters.';
     if(nw!==$('pwNew2').value) return m.textContent="The two new passwords don't match.";
-    try{ const r=await api('POST','/api/auth/password',{currentPassword:cur,newPassword:nw}); if(!r.ok){ m.textContent=await problemText(r,'Could not change the password.'); return; } $('modal').hidden=true; flash('Password changed'); }
+    try{ const r=await api('POST','/api/auth/password',{currentPassword:cur,newPassword:nw}); if(!r.ok){ m.textContent=await problemText(r,'Could not change the password.'); return; } $('modal').hidden=true; SYNC.user=Object.assign({},SYNC.user,{hasPassword:true}); renderAccount(); flash(first?'Password set':'Password changed'); }
     catch(_){ m.textContent='Could not reach the server.'; }
   };
 };
 $('acctDelete').onclick=()=>{
   openModal('Delete account',`<form id="delForm" class="mform" novalidate><p class="warnp">This deletes <b>${esc(SYNC.user.username)}</b> and every box, detail and saved version on the server. It can't be undone. Copy a backup first if you might want it later.</p>
-    ${field('delPass','PASSWORD','password','current-password')}<div class="msg" id="delMsg" aria-live="polite"></div><button class="bt danger" type="submit">✕ DELETE MY ACCOUNT</button></form>`);
+    ${SYNC.user.hasPassword===false?'':field('delPass','PASSWORD','password','current-password')}<div class="msg" id="delMsg" aria-live="polite"></div><button class="bt danger" type="submit">✕ DELETE MY ACCOUNT</button></form>`);
   $('delForm').onsubmit=async e=>{
     e.preventDefault(); const m=$('delMsg');
-    try{ const r=await api('POST','/api/auth/delete-account',{password:$('delPass').value}); if(!r.ok){ m.textContent=await problemText(r,'Could not delete the account.'); return; }
+    try{ const r=await api('POST','/api/auth/delete-account',{password:$('delPass')?$('delPass').value:''}); if(!r.ok){ m.textContent=await problemText(r,'Could not delete the account.'); return; }
       SYNC.user=null; clearLocalProgress(); st.syncUser=null; st.syncName=null; localSave(); closeAccount(); showLogin('in','Your account was deleted.'); }
     catch(_){ m.textContent='Could not reach the server.'; }
   };
@@ -758,7 +804,12 @@ async function syncInit(){
   probeSprites();
   let me=null, offline=false;
   try{ const r=await fetch('/api/auth/me',{cache:'no-store',credentials:'same-origin'}); if(r.ok) me=await r.json(); else if(r.status!==401) offline=true; }catch(_){ offline=true; }
-  if(me) startSession(me);
+  const discord=new URLSearchParams(location.search).get('discord');
+  if(discord) history.replaceState(null,'',location.pathname+location.hash);
+  const notes={'not-linked':'No account here is linked to that Discord account yet. Sign in with your password, then link Discord from the account menu.',failed:"Discord didn't finish. Try again, or use your password.",linked:'Discord linked: next time, sign in with Discord.',taken:'That Discord account is already linked to another account here.'};
+  if(me){ startSession(me); if(notes[discord]) flash(notes[discord]); }
+  else if(discord==='signup'){ await showLogin('in'); lgDiscord(); }
+  else if(notes[discord]) showLogin('in',notes[discord]);
   else if(offline&&st.syncUser){ $('boot').hidden=true; $('app').hidden=false; setSync('offline'); setTimeout(syncInit,10000); }   // keep showing the cached boxes until the server answers
   else showLogin('in');
 }

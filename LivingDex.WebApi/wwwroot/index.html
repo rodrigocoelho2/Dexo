@@ -26,9 +26,9 @@
 <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splash/640x1136.png">
 <style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="stylesheet" href="/fonts/fonts.css">
-<link rel="stylesheet" href="/css/app.css?v=ba5a39eeac">
+<link rel="stylesheet" href="/css/app.css?v=55d2246ed6">
 <script src="/data/pokedex.js?v=098ffe6983" defer></script>
-<script src="/js/app.js?v=4be1b56b5f" defer></script>
+<script src="/js/app.js?v=5c028c6d4b" defer></script>
 <script src="/js/sd.js?v=8320b043a3" defer></script>
 <script src="/js/dexbadges.js?v=d11cbb5676" defer></script>
 <script src="/js/profile.js?v=d47535c7f2" defer></script>
@@ -68,6 +68,7 @@
         </div>
         <div class="lbar">
           <button class="bt go" type="submit" id="lgGo">▶ SIGN IN</button>
+          <a class="bt discord" id="lgDiscord" href="/api/auth/discord" hidden><span class="discord-mark" aria-hidden="true"></span>DISCORD</a>
           <button class="bt alt" type="button" id="lgSwap">NEW HERE? CREATE ACCOUNT</button>
         </div>
       </form>
@@ -101,6 +102,7 @@
           <div class="mtheme"><span>THEME</span><div class="throw" id="themesAcct" role="group" aria-label="Theme"></div></div>
           <button type="button" class="mi" id="acctProfile">View profile</button>
           <button type="button" class="mi" id="acctPass">Change password</button>
+          <button type="button" class="mi" id="acctDiscord" hidden>Discord</button>
           <button type="button" class="mi" id="acctUsers" hidden>Manage users</button>
           <button type="button" class="mi" id="acctAssets" hidden>Download all assets</button>
           <button type="button" class="mi" id="acctOut">Sign out</button>

@@ -16,4 +16,7 @@ public sealed class HealthDTO
 
     /// <summary>Gets or sets a value indicating whether the battle simulator is running.</summary>
     public bool Showdown { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether "Sign in with Discord" is set up.</summary>
+    public bool Discord { get; set; }
 }

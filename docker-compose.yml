@@ -67,6 +67,8 @@ services:
       LivingDex__AllowRegistration: ${LIVINGDEX_ALLOW_REGISTRATION:-true}
       # Set to "true" if a reverse proxy (nginx, Traefik…) sits in front of the app.
       LivingDex__BehindProxy: ${LIVINGDEX_BEHIND_PROXY:-false}
+      LivingDex__DiscordClientId: ${DISCORD_CLIENT_ID:-}
+      LivingDex__DiscordClientSecret: ${DISCORD_CLIENT_SECRET:-}
       # Showdown battles: seconds per turn, or "false" on the second line to turn battles off.
       LivingDex__TurnSeconds: ${LIVINGDEX_TURN_SECONDS:-60}
       LivingDex__ShowdownEnabled: ${LIVINGDEX_SHOWDOWN:-true}

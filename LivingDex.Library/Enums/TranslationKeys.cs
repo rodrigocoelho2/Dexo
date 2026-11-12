@@ -73,4 +73,16 @@ public enum TranslationKeys
 
     /// <summary>The Daily Red date is not the caller's today (yyyy-MM-dd, within a day of UTC).</summary>
     InvalidDailyDate,
+
+    /// <summary>No account is linked to that Discord account.</summary>
+    DiscordNotLinked,
+
+    /// <summary>That Discord account is linked to another account.</summary>
+    DiscordTaken,
+
+    /// <summary>Discord's answer is missing or too old.</summary>
+    DiscordExpired,
+
+    /// <summary>Discord is the only way into the account, so it can't be unlinked before a password is set.</summary>
+    DiscordNeedsPassword,
 }

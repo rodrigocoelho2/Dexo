@@ -29,6 +29,7 @@ internal sealed class HealthService(
         {
             FirstRun = count == 0,
             Registration = count == 0 || _options.Value.AllowRegistration,
+            Discord = _options.Value.DiscordEnabled,
             Showdown = _battleManager.Available,
         });
     }
